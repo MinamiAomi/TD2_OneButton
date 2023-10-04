@@ -37,6 +37,12 @@
     <Filter Include="Engine\Graphics\Core">
       <UniqueIdentifier>{11fddba6-28f0-448d-902a-f38149760415}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\GameObject">
+      <UniqueIdentifier>{79cc19a2-5cd2-4f13-86b6-bdd9f76a3b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Utility">
+      <UniqueIdentifier>{ebba2392-acb2-4bda-8d05-f4b2cee8c709}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -114,7 +120,6 @@
     <ClInclude Include="Engine\Input.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="BackGround.h" />
     <ClInclude Include="Engine\ArcadeMachine.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -126,9 +131,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\Color.h">
       <Filter>Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="BackGround.h">
-      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Audio\Audio.h">
       <Filter>Engine\Audio</Filter>
@@ -198,6 +200,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Graphics\GeometryPass.h">
       <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\GameObject.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\GameObjectManager.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\Bitset.h">
+      <Filter>Engine\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -336,6 +347,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Graphics\GeometryPass.cpp">
       <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utility\Bitset.cpp">
+      <Filter>Engine\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

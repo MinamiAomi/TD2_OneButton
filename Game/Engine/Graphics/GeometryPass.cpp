@@ -7,7 +7,7 @@
 void GeometryPass::Create(uint32_t width, uint32_t height) {
     float baseColorClearColor[4] = { 0.0f,0.0f,0.0f,0.0f };
     baseColorBuffer_.SetClearColor(baseColorClearColor);
-    baseColorBuffer_.Create(L"GeometryPass BaseColorBuffer", width, height, DXGI_FORMAT_R32G32B32_FLOAT);
+    baseColorBuffer_.Create(L"GeometryPass BaseColorBuffer", width, height, DXGI_FORMAT_R8G8B8A8_UNORM);
 
 
     float normalClearColor[4] = { 0.0f,0.0f,0.0f,0.0f };
@@ -75,9 +75,11 @@ void GeometryPass::Draw(CommandContext& commandContext) {
     commandContext.ClearColor(baseColorBuffer_);
     commandContext.ClearColor(normalBuffer_);
     commandContext.ClearDepth(depthBuffer_);
+    commandContext.SetViewportAndScissorRect(0, 0, baseColorBuffer_.GetWidth(), baseColorBuffer_.GetHeight());
 
     commandContext.SetRootSignature(rootSignature_);
     commandContext.SetPipelineState(pipelineState_);
+    commandContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
 
