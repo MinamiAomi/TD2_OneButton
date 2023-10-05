@@ -6,6 +6,8 @@
 class GPUResource {
     friend class CommandContext;
 public:
+    ~GPUResource() { Destroy(); }
+
     operator ID3D12Resource* () const { return resource_.Get(); }
 
     ID3D12Resource* operator->() { resource_.Get(); }
@@ -14,6 +16,10 @@ public:
     ID3D12Resource** GetAddressOf() { return resource_.GetAddressOf(); }
 
     D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const { return resource_->GetGPUVirtualAddress(); }
+
+    virtual void Destroy() {
+        resource_ = nullptr;
+    }
 
 protected:
     Microsoft::WRL::ComPtr<ID3D12Resource> resource_;

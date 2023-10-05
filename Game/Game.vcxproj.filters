@@ -37,12 +37,6 @@
     <Filter Include="Engine\Graphics\Core">
       <UniqueIdentifier>{11fddba6-28f0-448d-902a-f38149760415}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\GameObject">
-      <UniqueIdentifier>{79cc19a2-5cd2-4f13-86b6-bdd9f76a3b92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Utility">
-      <UniqueIdentifier>{ebba2392-acb2-4bda-8d05-f4b2cee8c709}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -198,17 +192,26 @@
     <ClInclude Include="Engine\Graphics\RenderManager.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\GeometryPass.h">
+    <ClInclude Include="Engine\Graphics\DeferredRender.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject\GameObject.h">
-      <Filter>Engine\GameObject</Filter>
+    <ClInclude Include="Engine\Graphics\Renderer.h">
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject\GameObjectManager.h">
-      <Filter>Engine\GameObject</Filter>
+    <ClInclude Include="Engine\Graphics\ModelRenderer.h">
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Bitset.h">
-      <Filter>Engine\Utility</Filter>
+    <ClInclude Include="Engine\Graphics\SpriteRenderer.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\ResourceManager.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Model.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Core\GPUBuffer.h">
+      <Filter>Engine\Graphics\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -345,11 +348,14 @@
     <ClCompile Include="Engine\Graphics\RenderManager.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\GeometryPass.cpp">
+    <ClCompile Include="Engine\Graphics\DeferredRender.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Utility\Bitset.cpp">
-      <Filter>Engine\Utility</Filter>
+    <ClCompile Include="Engine\Graphics\ModelRenderer.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Core\GPUBuffer.cpp">
+      <Filter>Engine\Graphics\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -407,6 +413,9 @@
       <Filter>Engine\Graphics\Shader</Filter>
     </None>
     <None Include="Engine\Graphics\GeometryPassVS.hlsl">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </None>
+    <None Include="Engine\Graphics\Shader\LightingPassPS.hlsl">
       <Filter>Engine\Graphics\Shader</Filter>
     </None>
   </ItemGroup>

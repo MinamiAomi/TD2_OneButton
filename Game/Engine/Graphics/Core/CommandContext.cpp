@@ -26,12 +26,16 @@ void CommandContext::Reset() {
     dynamicBuffer_.Reset();
 
     auto graphics = Graphics::GetInstance();
+    resourceHeap_ = (ID3D12DescriptorHeap*)graphics->GetDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+    samplerHeap_ = (ID3D12DescriptorHeap*)graphics->GetDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
     ID3D12DescriptorHeap* ppHeaps[] = {
-        (ID3D12DescriptorHeap*)graphics->GetDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV),
-        (ID3D12DescriptorHeap*)graphics->GetDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER) };
+        resourceHeap_,
+        samplerHeap_ };
     commandList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+    
     rootSignature_ = nullptr;
     pipelineState_ = nullptr;
+    
 }
 
 

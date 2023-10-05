@@ -7,6 +7,7 @@ struct VSOutput {
     float2 texcoord : TEXCOORD0;
 };
 
+// MiniEngine　ScreenQuadCommonVS.hlsl
 VSOutput main(VSInput input) {
     VSOutput output;
     output.texcoord = float2(uint2(input.vertexID, input.vertexID << 1) & 2);

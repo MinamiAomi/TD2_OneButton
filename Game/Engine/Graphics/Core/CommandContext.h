@@ -73,6 +73,8 @@ public:
     void SetConstants(UINT rootIndex, DWParam x, DWParam y, DWParam z, DWParam w);
     void SetConstantBuffer(UINT rootIndex, D3D12_GPU_VIRTUAL_ADDRESS address);
     void SetDescriptorTable(UINT rootIndex, D3D12_GPU_DESCRIPTOR_HANDLE baseDescriptor);
+    void SetBindlessResource(UINT rootIndex);
+    void SetBindlessSampler(UINT rootIndex);
 
     void SetVertexBuffer(UINT slot, const D3D12_VERTEX_BUFFER_VIEW& vbv);
     void SetVertexBuffer(UINT slot, UINT numViews, const D3D12_VERTEX_BUFFER_VIEW vbvs[]);
@@ -102,6 +104,9 @@ private:
 
     ID3D12RootSignature* rootSignature_;
     ID3D12PipelineState* pipelineState_;
+
+    ID3D12DescriptorHeap* resourceHeap_;
+    ID3D12DescriptorHeap* samplerHeap_;
 
     LinearAllocator dynamicBuffer_;
 };
@@ -269,6 +274,14 @@ inline void CommandContext::SetConstantBuffer(UINT rootIndex, D3D12_GPU_VIRTUAL_
 
 inline void CommandContext::SetDescriptorTable(UINT rootIndex, D3D12_GPU_DESCRIPTOR_HANDLE baseDescriptor) {
     commandList_->SetGraphicsRootDescriptorTable(rootIndex, baseDescriptor);
+}
+
+inline void CommandContext::SetBindlessResource(UINT rootIndex) {
+    commandList_->SetGraphicsRootDescriptorTable(rootIndex, resourceHeap_->GetGPUDescriptorHandleForHeapStart());
+}
+
+inline void CommandContext::SetBindlessSampler(UINT rootIndex) {
+    commandList_->SetGraphicsRootDescriptorTable(rootIndex, samplerHeap_->GetGPUDescriptorHandleForHeapStart());
 }
 
 inline void CommandContext::SetVertexBuffer(UINT slot, const D3D12_VERTEX_BUFFER_VIEW& vbv) {

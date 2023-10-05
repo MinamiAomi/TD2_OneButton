@@ -4,11 +4,13 @@
 #include "GameWindow.h"
 #include "ImGuiManager.h"
 #include "Graphics/Helper.h"
+#include "RenderManager.h"
 
 RenderManager* RenderManager::GetInstance() {
     static RenderManager instance;
     return &instance;
 }
+
 
 void RenderManager::Initialize() {
     // 描画デバイスを初期化

@@ -32,11 +32,12 @@ DescriptorHandle DescriptorHeap::Allocate() {
     assert(freeDescriptorOffset_ <= numDescriptors_);
 
     DescriptorHandle allocationHandle;
+    allocationHandle.index_ = freeDescriptorOffset_;
     allocationHandle.cpu_ = descriptorStart_;
-    allocationHandle.cpu_.ptr += uint64_t(freeDescriptorOffset_) * descriptorSize_;
+    allocationHandle.cpu_.ptr += allocationHandle.index_ * uint64_t(descriptorSize_);
     if (descriptorStart_.IsShaderVisible()) {
         allocationHandle.gpu_ = descriptorStart_;
-        allocationHandle.gpu_.ptr += uint64_t(freeDescriptorOffset_) * descriptorSize_;
+        allocationHandle.gpu_.ptr += allocationHandle.index_ * uint64_t(descriptorSize_);
     }
     ++freeDescriptorOffset_;
 
@@ -47,3 +48,4 @@ void DescriptorHeap::Reset(uint32_t reallocationOffset) {
     assert(reallocationOffset < numDescriptors_);
     freeDescriptorOffset_ = reallocationOffset;
 }
+

@@ -1,11 +1,15 @@
-Texture2D<float4> baseColorTexture_ : register(t0);
+// バインドレステクスチャ
+#define BINDLESS_TEXTURE_SPACE space1
+Texture2D<float4> bindlessTexture_[] : register(t0, BINDLESS_TEXTURE_SPACE);
 SamplerState sampler_ : register(s0);
 
 struct Material
 {
+    uint baseColorTextureInedx;
+    
     float3 baseColorFactor;
 };
-ConstantBuffer<Material> material_ : register(b0);
+ConstantBuffer<Material> material_ : register(b1);
 
 struct PSInput
 {
@@ -24,7 +28,9 @@ PSOutput main(PSInput input)
 {
     PSOutput output;
 
-    output.baseColor = material_.baseColorFactor * baseColorTexture_.Sample(sampler_, input.texcoord).rgb;
+    Texture2D<float4> baseColorTexture = bindlessTexture_[material_.baseColorTextureInedx];
+    
+    output.baseColor = material_.baseColorFactor * baseColorTexture.Sample(sampler_, input.texcoord).rgb;
     output.normal = normalize(input.normal) * 0.5f + 0.5f;
     
     return output;

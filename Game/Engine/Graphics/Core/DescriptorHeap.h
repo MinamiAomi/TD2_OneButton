@@ -20,7 +20,6 @@ public:
 
     operator ID3D12DescriptorHeap*() const { return descriptorHeap_.Get(); }
 
-
 private:
     Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap_;
     D3D12_DESCRIPTOR_HEAP_TYPE type_ = D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES;
