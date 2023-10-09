@@ -7,6 +7,7 @@
 #include "Math/MathUtils.h"
 
 class Model;
+class GameObject;
 
 class ModelRenderer :
     public Renderer {

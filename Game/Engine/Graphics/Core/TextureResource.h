@@ -8,9 +8,12 @@
 
 #include "DescriptorHandle.h"
 
-class Texture : public GPUResource {
+class CommandContext;
+
+class TextureResource : public GPUResource {
 public:
     void CreateFromWICFile(const std::wstring& path);
+    void CreateFromWICFile(CommandContext& commandContext, const std::wstring& path);
 
     const D3D12_RESOURCE_DESC& GetDesc() const { return desc_; }
     const DescriptorHandle& GetSRV() const { return srvHandle_; }

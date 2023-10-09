@@ -8,6 +8,7 @@
 #include "Graphics/CommandContext.h"
 #include "Graphics/ShaderManager.h"
 #include "Graphics/SamplerManager.h"
+#include "Mesh.h"
 
 std::unique_ptr<RootSignature> Model::rootSignature_;
 std::unique_ptr<PipelineState> Model::pipelineState_;
@@ -139,6 +140,7 @@ void Model::Draw(CommandContext& commandContext, const Matrix4x4& world, const C
         commandContext.DrawIndexed(mesh.indexCount, mesh.indexOffset, mesh.vertexOffset);
     }
 }
+
 
 void Model::LoadMTLFile(const std::filesystem::path& path) {
     std::ifstream file(path);

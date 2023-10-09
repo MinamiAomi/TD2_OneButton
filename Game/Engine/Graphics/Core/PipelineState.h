@@ -12,6 +12,8 @@ public:
     operator ID3D12PipelineState* () const { return pipelineState_.Get(); }
     operator bool() const { return pipelineState_; }
 
+    const Microsoft::WRL::ComPtr<ID3D12PipelineState>& Get() const { return pipelineState_ };
+
 private:
     Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState_;
 };

@@ -42,6 +42,7 @@
     </ClInclude>
     <ClInclude Include="Engine\ArcadeMachine.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
+    <ClInclude Include="Engine\GameObject\GameObject.h" />
     <ClInclude Include="Engine\Graphics\Core\ColorBuffer.h" />
     <ClInclude Include="Engine\Graphics\Core\CommandContext.h" />
     <ClInclude Include="Engine\Graphics\Core\CommandQueue.h" />
@@ -59,10 +60,9 @@
     <ClInclude Include="Engine\Graphics\Core\SamplerManager.h" />
     <ClInclude Include="Engine\Graphics\Core\ShaderManager.h" />
     <ClInclude Include="Engine\Graphics\Core\SwapChain.h" />
-    <ClInclude Include="Engine\Graphics\Core\Texture.h" />
+    <ClInclude Include="Engine\Graphics\Core\TextureResource.h" />
     <ClInclude Include="Engine\Graphics\Core\UploadBuffer.h" />
-    <ClInclude Include="Engine\Graphics\DeferredRender.h" />
-    <ClInclude Include="Engine\Graphics\Model.h" />
+    <ClInclude Include="Engine\Graphics\Mesh.h" />
     <ClInclude Include="Engine\Graphics\Renderer.h" />
     <ClInclude Include="Engine\Graphics\ModelRenderer.h" />
     <ClInclude Include="Engine\Graphics\RenderManager.h" />
@@ -137,9 +137,9 @@
     <ClCompile Include="Engine\Graphics\Core\SamplerManager.cpp" />
     <ClCompile Include="Engine\Graphics\Core\ShaderManager.cpp" />
     <ClCompile Include="Engine\Graphics\Core\SwapChain.cpp" />
-    <ClCompile Include="Engine\Graphics\Core\Texture.cpp" />
+    <ClCompile Include="Engine\Graphics\Core\TextureResource.cpp" />
     <ClCompile Include="Engine\Graphics\Core\UploadBuffer.cpp" />
-    <ClCompile Include="Engine\Graphics\DeferredRender.cpp" />
+    <ClCompile Include="Engine\Graphics\Mesh.cpp" />
     <ClCompile Include="Engine\Graphics\ModelRenderer.cpp" />
     <ClCompile Include="Engine\Graphics\RenderManager.cpp" />
     <ClCompile Include="Engine\Input.cpp" />
@@ -295,31 +295,6 @@
     <None Include="Engine\Shader\ModelPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Engine\Graphics\GeometryPassPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Engine\Graphics\GeometryPassVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Engine\Graphics\Shader\LightingPassPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

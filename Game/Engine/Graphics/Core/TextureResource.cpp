@@ -1,4 +1,4 @@
-#include "Texture.h"
+#include "TextureResource.h"
 
 #include "Externals/DirectXTex/DirectXTex.h"
 
@@ -6,13 +6,30 @@
 #include "Graphics.h"
 #include "CommandContext.h"
 
-void Texture::CreateFromWICFile(const std::wstring& path) {
+void TextureResource::CreateFromWICFile(const std::wstring& path) {
 
     auto graphics = Graphics::GetInstance();
     auto device = graphics->GetDevice();
 
+    // 中間リソースをコピーする
+    auto& commandQueue = graphics->GetCommandQueue();
+    CommandContext commandContext;
+    commandContext.Create();
+   
+    CreateFromWICFile(commandContext, path);
+    commandContext.Close();
+    commandQueue.Excute(commandContext);
+    commandQueue.Signal();
+    commandQueue.WaitForGPU();
+
+}
+
+void TextureResource::CreateFromWICFile(CommandContext& commandContext, const std::wstring& path) {
+    auto graphics = Graphics::GetInstance();
+    auto device = graphics->GetDevice();
+
     auto& wname = path;
-    
+
     // ファイルを読み込む
     DirectX::ScratchImage image{};
     ASSERT_IF_FAILED(DirectX::LoadFromWICFile(wname.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image));
@@ -40,11 +57,6 @@ void Texture::CreateFromWICFile(const std::wstring& path) {
         IID_PPV_ARGS(resource_.GetAddressOf())));
     state_ = D3D12_RESOURCE_STATE_COPY_DEST;
 
-    // 中間リソースをコピーする
-    auto& commandQueue = graphics->GetCommandQueue();
-    CommandContext commandContext;
-    commandContext.Create();
-   
     // 中間リソースを読み込む
     std::vector<D3D12_SUBRESOURCE_DATA> subresources;
     DirectX::PrepareUpload(device, mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subresources);
@@ -61,18 +73,13 @@ void Texture::CreateFromWICFile(const std::wstring& path) {
         nullptr,
         IID_PPV_ARGS(intermediateResource.GetAddressOf())));
     UpdateSubresources(commandContext, resource_.Get(), intermediateResource.Get(), 0, 0, UINT(subresources.size()), subresources.data());
-    
-    commandContext.TransitionResource(*this, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-    commandContext.Close();
-    commandQueue.Excute(commandContext);
-    commandQueue.Signal();
-    commandQueue.WaitForGPU();
 
+    commandContext.TransitionResource(*this, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
     // ビューを生成
     CreateView();
 }
 
-void Texture::CreateView() {
+void TextureResource::CreateView() {
     auto graphics = Graphics::GetInstance();
     auto device = graphics->GetDevice();
 

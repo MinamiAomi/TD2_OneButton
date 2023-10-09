@@ -10,6 +10,8 @@ public:
 
     operator ID3D12Resource* () const { return resource_.Get(); }
 
+    const Microsoft::WRL::ComPtr<ID3D12Resource>& Get() const { return resource_; }
+
     ID3D12Resource* operator->() { resource_.Get(); }
     const ID3D12Resource* operator->() const { resource_.Get(); }
 

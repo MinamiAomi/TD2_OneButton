@@ -41,6 +41,7 @@ public:
     void FlushResourceBarriers();
 
     void CopyBuffer(GPUResource& dest, GPUResource& src);
+    void CopyBuffer(GPUResource& dest, size_t dataSize, void* data);
     void CopyBufferRegion(GPUResource& dest, size_t destOffset, GPUResource& src, size_t srcOffset, size_t numBytes);
 
     void SetPipelineState(const PipelineState& pipelineState);
@@ -96,6 +97,8 @@ public:
 private:
     static const uint32_t kMaxNumResourceBarriers = 16;
 
+    void TrackingObject(Microsoft::WRL::ComPtr<ID3D12Object> object) { trackedObjects_.emplace_back(object); }
+
     Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
     Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_;
 
@@ -108,7 +111,11 @@ private:
     ID3D12DescriptorHeap* resourceHeap_;
     ID3D12DescriptorHeap* samplerHeap_;
 
+    D3D12_PRIMITIVE_TOPOLOGY primitiveTopology_;
+
     LinearAllocator dynamicBuffer_;
+
+    std::vector<Microsoft::WRL::ComPtr<ID3D12Object>> trackedObjects_;
 };
 
 inline void CommandContext::TransitionResource(GPUResource& resource, D3D12_RESOURCE_STATES newState) {
@@ -124,6 +131,8 @@ inline void CommandContext::TransitionResource(GPUResource& resource, D3D12_RESO
         barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 
         resource.state_ = newState;
+
+        TrackingObject(resource.Get());
     }
 
     if (numResourceBarriers_ >= kMaxNumResourceBarriers) {
@@ -143,6 +152,17 @@ inline void CommandContext::CopyBuffer(GPUResource& dest, GPUResource& src) {
     TransitionResource(src, D3D12_RESOURCE_STATE_COPY_SOURCE);
     FlushResourceBarriers();
     commandList_->CopyResource(dest, src);
+    TrackingObject(dest.Get());
+    TrackingObject(src.Get());
+}
+
+inline void CommandContext::CopyBuffer(GPUResource& dest, size_t bufferSize, void* data) {
+    assert(data);
+
+    UploadBuffer uploadBuffer;
+    uploadBuffer.Create(L"CopyBuffer UploadBuffer", bufferSize);
+    uploadBuffer.Copy(data, bufferSize);
+    CopyBuffer(dest, uploadBuffer);
 }
 
 inline void CommandContext::CopyBufferRegion(GPUResource& dest, size_t destOffset, GPUResource& src, size_t srcOffset, size_t numBytes) {
@@ -150,6 +170,8 @@ inline void CommandContext::CopyBufferRegion(GPUResource& dest, size_t destOffse
     TransitionResource(src, D3D12_RESOURCE_STATE_COPY_SOURCE);
     FlushResourceBarriers();
     commandList_->CopyBufferRegion(dest, destOffset, src, srcOffset, numBytes);
+    TrackingObject(dest.Get());
+    TrackingObject(src.Get());
 }
 
 inline void CommandContext::SetPipelineState(const PipelineState& pipelineState) {
@@ -157,6 +179,7 @@ inline void CommandContext::SetPipelineState(const PipelineState& pipelineState)
     if (pipelineState_ != ps) {
         pipelineState_ = ps;
         commandList_->SetPipelineState(pipelineState_);
+        TrackingObject(pipelineState.Get());
     }
 }
 inline void CommandContext::SetRootSignature(const RootSignature& rootSignature) {
@@ -164,27 +187,32 @@ inline void CommandContext::SetRootSignature(const RootSignature& rootSignature)
     if (rootSignature_ != rs) {
         rootSignature_ = rs;
         commandList_->SetGraphicsRootSignature(rootSignature_);
+        TrackingObject(rootSignature.Get());
     }
 }
 
 inline void CommandContext::ClearColor(ColorBuffer& target) {
     FlushResourceBarriers();
     commandList_->ClearRenderTargetView(target.GetRTV(), target.GetClearColor(), 0, nullptr);
+    TrackingObject(target.Get());
 }
 
 inline void CommandContext::ClearColor(ColorBuffer& target, float clearColor[4]) {
     FlushResourceBarriers();
     commandList_->ClearRenderTargetView(target.GetRTV(), clearColor, 0, nullptr);
+    TrackingObject(target.Get());
 }
 
 inline void CommandContext::ClearDepth(DepthBuffer& target) {
     FlushResourceBarriers();
     commandList_->ClearDepthStencilView(target.GetDSV(), D3D12_CLEAR_FLAG_DEPTH, target.GetClearValue(), 0, 0, nullptr);
+    TrackingObject(target.Get());
 }
 
 inline void CommandContext::ClearDepth(DepthBuffer& target, float clearValue) {
     FlushResourceBarriers();
     commandList_->ClearDepthStencilView(target.GetDSV(), D3D12_CLEAR_FLAG_DEPTH, clearValue, 0, 0, nullptr);
+    TrackingObject(target.Get());
 }
 
 inline void CommandContext::SetRenderTargets(UINT numRTVs, const D3D12_CPU_DESCRIPTOR_HANDLE rtvs[]) {
@@ -235,7 +263,10 @@ inline void CommandContext::SetViewportAndScissorRect(UINT x, UINT y, UINT w, UI
 }
 
 inline void CommandContext::SetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY topology) {
-    commandList_->IASetPrimitiveTopology(topology);
+    if (topology != primitiveTopology_) {
+        commandList_->IASetPrimitiveTopology(topology);
+        primitiveTopology_ = topology;
+    }
 }
 
 inline void CommandContext::SetConstantArray(UINT rootIndex, UINT numConstants, const void* constants) {
