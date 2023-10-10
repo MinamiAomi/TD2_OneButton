@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -62,12 +62,13 @@
     <ClInclude Include="Engine\Graphics\Core\SwapChain.h" />
     <ClInclude Include="Engine\Graphics\Core\TextureResource.h" />
     <ClInclude Include="Engine\Graphics\Core\UploadBuffer.h" />
+    <ClInclude Include="Engine\Graphics\DefaultTextures.h" />
     <ClInclude Include="Engine\Graphics\Mesh.h" />
-    <ClInclude Include="Engine\Graphics\Renderer.h" />
-    <ClInclude Include="Engine\Graphics\ModelRenderer.h" />
+    <ClInclude Include="Engine\Graphics\ModelInstance.h" />
     <ClInclude Include="Engine\Graphics\RenderManager.h" />
     <ClInclude Include="Engine\Graphics\ResourceManager.h" />
     <ClInclude Include="Engine\Graphics\SpriteRenderer.h" />
+    <ClInclude Include="Engine\Graphics\ToonRenderer.h" />
     <ClInclude Include="Engine\Input.h" />
     <ClInclude Include="Engine\Math\Color.h" />
     <ClInclude Include="Engine\Math\Random.h" />
@@ -139,9 +140,11 @@
     <ClCompile Include="Engine\Graphics\Core\SwapChain.cpp" />
     <ClCompile Include="Engine\Graphics\Core\TextureResource.cpp" />
     <ClCompile Include="Engine\Graphics\Core\UploadBuffer.cpp" />
+    <ClCompile Include="Engine\Graphics\DefaultTextures.cpp" />
     <ClCompile Include="Engine\Graphics\Mesh.cpp" />
-    <ClCompile Include="Engine\Graphics\ModelRenderer.cpp" />
+    <ClCompile Include="Engine\Graphics\ModelInstance.cpp" />
     <ClCompile Include="Engine\Graphics\RenderManager.cpp" />
+    <ClCompile Include="Engine\Graphics\ToonRenderer.cpp" />
     <ClCompile Include="Engine\Input.cpp" />
     <ClCompile Include="Engine\Math\Color.cpp" />
     <ClCompile Include="Engine\Model.cpp" />
@@ -295,6 +298,40 @@
     <None Include="Engine\Shader\ModelPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Graphics\Shader\OutlineVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Graphics\Shader\OutlinePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Graphics\Shader\ToonPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Engine\Graphics\Shader\ToonVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

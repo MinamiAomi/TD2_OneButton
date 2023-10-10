@@ -189,12 +189,6 @@
     <ClInclude Include="Engine\Graphics\RenderManager.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Renderer.h">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\ModelRenderer.h">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Graphics\SpriteRenderer.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
@@ -212,6 +206,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Graphics\Core\TextureResource.h">
       <Filter>Engine\Graphics\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\ModelInstance.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\ToonRenderer.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\DefaultTextures.h">
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -345,14 +348,22 @@
     <ClCompile Include="Engine\Graphics\RenderManager.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\ModelRenderer.cpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Core\GPUBuffer.cpp" />
-    <ClCompile Include="Engine\Graphics\Mesh.cpp" />
     <ClCompile Include="Engine\Graphics\Core\TextureResource.cpp">
       <Filter>Engine\Graphics\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Graphics\Core\GPUBuffer.cpp">
+      <Filter>Engine\Graphics\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Mesh.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\ModelInstance.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\ToonRenderer.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\DefaultTextures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">
@@ -404,6 +415,18 @@
     </None>
     <None Include="Engine\Shader\ModelPS.hlsl">
       <Filter>Engine\Shader</Filter>
+    </None>
+    <None Include="Engine\Graphics\Shader\ToonPS.hlsl">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </None>
+    <None Include="Engine\Graphics\Shader\OutlineVS.hlsl">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </None>
+    <None Include="Engine\Graphics\Shader\OutlinePS.hlsl">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </None>
+    <None Include="Engine\Graphics\Shader\ToonVS.hlsl">
+      <Filter>Engine\Graphics\Shader</Filter>
     </None>
   </ItemGroup>
 </Project>

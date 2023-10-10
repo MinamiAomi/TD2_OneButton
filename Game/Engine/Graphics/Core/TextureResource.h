@@ -14,6 +14,7 @@ class TextureResource : public GPUResource {
 public:
     void CreateFromWICFile(const std::wstring& path);
     void CreateFromWICFile(CommandContext& commandContext, const std::wstring& path);
+    void Create(UINT width, UINT heigh, DXGI_FORMAT format, void* data);
 
     const D3D12_RESOURCE_DESC& GetDesc() const { return desc_; }
     const DescriptorHandle& GetSRV() const { return srvHandle_; }

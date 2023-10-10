@@ -12,7 +12,7 @@
 class CommandContext;
 
 class Model {
-    friend class ModelRenderer;
+    friend class ModelInstance;
 public:
     struct Vertex {
         Vector3 position;

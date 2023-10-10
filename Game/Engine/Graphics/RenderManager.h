@@ -1,12 +1,14 @@
 #pragma once
 
+#include "Math/Camera.h"
 #include "Core/Graphics.h"
 #include "Core/SwapChain.h"
 #include "Core/CommandContext.h"
 #include "Core/ColorBuffer.h"
 #include "Core/DepthBuffer.h"
 #include "Bloom.h"
-#include "DeferredRender.h"
+
+class ModelInstance;
 
 class RenderManager {
 public:
@@ -15,6 +17,8 @@ public:
 
     void Render();
 
+    void SetCamera(const Camera& camera) { camera_ = &camera; }
+
 private:
     RenderManager() = default;
     RenderManager(const RenderManager&) = delete;
@@ -22,15 +26,21 @@ private:
 
     void InitializePostEffect();
 
+    void RenderModels();
+
     Graphics* graphics_ = nullptr;
     SwapChain swapChain_;
     CommandContext commandContexts_[SwapChain::kNumBuffers];
+
+    RootSignature modelRootSignature_;
+    PipelineState modelPipelineState_;
 
     ColorBuffer mainColorBuffer_;
     DepthBuffer mainDepthBuffer_;
     RootSignature postEffectRootSignature_;
     PipelineState postEffectPipelineState_;
 
-    DeferredRender deferredRender;
     Bloom bloom;
+
+    const Camera* camera_;
 };

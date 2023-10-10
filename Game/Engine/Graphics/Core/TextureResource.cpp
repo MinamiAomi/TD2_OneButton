@@ -15,7 +15,7 @@ void TextureResource::CreateFromWICFile(const std::wstring& path) {
     auto& commandQueue = graphics->GetCommandQueue();
     CommandContext commandContext;
     commandContext.Create();
-   
+
     CreateFromWICFile(commandContext, path);
     commandContext.Close();
     commandQueue.Excute(commandContext);
@@ -77,6 +77,28 @@ void TextureResource::CreateFromWICFile(CommandContext& commandContext, const st
     commandContext.TransitionResource(*this, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
     // ビューを生成
     CreateView();
+}
+
+void TextureResource::Create(UINT width, UINT height, DXGI_FORMAT format, void* data) {
+    auto graphics = Graphics::GetInstance();
+    auto device = graphics->GetDevice();
+    
+    size_t pixelSize = Helper::GetBytePerPixel(format);
+    size_t bufferSize = pixelSize * width * height;
+
+    auto heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+    auto desc = CD3DX12_RESOURCE_DESC::Tex2D(format, width, height);
+    Microsoft::WRL::ComPtr<ID3D12Resource> intermediaResource;
+    ASSERT_IF_FAILED(device->CreateCommittedResource(
+        &heapProp, 
+        D3D12_HEAP_FLAG_NONE, 
+        &desc, 
+        D3D12_RESOURCE_STATE_COMMON, 
+        nullptr, 
+        IID_PPV_ARGS(intermediaResource.GetAddressOf())));
+    intermediaResource->WriteToSubresource(0, nullptr, data, pixelSize * width, bufferSize);
+
+
 }
 
 void TextureResource::CreateView() {

@@ -1,12 +1,12 @@
-#include "ModelRenderer.h"
+#include "ModelInstance.h"
 
-std::list<ModelRenderer*> ModelRenderer::instanceLists_;
+std::list<ModelInstance*> ModelInstance::instanceLists_;
 
-ModelRenderer::ModelRenderer() {
+ModelInstance::ModelInstance() {
     instanceLists_.emplace_back(this);
 }
 
-ModelRenderer::~ModelRenderer() {
+ModelInstance::~ModelInstance() {
     auto iter = std::find(instanceLists_.begin(), instanceLists_.end(), this);
     if (iter != instanceLists_.end()) {
         instanceLists_.erase(iter);
