@@ -24,6 +24,25 @@ void TextureResource::CreateFromWICFile(const std::wstring& path) {
 
 }
 
+void TextureResource::Create(UINT width, UINT height, DXGI_FORMAT format, void* dataBegin) {
+
+    auto graphics = Graphics::GetInstance();
+    auto device = graphics->GetDevice();
+
+    // 中間リソースをコピーする
+    auto& commandQueue = graphics->GetCommandQueue();
+    CommandContext commandContext;
+    commandContext.Create();
+
+    Create(commandContext, width, height, format, dataBegin);
+    commandContext.Close();
+    commandQueue.Excute(commandContext);
+    commandQueue.Signal();
+    commandQueue.WaitForGPU();
+
+}
+
+
 void TextureResource::CreateFromWICFile(CommandContext& commandContext, const std::wstring& path) {
     auto graphics = Graphics::GetInstance();
     auto device = graphics->GetDevice();
@@ -79,26 +98,65 @@ void TextureResource::CreateFromWICFile(CommandContext& commandContext, const st
     CreateView();
 }
 
-void TextureResource::Create(UINT width, UINT height, DXGI_FORMAT format, void* data) {
+void TextureResource::Create(CommandContext& commandContext, UINT width, UINT height, DXGI_FORMAT format, void* dataBegin) {
     auto graphics = Graphics::GetInstance();
     auto device = graphics->GetDevice();
-    
+
     size_t pixelSize = Helper::GetBytePerPixel(format);
     size_t bufferSize = pixelSize * width * height;
 
     auto heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-    auto desc = CD3DX12_RESOURCE_DESC::Tex2D(format, width, height);
-    Microsoft::WRL::ComPtr<ID3D12Resource> intermediaResource;
+    auto intermediateDesc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
+    Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource;
     ASSERT_IF_FAILED(device->CreateCommittedResource(
-        &heapProp, 
-        D3D12_HEAP_FLAG_NONE, 
-        &desc, 
-        D3D12_RESOURCE_STATE_COMMON, 
-        nullptr, 
-        IID_PPV_ARGS(intermediaResource.GetAddressOf())));
-    intermediaResource->WriteToSubresource(0, nullptr, data, pixelSize * width, bufferSize);
+        &heapProp,
+        D3D12_HEAP_FLAG_NONE,
+        &intermediateDesc,
+        D3D12_RESOURCE_STATE_GENERIC_READ,
+        nullptr,
+        IID_PPV_ARGS(intermediateResource.GetAddressOf())));
+    UINT8* uploadDataBegin = nullptr;
+    ASSERT_IF_FAILED(intermediateResource->Map(0, nullptr, reinterpret_cast<void**>(&uploadDataBegin)));
 
+    D3D12_SUBRESOURCE_FOOTPRINT pitchedDesc{};
+    pitchedDesc.Format = format;
+    pitchedDesc.Width = width;
+    pitchedDesc.Height = height;
+    pitchedDesc.Depth = 1;
+    pitchedDesc.RowPitch = UINT(Helper::AlignUp(width * pixelSize, D3D12_TEXTURE_DATA_PITCH_ALIGNMENT));
 
+    UINT8* uploadDataDest = reinterpret_cast<UINT8*>(Helper::AlignUp(reinterpret_cast<size_t>(uploadDataBegin), D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT));
+
+    D3D12_PLACED_SUBRESOURCE_FOOTPRINT placedTexture2D{};
+    placedTexture2D.Offset = uploadDataDest - uploadDataBegin;
+    placedTexture2D.Footprint = pitchedDesc;
+
+    for (UINT y = 0; y < height; ++y) {
+        UINT8* scan = uploadDataBegin + placedTexture2D.Offset + y * pitchedDesc.RowPitch;
+        memcpy(scan, &(reinterpret_cast<UINT8*>(dataBegin)[y * width]), pixelSize * width);
+    }
+
+    heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+    desc_ = CD3DX12_RESOURCE_DESC::Tex2D(format, width, height);
+    ASSERT_IF_FAILED(device->CreateCommittedResource(
+        &heapProp,
+        D3D12_HEAP_FLAG_NONE,
+        &desc_,
+        D3D12_RESOURCE_STATE_COPY_DEST,
+        nullptr,
+        IID_PPV_ARGS(resource_.GetAddressOf())));
+    state_ = D3D12_RESOURCE_STATE_COPY_DEST;
+
+    ID3D12GraphicsCommandList* commandList = commandContext;
+
+    auto destLocation = CD3DX12_TEXTURE_COPY_LOCATION(resource_.Get(), 0);
+    auto srcLocation = CD3DX12_TEXTURE_COPY_LOCATION(intermediateResource.Get(), placedTexture2D);
+    commandList->CopyTextureRegion(&destLocation, 0,0,0,&srcLocation, nullptr);
+    commandContext.TrackingObject(intermediateResource);
+    commandContext.TrackingObject(resource_);
+    commandContext.TransitionResource(*this, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+    
+    CreateView();
 }
 
 void TextureResource::CreateView() {

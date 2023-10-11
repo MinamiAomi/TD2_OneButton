@@ -94,10 +94,10 @@ public:
 
     operator ID3D12GraphicsCommandList* () const { return commandList_.Get(); }
 
+    void TrackingObject(Microsoft::WRL::ComPtr<ID3D12Object> object) { trackedObjects_.emplace_back(object); }
 private:
     static const uint32_t kMaxNumResourceBarriers = 16;
 
-    void TrackingObject(Microsoft::WRL::ComPtr<ID3D12Object> object) { trackedObjects_.emplace_back(object); }
 
     Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
     Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_;

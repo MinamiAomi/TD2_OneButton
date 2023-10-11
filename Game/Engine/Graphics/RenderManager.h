@@ -15,6 +15,8 @@ public:
 
     static RenderManager* GetInstance();
 
+    void Initialize();
+    void Finalize();
     void Render();
 
     void SetCamera(const Camera& camera) { camera_ = &camera; }

@@ -23,15 +23,12 @@ namespace Helper {
 
     template<typename T>
     T AlignUp(T value, size_t alignment) {
-        size_t mask = alignment - 1;
-        return T((size_t(value) + mask) & ~mask);
+        // 2の累乗数
+        assert((alignment == 0) || (alignment & (alignment - 1)));
+        return T((size_t(value) + (alignment - 1)) & ~(alignment - 1));
     }
 
-    template<typename T>
-    bool IsAligned(T value, size_t alignment) {
-        return (size_t(value) & (alignment - 1)) == 0;
-    }
-
+  
 
     DXGI_FORMAT GetBaseFormat(DXGI_FORMAT format);
     DXGI_FORMAT GetUAVFormat(DXGI_FORMAT format);

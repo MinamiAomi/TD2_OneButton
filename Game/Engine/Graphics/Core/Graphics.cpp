@@ -56,7 +56,7 @@ void Graphics::Initialize() {
     SamplerManager::Initialize();
 }
 
-void Graphics::Shutdown(){
+void Graphics::Finalize(){
     commandQueue_.Signal();
     commandQueue_.WaitForGPU();
 }

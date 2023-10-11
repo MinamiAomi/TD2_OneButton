@@ -363,7 +363,9 @@
     <ClCompile Include="Engine\Graphics\ToonRenderer.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\DefaultTextures.cpp" />
+    <ClCompile Include="Engine\Graphics\DefaultTextures.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">

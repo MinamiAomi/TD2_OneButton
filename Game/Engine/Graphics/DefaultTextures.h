@@ -9,5 +9,6 @@ namespace DefaultTexture{
     extern TextureResource Normal;
 
     void Initialize();
+    void Finalize();
 
 }

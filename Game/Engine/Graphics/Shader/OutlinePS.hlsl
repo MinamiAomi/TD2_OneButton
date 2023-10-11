@@ -3,7 +3,7 @@ struct Outline
     float width;
     float3 color;
 };
-ConstantBuffer<Outline> outline_ : register(b0);
+ConstantBuffer<Outline> outline_ : register(b1);
 
 struct PSOutput
 {

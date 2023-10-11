@@ -16,8 +16,11 @@ public:
     void Render(CommandContext& commandContext, const Camera& camera);
 
 private:
+    void InitializeOutlinePass(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat);
+    void InitializeToonPass(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat);
+
     RootSignature outlineRootSignature_;
-    RootSignature outlinePipelineState_;
+    PipelineState outlinePipelineState_;
     
     RootSignature toonRootSignature_;
     PipelineState toonPipelineState_;
