@@ -5,7 +5,7 @@
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 #endif // _DEBUG
 
-#include "Graphics/Helper.h"
+#include "Core/Helper.h"
 
 
 namespace {

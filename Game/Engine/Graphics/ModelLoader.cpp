@@ -15,7 +15,7 @@ namespace {
 
         std::vector<ModelData::Material>& materials = modelData.materials;
         std::vector<ModelData::Texture>& textures = modelData.textures;
-        ModelData::Material* currentMaterial;
+        ModelData::Material* currentMaterial = nullptr;
 
         std::string line;
         while (std::getline(file, line)) {
@@ -51,11 +51,13 @@ namespace {
                 }
             }
             else if (identifier == "Kd") {
+                assert(currentMaterial);
                 Vector3 diffuse;
                 iss >> diffuse.x >> diffuse.y >> diffuse.z;
                 currentMaterial->diffuse = diffuse;
             }
             else if (identifier == "Ks") {
+                assert(currentMaterial);
                 Vector3 specular;
                 iss >> specular.x >> specular.y >> specular.z;
                 currentMaterial->specular = specular;

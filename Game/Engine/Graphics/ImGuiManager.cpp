@@ -6,9 +6,9 @@
 #endif // _DEBUG
 
 
-#include "Graphics/Graphics.h"
-#include "Graphics/SwapChain.h"
-#include "Graphics/CommandContext.h"
+#include "Core/Graphics.h"
+#include "Core/SwapChain.h"
+#include "Core/CommandContext.h"
 
 ImGuiManager* ImGuiManager::GetInstance() {
     static ImGuiManager instance;

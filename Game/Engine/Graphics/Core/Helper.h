@@ -23,8 +23,6 @@ namespace Helper {
 
     template<typename T>
     T AlignUp(T value, size_t alignment) {
-        // 2の累乗数
-        assert((alignment == 0) || (alignment & (alignment - 1)));
         return T((size_t(value) + (alignment - 1)) & ~(alignment - 1));
     }
 

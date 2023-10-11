@@ -9,7 +9,6 @@
 void TextureResource::CreateFromWICFile(const std::wstring& path) {
 
     auto graphics = Graphics::GetInstance();
-    auto device = graphics->GetDevice();
 
     // 中間リソースをコピーする
     auto& commandQueue = graphics->GetCommandQueue();
@@ -27,7 +26,6 @@ void TextureResource::CreateFromWICFile(const std::wstring& path) {
 void TextureResource::Create(UINT width, UINT height, DXGI_FORMAT format, void* dataBegin) {
 
     auto graphics = Graphics::GetInstance();
-    auto device = graphics->GetDevice();
 
     // 中間リソースをコピーする
     auto& commandQueue = graphics->GetCommandQueue();

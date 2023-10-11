@@ -20,14 +20,14 @@ struct ModelData {
     struct Mesh {
         std::vector<Vertex> vertices;
         std::vector<Index> indices;
-        uint32_t materialIndex;
+        uint32_t materialIndex = 0;
     };
     // マテリアル
     struct Material {
         std::string name;
         Vector3 diffuse;
         Vector3 specular;
-        uint32_t textureIndex;
+        uint32_t textureIndex = 0;
     };
     struct Texture {
         std::filesystem::path filePath;

@@ -12,7 +12,7 @@ public:
     operator ID3D12RootSignature* () const { return rootSignature_.Get(); }
     operator bool() const { return rootSignature_; }
 
-    const Microsoft::WRL::ComPtr<ID3D12RootSignature>& Get() const { return rootSignature_ };
+    const Microsoft::WRL::ComPtr<ID3D12RootSignature>& Get() const { return rootSignature_; }
 
 private:
     Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_;
