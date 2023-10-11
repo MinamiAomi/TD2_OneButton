@@ -91,6 +91,8 @@ void TextureResource::CreateFromWICFile(CommandContext& commandContext, const st
         IID_PPV_ARGS(intermediateResource.GetAddressOf())));
     UpdateSubresources(commandContext, resource_.Get(), intermediateResource.Get(), 0, 0, UINT(subresources.size()), subresources.data());
 
+    commandContext.TrackingObject(intermediateResource);
+    commandContext.TrackingObject(resource_);
     commandContext.TransitionResource(*this, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
     // ビューを生成
     CreateView();
@@ -135,7 +137,7 @@ void TextureResource::Create(CommandContext& commandContext, UINT width, UINT he
     }
 
     heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
-    desc_ = CD3DX12_RESOURCE_DESC::Tex2D(format, width, height);
+    desc_ = CD3DX12_RESOURCE_DESC::Tex2D(format, width, height, 1, 1);
     ASSERT_IF_FAILED(device->CreateCommittedResource(
         &heapProp,
         D3D12_HEAP_FLAG_NONE,
@@ -149,11 +151,11 @@ void TextureResource::Create(CommandContext& commandContext, UINT width, UINT he
 
     auto destLocation = CD3DX12_TEXTURE_COPY_LOCATION(resource_.Get(), 0);
     auto srcLocation = CD3DX12_TEXTURE_COPY_LOCATION(intermediateResource.Get(), placedTexture2D);
-    commandList->CopyTextureRegion(&destLocation, 0,0,0,&srcLocation, nullptr);
+    commandList->CopyTextureRegion(&destLocation, 0, 0, 0, &srcLocation, nullptr);
     commandContext.TrackingObject(intermediateResource);
     commandContext.TrackingObject(resource_);
     commandContext.TransitionResource(*this, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-    
+
     CreateView();
 }
 

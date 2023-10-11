@@ -10,7 +10,7 @@
 
 const wchar_t kOutlineVertexShadedr[] = L"Engine/Graphics/Shader/OutlineVS.hlsl";
 const wchar_t kOutlinePixelShadedr[] = L"Engine/Graphics/Shader/OutlinePS.hlsl";
-const wchar_t kToonVertexShadedr[] = L"Engine/Graphics/Shader/ToonPS.hlsl";
+const wchar_t kToonVertexShadedr[] = L"Engine/Graphics/Shader/ToonVS.hlsl";
 const wchar_t kToonPixelShadedr[] = L"Engine/Graphics/Shader/ToonPS.hlsl";
 const wchar_t kToonShadeTexture[] = L"Engine/Graphics/Resource/ToonShade.png";
 

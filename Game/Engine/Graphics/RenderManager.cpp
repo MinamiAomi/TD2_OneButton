@@ -5,6 +5,11 @@
 #include "GameWindow.h"
 #include "ImGuiManager.h"
 
+RenderManager* RenderManager::GetInstance() {
+    static RenderManager instance;
+    return &instance;
+}
+
 void RenderManager::Initialize() {
     graphics_ = Graphics::GetInstance();
     graphics_->Initialize();

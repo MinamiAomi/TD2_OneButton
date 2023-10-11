@@ -23,11 +23,11 @@ struct VSOutput {
 VSOutput main(VSInput input) {
     VSOutput output;
 
-    float3 worldNormal = mul(input.normal, (float3x3)instance_.worldMatrix);
-    float4 worldPosition = mul(float4(input.position, 1.0f), instance_.worldMatrix);
+    float3 worldNormal = mul(input.normal, (float3x3) instance_.worldMatrix);
+    float3 worldPosition = mul(float4(input.position, 1.0f), instance_.worldMatrix).xyz;
     worldPosition += normalize(worldNormal) * instance_.outlineWidth;
     
-    output.position = mul(worldPosition, scene_.viewProjMatrix);
+    output.position = mul(float4(worldPosition, 1.0f), scene_.viewProjMatrix);
     
     return output;
 }

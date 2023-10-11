@@ -1,5 +1,3 @@
-#include "Lighting.hlsli"
-
 struct Scene {
     float4x4 viewProjMatrix;
     float3 cameraPosition;
@@ -11,6 +9,13 @@ struct Material {
     float3 specular;
 };
 ConstantBuffer<Material> material_ : register(b2);
+
+// 平行光源
+struct DirectionalLight {
+    float3 direction; // 方向
+    float3 color; // 色
+    float intensity; // 強さ
+};
 
 ConstantBuffer<DirectionalLight> directionalLight_ : register(b3);
 

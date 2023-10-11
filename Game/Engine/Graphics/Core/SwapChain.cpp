@@ -41,7 +41,7 @@ void SwapChain::Create(HWND hWnd) {
         nullptr,
         reinterpret_cast<IDXGISwapChain1**>(swapChain_.ReleaseAndGetAddressOf())));
 
-    swapChain_->SetMaximumFrameLatency(1);
+    //swapChain_->SetMaximumFrameLatency(1);
 
     for (uint32_t i = 0; i < kNumBuffers; ++i) {
         ComPtr<ID3D12Resource> resource;
