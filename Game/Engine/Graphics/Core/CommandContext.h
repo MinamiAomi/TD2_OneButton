@@ -41,7 +41,7 @@ public:
     void FlushResourceBarriers();
 
     void CopyBuffer(GPUResource& dest, GPUResource& src);
-    void CopyBuffer(GPUResource& dest, size_t dataSize, void* data);
+    void CopyBuffer(GPUResource& dest, size_t dataSize, const void* data);
     void CopyBufferRegion(GPUResource& dest, size_t destOffset, GPUResource& src, size_t srcOffset, size_t numBytes);
 
     void SetPipelineState(const PipelineState& pipelineState);
@@ -156,7 +156,7 @@ inline void CommandContext::CopyBuffer(GPUResource& dest, GPUResource& src) {
     TrackingObject(src.Get());
 }
 
-inline void CommandContext::CopyBuffer(GPUResource& dest, size_t bufferSize, void* data) {
+inline void CommandContext::CopyBuffer(GPUResource& dest, size_t bufferSize, const void* data) {
     assert(data);
 
     UploadBuffer uploadBuffer;

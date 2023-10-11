@@ -9,6 +9,20 @@ class ColorBuffer;
 class DepthBuffer;
 class Camera;
 
+struct ToonRootIndex {
+    enum Index {
+        Scene = 0,
+        Instance,
+        Material,
+        Texture,
+        Sampler,
+        DirectionalLight,
+        ToonShade,
+
+        NumParameters
+    };
+};
+
 class ToonRenderer {
 public:
 
@@ -16,13 +30,13 @@ public:
     void Render(CommandContext& commandContext, const Camera& camera);
 
 private:
+    void InitializeRootSignature();
     void InitializeOutlinePass(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat);
     void InitializeToonPass(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat);
 
-    RootSignature outlineRootSignature_;
-    PipelineState outlinePipelineState_;
-    
-    RootSignature toonRootSignature_;
+    RootSignature rootSignature_;
+
+    PipelineState outlinePipelineState_;    
     PipelineState toonPipelineState_;
 
     TextureResource toonShadeTexture_;

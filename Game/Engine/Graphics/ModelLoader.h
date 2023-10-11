@@ -1,0 +1,44 @@
+#pragma once
+
+#include <cstdint>
+#include <vector>
+#include <string>
+#include <filesystem>
+
+#include "Math/MathUtils.h"
+
+struct ModelData {
+    // 頂点
+    struct Vertex {
+        Vector3 position;
+        Vector3 normal;
+        Vector2 texcoord;
+    };
+    // インデックス
+    using Index = uint16_t;
+    // メッシュ
+    struct Mesh {
+        std::vector<Vertex> vertices;
+        std::vector<Index> indices;
+        uint32_t materialIndex;
+    };
+    // マテリアル
+    struct Material {
+        std::string name;
+        Vector3 diffuse;
+        Vector3 specular;
+        uint32_t textureIndex;
+    };
+    struct Texture {
+        std::filesystem::path filePath;
+    };
+
+
+    static ModelData LoadObjFile(const std::filesystem::path& path);
+    
+    std::string name;
+    std::vector<Mesh> meshes;
+    std::vector<Material> materials;
+    std::vector<Texture> textures;
+};
+

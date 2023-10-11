@@ -3,7 +3,7 @@
 #include "Core/Graphics.h"
 #include "Core/CommandContext.h"
 
-namespace DefaltTexture {
+namespace DefaultTexture{
 
     TextureResource White;
     TextureResource Black;
@@ -27,10 +27,10 @@ namespace DefaltTexture {
         commandQueue.WaitForGPU();
     }
 
+    void Finalize() {
+        White.Destroy();
+        Black.Destroy();
+        Normal.Destroy();
+    }
 }
 
-void DefaultTexture::Finalize() {
-    White.Destroy();
-    Black.Destroy();
-    Normal.Destroy();
-}

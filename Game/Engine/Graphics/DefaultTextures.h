@@ -2,7 +2,7 @@
 
 #include "Core/TextureResource.h"
 
-namespace DefaultTexture{
+namespace DefaultTexture {
 
     extern TextureResource White;
     extern TextureResource Black;

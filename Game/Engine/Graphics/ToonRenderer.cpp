@@ -5,8 +5,8 @@
 #include "Core/ColorBuffer.h"
 #include "Core/DepthBuffer.h"
 #include "Core/CommandContext.h"
-
-#include "ModelInstance.h"
+#include "Math/Camera.h"
+#include "ToonModel.h"
 
 const wchar_t kOutlineVertexShadedr[] = L"Engine/Graphics/Shader/OutlineVS.hlsl";
 const wchar_t kOutlinePixelShadedr[] = L"Engine/Graphics/Shader/OutlinePS.hlsl";
@@ -15,6 +15,7 @@ const wchar_t kToonPixelShadedr[] = L"Engine/Graphics/Shader/ToonPS.hlsl";
 const wchar_t kToonShadeTexture[] = L"Engine/Graphics/Resource/ToonShade.png";
 
 void ToonRenderer::Initialize(const ColorBuffer& colorBuffer, const DepthBuffer& depthBuffer) {
+    InitializeRootSignature();
     InitializeOutlinePass(colorBuffer.GetFormat(), depthBuffer.GetFormat());
     InitializeToonPass(colorBuffer.GetFormat(), depthBuffer.GetFormat());
     toonShadeTexture_.CreateFromWICFile(kToonShadeTexture);
@@ -22,33 +23,101 @@ void ToonRenderer::Initialize(const ColorBuffer& colorBuffer, const DepthBuffer&
 
 void ToonRenderer::Render(CommandContext& commandContext, const Camera& camera) {
 
-    auto& instances = ModelInstance::GetInstanceList();
+    struct SceneConstant {
+        Matrix4x4 viewProjectionMatrix;
+        Vector3 cameraPosition;
+    };
 
-    commandContext.SetRootSignature(outlineRootSignature_);
-    commandContext.SetPipelineState(outlinePipelineState_);
+    struct InstanceConstant {
+        Matrix4x4 worldMatrix;
+        float outlineWidth;
+        Vector3 outlineColor;
+    };
+
+    auto& instanceList = ToonModelInstance::GetInstanceList();
+
+
+    // 描画
+    commandContext.SetRootSignature(rootSignature_);
     commandContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    
 
+    commandContext.SetDescriptorTable(ToonRootIndex::ToonShade, toonShadeTexture_.GetSRV());
 
+    SceneConstant scene{};
+    scene.viewProjectionMatrix = camera.GetViewProjectionMatrix();
+    scene.cameraPosition = camera.GetPosition();
+    commandContext.SetDynamicConstantBufferView(ToonRootIndex::Scene, sizeof(scene), &scene);
 
+    for (auto& instance : instanceList) {
+        if (instance->IsActive() && instance->model_) {
 
+            InstanceConstant data;
+            data.worldMatrix = instance->worldMatrix_;
+            data.outlineWidth = instance->outlineWidth_;
+            data.outlineColor = instance->outlineColor_;
+            commandContext.SetDynamicConstantBufferView(ToonRootIndex::Instance, sizeof(data), &data); 
+
+            // アウトライン描画
+            if (instance->useOutline_) {
+                commandContext.SetPipelineState(outlinePipelineState_);
+
+                for (auto& mesh : instance->model_->meshes_) {
+                    commandContext.SetVertexBuffer(0, mesh.vertexBuffer.GetVertexBufferView(sizeof(ModelData::Vertex)));
+                    commandContext.SetIndexBuffer(mesh.vertexBuffer.GetIndexBufferView(sizeof(ModelData::Index)));
+                    commandContext.DrawIndexed(mesh.indexCount);
+                }
+            }
+            // オブジェクト描画
+            commandContext.SetPipelineState(toonPipelineState_);
+            for (auto& mesh : instance->model_->meshes_) {
+                commandContext.SetConstantBuffer(ToonRootIndex::Material, mesh.material->constantBuffer.GetGPUVirtualAddress());
+                commandContext.SetDescriptorTable(ToonRootIndex::Texture, mesh.material->texture->textureResource.GetSRV());
+                commandContext.SetDescriptorTable(ToonRootIndex::Sampler, mesh.material->texture->sampler);
+
+                commandContext.SetVertexBuffer(0, mesh.vertexBuffer.GetVertexBufferView(sizeof(ModelData::Vertex)));
+                commandContext.SetIndexBuffer(mesh.vertexBuffer.GetIndexBufferView(sizeof(ModelData::Index)));
+                commandContext.DrawIndexed(mesh.indexCount);
+            }
+        }
+    }
 }
 
-void ToonRenderer::InitializeOutlinePass(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
+void ToonRenderer::InitializeRootSignature() {
+    CD3DX12_DESCRIPTOR_RANGE srvRange[2]{};
+    srvRange[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+    srvRange[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0, 1);
 
-    CD3DX12_ROOT_PARAMETER rootParameters[2]{};
-    rootParameters[0].InitAsConstantBufferView(0);
-    rootParameters[1].InitAsConstantBufferView(1);
+    CD3DX12_DESCRIPTOR_RANGE samplerRange{};
+    samplerRange.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER, 1, 0);
+
+    CD3DX12_ROOT_PARAMETER rootParameters[ToonRootIndex::NumParameters]{};
+    rootParameters[ToonRootIndex::Scene].InitAsConstantBufferView(0);
+    rootParameters[ToonRootIndex::Instance].InitAsConstantBufferView(1);
+    rootParameters[ToonRootIndex::Material].InitAsConstantBufferView(2);
+    rootParameters[ToonRootIndex::Texture].InitAsDescriptorTable(1, &srvRange[0]);
+    rootParameters[ToonRootIndex::Sampler].InitAsDescriptorTable(1, &samplerRange);
+    rootParameters[ToonRootIndex::DirectionalLight].InitAsConstantBufferView(3);
+    rootParameters[ToonRootIndex::ToonShade].InitAsDescriptorTable(1, &srvRange[1]);
+
+    // ToonShade用サンプラー
+    CD3DX12_STATIC_SAMPLER_DESC staticSamplers[1]{};
+    staticSamplers[0].Init(0, D3D12_FILTER_MIN_MAG_MIP_POINT, D3D12_TEXTURE_ADDRESS_MODE_CLAMP, D3D12_TEXTURE_ADDRESS_MODE_CLAMP, D3D12_TEXTURE_ADDRESS_MODE_CLAMP);
+    staticSamplers[0].RegisterSpace = 1;
 
     D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
     rootSignatureDesc.NumParameters = _countof(rootParameters);
     rootSignatureDesc.pParameters = rootParameters;
+    rootSignatureDesc.NumStaticSamplers = _countof(staticSamplers);
+    rootSignatureDesc.pStaticSamplers = staticSamplers;
     rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-    outlineRootSignature_.Create(L"Outline RootSignature", rootSignatureDesc);
+    rootSignature_.Create(L"Toon RootSignature", rootSignatureDesc);
+}
+
+void ToonRenderer::InitializeOutlinePass(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
 
     D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineStateDesc{};
 
-    pipelineStateDesc.pRootSignature = outlineRootSignature_;
+    pipelineStateDesc.pRootSignature = rootSignature_;
 
     D3D12_INPUT_ELEMENT_DESC inputElements[] = {
          { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
@@ -81,36 +150,10 @@ void ToonRenderer::InitializeOutlinePass(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvF
 }
 
 void ToonRenderer::InitializeToonPass(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
-    CD3DX12_DESCRIPTOR_RANGE srvRange[2]{};
-    srvRange[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
-    srvRange[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0, 1);
-
-    CD3DX12_DESCRIPTOR_RANGE samplerRange{};
-    samplerRange.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER, 1, 0);
-
-    CD3DX12_ROOT_PARAMETER rootParameters[6]{};
-    rootParameters[0].InitAsConstantBufferView(0);
-    rootParameters[1].InitAsConstantBufferView(1);
-    rootParameters[2].InitAsConstantBufferView(2);
-    rootParameters[3].InitAsDescriptorTable(1, &srvRange[0]);
-    rootParameters[4].InitAsDescriptorTable(1, &srvRange[1]);
-    rootParameters[5].InitAsDescriptorTable(1, &samplerRange);
-
-    CD3DX12_STATIC_SAMPLER_DESC staticSamplers[1]{};
-    staticSamplers[0].Init(0, D3D12_FILTER_MIN_MAG_MIP_POINT, D3D12_TEXTURE_ADDRESS_MODE_CLAMP, D3D12_TEXTURE_ADDRESS_MODE_CLAMP, D3D12_TEXTURE_ADDRESS_MODE_CLAMP);
-    staticSamplers[0].RegisterSpace = 1;
-
-    D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
-    rootSignatureDesc.NumParameters = _countof(rootParameters);
-    rootSignatureDesc.pParameters = rootParameters;
-    rootSignatureDesc.NumStaticSamplers = _countof(staticSamplers);
-    rootSignatureDesc.pStaticSamplers = staticSamplers;
-    rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-    toonRootSignature_.Create(L"Toon RootSignature", rootSignatureDesc);
 
     D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineStateDesc{};
 
-    pipelineStateDesc.pRootSignature = toonRootSignature_;
+    pipelineStateDesc.pRootSignature = rootSignature_;
 
     D3D12_INPUT_ELEMENT_DESC inputElements[] = {
          { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },

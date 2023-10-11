@@ -26,3 +26,15 @@ void GPUBuffer::Create(const std::wstring& name, size_t bufferSize) {
 
     D3D12_OBJECT_SET_NAME(resource_, name.c_str());
 }
+
+void GPUBuffer::CreateVertexBuffer(const std::wstring& name, size_t numVertices, size_t vertexSize) {
+    Create(name, numVertices * vertexSize);
+}
+
+void GPUBuffer::CreateIndexBuffer(const std::wstring& name, size_t numIndices, size_t indexSize) {
+    Create(name, numIndices * indexSize);
+}
+
+void GPUBuffer::CreateConstantBuffer(const std::wstring& name, size_t dataSize) {
+    Create(name, Helper::AlignUp(dataSize, D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT));
+}

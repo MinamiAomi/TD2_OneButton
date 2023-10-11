@@ -40,9 +40,7 @@
     <ClInclude Include="..\Externals\ImGui\imstb_truetype.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Engine\ArcadeMachine.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
-    <ClInclude Include="Engine\GameObject\GameObject.h" />
     <ClInclude Include="Engine\Graphics\Core\ColorBuffer.h" />
     <ClInclude Include="Engine\Graphics\Core\CommandContext.h" />
     <ClInclude Include="Engine\Graphics\Core\CommandQueue.h" />
@@ -63,34 +61,22 @@
     <ClInclude Include="Engine\Graphics\Core\TextureResource.h" />
     <ClInclude Include="Engine\Graphics\Core\UploadBuffer.h" />
     <ClInclude Include="Engine\Graphics\DefaultTextures.h" />
-    <ClInclude Include="Engine\Graphics\Mesh.h" />
-    <ClInclude Include="Engine\Graphics\ModelInstance.h" />
+    <ClInclude Include="Engine\Graphics\GameWindow.h" />
+    <ClInclude Include="Engine\Graphics\ImGuiManager.h" />
+    <ClInclude Include="Engine\Graphics\ModelLoader.h" />
     <ClInclude Include="Engine\Graphics\RenderManager.h" />
-    <ClInclude Include="Engine\Graphics\ResourceManager.h" />
-    <ClInclude Include="Engine\Graphics\SpriteRenderer.h" />
+    <ClInclude Include="Engine\Graphics\ToonModel.h" />
     <ClInclude Include="Engine\Graphics\ToonRenderer.h" />
-    <ClInclude Include="Engine\Input.h" />
+    <ClInclude Include="Engine\Input\Input.h" />
     <ClInclude Include="Engine\Math\Color.h" />
     <ClInclude Include="Engine\Math\Random.h" />
-    <ClInclude Include="Engine\Model.h" />
-    <ClInclude Include="Engine\Monitor.h" />
-    <ClInclude Include="Engine\RealWorld.h" />
-    <ClInclude Include="Engine\SpriteRenderer.h" />
-    <ClInclude Include="Engine\TextureHandle.h" />
-    <ClInclude Include="Engine\TextureManager.h" />
-    <ClInclude Include="Engine\TOMATOsEngine.h" />
-    <ClInclude Include="Engine\GameWindow.h" />
     <ClInclude Include="Engine\Graphics\Bloom.h" />
     <ClInclude Include="Engine\Graphics\GaussianBlur.h" />
-    <ClInclude Include="Engine\ImGuiManager.h" />
     <ClInclude Include="Engine\Math\Camera.h" />
     <ClInclude Include="Engine\Math\Geometry.h" />
     <ClInclude Include="Engine\Math\LightStructs.h" />
     <ClInclude Include="Engine\Math\MathUtils.h" />
     <ClInclude Include="Engine\Math\Transform.h" />
-    <ClInclude Include="Engine\RenderManager.h" />
-    <ClInclude Include="Engine\TriangleRenderer.h" />
-    <ClInclude Include="Engine\Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -121,7 +107,6 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Engine\ArcadeMachine.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Graphics\Core\ColorBuffer.cpp" />
     <ClCompile Include="Engine\Graphics\Core\CommandContext.cpp" />
@@ -141,28 +126,19 @@
     <ClCompile Include="Engine\Graphics\Core\TextureResource.cpp" />
     <ClCompile Include="Engine\Graphics\Core\UploadBuffer.cpp" />
     <ClCompile Include="Engine\Graphics\DefaultTextures.cpp" />
-    <ClCompile Include="Engine\Graphics\Mesh.cpp" />
-    <ClCompile Include="Engine\Graphics\ModelInstance.cpp" />
+    <ClCompile Include="Engine\Graphics\GameWindow.cpp" />
+    <ClCompile Include="Engine\Graphics\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\Graphics\ModelLoader.cpp" />
     <ClCompile Include="Engine\Graphics\RenderManager.cpp" />
+    <ClCompile Include="Engine\Graphics\ToonModel.cpp" />
     <ClCompile Include="Engine\Graphics\ToonRenderer.cpp" />
-    <ClCompile Include="Engine\Input.cpp" />
+    <ClCompile Include="Engine\Input\Input.cpp" />
     <ClCompile Include="Engine\Math\Color.cpp" />
-    <ClCompile Include="Engine\Model.cpp" />
-    <ClCompile Include="Engine\Monitor.cpp" />
-    <ClCompile Include="Engine\RealWorld.cpp" />
-    <ClCompile Include="Engine\SpriteRenderer.cpp" />
-    <ClCompile Include="Engine\TextureManager.cpp" />
-    <ClCompile Include="Engine\TOMATOsEngine.cpp" />
-    <ClCompile Include="Engine\GameWindow.cpp" />
     <ClCompile Include="Engine\Graphics\Bloom.cpp" />
     <ClCompile Include="Engine\Graphics\GaussianBlur.cpp" />
-    <ClCompile Include="Engine\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Math\Camera.cpp" />
     <ClCompile Include="Engine\Math\Geometry.cpp" />
     <ClCompile Include="Engine\Math\MathUtils.cpp" />
-    <ClCompile Include="Engine\RenderManager.cpp" />
-    <ClCompile Include="Engine\TriangleRenderer.cpp" />
-    <ClCompile Include="Engine\Utility.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +147,9 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Engine\Graphics\Shader\Lighting.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </None>
     <None Include="Engine\Graphics\Shader\ScreenQuadVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>

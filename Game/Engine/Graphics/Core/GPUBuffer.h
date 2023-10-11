@@ -7,6 +7,9 @@ class GPUBuffer :
     public GPUResource {
 public:
     void Create(const std::wstring& name, size_t bufferSize);
+    void CreateVertexBuffer(const std::wstring& name, size_t numVertices, size_t vertexSize);
+    void CreateIndexBuffer(const std::wstring& name, size_t numIndices, size_t indexSize);
+    void CreateConstantBuffer(const std::wstring& name, size_t dataSize);
 
     D3D12_VERTEX_BUFFER_VIEW GetVertexBufferView(size_t strideSize) const {
         return D3D12_VERTEX_BUFFER_VIEW{

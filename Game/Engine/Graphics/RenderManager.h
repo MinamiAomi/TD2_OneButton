@@ -7,6 +7,7 @@
 #include "Core/ColorBuffer.h"
 #include "Core/DepthBuffer.h"
 #include "Bloom.h"
+#include "ToonRenderer.h"
 
 class ModelInstance;
 
@@ -42,6 +43,7 @@ private:
     RootSignature postEffectRootSignature_;
     PipelineState postEffectPipelineState_;
 
+    ToonRenderer toonRenderer_;
     Bloom bloom;
 
     const Camera* camera_;
