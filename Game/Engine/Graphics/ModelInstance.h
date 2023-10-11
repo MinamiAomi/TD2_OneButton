@@ -8,7 +8,7 @@ class Model;
 
 class ModelInstance {
 public:
-    static std::list<ModelInstance*> GetInstanceList() { return instanceLists_; }
+    static std::list<ModelInstance*>& GetInstanceList() { return instanceLists_; }
 
     ModelInstance();
     virtual ~ModelInstance();
@@ -23,5 +23,8 @@ private:
 
     std::shared_ptr<Model> model_;
     Matrix4x4 worldMatrix_;
+    float outlineWidth_;
+    Vector3 outlineColor_;
+    bool useOutline_;
     bool isActive_;
 };

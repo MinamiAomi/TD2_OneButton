@@ -22,7 +22,8 @@ ConstantBuffer<DirectionalLight> directionalLight_ : register(b2);
 
 Texture2D<float4> texture_ : register(t0);
 SamplerState sampler_ : register(s0);
-Texture2D<float4> toonShadeTexture_ : register(t1);
+Texture2D<float4> toonShadeTexture_ : register(t0, space1);
+SamplerState toonShadeSampler_ : register(s0, space1);
 
 struct PSInput
 {
