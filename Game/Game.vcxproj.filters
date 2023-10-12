@@ -46,6 +46,9 @@
     <Filter Include="Game\Clear">
       <UniqueIdentifier>{af5df716-377b-46fd-9a28-95bb7679e357}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Player">
+      <UniqueIdentifier>{a6da5924-ebd2-4adb-b3be-68d5333264e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -210,6 +213,9 @@
     <ClInclude Include="Clear.h">
       <Filter>Game\Clear</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -350,6 +356,9 @@
     </ClCompile>
     <ClCompile Include="Clear.cpp">
       <Filter>Game\Clear</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

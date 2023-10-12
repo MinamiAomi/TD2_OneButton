@@ -85,6 +85,7 @@
     <ClInclude Include="Engine\Scene\SceneManager.h" />
     <ClInclude Include="ImGame.h" />
     <ClInclude Include="OneButton.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +156,7 @@
     <ClCompile Include="ImGame.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OneButton.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
