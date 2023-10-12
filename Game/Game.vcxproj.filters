@@ -28,9 +28,6 @@
     <Filter Include="Engine\Graphics\Shader">
       <UniqueIdentifier>{95350017-0928-4747-bad1-b272333ed05f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Shader">
-      <UniqueIdentifier>{a42b1e84-dc38-4e5b-888f-b8dcb03fe1b4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Audio">
       <UniqueIdentifier>{e9e6fbd5-4544-472b-9347-419aa6aff440}</UniqueIdentifier>
     </Filter>
@@ -355,30 +352,6 @@
     </None>
     <None Include="Engine\Graphics\Shader\LuminanceExtractionrPS.hlsl">
       <Filter>Engine\Graphics\Shader</Filter>
-    </None>
-    <None Include="Engine\Shader\TriangleVS.hlsl">
-      <Filter>Engine\Shader</Filter>
-    </None>
-    <None Include="Engine\Shader\TrianglePS.hlsl">
-      <Filter>Engine\Shader</Filter>
-    </None>
-    <None Include="Engine\Shader\SpriteVS.hlsl">
-      <Filter>Engine\Shader</Filter>
-    </None>
-    <None Include="Engine\Shader\SpritePS.hlsl">
-      <Filter>Engine\Shader</Filter>
-    </None>
-    <None Include="Engine\Shader\MonitorVS.hlsl">
-      <Filter>Engine\Shader</Filter>
-    </None>
-    <None Include="Engine\Shader\MonitorPS.hlsl">
-      <Filter>Engine\Shader</Filter>
-    </None>
-    <None Include="Engine\Shader\ModelVS.hlsl">
-      <Filter>Engine\Shader</Filter>
-    </None>
-    <None Include="Engine\Shader\ModelPS.hlsl">
-      <Filter>Engine\Shader</Filter>
     </None>
     <None Include="Engine\Graphics\Shader\ToonPS.hlsl">
       <Filter>Engine\Graphics\Shader</Filter>

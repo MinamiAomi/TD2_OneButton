@@ -43,9 +43,10 @@ struct PSOutput
 float ToonDiffuse(float3 normal, float3 lightDirection)
 {
     float t = -dot(normal, lightDirection);
-    //return lerp(1.0f, 0.3f, step(t, 0.5f));
-    float2 toonShadeUV = float2(t * 0.5f + 0.5f, 0.0f);
-    return toonShadeTexture_.Sample(toonShadeSampler_, toonShadeUV).r;
+    t = t * 0.5f + 0.5f;
+    return lerp(1.0f, 0.2f, step(t, 0.4f));
+    //float2 toonShadeUV = float2(t * 0.5f + 0.5f, 0.0f);
+    //return toonShadeTexture_.Sample(toonShadeSampler_, toonShadeUV).r;
     //return t;
 }
 
@@ -69,13 +70,13 @@ PSOutput main(PSInput input)
     float3 pixelToCamera = normalize(scene_.cameraPosition - position);
     
     DirectionalLight directionalLight_;
-    directionalLight_.direction = normalize(float3(0.0f, -1.0f, -1.0f));
+    directionalLight_.direction = normalize(float3(1.0f, -1.0f, 0.0f));
     directionalLight_.intensity = 1.0f;
     directionalLight_.color = float3(1.0f, 1.0f, 1.0f);
     
     // テクスチャの色
-    float3 textureColor = texture_.Sample(sampler_, input.texcoord).rgb;
-    //float3 textureColor = float3(1.0f, 0.0, 1.0f);
+    //float3 textureColor = texture_.Sample(sampler_, input.texcoord).rgb;
+    float3 textureColor = float3(0.6f, 0.6f, 0.6f);
     // 拡散反射
     float3 diffuse = material_.diffuse * ToonDiffuse(normal, directionalLight_.direction);
     // 鏡面反射
