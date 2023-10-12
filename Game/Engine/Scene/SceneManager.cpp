@@ -12,7 +12,7 @@ void SceneManager::Update() {
         if (currentScene_) { currentScene_->OnFinalize(); }
         currentScene_ = std::move(nextScene_);
         nextScene_ = nullptr;
-        nextScene_->OnInitialize();
+        currentScene_->OnInitialize();
     }
 
     if (currentScene_) {

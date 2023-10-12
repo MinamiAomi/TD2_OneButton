@@ -195,6 +195,9 @@
     <ClInclude Include="OneButton.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -324,7 +327,10 @@
     <ClCompile Include="Engine\Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="OneButton.cpp" />
+    <ClCompile Include="OneButton.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">
