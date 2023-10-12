@@ -20,6 +20,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
     Engine::Run(game);
     delete game;
 
+    // omaebaka
+
     //auto gameWindow = GameWindow::GetInstance();
     //gameWindow->Initialize(L"OneButton", 1280, 720);
 
