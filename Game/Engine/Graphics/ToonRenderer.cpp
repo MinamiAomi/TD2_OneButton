@@ -62,8 +62,16 @@ void ToonRenderer::Render(CommandContext& commandContext, const Camera& camera) 
                 commandContext.SetPipelineState(outlinePipelineState_);
 
                 for (auto& mesh : instance->model_->meshes_) {
-                    commandContext.SetVertexBuffer(0, mesh.vertexBuffer.GetVertexBufferView(sizeof(ModelData::Vertex)));
-                    commandContext.SetIndexBuffer(mesh.vertexBuffer.GetIndexBufferView(sizeof(ModelData::Index)));
+                    D3D12_VERTEX_BUFFER_VIEW vbv{};
+                    vbv.BufferLocation = mesh.vertexBuffer.GetGPUVirtualAddress();
+                    vbv.SizeInBytes = (UINT)mesh.vertexBuffer.GetBufferSize();
+                    vbv.StrideInBytes = (UINT)sizeof(ModelData::Vertex);
+                    commandContext.SetVertexBuffer(0, vbv);
+                    D3D12_INDEX_BUFFER_VIEW ibv{};
+                    ibv.BufferLocation = mesh.indexBuffer.GetGPUVirtualAddress();
+                    ibv.SizeInBytes = (UINT)mesh.indexBuffer.GetBufferSize();
+                    ibv.Format = (sizeof(ModelData::Index) == 2) ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT;
+                    commandContext.SetIndexBuffer(ibv);
                     commandContext.DrawIndexed(mesh.indexCount);
                 }
             }
@@ -74,8 +82,16 @@ void ToonRenderer::Render(CommandContext& commandContext, const Camera& camera) 
                 commandContext.SetDescriptorTable(ToonRootIndex::Texture, mesh.material->texture->textureResource.GetSRV());
                 commandContext.SetDescriptorTable(ToonRootIndex::Sampler, mesh.material->texture->sampler);
 
-                commandContext.SetVertexBuffer(0, mesh.vertexBuffer.GetVertexBufferView(sizeof(ModelData::Vertex)));
-                commandContext.SetIndexBuffer(mesh.vertexBuffer.GetIndexBufferView(sizeof(ModelData::Index)));
+                D3D12_VERTEX_BUFFER_VIEW vbv{};
+                vbv.BufferLocation = mesh.vertexBuffer.GetGPUVirtualAddress();
+                vbv.SizeInBytes = (UINT)mesh.vertexBuffer.GetBufferSize();
+                vbv.StrideInBytes = (UINT)sizeof(ModelData::Vertex);
+                commandContext.SetVertexBuffer(0, vbv);
+                D3D12_INDEX_BUFFER_VIEW ibv{};
+                ibv.BufferLocation = mesh.indexBuffer.GetGPUVirtualAddress();
+                ibv.SizeInBytes = (UINT)mesh.indexBuffer.GetBufferSize();
+                ibv.Format = (sizeof(ModelData::Index) == 2) ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT;
+                commandContext.SetIndexBuffer(ibv);
                 commandContext.DrawIndexed(mesh.indexCount);
             }
         }

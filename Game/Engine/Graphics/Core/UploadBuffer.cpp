@@ -36,6 +36,10 @@ void UploadBuffer::Create(const std::wstring& name, size_t numElements, size_t e
     Create(name, numElements * elementSize);
 }
 
+void UploadBuffer::CreateConstantBuffer(const std::wstring& name, size_t bufferSize) {
+    Create(name, Helper::AlignUp(bufferSize, D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT));
+}
+
 void UploadBuffer::Copy(const void* srcData, size_t copySize) const {
     assert(copySize <= bufferSize_);
     memcpy(cpuData_, srcData, copySize);

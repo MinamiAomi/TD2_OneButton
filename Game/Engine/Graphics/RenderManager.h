@@ -8,8 +8,7 @@
 #include "Core/DepthBuffer.h"
 #include "Bloom.h"
 #include "ToonRenderer.h"
-
-class ModelInstance;
+#include "PostEffect.h"
 
 class RenderManager {
 public:
@@ -27,24 +26,16 @@ private:
     RenderManager(const RenderManager&) = delete;
     RenderManager& operator=(const RenderManager&) = delete;
 
-    void InitializePostEffect();
-
-    void RenderModels();
-
     Graphics* graphics_ = nullptr;
     SwapChain swapChain_;
     CommandContext commandContexts_[SwapChain::kNumBuffers];
 
-    RootSignature modelRootSignature_;
-    PipelineState modelPipelineState_;
-
     ColorBuffer mainColorBuffer_;
     DepthBuffer mainDepthBuffer_;
-    RootSignature postEffectRootSignature_;
-    PipelineState postEffectPipelineState_;
 
     ToonRenderer toonRenderer_;
-    Bloom bloom;
+    Bloom bloom_;
+    PostEffect postEffect_;
 
-    const Camera* camera_;
+    const Camera* camera_ = nullptr;
 };

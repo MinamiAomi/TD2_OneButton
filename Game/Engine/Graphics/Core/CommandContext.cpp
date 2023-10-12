@@ -37,6 +37,7 @@ void CommandContext::Reset() {
     
     rootSignature_ = nullptr;
     pipelineState_ = nullptr;
+    primitiveTopology_ = D3D_PRIMITIVE_TOPOLOGY_UNDEFINED;
     
 }
 

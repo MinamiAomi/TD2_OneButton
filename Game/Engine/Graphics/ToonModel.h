@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Core/GPUBuffer.h"
+#include "Core/UploadBuffer.h"
 #include "Core/TextureResource.h"
 
 #include "ModelLoader.h"
@@ -22,12 +23,12 @@ private:
         DescriptorHandle sampler;
     };
     struct Material {
-        GPUBuffer constantBuffer;
+        UploadBuffer constantBuffer;
         std::shared_ptr<Texture> texture;
     };
     struct Mesh {
-        GPUBuffer vertexBuffer;
-        GPUBuffer indexBuffer;
+        UploadBuffer vertexBuffer;
+        UploadBuffer indexBuffer;
         uint32_t indexCount;
         std::shared_ptr<Material> material;
     };
@@ -62,8 +63,8 @@ private:
 
     std::shared_ptr<ToonModel> model_;
     Matrix4x4 worldMatrix_;
-    float outlineWidth_ = {0.01f};
+    float outlineWidth_ = {0.03f};
     Vector3 outlineColor_;
     bool useOutline_ = true;
-    bool isActive_;
+    bool isActive_ = true;
 };

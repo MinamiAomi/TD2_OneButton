@@ -40,7 +40,9 @@
     <ClInclude Include="..\Externals\ImGui\imstb_truetype.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Engine\Application\Game.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
+    <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Graphics\Core\ColorBuffer.h" />
     <ClInclude Include="Engine\Graphics\Core\CommandContext.h" />
     <ClInclude Include="Engine\Graphics\Core\CommandQueue.h" />
@@ -64,6 +66,7 @@
     <ClInclude Include="Engine\Graphics\GameWindow.h" />
     <ClInclude Include="Engine\Graphics\ImGuiManager.h" />
     <ClInclude Include="Engine\Graphics\ModelLoader.h" />
+    <ClInclude Include="Engine\Graphics\PostEffect.h" />
     <ClInclude Include="Engine\Graphics\RenderManager.h" />
     <ClInclude Include="Engine\Graphics\ToonModel.h" />
     <ClInclude Include="Engine\Graphics\ToonRenderer.h" />
@@ -77,6 +80,9 @@
     <ClInclude Include="Engine\Math\LightStructs.h" />
     <ClInclude Include="Engine\Math\MathUtils.h" />
     <ClInclude Include="Engine\Math\Transform.h" />
+    <ClInclude Include="Engine\Scene\BaseScene.h" />
+    <ClInclude Include="Engine\Scene\SceneManager.h" />
+    <ClInclude Include="OneButton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -108,6 +114,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Engine\Audio\Audio.cpp" />
+    <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Graphics\Core\ColorBuffer.cpp" />
     <ClCompile Include="Engine\Graphics\Core\CommandContext.cpp" />
     <ClCompile Include="Engine\Graphics\Core\CommandQueue.cpp" />
@@ -129,6 +136,7 @@
     <ClCompile Include="Engine\Graphics\GameWindow.cpp" />
     <ClCompile Include="Engine\Graphics\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Graphics\ModelLoader.cpp" />
+    <ClCompile Include="Engine\Graphics\PostEffect.cpp" />
     <ClCompile Include="Engine\Graphics\RenderManager.cpp" />
     <ClCompile Include="Engine\Graphics\ToonModel.cpp" />
     <ClCompile Include="Engine\Graphics\ToonRenderer.cpp" />
@@ -139,7 +147,9 @@
     <ClCompile Include="Engine\Math\Camera.cpp" />
     <ClCompile Include="Engine\Math\Geometry.cpp" />
     <ClCompile Include="Engine\Math\MathUtils.cpp" />
+    <ClCompile Include="Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OneButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">
@@ -194,15 +204,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Graphics\Shader\LuminanceExtractionrPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Engine\Shader\PostEffectPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -313,6 +314,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Graphics\Shader\PostEffectPS.hlsl">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
   </ItemGroup>

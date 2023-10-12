@@ -9,6 +9,7 @@ public:
 
     void Create(const std::wstring& name, size_t bufferSize);
     void Create(const std::wstring& name, size_t numElements, size_t elementSize);
+    void CreateConstantBuffer(const std::wstring& name, size_t bufferSize);
 
     void Copy(const void* srcData, size_t copySize) const;
     template<class T>

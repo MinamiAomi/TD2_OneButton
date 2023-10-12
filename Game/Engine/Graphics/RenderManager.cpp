@@ -34,9 +34,11 @@ void RenderManager::Initialize() {
 
     toonRenderer_.Initialize(mainColorBuffer_, mainDepthBuffer_);
 
+    postEffect_.Initialize(swapChainBuffer);
+
     auto imguiManager = ImGuiManager::GetInstance();
     imguiManager->Initialize(window->GetHWND(), swapChainBuffer.GetFormat());
-
+    imguiManager->NewFrame();
 }
 
 void RenderManager::Finalize() {
@@ -71,4 +73,18 @@ void RenderManager::Render() {
     commandContext.ClearColor(swapChainBuffer);
     commandContext.SetViewportAndScissorRect(0, 0, swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     
+    postEffect_.Render(commandContext, mainColorBuffer_);
+    // ImGuiを描画
+    auto imguiManager = ImGuiManager::GetInstance();
+    imguiManager->Render(commandContext);
+
+    commandContext.TransitionResource(swapChainBuffer, D3D12_RESOURCE_STATE_PRESENT);
+    commandContext.Close();
+    CommandQueue& commandQueue = graphics_->GetCommandQueue();
+    commandQueue.WaitForGPU();
+    commandQueue.Excute(commandContext);
+    swapChain_.Present();
+    commandQueue.Signal();
+
+    imguiManager->NewFrame();
 }

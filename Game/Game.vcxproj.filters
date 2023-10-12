@@ -37,6 +37,9 @@
     <Filter Include="Engine\Graphics\Core">
       <UniqueIdentifier>{11fddba6-28f0-448d-902a-f38149760415}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Scene">
+      <UniqueIdentifier>{dcf29146-bfd2-4236-84f8-b7015e10bed0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -174,6 +177,24 @@
     <ClInclude Include="Engine\Graphics\ImGuiManager.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Graphics\PostEffect.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\SceneManager.h">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\BaseScene.h">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Game.h">
+      <Filter>Engine\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="OneButton.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -294,6 +315,16 @@
     <ClCompile Include="Engine\Graphics\ImGuiManager.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Graphics\PostEffect.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\SceneManager.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="OneButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">
@@ -318,9 +349,6 @@
     </None>
     <None Include="Engine\Graphics\Shader\LuminanceExtractionrPS.hlsl">
       <Filter>Engine\Graphics\Shader</Filter>
-    </None>
-    <None Include="Engine\Shader\PostEffectPS.hlsl">
-      <Filter>Engine\Shader</Filter>
     </None>
     <None Include="Engine\Shader\TriangleVS.hlsl">
       <Filter>Engine\Shader</Filter>
@@ -359,6 +387,9 @@
       <Filter>Engine\Graphics\Shader</Filter>
     </None>
     <None Include="Engine\Graphics\Shader\Lighting.hlsli">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </None>
+    <None Include="Engine\Graphics\Shader\PostEffectPS.hlsl">
       <Filter>Engine\Graphics\Shader</Filter>
     </None>
   </ItemGroup>

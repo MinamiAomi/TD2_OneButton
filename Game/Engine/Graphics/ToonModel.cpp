@@ -22,32 +22,33 @@ void ToonModel::Create(const ModelData& modelData) {
 
     for (auto& srcMesh : modelData.meshes) {
         auto& srcMaterial = modelData.materials[srcMesh.materialIndex];
-        auto& srcTexture = modelData.textures[srcMaterial.textureIndex];
+        const ModelData::Texture* srcTexture = nullptr;
+        if (!modelData.textures.empty()) {
+            srcTexture = &modelData.textures[srcMaterial.textureIndex];
+        }
 
         // 生成するメッシュ
         auto& destMesh = meshes_.emplace_back();
         // 頂点バッファを作成
-        destMesh.vertexBuffer.CreateVertexBuffer(L"ToonModel VertexBuffer", sizeof(srcMesh.vertices[0]), srcMesh.vertices.size());
-        commandContext.CopyBuffer(destMesh.vertexBuffer, destMesh.vertexBuffer.GetBufferSize(), srcMesh.vertices.data());
-        commandContext.TransitionResource(destMesh.vertexBuffer, D3D12_RESOURCE_STATE_GENERIC_READ);
+        destMesh.vertexBuffer.Create(L"ToonModel VertexBuffer", sizeof(srcMesh.vertices[0]), srcMesh.vertices.size());
+        destMesh.vertexBuffer.Copy(srcMesh.vertices.data(), destMesh.vertexBuffer.GetBufferSize());
         // インデックスバッファを作成
         destMesh.indexCount = uint32_t(srcMesh.indices.size());
-        destMesh.indexBuffer.CreateIndexBuffer(L"ToonModel indexBuffer", sizeof(srcMesh.indices[0]), srcMesh.indices.size());
-        commandContext.CopyBuffer(destMesh.indexBuffer, destMesh.indexBuffer.GetBufferSize(), srcMesh.indices.data());
-        commandContext.TransitionResource(destMesh.indexBuffer, D3D12_RESOURCE_STATE_GENERIC_READ);
+        destMesh.indexBuffer.Create(L"ToonModel indexBuffer", sizeof(srcMesh.indices[0]), srcMesh.indices.size());
+        destMesh.indexBuffer.Copy(srcMesh.indices.data(), destMesh.indexBuffer.GetBufferSize());
         // マテリアル
-        if (srcMesh.materialIndex < createdMaterials.size()) {
+        if (srcMesh.materialIndex == createdMaterials.size()) {
             destMesh.material = createdMaterials.emplace_back(std::make_shared<Material>());
             destMesh.material->constantBuffer.CreateConstantBuffer(L"ToonModel ConstantBuffer", sizeof(MaterialData));
             MaterialData materialData{};
             materialData.diffuse = srcMaterial.diffuse;
             materialData.specular = srcMaterial.specular;
-            commandContext.CopyBuffer(destMesh.material->constantBuffer, sizeof(materialData), &materialData);
+            destMesh.material->constantBuffer.Copy(materialData);
             // テクスチャ
-            if (srcMaterial.textureIndex < createdTextures.size()) {
+            if (srcMaterial.textureIndex == createdTextures.size()) {
                 destMesh.material->texture = createdTextures.emplace_back(std::make_shared<Texture>());
-                if (!srcTexture.filePath.empty()) {
-                    destMesh.material->texture->textureResource.CreateFromWICFile(commandContext, srcTexture.filePath.wstring());
+                if (srcTexture && !srcTexture->filePath.empty()) {
+                    destMesh.material->texture->textureResource.CreateFromWICFile(commandContext, srcTexture->filePath.wstring());
                     destMesh.material->texture->sampler = SamplerManager::LinearWrap;
                 }
                 else {
