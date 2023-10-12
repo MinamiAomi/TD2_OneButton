@@ -84,7 +84,9 @@
     <ClInclude Include="Engine\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Scene\SceneManager.h" />
     <ClInclude Include="ImGame.h" />
+    <ClInclude Include="map.h" />
     <ClInclude Include="OneButton.h" />
+    <ClInclude Include="Spike.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -154,7 +156,9 @@
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="ImGame.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="map.cpp" />
     <ClCompile Include="OneButton.cpp" />
+    <ClCompile Include="Spike.cpp" />
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>

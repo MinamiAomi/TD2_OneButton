@@ -7,6 +7,7 @@
 #include "Math/Camera.h"
 #include "Math/Transform.h"
 
+
 class TitleScene : public BaseScene {
 public:
 	void OnInitialize() override;
