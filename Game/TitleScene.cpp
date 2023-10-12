@@ -13,6 +13,7 @@ void TitleScene::OnInitialize()
 
 	RenderManager::GetInstance()->SetCamera(camera_);
 
+	
 }
 
 void TitleScene::OnUpdate()
