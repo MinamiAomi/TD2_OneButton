@@ -40,6 +40,7 @@
     <ClInclude Include="..\Externals\ImGui\imstb_truetype.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Clear.h" />
     <ClInclude Include="Engine\Application\Game.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
     <ClInclude Include="Engine\Engine.h" />
@@ -82,6 +83,7 @@
     <ClInclude Include="Engine\Math\Transform.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Scene\SceneManager.h" />
+    <ClInclude Include="ImGame.h" />
     <ClInclude Include="OneButton.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
@@ -114,6 +116,7 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Clear.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Graphics\Core\ColorBuffer.cpp" />
@@ -149,6 +152,7 @@
     <ClCompile Include="Engine\Math\Geometry.cpp" />
     <ClCompile Include="Engine\Math\MathUtils.cpp" />
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />
+    <ClCompile Include="ImGame.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OneButton.cpp" />
     <ClCompile Include="TitleScene.cpp" />

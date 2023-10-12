@@ -37,6 +37,15 @@
     <Filter Include="Engine\Scene">
       <UniqueIdentifier>{dcf29146-bfd2-4236-84f8-b7015e10bed0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Title">
+      <UniqueIdentifier>{7c9495a5-0c59-4f05-9581-967a99073fda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\InGame">
+      <UniqueIdentifier>{def1f215-2258-4803-8dba-fef532827214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Clear">
+      <UniqueIdentifier>{af5df716-377b-46fd-9a28-95bb7679e357}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -193,7 +202,13 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
-      <Filter>Game</Filter>
+      <Filter>Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGame.h">
+      <Filter>Game\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Clear.h">
+      <Filter>Game\Clear</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -327,7 +342,15 @@
     <ClCompile Include="OneButton.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Game\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGame.cpp">
+      <Filter>Game\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Clear.cpp">
+      <Filter>Game\Clear</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">
