@@ -48,6 +48,7 @@
     </Filter>
     <Filter Include="Game\Player">
       <UniqueIdentifier>{a6da5924-ebd2-4adb-b3be-68d5333264e5}</UniqueIdentifier>
+	</Filter>
     <Filter Include="Game\map">
       <UniqueIdentifier>{f8ad8e0b-9673-4fe8-85ec-bbe7d3d6020f}</UniqueIdentifier>
     </Filter>
@@ -220,6 +221,7 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Game\Player</Filter>
+	</ClInclude>
     <ClInclude Include="map.h">
       <Filter>Game\map</Filter>
     </ClInclude>
@@ -369,6 +371,7 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Game\Player</Filter>
+	</ClCompile>
     <ClCompile Include="map.cpp">
       <Filter>Game\map</Filter>
     </ClCompile>
