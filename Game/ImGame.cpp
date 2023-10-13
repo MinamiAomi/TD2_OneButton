@@ -1,5 +1,6 @@
 #include"ImGame.h"
 
+#include"Externals/ImGui/imgui.h"
 #include "Engine/Graphics/RenderManager.h"
 #include"Engine/Graphics/ModelLoader.h"
 #include "Engine/Scene/SceneManager.h"
@@ -12,13 +13,11 @@ void InGame::OnInitialize()
 
 	RenderManager::GetInstance()->SetCamera(camera_);
 
-	std::shared_ptr<ToonModel> toonModel_ = std::make_shared<ToonModel>();
+	toonModel_ = std::make_shared<ToonModel>();
 	toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
-	
-	ToonModelInstance modelInstance_;
-	modelInstance_.SetModel(toonModel_);
 
-	
+	//modelInstance_.SetModel(toonModel_);
+
 	
 	//std::vector<std::shared_ptr<ToonModel>> modelMap = { toonModel_ };
 
@@ -30,15 +29,21 @@ void InGame::OnInitialize()
 
 	int spileNum = (int)spikeWorld.size();
 
+	
 	for (int num = 0; num < spileNum; num++) {
+		
 		Spike* spike_ = new Spike();
-		spike_->Initialize(spikeWorld[num], toonModel_, 0);
+		spike_->Initialize(spikeWorld[num], toonModel_,0);
 		spikes.push_back(spike_);
 	}
 }
 
 void InGame::OnUpdate()
 {
+	
+
+
+
 
 	map->Update();
 

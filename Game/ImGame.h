@@ -32,12 +32,14 @@ public:
 	void CheckDead();
 
 
-
+	
 private:
+	std::shared_ptr<ToonModel> toonModel_;
 
+	ToonModelInstance modelInstance_;
 	Camera camera_;
 	
-
+	
 	Map* map = nullptr;
 
 	std::list<Spike*> spikes;

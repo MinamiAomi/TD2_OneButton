@@ -84,6 +84,9 @@ private:
 
 	ToonModelInstance modelInstance_;
 
+
+
+
 	//状態
 	State state_;
 

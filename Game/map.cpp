@@ -50,9 +50,7 @@ void Map::Update() {
 
 
 	mapWorld_.UpdateMatrix();
-	for (Transform world : world_) {
-		world.UpdateMatrix();
-	}
+	
 }
 
 

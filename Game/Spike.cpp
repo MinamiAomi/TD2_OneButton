@@ -1,11 +1,15 @@
 #include"Spike.h"
 #include<cassert>
 
+#include"Engine/Graphics/ModelLoader.h"
 
+#include"Externals/ImGui/imgui.h"
 
 void Spike::Initialize(Transform world, std::shared_ptr<ToonModel> toonModel, int State, Vector3 velo) {
 	world_ = world;
-	toonModel_ = toonModel_;
+	toonModel_ = toonModel;
+
+	//modelInstance_ = modelInstance;
 
 	modelInstance_.SetModel(toonModel_);
 
@@ -39,6 +43,8 @@ void Spike::Initialize(Transform world, std::shared_ptr<ToonModel> toonModel, in
 
 void Spike::Update() {
 
+	
+
 	switch (state_) {
 	case Spike::Stay:
 		break;
@@ -65,7 +71,6 @@ void Spike::Update() {
 
 	world_.UpdateMatrix();
 	modelInstance_.SetWorldMatrix(world_.worldMatrix);
-
 }
 
 
