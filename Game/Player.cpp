@@ -140,17 +140,17 @@ void Player::BehaviorDropUpdate() {
 
 void Player::BehaviorHitInitalize() {
 	behavior_ = Behavior::kHit;
-	t = 0.0f;
+	//t = 0.0f;
 }
 
 void Player::BehaviorHitUpdate() {
-	t += 0.1f;
+	//t += 0.1f;
 	//TODO : 敵に当たった時にLerpで画面上まで移動
 	//worldTransform_.translation_.y = Lerp();
 	
-	if (t <= 1.0f) {
+	/*if (t <= 1.0f) {
 		behaviorRequest_ = Behavior::kRoot;
-	}
+	}*/
 }
 
 void Player::Attack() {
