@@ -13,6 +13,12 @@ void InGame::OnInitialize()
 
 	RenderManager::GetInstance()->SetCamera(camera_);
 
+	//カメラ座標初期化
+	Vector3 camerapos = { 0.0f,0.0f,-50.0f };
+	camera_.SetPosition(camerapos);
+
+
+
 	toonModel_ = std::make_shared<ToonModel>();
 	toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
 
