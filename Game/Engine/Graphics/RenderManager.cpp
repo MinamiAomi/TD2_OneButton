@@ -27,7 +27,7 @@ void RenderManager::Initialize() {
     DefaultTexture::Initialize();
 
     auto& swapChainBuffer = swapChain_.GetColorBuffer();
-    float clearColor[4] = { 0.3f, 0.1f, 0.3f, 0.0f };
+    float clearColor[4] = { 0.1f, 0.4f, 0.6f, 0.0f };
     mainColorBuffer_.SetClearColor(clearColor);
     mainColorBuffer_.Create(L"MainColorBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_R8G8B8A8_UNORM);
     mainDepthBuffer_.Create(L"MainDepthBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_D32_FLOAT);

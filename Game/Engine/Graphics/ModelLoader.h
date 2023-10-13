@@ -25,8 +25,8 @@ struct ModelData {
     // マテリアル
     struct Material {
         std::string name;
-        Vector3 diffuse;
-        Vector3 specular;
+        Vector3 diffuse = { 0.8f,0.8f, 0.8f };
+        Vector3 specular = { 0.5f,0.5f,0.5f };
         uint32_t textureIndex = 0;
     };
     struct Texture {
@@ -35,7 +35,7 @@ struct ModelData {
 
 
     static ModelData LoadObjFile(const std::filesystem::path& path);
-    
+
     std::string name;
     std::vector<Mesh> meshes;
     std::vector<Material> materials;

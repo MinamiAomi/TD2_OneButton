@@ -63,7 +63,7 @@ private:
 
     std::shared_ptr<ToonModel> model_;
     Matrix4x4 worldMatrix_;
-    float outlineWidth_ = {0.03f};
+    float outlineWidth_ = {0.02f};
     Vector3 outlineColor_;
     bool useOutline_ = true;
     bool isActive_ = true;

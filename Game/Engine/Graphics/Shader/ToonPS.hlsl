@@ -75,8 +75,8 @@ PSOutput main(PSInput input)
     directionalLight_.color = float3(1.0f, 1.0f, 1.0f);
     
     // テクスチャの色
-    //float3 textureColor = texture_.Sample(sampler_, input.texcoord).rgb;
-    float3 textureColor = float3(0.6f, 0.6f, 0.6f);
+    float3 textureColor = texture_.Sample(sampler_, input.texcoord).rgb;
+    //float3 textureColor = float3(0.6f, 0.6f, 0.6f);
     // 拡散反射
     float3 diffuse = material_.diffuse * ToonDiffuse(normal, directionalLight_.direction);
     // 鏡面反射
