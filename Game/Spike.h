@@ -15,7 +15,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="State">状態</param>
 	/// <param name="velo">移動ベクトル</param>
-	void Initialize(Transform world, std::shared_ptr<ToonModel> toonModel, int State, Vector3 velo = { 0,0,0 });
+	void Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State, Vector3 velo = { 0,0,0 });
 
 
 	void Update();
@@ -24,7 +24,7 @@ public:
 
 #pragma region ゲッター
 	Transform GetWorld() const { return world_; }
-	Vector3 GetmatWtranstate() const {
+	const Vector3 GetmatWtranstate() const {
 		return {
 			world_.worldMatrix.m[3][0],
 			world_.worldMatrix.m[3][1],
@@ -32,9 +32,13 @@ public:
 		};
 	}
 
+	const float GetWide() { return wide_; }
+
 	Vector3 GetVelocity_() const { return velocity_; }
 
 	bool IsDead() const { return isDead_; }
+
+	const int GetIdentificationNum() { return spikeNum_; }
 #pragma endregion
 
 #pragma region オンコリ
@@ -76,6 +80,7 @@ private:
 		None
 	};
 
+	int spikeNum_ = 0;
 
 	//ワールド
 	Transform world_;
@@ -84,8 +89,8 @@ private:
 
 	ToonModelInstance modelInstance_;
 
-
-
+	//仮
+	float wide_;
 
 	//状態
 	State state_;

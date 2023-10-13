@@ -56,7 +56,7 @@ void Map::Update() {
 
 
 
-bool Map::IsHitWall(const Vector3& playerpos,const int& wide) {
+bool Map::IsHitWall(const Vector3& playerpos,const float& wide) {
 	if ((playerpos.x+wide)>wallX.max) {
 		return true;
 	}

@@ -5,9 +5,13 @@
 
 #include"Externals/ImGui/imgui.h"
 
-void Spike::Initialize(Transform world, std::shared_ptr<ToonModel> toonModel, int State, Vector3 velo) {
+void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State, Vector3 velo) {
+	spikeNum_=num;
+	
 	world_ = world;
 	toonModel_ = toonModel;
+
+	wide_ = world_.scale.x;
 
 	//modelInstance_ = modelInstance;
 
@@ -118,6 +122,9 @@ void Spike::OnCollisionSpike() {
 	world_.translate = GetmatWtranstate();
 	// 親子関係の削除
 	world_.parent = nullptr;
+
+	
+	
 }
 
 void Spike::OnCollisionPlayerStump() {
