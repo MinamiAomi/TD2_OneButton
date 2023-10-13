@@ -22,7 +22,7 @@ void InGame::OnInitialize()
 	//std::vector<std::shared_ptr<ToonModel>> modelMap = { toonModel_ };
 
 
-	map = new Map();
+	map = std::make_unique<Map>();
 	map->Initialize();
 
 	std::vector<Transform> spikeWorld = map->GetSpikeWorld();
@@ -83,4 +83,9 @@ void InGame::CheckDead() {
 
 void InGame::OnFinalize()
 {
+	for (Spike* spike : spikes) {
+		delete spike;
+		spike = nullptr;
+	}
+
 }

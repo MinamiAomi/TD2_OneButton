@@ -1,8 +1,5 @@
 #pragma once
 #include"Engine/Scene/BaseScene.h"
-
-#include<memory>
-
 #include "Engine/Graphics/ToonModel.h"
 #include "Math/Camera.h"
 
@@ -35,12 +32,11 @@ public:
 	
 private:
 	std::shared_ptr<ToonModel> toonModel_;
-
 	ToonModelInstance modelInstance_;
 	Camera camera_;
 	
 	
-	Map* map = nullptr;
+	std::unique_ptr<Map>map = nullptr;
 
 	std::list<Spike*> spikes;
 };
