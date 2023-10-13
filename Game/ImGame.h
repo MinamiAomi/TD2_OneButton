@@ -3,11 +3,11 @@
 #include "Engine/Graphics/ToonModel.h"
 #include "Math/Camera.h"
 
-
+#include<list>
 
 #include"Spike.h"
 #include"map.h"
-#include<list>
+#include"Player.h"
 
 class InGame : public BaseScene {
 public:
@@ -35,8 +35,11 @@ private:
 	ToonModelInstance modelInstance_;
 	Camera camera_;
 	
-	
+	//マップクラス
 	std::unique_ptr<Map>map = nullptr;
-
+	//棘クラス
 	std::list<Spike*> spikes;
+
+	//プレイヤークラス
+	std::unique_ptr<Player>player_ = nullptr;
 };

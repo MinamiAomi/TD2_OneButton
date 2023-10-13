@@ -31,6 +31,16 @@ public:
 		return worldTransform_.translate;
 	}
 
+	const Vector3 GetmatWtranslate() {
+		return { 
+			worldTransform_.worldMatrix.m[3][0],
+			worldTransform_.worldMatrix.m[3][1],
+			worldTransform_.worldMatrix.m[3][2],
+		};
+
+	}
+	const float GetWide() { return wide_; }
+
 private:
 
 	void BehaviorRootInitalize();
@@ -69,4 +79,11 @@ private:
 
 	//TODO ちゃんといじろう
 	int HP = 10;
+
+
+
+
+private://スペチャ追加分
+	float wide_ = 1;
+
 };
