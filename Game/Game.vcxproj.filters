@@ -48,6 +48,11 @@
     </Filter>
     <Filter Include="Game\Player">
       <UniqueIdentifier>{a6da5924-ebd2-4adb-b3be-68d5333264e5}</UniqueIdentifier>
+    <Filter Include="Game\map">
+      <UniqueIdentifier>{f8ad8e0b-9673-4fe8-85ec-bbe7d3d6020f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Spike">
+      <UniqueIdentifier>{03edb04c-45b4-469e-8f34-e6c0712e5fcb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +220,11 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Game\Player</Filter>
+    <ClInclude Include="map.h">
+      <Filter>Game\map</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike.h">
+      <Filter>Game\Spike</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -359,6 +369,11 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Game\Player</Filter>
+    <ClCompile Include="map.cpp">
+      <Filter>Game\map</Filter>
+    </ClCompile>
+    <ClCompile Include="Spike.cpp">
+      <Filter>Game\Spike</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

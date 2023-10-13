@@ -26,4 +26,5 @@ void TitleScene::OnUpdate()
 
 void TitleScene::OnFinalize()
 {
+
 }

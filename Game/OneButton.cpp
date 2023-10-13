@@ -2,11 +2,12 @@
 
 #include "Scene/SceneManager.h"
 #include "TitleScene.h"
-
+#include"ImGame.h"
 
 void OneButton::OnInitialize() {
 	SceneManager* sceneManager = SceneManager::GetInstance();
-	sceneManager->ChangeScene<TitleScene>();
+	//シーン設定
+	sceneManager->ChangeScene<InGame>();
 
 
 }
