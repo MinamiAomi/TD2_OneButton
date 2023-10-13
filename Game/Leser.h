@@ -10,7 +10,7 @@ public:
 	Leser();
 	~Leser();
 
-	void Initalize(ToonModel* model, const Transform& PlayerworldTransform_);
+	void Initalize(std::shared_ptr<ToonModel> model, const Transform& PlayerworldTransform_);
 	void Update();
 	//void Draw();
 	void OnCollision();
