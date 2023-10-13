@@ -158,9 +158,5 @@ void Player::Attack() {
 	DropFlag = true;
 }
 
-float Player::Lerp(float a, float b, float t) {
-	return a + t * (b - a);
-
-}
 
 

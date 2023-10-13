@@ -43,8 +43,6 @@ private:
 	void BehaviorHitUpdate();
 
 	void Attack();
-	//Lerp
-	float Lerp(float a, float b, float t);
 
 	//kamataEngine
 	std::shared_ptr<ToonModel> model_ = nullptr;
@@ -64,7 +62,6 @@ private:
 	const int kDropAnime = 20;
 	bool DropFlag = false;
 	//ボスに当たった時用
-	float t = 0.0f;
 
 
 	//std::list<Leser*> lesers_;
