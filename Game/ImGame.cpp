@@ -42,7 +42,7 @@ void InGame::OnInitialize()
 	}
 
 	player_ = std::make_unique<Player>();
-	player_->Initalize(map->GetPlayerPosition().translate);
+	player_->Initalize(map->GetPlayerPosition().translate,toonModel_);
 }
 
 void InGame::OnUpdate()
@@ -86,22 +86,26 @@ bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 
 
 void InGame::GetAllCollisions() {
+
+
+#pragma region 棘に関する当たり判定
+	//プレイヤー座標と半径
+	Vector3 PLAYER = player_->GetmatWtranslate();
+	float P_wide = player_->GetWide();
+
+
 	//スパイクのWorld
 	for (Spike* spike : spikes) {
 		//座標と半径取得
-		Vector3 SPIKE= spike->GetmatWtranstate();
+		Vector3 SPIKE = spike->GetmatWtranstate();
 		float S_wide = spike->GetWide();
 
-		//プレイヤー座標と半径
-		Vector3 PLAYER = player_->GetmatWtranslate();
-		float P_wide = player_->GetWide();
-
-
+		
 #pragma region プレイヤー
 		//当たった時の処理
 		if (CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
-			spike->OnCollisionPlayer();
-			player_->OnCollision();
+			//spike->OnCollisionPlayer();
+			//player_->OnCollision();
 		}
 #pragma endregion
 
@@ -132,14 +136,14 @@ void InGame::GetAllCollisions() {
 			if (spike->GetIdentificationNum() != spike2->GetIdentificationNum()) {
 
 				if (CheckHitSphere(SPIKE, S_wide, SPIKE2, S2_wide)) {
-					
+
 					//二つの円の間の距離取得
 					Vector3 leng = (SPIKE - SPIKE2);
 					leng /= 2;
 
 					//新しい円の半径設定
 					float newSize = (S_wide + S2_wide);
-					
+
 					//新しいTransform作成
 					Transform newSpike;
 					newSpike.translate = leng;							//位置設定
@@ -151,7 +155,7 @@ void InGame::GetAllCollisions() {
 					//新しいスパイクの生成
 					Spike* newspike = new Spike();
 					newspike->Initialize(sizeNum, newSpike, toonModel_, 0);
-					
+
 					//ぷっす
 					spikes.push_back(newspike);
 
@@ -170,10 +174,20 @@ void InGame::GetAllCollisions() {
 
 		}
 #pragma endregion
-
-
-
 	}
+#pragma endregion
+
+#pragma region 壁とプレイヤー
+	if (map->IsHitWall(PLAYER, P_wide)) {
+		player_->OnCollisionWall();
+	}
+#pragma endregion
+
+
+
+
+
+	
 }
 
 void InGame::CheckDead() {

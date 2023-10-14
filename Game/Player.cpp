@@ -1,9 +1,20 @@
 #include "Player.h"
 
+
 Player::Player() {}
 Player::~Player() {}
 
-void Player::Initalize(const Vector3& position) {
+void Player::Initalize(const Vector3& position, std::shared_ptr<ToonModel> PlayertoonModel) {
+	
+
+
+	//プレイヤーモデル受け取り
+	model_ = PlayertoonModel;
+
+	modelInstance_.SetModel(model_);
+
+	
+	
 	//レーザーのモデル
 	/*leser_model = new Model();
 	leser_model = Model::Create();*/
@@ -11,9 +22,13 @@ void Player::Initalize(const Vector3& position) {
 	worldTransform_.translate = position;
 
 	input = Input::GetInstance();
+
+	
 }
 
 void Player::Update() {
+
+	
 
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
@@ -50,13 +65,10 @@ void Player::Update() {
 	}*/
 
 	worldTransform_.UpdateMatrix();
+	modelInstance_.SetWorldMatrix(worldTransform_.worldMatrix);
 }
 
-//void Player::Draw() {
-//	for (Leser* leser : lesers_) {
-//		leser->Draw(ViewProjection_);
-//	}
-//}
+
 
 void Player::OnCollision() {
 	if (DropFlag) {
@@ -66,6 +78,11 @@ void Player::OnCollision() {
 		HP -= 1;
 	}
 
+}
+
+void Player::OnCollisionWall()
+{
+	moveXaxisSpeed *= -1;
 }
 
 void Player::BehaviorRootInitalize() {
