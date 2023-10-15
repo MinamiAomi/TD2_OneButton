@@ -10,8 +10,7 @@
 void Map::Initialize() { 
 	
 	
-	mapWorld_.translate = {-10.0f, 0.0f, 0.0f};
-
+	
 
 	
 	//マップタイルによる座標設定
@@ -40,14 +39,16 @@ void Map::Initialize() {
 
 	//壁のX値設定
 	//最小値	
-	Wall_min.translate = { tileWide * (- 1),0,0 };	
+	Wall_min.translate = { tileWide * -1,0,0 };
 	//最大値
-	Wall_max.translate = { tileWide * (mapTileNumX),0,0 };
+	Wall_max.translate = { tileWide * mapTileNumX,0,0 };
 	
 	Wall_min.parent = &mapWorld_;
 	Wall_max.parent = &mapWorld_;
 
-	
+
+	mapWorld_.translate = { -10.0f, 0.0f, 0.0f };
+
 }
 
 void Map::Update() {
@@ -58,18 +59,22 @@ void Map::Update() {
 
 	mapWorld_.UpdateMatrix();
 	
+	Wall_min.UpdateMatrix();
+	Wall_max.UpdateMatrix();
 }
 
 
 
 
 bool Map::IsHitWall(const Vector3& playerpos,const float& wide) {
-	if ((playerpos.x + wide) > Wall_max.translate.x - wide) {
+	if ((playerpos.x + wide) < GetWallMinX() - wide ) {
 		return true;
 	}
-	if ((playerpos.x - wide) < Wall_min.translate.x + wide) {
+
+	if ((playerpos.x - wide) > GetWallMaxX() + wide) {
 		return true;
 	}
+	
 
 	//外に出ていなければfalse
 	return false;
