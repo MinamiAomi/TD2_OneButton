@@ -1102,9 +1102,6 @@ public:
     inline constexpr Vector3 GetTranslate() const noexcept {
         return { m[3][0], m[3][1], m[3][2] };
     }
-    inline Vector3 GetScale() const noexcept {
-        return { GetXAxis().Length(), GetYAxis().Length(), GetZAxis().Length() };
-    }
     float Determinant() const noexcept;
     Matrix4x4 Adjugate() const noexcept;
     inline Matrix4x4 Inverse() const noexcept {
