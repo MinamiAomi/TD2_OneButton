@@ -44,8 +44,8 @@ void InGame::OnInitialize()
 	player_ = std::make_unique<Player>();
 	player_->Initalize(map->GetPlayerPosition(),toonModel_);
 
-	boss_ = std::make_unique<Boss>();
-	boss_->Initalize(map->GetBossMatPos(), toonModel_);
+	//boss_ = std::make_unique<Boss>();
+	//boss_->Initalize(map->GetBossMatPos(), toonModel_);
 }
 
 void InGame::OnUpdate()
@@ -57,7 +57,7 @@ void InGame::OnUpdate()
 	map->Update();
 
 	
-	boss_->Update();
+	//boss_->Update();
 	
 
 	//棘更新

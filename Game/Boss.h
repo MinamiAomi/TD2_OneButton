@@ -16,13 +16,20 @@ public:
 	void Update();
 
 
+#pragma region ゲッター
+	float GetBossY() { return world_.worldMatrix.m[3][1]; }
+#pragma endregion
 
+#pragma region オンコリ
 	void OnCollisionExplosion(int dmg);
+#pragma endregion
 
+	
 private:
 	//座標
 	Transform world_;
 	//モデル描画用
 	ToonModelInstance modelInstance_;
 
+	float wide_;
 };
