@@ -41,6 +41,11 @@ public:
 	const int GetIdentificationNum() { return spikeNum_; }
 #pragma endregion
 
+#pragma region セッター
+	void SetDead() { isDead_ = true; }
+#pragma endregion
+
+
 #pragma region オンコリ
 	//プレイヤーと当たった時
 	void OnCollisionPlayer();

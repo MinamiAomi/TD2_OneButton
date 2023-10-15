@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include"Externals/ImGui/imgui.h"
 
 Player::Player() {}
 Player::~Player() {}
@@ -27,9 +27,12 @@ void Player::Initalize(const Vector3& position, std::shared_ptr<ToonModel> Playe
 }
 
 void Player::Update() {
+	ImGui::Begin("player");
+	ImGui::DragFloat3("pos", &worldTransform_.translate.x, 0.01f);
+	ImGui::Checkbox("isMove", &isMove);
+	ImGui::End();
 
-	
-
+	//各挙動初期化処理
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
 		switch (behavior_) {
@@ -47,17 +50,20 @@ void Player::Update() {
 		behaviorRequest_ = std::nullopt;
 	}
 
-	switch (behavior_) {
-	case Behavior::kRoot:
-	default:
-		BehaviorRootUpdate();
-		break;
-	case Behavior::kJump:
-		BehaviorJumpUpdate();
-		break;
-	case Behavior::kDrop:
-		BehaviorDropUpdate();
-		break;
+	//更新処理
+	if (isMove) {
+		switch (behavior_) {
+		case Behavior::kRoot:
+		default:
+			BehaviorRootUpdate();
+			break;
+		case Behavior::kJump:
+			BehaviorJumpUpdate();
+			break;
+		case Behavior::kDrop:
+			BehaviorDropUpdate();
+			break;
+		}
 	}
 	//TODO
 	/*for (Leser* leser : lesers_) {
@@ -80,8 +86,15 @@ void Player::OnCollision() {
 
 }
 
-void Player::OnCollisionWall()
+void Player::OnCollisionWall(float wallX)
 {
+	if (wallX > worldTransform_.translate.x - wide_) {
+		worldTransform_.translate.x = wallX + wide_;
+	}else if (wallX < worldTransform_.translate.x + wide_) {
+		worldTransform_.translate.x = wallX - wide_;
+	}
+	worldTransform_.UpdateMatrix();
+
 	moveXaxisSpeed *= -1;
 }
 

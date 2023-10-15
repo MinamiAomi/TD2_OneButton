@@ -32,10 +32,19 @@ public:
 	std::vector<Transform> GetSpikeWorld() { return world_; }
 
 	Transform GetPlayerPosition() { return playerW_; }
+
+	
+	float GetHitWallX() { return hitsWallX_; }
 #pragma endregion
 
 
 private:
+
+	float GetWallMinX() { return Wall_min.worldMatrix.m[3][0]; }
+	float GetWallMaxX() { return Wall_max.worldMatrix.m[3][0]; }
+
+	float hitsWallX_;
+
 	//タイルサイズ
 	static const int mapTileNumX = 12;
 	static const int mapTileNumY = 32;
@@ -86,7 +95,7 @@ private:
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	};
 
-
+	
 
 	//タイルの合計数
 	const int tileNum = mapTileNumX * mapTileNumY;
@@ -100,9 +109,7 @@ private:
 	Transform Wall_min;
 	Transform Wall_max;
 
-	float GetWallMinX() { return Wall_min.worldMatrix.m[3][0]; }
-	float GetWallMaxX() { return Wall_max.worldMatrix.m[3][0]; }
-
+	
 
 	//マップ全体のワールド
 	Transform mapWorld_;

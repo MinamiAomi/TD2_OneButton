@@ -39,9 +39,9 @@ void Map::Initialize() {
 
 	//壁のX値設定
 	//最小値	
-	Wall_min.translate = { tileWide * -1,0,0 };
+	Wall_min.translate = { -tileWide / 2,0,0 };
 	//最大値
-	Wall_max.translate = { tileWide * mapTileNumX,0,0 };
+	Wall_max.translate = { (tileWide * (mapTileNumX - 1)) + tileWide / 2.0f,0,0 };
 	
 	Wall_min.parent = &mapWorld_;
 	Wall_max.parent = &mapWorld_;
@@ -67,11 +67,15 @@ void Map::Update() {
 
 
 bool Map::IsHitWall(const Vector3& playerpos,const float& wide) {
-	if ((playerpos.x + wide) < GetWallMinX() - wide ) {
+	
+	//
+	if (playerpos.x - wide < GetWallMinX()) {
+		hitsWallX_ = GetWallMinX();
 		return true;
 	}
 
-	if ((playerpos.x - wide) > GetWallMaxX() + wide) {
+	if (playerpos.x + wide > GetWallMaxX()) {
+		hitsWallX_ = GetWallMaxX();
 		return true;
 	}
 	

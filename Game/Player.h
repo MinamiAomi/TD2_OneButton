@@ -32,7 +32,7 @@ public:
 	void OnCollision();
 
 	//壁に当たった時
-	void OnCollisionWall();
+	void OnCollisionWall(float wallX);
 #pragma endregion
 
 #pragma region ゲッター
@@ -101,4 +101,5 @@ private://スペチャ追加分
 
 	ToonModelInstance modelInstance_;
 
+	bool isMove = true;
 };

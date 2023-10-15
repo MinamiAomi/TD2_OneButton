@@ -14,7 +14,7 @@ void InGame::OnInitialize()
 	RenderManager::GetInstance()->SetCamera(camera_);
 
 	//カメラ座標初期化
-	Vector3 camerapos = { 0.0f,0.0f,-50.0f };
+	Vector3 camerapos = { 0.0f,0.0f,-100.0f };
 	camera_.SetPosition(camerapos);
 
 
@@ -53,18 +53,34 @@ void InGame::OnUpdate()
 	//マップ更新
 	map->Update();
 
+	
+
+	
+
 	//棘更新
 	for (Spike* spike : spikes) {
 		spike->Update();
 	}
 
-	//カメラ更新
-	camera_.UpdateMatrices();
 
 	player_->Update();
 
+
+
+	
+	
+	
 	GetAllCollisions();
 	CheckDead();
+
+
+	//プレイヤー更新後にカメラ更新
+	Vector3 cpos = player_->GetmatWtranslate();
+	cpos.z = camera_.GetPosition().z;
+	cpos.x = camera_.GetPosition().x;
+	camera_.SetPosition(cpos);
+	
+	camera_.UpdateMatrices();
 
 }
 
@@ -73,9 +89,9 @@ bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 
 	Vector3 p = p1 - p2;
 
-	float Length = p.x * p.x + p.y * p.y + p.z * p.z;
+	float Length = sqrtf(p.x * p.x + p.y * p.y) ;
 
-	if (Length <= w1 + w2) {
+	if (Length < w1 + w2) {
 		return true;
 	}
 	else {
@@ -104,8 +120,8 @@ void InGame::GetAllCollisions() {
 #pragma region プレイヤー
 		//当たった時の処理
 		if (CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
-			//spike->OnCollisionPlayer();
-			//player_->OnCollision();
+			spike->OnCollisionPlayer();
+			player_->OnCollision();
 		}
 #pragma endregion
 
@@ -135,6 +151,7 @@ void InGame::GetAllCollisions() {
 			//座標が同じ(同じもの)でないことを確認
 			if (spike->GetIdentificationNum() != spike2->GetIdentificationNum()) {
 
+				//当たり合ってたら処理
 				if (CheckHitSphere(SPIKE, S_wide, SPIKE2, S2_wide)) {
 
 					//二つの円の間の距離取得
@@ -152,6 +169,7 @@ void InGame::GetAllCollisions() {
 					//サイズ取得
 					int sizeNum = (int)spikes.size();
 
+					
 					//新しいスパイクの生成
 					Spike* newspike = new Spike();
 					newspike->Initialize(sizeNum, newSpike, toonModel_, 0);
@@ -159,14 +177,10 @@ void InGame::GetAllCollisions() {
 					//ぷっす
 					spikes.push_back(newspike);
 
-					//くっついた二つをデリーと
-					delete spike;
-					delete spike2;
-
-
-					spike = nullptr;
-					spike2 = nullptr;
-
+					//くっついた二つに死亡判定を
+					spike->SetDead();
+					spike2->SetDead();
+					
 				}
 
 			}
@@ -179,7 +193,7 @@ void InGame::GetAllCollisions() {
 
 #pragma region 壁とプレイヤー
 	if (map->IsHitWall(PLAYER, P_wide)) {
-		player_->OnCollisionWall();
+		player_->OnCollisionWall(map->GetHitWallX());
 	}
 #pragma endregion
 
