@@ -32,7 +32,7 @@ public:
 	void OnCollision();
 
 	//壁に当たった時
-	void OnCollisionWall(float wallX);
+	void OnCollisionWall(Vector2 wallX);
 #pragma endregion
 
 #pragma region ゲッター
@@ -78,7 +78,7 @@ private:
 	float gravity = 0.2f;
 	float Jumpforce = 4.0f;
 	//左右移動関係関数
-	const float kXaxisSpeed = 0.60f;
+	const float kXaxisSpeed = 0.20f;
 	float moveXaxisSpeed = kXaxisSpeed;
 	//落下攻撃関係関数
 	int DropCount = 0;
@@ -101,5 +101,5 @@ private://スペチャ追加分
 
 	ToonModelInstance modelInstance_;
 
-	bool isMove = true;
+	bool isMove = false;
 };

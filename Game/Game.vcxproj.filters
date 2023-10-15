@@ -58,6 +58,9 @@
     <Filter Include="Game\Leser">
       <UniqueIdentifier>{2e90e99e-9e1b-4263-90d0-b4f77576e135}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Boss">
+      <UniqueIdentifier>{a88f12b9-0e70-41fc-8634-41e98f2e0f9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -234,6 +237,9 @@
     <ClInclude Include="Leser.h">
       <Filter>Game\Leser</Filter>
     </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Game\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -386,6 +392,9 @@
     </ClCompile>
     <ClCompile Include="Leser.cpp">
       <Filter>Game\Leser</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Game\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

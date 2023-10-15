@@ -86,12 +86,13 @@ void Player::OnCollision() {
 
 }
 
-void Player::OnCollisionWall(float wallX)
+void Player::OnCollisionWall(Vector2 wallX)
 {
-	if (wallX > worldTransform_.translate.x - wide_) {
-		worldTransform_.translate.x = wallX + wide_;
-	}else if (wallX < worldTransform_.translate.x + wide_) {
-		worldTransform_.translate.x = wallX - wide_;
+	if (wallX.x > worldTransform_.translate.x - wide_) {
+		worldTransform_.translate.x = wallX.x + wide_;
+	}
+	if (wallX.y < worldTransform_.translate.x + wide_) {
+		worldTransform_.translate.x = wallX.y - wide_;
 	}
 	worldTransform_.UpdateMatrix();
 

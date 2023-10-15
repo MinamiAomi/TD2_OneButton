@@ -14,7 +14,7 @@ void InGame::OnInitialize()
 	RenderManager::GetInstance()->SetCamera(camera_);
 
 	//カメラ座標初期化
-	Vector3 camerapos = { 0.0f,0.0f,-100.0f };
+	Vector3 camerapos = { 0.0f,0.0f,-50.0f };
 	camera_.SetPosition(camerapos);
 
 
@@ -42,7 +42,10 @@ void InGame::OnInitialize()
 	}
 
 	player_ = std::make_unique<Player>();
-	player_->Initalize(map->GetPlayerPosition().translate,toonModel_);
+	player_->Initalize(map->GetPlayerPosition(),toonModel_);
+
+	boss_ = std::make_unique<Boss>();
+	boss_->Initalize(map->GetBossMatPos(), toonModel_);
 }
 
 void InGame::OnUpdate()
@@ -54,7 +57,7 @@ void InGame::OnUpdate()
 	map->Update();
 
 	
-
+	boss_->Update();
 	
 
 	//棘更新

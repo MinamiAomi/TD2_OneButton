@@ -8,6 +8,7 @@
 #include"Spike.h"
 #include"map.h"
 #include"Player.h"
+#include"Boss.h"
 
 class InGame : public BaseScene {
 public:
@@ -37,9 +38,13 @@ private:
 	
 	//マップクラス
 	std::unique_ptr<Map>map = nullptr;
+	
 	//棘クラス
 	std::list<Spike*> spikes;
 
 	//プレイヤークラス
 	std::unique_ptr<Player>player_ = nullptr;
+
+	//ボスクラス
+	std::unique_ptr<Boss>boss_ = nullptr;
 };
