@@ -53,6 +53,10 @@ public:
 
 	}
 	const float GetWide() { return wide_; }
+
+	const Behavior GetBehavior() { return behavior_; }
+
+	const float BeamWide() { return leserWide_; }
 #pragma endregion
 
 	
@@ -110,4 +114,15 @@ private://スペチャ追加分
 
 	//無敵時間残りカウント
 	int noCollisionCount_ = 0;
+
+
+	//レーザーと爆風の仮システム作成
+
+	float leserWide_ = 0.5f;
+
+	Vector3 explosionPos_;
+
+	float explosionRadius_ = 5;
+
+
 };

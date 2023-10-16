@@ -134,12 +134,59 @@ void InGame::GetAllCollisions() {
 #pragma endregion
 
 #pragma region プレイヤービーム
+			//プレイヤーがジャンプ処理中
+			if (player_->GetBehavior() == Behavior::kJump) {
+				//
+				float beamWide = player_->BeamWide();
 
-#pragma endregion
+				Vector3 beamEnd = player_->GetmatWtranslate();
+				//高さを合わせる
+				beamEnd.y = SPIKE.y;
 
+				//当たっているとき
+				if (PLAYER.y>beamEnd.y&&CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
+
+					//一個目作成
+					//サイズ取得
+					int spikesize = (int)spikes.size();
+
+					Transform Newworld;
+					Newworld.translate = SPIKE;
+
+					Spike* newSpike = new Spike;
+					newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling, { 0.5f,0.5f,0 });
+
+
+					spikes.push_back(newSpike);
+
+					//二個目作成
+					Spike* newSpike2 = new Spike;
+					newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling, { -0.5f,0.5f,0 });
+
+
+					spikes.push_back(newSpike2);
+
+
+					//死亡判定出す
+					spike->SetDead();
+ 					continue;
+				}
+				else {
+					//ビーム当たっていない
+					//爆風の範囲の場合
 #pragma region プレイヤービーム爆風
 
 #pragma endregion
+
+
+				}
+
+
+
+			}
+#pragma endregion
+
+
 
 #pragma region BOSS
 			//埋まる状態でないときに処理
@@ -239,6 +286,8 @@ void InGame::CheckDead() {
 		return false;
 		});
 }
+
+
 
 
 void InGame::OnFinalize()

@@ -4,7 +4,7 @@ Leser::Leser() {}
 Leser::~Leser() {}
 
 void Leser::Initalize(std::shared_ptr<ToonModel> model, const Transform& PlayerworldTransform_) {
-	leserModel_ = model;
+	modelInstance_.SetModel(model);
 	worldTransform_.scale.x = 0.5f;
 	worldTransform_.scale.y = 1.5f;
 	worldTransform_.scale.z = 0.5f;
@@ -14,6 +14,8 @@ void Leser::Initalize(std::shared_ptr<ToonModel> model, const Transform& Playerw
 void Leser::Update() {
 	worldTransform_.translate.y -= 4.0f;
 	worldTransform_.UpdateMatrix();
+	modelInstance_.SetWorldMatrix(worldTransform_.worldMatrix);
+
 	AliveCount--;
 	if (AliveCount <= 0) {
 		IsAlive = false;

@@ -78,6 +78,10 @@ void Player::Update() {
 		leser->Update();
 	}*/
 
+	//爆弾座標設定
+	explosionPos_ = worldTransform_.translate;
+
+
 	worldTransform_.UpdateMatrix();
 	modelInstance_.SetWorldMatrix(worldTransform_.worldMatrix);
 }

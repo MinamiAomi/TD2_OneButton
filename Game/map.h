@@ -148,6 +148,8 @@ private:
 	std::vector<std::vector<int>> mapData_;
 
 
-	//壁モデル
-	//Model* WallModel[2];
+	
+
+	//マップ加算量
+	const float moveMapNum_ = 0.01f;
 };

@@ -18,10 +18,10 @@ public:
 
 private:
 
-	//kamataEngine
-	std::shared_ptr<ToonModel> leserModel_ = nullptr;
-	Transform worldTransform_;
 
+	Transform worldTransform_;
+	//モデル描画
+	ToonModelInstance modelInstance_;
 	//
 	int AliveCount = 240;
 	bool IsAlive = true;

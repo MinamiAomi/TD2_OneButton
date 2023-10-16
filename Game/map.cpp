@@ -72,6 +72,11 @@ void Map::Update() {
 	ImGui::DragFloat3("pos", &mapWorld_.translate.x, 0.01f);
 	ImGui::End();
 
+	//マップ移動
+	//mapWorld_.translate.y += moveMapNum_;
+
+
+	//壁の再計算
 	hitsWallX_.x = Wall_min.worldMatrix.m[3][0];
 	hitsWallX_.y = Wall_max.worldMatrix.m[3][0];
 

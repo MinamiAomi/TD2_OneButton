@@ -30,8 +30,13 @@ public:
 	void CheckDead();
 
 
+private://メンバ関数
+	
 	
 private:
+
+
+
 	//カメラ
 	Camera camera_;
 

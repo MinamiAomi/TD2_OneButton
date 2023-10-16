@@ -139,8 +139,14 @@ private:
 	//無敵時間残りカウント
 	int noCollisionCount_ = 0;
 
-
+	//ボスに埋まり切るかのカウント
 	int fillUpCount_;
+	//埋まるまでのマックス
 	const int maxFillUpCount_ = 180;
+	//埋まり切ったかのフラグ
 	bool CompleteFillUp_ = false;
+
+
+	//棘にかかる重力
+	float gravity=-0.1f;
 };

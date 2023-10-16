@@ -22,6 +22,10 @@ void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonM
 		break;
 	case kFalling:
 		state_ = kFalling;
+		collision_on = false;
+		noCollisionCount_ = 15;
+
+
 		break;
 	case kFillUp:
 		state_ = kFillUp;
@@ -39,23 +43,26 @@ void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonM
 
 void Spike::Update() {
 
+	//コリジョン処理をするかのフラグ処理
 	if (!collision_on) {
 		if (noCollisionCount_-- <= 0) {
 			collision_on = true;
 		}
 	}
 	
-
+	//実行処理
 	switch (state_) {
 	case Spike::kStay:
 		break;
-	case Spike::kFalling:
+	case Spike::kFalling://落っこちる
 
 		//移動量
 		world_.translate = world_.translate + velocity_;
 
+		velocity_.y += gravity;
+
 		break;
-	case Spike::kFillUp:
+	case Spike::kFillUp://埋まっていく
 		//座標計算
 		world_.translate = world_.translate + (gensoku * velocity_);
 
@@ -70,7 +77,7 @@ void Spike::Update() {
 		}
 
 		break;
-	case Spike::kExplosion:
+	case Spike::kExplosion://爆発
 
 		animationCount_++;
 		//アニメーションカウントがmaxの値で死亡
