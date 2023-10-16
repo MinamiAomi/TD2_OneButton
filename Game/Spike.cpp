@@ -44,6 +44,11 @@ void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonM
 
 void Spike::Update() {
 
+	if (!collision_on) {
+		if (noCollisionCount_-- <= 0) {
+			collision_on = true;
+		}
+	}
 	
 
 	switch (state_) {

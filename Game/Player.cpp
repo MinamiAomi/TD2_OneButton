@@ -32,6 +32,14 @@ void Player::Update() {
 	ImGui::Checkbox("isMove", &isMove);
 	ImGui::End();
 
+	//当たり判定するかの処理
+	if (!collision_on) {
+		if (noCollisionCount_-- <= 0) {
+			collision_on = true;
+		}
+	}
+
+
 	//各挙動初期化処理
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();

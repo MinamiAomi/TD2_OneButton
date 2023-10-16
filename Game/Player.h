@@ -98,8 +98,13 @@ private:
 
 private://スペチャ追加分
 	float wide_ = 1;
-
+	//モデル用
 	ToonModelInstance modelInstance_;
-
+	//移動関数
 	bool isMove = false;
+	//コリジョン処理するか否か
+	bool collision_on = true;
+
+	//無敵時間残りカウント
+	int noCollisionCount_ = 0;
 };

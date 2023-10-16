@@ -32,7 +32,7 @@ public:
 	void Update();
 
 	
-
+	
 #pragma region ゲッター
 	Transform GetWorld() const { return world_; }
 	const Vector3 GetmatWtranstate() const {
@@ -80,11 +80,8 @@ public:
 
 
 private:
-	/// <summary>
-	/// 針の状態
-	/// </summary>
 	
-
+	//管理番号
 	int spikeNum_ = 0;
 
 	//ワールド
@@ -114,4 +111,10 @@ private:
 	const int maxAnimationCount = 60;
 
 
+
+	//コリジョン処理するか否か
+	bool collision_on = true;
+
+	//無敵時間残りカウント
+	int noCollisionCount_ = 0;
 };

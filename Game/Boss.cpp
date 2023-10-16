@@ -18,3 +18,20 @@ void Boss::Update()
 	world_.UpdateMatrix();
 	modelInstance_.SetWorldMatrix(world_.worldMatrix);
 }
+
+bool Boss::IsHitBoss(const Vector3& pos, const float& wide)
+{
+	Vector3 bosspos = GetmatWT();
+	//x座標を合わせる
+	bosspos.x = pos.x;
+
+	Vector3 diff = pos - bosspos;
+
+	float Hlength = sqrtf(diff.x * diff.x + diff.y * diff.y);
+
+	if (Hlength <= wide + wide_) {
+		return true;
+	}
+	
+	return false;
+}
