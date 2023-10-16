@@ -25,6 +25,7 @@ void InGame::OnInitialize()
 	
 	//std::vector<std::shared_ptr<ToonModel>> modelMap = { toonModel_ };
 
+
 	//マップクラス初期化
 	map = std::make_unique<Map>();
 	map->Initialize();
@@ -44,8 +45,8 @@ void InGame::OnInitialize()
 	player_ = std::make_unique<Player>();
 	player_->Initalize(map->GetPlayerPosition(),toonModel_);
 
-	//boss_ = std::make_unique<Boss>();
-	//boss_->Initalize(map->GetBossMatPos(), toonModel_);
+	boss_ = std::make_unique<Boss>();
+	boss_->Initalize(map->GetBossMatPos(), toonModel_);
 }
 
 void InGame::OnUpdate()
@@ -57,7 +58,7 @@ void InGame::OnUpdate()
 	map->Update();
 
 	
-	//boss_->Update();
+	boss_->Update();
 	
 
 	//棘更新

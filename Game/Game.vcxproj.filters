@@ -393,6 +393,9 @@
     <ClCompile Include="Leser.cpp">
       <Filter>Game\Leser</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Game\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">

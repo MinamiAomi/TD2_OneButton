@@ -6,31 +6,28 @@
 #include"Externals/ImGui/imgui.h"
 
 void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State, Vector3 velo) {
+	//管理番号
 	spikeNum_=num;
-	
-	world_ = world;
-	toonModel_ = toonModel;
-
+	//座標
+	world_ = world;	
 	wide_ = world_.scale.x;
-
-	//modelInstance_ = modelInstance;
-
-	modelInstance_.SetModel(toonModel_);
+	//モデル
+	modelInstance_.SetModel(toonModel);
 
 
 	//状態入力
 	switch (State) {
-	case Stay:
-		state_ = Stay;
+	case kStay:
+		state_ = kStay;
 		break;
-	case Falling:
-		state_ = Falling;
+	case kFalling:
+		state_ = kFalling;
 		break;
-	case FillUp:
-		state_ = FillUp;
+	case kFillUp:
+		state_ = kFillUp;
 		break;
 
-	case Explosion:
+	case kExplosion:
 		animationCount_++;
 		//アニメーションカウントがmaxの値で死亡
 		if (maxAnimationCount <= animationCount_) {
@@ -50,23 +47,23 @@ void Spike::Update() {
 	
 
 	switch (state_) {
-	case Spike::Stay:
+	case Spike::kStay:
 		break;
-	case Spike::Falling:
+	case Spike::kFalling:
 
 		//移動量
 		world_.translate = world_.translate + velocity_;
 
 		break;
-	case Spike::FillUp:
+	case Spike::kFillUp:
 		world_.translate = world_.translate + (gensoku * velocity_);
 		break;
 
-	case Spike::Explosion:
+	case Spike::kExplosion:
 
 		break;
 
-	case Spike::None:
+	case Spike::kNone:
 
 		break;
 	default:
@@ -85,7 +82,7 @@ void Spike::OnCollisionPlayer() { isDead_ = true; }
 
 void Spike::OnCollisionBoss() {
 	// 状態をゆっくり沈む状態へ
-	state_ = FillUp;
+	state_ = kFillUp;
 	// 横の加速度を削除
 	velocity_.x = 0;
 
@@ -107,7 +104,7 @@ void Spike::OnCollisionPlayerBeam() {
 
 void Spike::OnCollisionPlayerExplosion(Vector3 ExpPos) {
 	// 状態変化
-	state_ = Falling;
+	state_ = kFalling;
 
 	if (ExpPos.x < world_.translate.x) {
 		velocity_ = { -1.0f, 0.0f, 0.0f };
@@ -129,7 +126,7 @@ void Spike::OnCollisionSpike() {
 
 void Spike::OnCollisionPlayerStump() {
 	// 状態変化
-	state_ = Explosion;
+	state_ = kExplosion;
 
 	// 座標をmatにする
 	world_.translate= GetmatWtranstate();
@@ -139,7 +136,7 @@ void Spike::OnCollisionPlayerStump() {
 
 void Spike::OnCollisionWall() {
 	isDead_ = true;
-	state_ = None;
+	state_ = kNone;
 }
 
 #pragma endregion

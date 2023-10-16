@@ -6,7 +6,18 @@
 
 class Spike {
 public:
-
+	enum SpikeState {
+		// 木についている
+		kStay,
+		// 落ちる
+		kFalling,
+		// 埋まる
+		kFillUp,
+		// BAKUHATU★
+		kExplosion,
+		//None
+		kNone
+	};
 
 	/// <summary>
 	/// 初期化
@@ -15,7 +26,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="State">状態</param>
 	/// <param name="velo">移動ベクトル</param>
-	void Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State, Vector3 velo = { 0,0,0 });
+	void Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State=kStay, Vector3 velo = { 0,0,0 });
 
 
 	void Update();
@@ -72,33 +83,20 @@ private:
 	/// <summary>
 	/// 針の状態
 	/// </summary>
-	enum State {
-		// 木についている
-		Stay,
-		// 落ちる
-		Falling,
-		// 埋まる
-		FillUp,
-		// BAKUHATU★
-		Explosion,
-		//None
-		None
-	};
+	
 
 	int spikeNum_ = 0;
 
 	//ワールド
 	Transform world_;
 	//モデル
-	std::shared_ptr<ToonModel> toonModel_;
-
 	ToonModelInstance modelInstance_;
 
 	//仮
 	float wide_;
 
 	//状態
-	State state_;
+	SpikeState state_;
 
 	//移動量
 	Vector3 velocity_;
