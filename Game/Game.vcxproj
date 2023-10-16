@@ -42,6 +42,7 @@
     </ClInclude>
     <ClInclude Include="Clear.h" />
     <ClInclude Include="Engine\Application\Game.h" />
+    <ClInclude Include="Engine\Application\ResourceManager.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Graphics\Core\ColorBuffer.h" />
@@ -69,6 +70,7 @@
     <ClInclude Include="Engine\Graphics\ModelLoader.h" />
     <ClInclude Include="Engine\Graphics\PostEffect.h" />
     <ClInclude Include="Engine\Graphics\RenderManager.h" />
+    <ClInclude Include="Engine\Graphics\Sprite.h" />
     <ClInclude Include="Engine\Graphics\Timer.h" />
     <ClInclude Include="Engine\Graphics\ToonModel.h" />
     <ClInclude Include="Engine\Graphics\ToonRenderer.h" />
@@ -265,6 +267,24 @@
     <None Include="Engine\Graphics\Shader\PostEffectPS.hlsl">
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Graphics\Shader\SpriteVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Graphics\Shader\SpritePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
   </ItemGroup>
