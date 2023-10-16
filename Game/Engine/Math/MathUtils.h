@@ -1045,6 +1045,11 @@ public:
         result /= w;
         return result;
     }
+    inline void GetAffineValue(Vector3& scale, Quaternion& rotate, Vector3& translate) const {
+        scale = GetScale();
+        rotate = GetRotate();
+        translate = GetTranslate();
+    }
     // 行
     inline constexpr Matrix4x4& SetRow(size_t i, const Vector4& v) noexcept {
         m[i][0] = v.x, m[i][1] = v.y, m[i][2] = v.z, m[i][3] = v.w;
@@ -1084,15 +1089,18 @@ public:
     inline constexpr Vector3 GetZAxis() const noexcept {
         return { m[2][0], m[2][1], m[2][2] };
     }
+    inline Vector3 GetScale() const noexcept {
+        return { GetXAxis().Length(), GetYAxis().Length(), GetZAxis().Length() };
+    }
+    inline Quaternion GetRotate() const noexcept {
+        return Quaternion::MakeFromOrthonormal(GetXAxis().Normalize(), GetYAxis().Normalize(), GetZAxis().Normalize());
+    }
     inline constexpr Matrix4x4& SetTranslate(const Vector3& v) noexcept {
         m[3][0] = v.x, m[3][1] = v.y, m[3][2] = v.z;
         return *this;
     }
     inline constexpr Vector3 GetTranslate() const noexcept {
         return { m[3][0], m[3][1], m[3][2] };
-    }
-    inline Vector3 GetScale() const noexcept {
-        return { GetXAxis().Length(), GetYAxis().Length(), GetZAxis().Length() };
     }
     float Determinant() const noexcept;
     Matrix4x4 Adjugate() const noexcept;
