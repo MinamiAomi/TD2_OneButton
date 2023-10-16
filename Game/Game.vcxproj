@@ -69,6 +69,7 @@
     <ClInclude Include="Engine\Graphics\ModelLoader.h" />
     <ClInclude Include="Engine\Graphics\PostEffect.h" />
     <ClInclude Include="Engine\Graphics\RenderManager.h" />
+    <ClInclude Include="Engine\Graphics\Timer.h" />
     <ClInclude Include="Engine\Graphics\ToonModel.h" />
     <ClInclude Include="Engine\Graphics\ToonRenderer.h" />
     <ClInclude Include="Engine\Input\Input.h" />
@@ -146,6 +147,7 @@
     <ClCompile Include="Engine\Graphics\ModelLoader.cpp" />
     <ClCompile Include="Engine\Graphics\PostEffect.cpp" />
     <ClCompile Include="Engine\Graphics\RenderManager.cpp" />
+    <ClCompile Include="Engine\Graphics\Timer.cpp" />
     <ClCompile Include="Engine\Graphics\ToonModel.cpp" />
     <ClCompile Include="Engine\Graphics\ToonRenderer.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />

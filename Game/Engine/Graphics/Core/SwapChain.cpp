@@ -18,7 +18,7 @@ void SwapChain::Create(HWND hWnd) {
     }
 
     HDC hdc = GetDC(hWnd);
-    refreshRate_ = GetDeviceCaps(hdc, VREFRESH);
+    refreshRate_ = static_cast<uint32_t>(GetDeviceCaps(hdc, VREFRESH));
     ReleaseDC(hWnd, hdc);
 
     LONG clientWidth = clientRect.right - clientRect.left;
@@ -51,8 +51,7 @@ void SwapChain::Create(HWND hWnd) {
     }
 }
 
-void SwapChain::Present() {
-    static constexpr int32_t kThreasholdRefreshRate = 58;
-    swapChain_->Present(refreshRate_ < kThreasholdRefreshRate ? 0 : 1, 0);
+void SwapChain::Present(uint32_t threasholdRefreshRate) {
+    swapChain_->Present(refreshRate_ < threasholdRefreshRate ? 0 : 1, 0);
     currentBufferIndex_ = (currentBufferIndex_ + 1) % kNumBuffers;
 }

@@ -234,6 +234,9 @@
     <ClInclude Include="Leser.h">
       <Filter>Game\Leser</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Graphics\Timer.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -386,6 +389,9 @@
     </ClCompile>
     <ClCompile Include="Leser.cpp">
       <Filter>Game\Leser</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Timer.cpp">
+      <Filter>Engine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
