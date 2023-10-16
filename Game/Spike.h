@@ -6,7 +6,18 @@
 
 class Spike {
 public:
-
+	enum SpikeState {
+		// 木についている
+		kStay,
+		// 落ちる
+		kFalling,
+		// 埋まる
+		kFillUp,
+		// BAKUHATU★
+		kExplosion,
+		//None
+		kNone
+	};
 
 	/// <summary>
 	/// 初期化
@@ -15,15 +26,18 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="State">状態</param>
 	/// <param name="velo">移動ベクトル</param>
-	void Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State, Vector3 velo = { 0,0,0 });
+	void Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State=kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
 
 
 	void Update();
 
 	
-
+	
 #pragma region ゲッター
+	//transform取得
 	Transform GetWorld() const { return world_; }
+
+	//Twt取得
 	const Vector3 GetmatWtranstate() const {
 		return {
 			world_.worldMatrix.m[3][0],
@@ -32,14 +46,37 @@ public:
 		};
 	}
 
+	//半径取得
 	const float GetWide() { return wide_; }
 
+	//加速度取得
 	Vector3 GetVelocity_() const { return velocity_; }
 
+	//死亡フラグ取得
 	bool IsDead() const { return isDead_; }
 
+	//棘の管理番号取得
 	const int GetIdentificationNum() { return spikeNum_; }
+
+	const bool GetIsCollisionOn() { return collision_on; }
+
+	const bool GetCompleteFillUp() { return CompleteFillUp_; }
+
+	const bool IsStateFillUp() {
+		if (state_ == kFillUp) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 #pragma endregion
+
+#pragma region セッター
+	//死亡セット
+	void SetDead() { isDead_ = true; }
+#pragma endregion
+
 
 #pragma region オンコリ
 	//プレイヤーと当たった時
@@ -64,36 +101,20 @@ public:
 
 
 private:
-	/// <summary>
-	/// 針の状態
-	/// </summary>
-	enum State {
-		// 木についている
-		Stay,
-		// 落ちる
-		Falling,
-		// 埋まる
-		FillUp,
-		// BAKUHATU★
-		Explosion,
-		//None
-		None
-	};
-
+	
+	//管理番号
 	int spikeNum_ = 0;
 
 	//ワールド
 	Transform world_;
 	//モデル
-	std::shared_ptr<ToonModel> toonModel_;
-
 	ToonModelInstance modelInstance_;
 
 	//仮
 	float wide_;
 
 	//状態
-	State state_;
+	SpikeState state_;
 
 	//移動量
 	Vector3 velocity_;
@@ -111,4 +132,21 @@ private:
 	const int maxAnimationCount = 60;
 
 
+
+	//コリジョン処理するか否か
+	bool collision_on = true;
+
+	//無敵時間残りカウント
+	int noCollisionCount_ = 0;
+
+	//ボスに埋まり切るかのカウント
+	int fillUpCount_;
+	//埋まるまでのマックス
+	const int maxFillUpCount_ = 180;
+	//埋まり切ったかのフラグ
+	bool CompleteFillUp_ = false;
+
+
+	//棘にかかる重力
+	float gravity=-0.1f;
 };

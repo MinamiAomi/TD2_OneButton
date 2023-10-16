@@ -22,17 +22,30 @@ public:
 	Player();
 	~Player();
 
-	void Initalize(const Vector3& position);
+	//初期化
+	void Initalize(const Vector3& position, std::shared_ptr<ToonModel> toonModel);
+	
+	//更新
 	void Update();
-	//void Draw();
+	
+#pragma region オンコリジョン
 	void OnCollision();
+
+	//壁に当たった時
+	void OnCollisionWall(Vector2 wallX);
+
+	//ボスに当たった時
+	void OnCollisionBoss();
+#pragma endregion
+
+#pragma region ゲッター
 	const Vector3 GetPosition()
 	{
 		return worldTransform_.translate;
 	}
 
 	const Vector3 GetmatWtranslate() {
-		return { 
+		return {
 			worldTransform_.worldMatrix.m[3][0],
 			worldTransform_.worldMatrix.m[3][1],
 			worldTransform_.worldMatrix.m[3][2],
@@ -40,6 +53,13 @@ public:
 
 	}
 	const float GetWide() { return wide_; }
+
+	const Behavior GetBehavior() { return behavior_; }
+
+	const float BeamWide() { return leserWide_; }
+#pragma endregion
+
+	
 
 private:
 
@@ -62,10 +82,10 @@ private:
 	Behavior behavior_ = Behavior::kRoot;
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 	//ジャンプ関連関数
-	float gravity = 0.3f;
-	float Jumpforce = 3.0f;
+	float gravity = 0.2f;
+	float Jumpforce = 4.0f;
 	//左右移動関係関数
-	const float kXaxisSpeed = 0.60f;
+	const float kXaxisSpeed = 0.20f;
 	float moveXaxisSpeed = kXaxisSpeed;
 	//落下攻撃関係関数
 	int DropCount = 0;
@@ -85,5 +105,24 @@ private:
 
 private://スペチャ追加分
 	float wide_ = 1;
+	//モデル用
+	ToonModelInstance modelInstance_;
+	//移動関数
+	bool isMove = false;
+	//コリジョン処理するか否か
+	bool collision_on = true;
+
+	//無敵時間残りカウント
+	int noCollisionCount_ = 0;
+
+
+	//レーザーと爆風の仮システム作成
+
+	float leserWide_ = 0.5f;
+
+	Vector3 explosionPos_;
+
+	float explosionRadius_ = 5;
+
 
 };

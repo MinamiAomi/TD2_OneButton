@@ -1,9 +1,20 @@
 #include "Player.h"
+#include"Externals/ImGui/imgui.h"
 
 Player::Player() {}
 Player::~Player() {}
 
-void Player::Initalize(const Vector3& position) {
+void Player::Initalize(const Vector3& position, std::shared_ptr<ToonModel> PlayertoonModel) {
+	
+
+
+	//プレイヤーモデル受け取り
+	model_ = PlayertoonModel;
+
+	modelInstance_.SetModel(model_);
+
+	
+	
 	//レーザーのモデル
 	/*leser_model = new Model();
 	leser_model = Model::Create();*/
@@ -11,10 +22,25 @@ void Player::Initalize(const Vector3& position) {
 	worldTransform_.translate = position;
 
 	input = Input::GetInstance();
+
+	
 }
 
 void Player::Update() {
+	ImGui::Begin("player");
+	ImGui::DragFloat3("pos", &worldTransform_.translate.x, 0.01f);
+	ImGui::Checkbox("isMove", &isMove);
+	ImGui::End();
 
+	//当たり判定するかの処理
+	if (!collision_on) {
+		if (noCollisionCount_-- <= 0) {
+			collision_on = true;
+		}
+	}
+
+
+	//各挙動初期化処理
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
 		switch (behavior_) {
@@ -32,31 +58,35 @@ void Player::Update() {
 		behaviorRequest_ = std::nullopt;
 	}
 
-	switch (behavior_) {
-	case Behavior::kRoot:
-	default:
-		BehaviorRootUpdate();
-		break;
-	case Behavior::kJump:
-		BehaviorJumpUpdate();
-		break;
-	case Behavior::kDrop:
-		BehaviorDropUpdate();
-		break;
+	//更新処理
+	if (isMove) {
+		switch (behavior_) {
+		case Behavior::kRoot:
+		default:
+			BehaviorRootUpdate();
+			break;
+		case Behavior::kJump:
+			BehaviorJumpUpdate();
+			break;
+		case Behavior::kDrop:
+			BehaviorDropUpdate();
+			break;
+		}
 	}
 	//TODO
 	/*for (Leser* leser : lesers_) {
 		leser->Update();
 	}*/
 
+	//爆弾座標設定
+	explosionPos_ = worldTransform_.translate;
+
+
 	worldTransform_.UpdateMatrix();
+	modelInstance_.SetWorldMatrix(worldTransform_.worldMatrix);
 }
 
-//void Player::Draw() {
-//	for (Leser* leser : lesers_) {
-//		leser->Draw(ViewProjection_);
-//	}
-//}
+
 
 void Player::OnCollision() {
 	if (DropFlag) {
@@ -66,6 +96,24 @@ void Player::OnCollision() {
 		HP -= 1;
 	}
 
+}
+
+void Player::OnCollisionWall(Vector2 wallX)
+{
+	if (wallX.x > worldTransform_.translate.x - wide_) {
+		worldTransform_.translate.x = wallX.x + wide_;
+	}
+	if (wallX.y < worldTransform_.translate.x + wide_) {
+		worldTransform_.translate.x = wallX.y - wide_;
+	}
+	worldTransform_.UpdateMatrix();
+
+	moveXaxisSpeed *= -1;
+}
+
+void Player::OnCollisionBoss()
+{
+	isMove = false;
 }
 
 void Player::BehaviorRootInitalize() {
