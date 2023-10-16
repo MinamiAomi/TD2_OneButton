@@ -33,6 +33,9 @@ public:
 
 	//壁に当たった時
 	void OnCollisionWall(Vector2 wallX);
+
+	//ボスに当たった時
+	void OnCollisionBoss();
 #pragma endregion
 
 #pragma region ゲッター

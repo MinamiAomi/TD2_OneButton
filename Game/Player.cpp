@@ -107,6 +107,11 @@ void Player::OnCollisionWall(Vector2 wallX)
 	moveXaxisSpeed *= -1;
 }
 
+void Player::OnCollisionBoss()
+{
+	isMove = false;
+}
+
 void Player::BehaviorRootInitalize() {
 	behavior_ = Behavior::kRoot;
 	DropFlag = false;

@@ -26,7 +26,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="State">状態</param>
 	/// <param name="velo">移動ベクトル</param>
-	void Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State=kStay, Vector3 velo = { 0,0,0 });
+	void Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State=kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
 
 
 	void Update();
@@ -34,7 +34,10 @@ public:
 	
 	
 #pragma region ゲッター
+	//transform取得
 	Transform GetWorld() const { return world_; }
+
+	//Twt取得
 	const Vector3 GetmatWtranstate() const {
 		return {
 			world_.worldMatrix.m[3][0],
@@ -43,16 +46,34 @@ public:
 		};
 	}
 
+	//半径取得
 	const float GetWide() { return wide_; }
 
+	//加速度取得
 	Vector3 GetVelocity_() const { return velocity_; }
 
+	//死亡フラグ取得
 	bool IsDead() const { return isDead_; }
 
+	//棘の管理番号取得
 	const int GetIdentificationNum() { return spikeNum_; }
+
+	const bool GetIsCollisionOn() { return collision_on; }
+
+	const bool GetCompleteFillUp() { return CompleteFillUp_; }
+
+	const bool IsStateFillUp() {
+		if (state_ == kFillUp) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 #pragma endregion
 
 #pragma region セッター
+	//死亡セット
 	void SetDead() { isDead_ = true; }
 #pragma endregion
 
@@ -117,4 +138,9 @@ private:
 
 	//無敵時間残りカウント
 	int noCollisionCount_ = 0;
+
+
+	int fillUpCount_;
+	const int maxFillUpCount_ = 180;
+	bool CompleteFillUp_ = false;
 };

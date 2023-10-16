@@ -2,8 +2,8 @@
 #include<cassert>
 
 #include"Engine/Graphics/ModelLoader.h"
-
 #include"Externals/ImGui/imgui.h"
+
 
 void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State, Vector3 velo) {
 	//管理番号
@@ -28,12 +28,7 @@ void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonM
 		break;
 
 	case kExplosion:
-		animationCount_++;
-		//アニメーションカウントがmaxの値で死亡
-		if (maxAnimationCount <= animationCount_) {
-			isDead_ = true;
-		}
-
+		
 		break;
 	default:
 		break;
@@ -61,10 +56,27 @@ void Spike::Update() {
 
 		break;
 	case Spike::kFillUp:
+		//座標計算
 		world_.translate = world_.translate + (gensoku * velocity_);
-		break;
 
+		if (fillUpCount_++ >= maxFillUpCount_) {
+			//死亡フラグON
+			isDead_ = true;
+			//埋まり切りフラグON
+			CompleteFillUp_ = true;
+			//コリジョンを切る
+			collision_on = false;
+			noCollisionCount_ = 60;
+		}
+
+		break;
 	case Spike::kExplosion:
+
+		animationCount_++;
+		//アニメーションカウントがmaxの値で死亡
+		if (maxAnimationCount >= animationCount_) {
+			isDead_ = true;
+		}
 
 		break;
 
@@ -75,6 +87,7 @@ void Spike::Update() {
 		break;
 	}
 
+	//行列更新
 	world_.UpdateMatrix();
 	modelInstance_.SetWorldMatrix(world_.worldMatrix);
 }
@@ -88,6 +101,10 @@ void Spike::OnCollisionPlayer() { isDead_ = true; }
 void Spike::OnCollisionBoss() {
 	// 状態をゆっくり沈む状態へ
 	state_ = kFillUp;
+
+	//埋まるまでのカウント初期化
+	fillUpCount_ = 0;
+
 	// 横の加速度を削除
 	velocity_.x = 0;
 
@@ -117,17 +134,17 @@ void Spike::OnCollisionPlayerExplosion(Vector3 ExpPos) {
 	else {
 		velocity_ = { -1.0f, 0.0f, 0.0f };
 	}
+
+	
 }
 
 void Spike::OnCollisionSpike() {
 	// 座標をmatにする
 	world_.translate = GetmatWtranstate();
 	// 親子関係の削除
-	world_.parent = nullptr;
-
-	
-	
+	world_.parent = nullptr;	
 }
+
 
 void Spike::OnCollisionPlayerStump() {
 	// 状態変化
@@ -139,9 +156,11 @@ void Spike::OnCollisionPlayerStump() {
 	world_.parent = nullptr;
 }
 
+
 void Spike::OnCollisionWall() {
 	isDead_ = true;
 	state_ = kNone;
 }
+
 
 #pragma endregion

@@ -23,8 +23,7 @@ void InGame::OnInitialize()
 	toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
 
 	
-	//std::vector<std::shared_ptr<ToonModel>> modelMap = { toonModel_ };
-
+	
 
 	//マップクラス初期化
 	map = std::make_unique<Map>();
@@ -42,9 +41,11 @@ void InGame::OnInitialize()
 		spikes.push_back(spike_);
 	}
 
+	//プレイヤーの初期化
 	player_ = std::make_unique<Player>();
 	player_->Initalize(map->GetPlayerPosition(),toonModel_);
 
+	//ボスの初期化
 	boss_ = std::make_unique<Boss>();
 	boss_->Initalize(map->GetBossMatPos(), toonModel_);
 }
@@ -57,7 +58,7 @@ void InGame::OnUpdate()
 	//マップ更新
 	map->Update();
 
-	
+	//ボス更新
 	boss_->Update();
 	
 
@@ -66,22 +67,24 @@ void InGame::OnUpdate()
 		spike->Update();
 	}
 
-
+	//プレイヤー更新
 	player_->Update();
 
 
 
 	
 	
-	
+	//当たり判定チェック
 	GetAllCollisions();
+	//
 	CheckDead();
 
 
 	//プレイヤー更新後にカメラ更新
-	Vector3 cpos = player_->GetmatWtranslate();
+	Vector3 cpos = boss_->GetmatWT();
 	cpos.z = camera_.GetPosition().z;
 	cpos.x = camera_.GetPosition().x;
+	cpos.y += 20;
 	camera_.SetPosition(cpos);
 	
 	camera_.UpdateMatrices();
@@ -107,26 +110,27 @@ bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 
 void InGame::GetAllCollisions() {
 
-
-#pragma region 棘に関する当たり判定
 	//プレイヤー座標と半径
 	Vector3 PLAYER = player_->GetmatWtranslate();
 	float P_wide = player_->GetWide();
 
+#pragma region 棘に関する当たり判定
+	
 
 	//スパイクのWorld
 	for (Spike* spike : spikes) {
-		//座標と半径取得
-		Vector3 SPIKE = spike->GetmatWtranstate();
-		float S_wide = spike->GetWide();
+		if (spike->GetIsCollisionOn()) {
+			//座標と半径取得
+			Vector3 SPIKE = spike->GetmatWtranstate();
+			float S_wide = spike->GetWide();
 
-		
+
 #pragma region プレイヤー
-		//当たった時の処理
-		if (CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
-			spike->OnCollisionPlayer();
-			player_->OnCollision();
-		}
+			//当たった時の処理
+			if (CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
+				spike->OnCollisionPlayer();
+				player_->OnCollision();
+			}
 #pragma endregion
 
 #pragma region プレイヤービーム
@@ -138,69 +142,87 @@ void InGame::GetAllCollisions() {
 #pragma endregion
 
 #pragma region BOSS
-
+			//埋まる状態でないときに処理
+			if (!spike->IsStateFillUp()) {
+				if (boss_->IsHitBoss(SPIKE, S_wide)) {
+					spike->OnCollisionBoss();
+				}
+			}
 #pragma endregion
 
 #pragma region 壁
-		if (map->IsHitWall(SPIKE, S_wide)) {
-			spike->OnCollisionWall();
-		}
+			//壁に当たっていれば処理
+			if (map->IsHitWall(SPIKE, S_wide)) {
+				spike->OnCollisionWall();
+			}
 #pragma endregion
 
 #pragma region 棘同士
-		for (Spike* spike2 : spikes) {
-			Vector3 SPIKE2 = spike2->GetmatWtranstate();
-			float S2_wide = spike->GetWide();
+			for (Spike* spike2 : spikes) {
+				if (spike2->GetIsCollisionOn()) {
+					Vector3 SPIKE2 = spike2->GetmatWtranstate();
+					float S2_wide = spike->GetWide();
 
-			//座標が同じ(同じもの)でないことを確認
-			if (spike->GetIdentificationNum() != spike2->GetIdentificationNum()) {
+					//座標が同じ(同じもの)でないことを確認
+					if (spike->GetIdentificationNum() != spike2->GetIdentificationNum()) {
 
-				//当たり合ってたら処理
-				if (CheckHitSphere(SPIKE, S_wide, SPIKE2, S2_wide)) {
+						//当たり合ってたら処理
+						if (CheckHitSphere(SPIKE, S_wide, SPIKE2, S2_wide)) {
 
-					//二つの円の間の距離取得
-					Vector3 leng = (SPIKE - SPIKE2);
-					leng /= 2;
+							//二つの円の間の距離取得
+							Vector3 leng = (SPIKE - SPIKE2);
+							leng /= 2;
 
-					//新しい円の半径設定
-					float newSize = (S_wide + S2_wide);
+							//新しい円の半径設定
+							float newSize = (S_wide + S2_wide);
 
-					//新しいTransform作成
-					Transform newSpike;
-					newSpike.translate = leng;							//位置設定
-					newSpike.scale = { newSize,newSize ,newSize };		//サイズ設定
+							//新しいTransform作成
+							Transform newSpike;
+							newSpike.translate = leng;							//位置設定
+							newSpike.scale = { newSize,newSize ,newSize };		//サイズ設定
 
-					//サイズ取得
-					int sizeNum = (int)spikes.size();
+							//サイズ取得
+							int sizeNum = (int)spikes.size();
 
-					
-					//新しいスパイクの生成
-					Spike* newspike = new Spike();
-					newspike->Initialize(sizeNum, newSpike, toonModel_, 0);
+							//新しいスパイクの生成
+							Spike* newspike = new Spike();
+							newspike->Initialize(sizeNum, newSpike, toonModel_, Spike::SpikeState::kFalling);
 
-					//ぷっす
-					spikes.push_back(newspike);
+							//ぷっす
+							spikes.push_back(newspike);
 
-					//くっついた二つに死亡判定を
-					spike->SetDead();
-					spike2->SetDead();
-					
+							//くっついた二つに死亡判定を
+							spike->SetDead();
+							spike2->SetDead();
+						}
+
+					}
+
 				}
-
 			}
+#pragma endregion
+		}
 
-
+#pragma region ボス回復処理
+		//埋まり切りフラグがONの時回復
+		if (spike->GetCompleteFillUp()) {
+			boss_->OnCollisionHealing();
 		}
 #pragma endregion
 	}
 #pragma endregion
 
-#pragma region 壁とプレイヤー
+#pragma region プレイヤーと壁
 	if (map->IsHitWall(PLAYER, P_wide)) {
 		player_->OnCollisionWall(map->GetHitWallX());
 	}
 #pragma endregion
 
+#pragma region プレイヤーとボス
+	if (boss_->IsHitBoss(PLAYER, P_wide)) {
+		player_->OnCollisionBoss();
+	}
+#pragma endregion
 
 
 

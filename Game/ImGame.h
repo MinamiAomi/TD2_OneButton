@@ -32,10 +32,12 @@ public:
 
 	
 private:
-	std::shared_ptr<ToonModel> toonModel_;
-	ToonModelInstance modelInstance_;
+	//カメラ
 	Camera camera_;
-	
+
+	//モデル
+	std::shared_ptr<ToonModel> toonModel_;
+
 	//マップクラス
 	std::unique_ptr<Map>map = nullptr;
 	

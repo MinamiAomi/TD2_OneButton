@@ -14,7 +14,6 @@ void Boss::Initalize(const Vector3& position, std::shared_ptr<ToonModel> toonMod
 
 void Boss::Update()
 {
-
 	world_.UpdateMatrix();
 	modelInstance_.SetWorldMatrix(world_.worldMatrix);
 }
@@ -34,4 +33,9 @@ bool Boss::IsHitBoss(const Vector3& pos, const float& wide)
 	}
 	
 	return false;
+}
+
+void Boss::OnCollisionHealing()
+{
+	HP_++;
 }

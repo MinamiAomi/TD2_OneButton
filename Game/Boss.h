@@ -32,23 +32,31 @@ public:
 	/// </summary>
 	/// <returns>Y座標</returns>
 	float GetBossYLine() { return world_.worldMatrix.m[3][1]+wide_; }
+
+	/// <summary>
+	/// ボスのmatT取得
+	/// </summary>
+	/// <returns>wtt</returns>
+	const Vector3 GetmatWT() {
+		return {
+			world_.worldMatrix.m[3][0],
+			world_.worldMatrix.m[3][1],
+			world_.worldMatrix.m[3][2]
+		};
+	}
 #pragma endregion
 
 #pragma region オンコリ
 	void OnCollisionExplosion(int dmg);
+
+	//ボス回復処理
+	void OnCollisionHealing();
 #pragma endregion
 
 	
 private:
 
-	//matWT取得
-	const Vector3 GetmatWT() {
-		return {
-			world_.worldMatrix.m[3][0],
-			world_.worldMatrix.m[3][1],
-			world_.worldMatrix.m[3][2] 
-		}; 
-	}
+	
 
 	//座標
 	Transform world_;
@@ -56,4 +64,10 @@ private:
 	ToonModelInstance modelInstance_;
 
 	float wide_;
+
+	//ヒットポイント
+	int HP_;
+
+	//最大値
+	const int maxHP_ = 100;
 };
