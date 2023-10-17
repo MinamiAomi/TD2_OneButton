@@ -32,6 +32,8 @@ public:
 
 private://メンバ関数
 	
+	//棘の当たり判定まとめ
+	void CollisionAboutSpike();
 	
 private:
 

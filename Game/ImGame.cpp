@@ -151,21 +151,47 @@ bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 
 void InGame::GetAllCollisions() {
 
+
+	CollisionAboutSpike();
+
+	//プレイヤー座標と半径
+	Vector3 PLAYER = player_->GetmatWtranslate();
+	float P_wide = player_->GetWide();
+#pragma region プレイヤーと壁
+	if (map->IsHitWall(PLAYER, P_wide)) {
+		player_->OnCollisionWall(map->GetHitWallX());
+	}
+#pragma endregion
+
+#pragma region プレイヤーとボス
+	if (boss_->IsHitBoss(PLAYER, P_wide)) {
+		player_->OnCollisionBoss();
+	}
+#pragma endregion
+
+
+
+
+	
+}
+
+
+
+void InGame::CollisionAboutSpike()
+{
+#pragma region 棘に関する当たり判定
+	//スパイクのWorld
+
 	//プレイヤー座標と半径
 	Vector3 PLAYER = player_->GetmatWtranslate();
 	float P_wide = player_->GetWide();
 
-#pragma region 棘に関する当たり判定
-	
 
-	//スパイクのWorld
 	for (Spike* spike : spikes) {
 		if (spike->GetIsCollisionOn()) {
 			//座標と半径取得
 			Vector3 SPIKE = spike->GetmatWtranstate();
 			float S_wide = spike->GetWide();
-
-
 #pragma region プレイヤー
 			//当たった時の処理
 			if (CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
@@ -176,7 +202,7 @@ void InGame::GetAllCollisions() {
 
 #pragma region プレイヤービームと爆風
 			for (Leser* leser : player_->Getlesers()) {
-
+#pragma region ビーム
 				//レーザーのwide取得
 				float beamWide = leser->GetWide();
 
@@ -193,7 +219,7 @@ void InGame::GetAllCollisions() {
 					//サイズ取得
 					int spikesize = (int)spikes.size();
 
-					float newWide = S_wide*0.8f;
+					float newWide = S_wide * 0.8f;
 
 					//新しいTransform作成
 					Transform Newworld;
@@ -206,7 +232,7 @@ void InGame::GetAllCollisions() {
 
 					//クラス作成
 					Spike* newSpike = new Spike;
-					newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling,newVelo);
+					newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling, newVelo);
 					//プッシュ
 					spikes.push_back(newSpike);
 
@@ -214,6 +240,7 @@ void InGame::GetAllCollisions() {
 					//x軸反転
 					newVelo.x *= -1;
 
+					//クラス作成とプッシュ
 					Spike* newSpike2 = new Spike;
 					newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling, newVelo);
 					spikes.push_back(newSpike2);
@@ -221,7 +248,9 @@ void InGame::GetAllCollisions() {
 
 					//死亡判定出す
 					spike->SetDead();
+					//死んだので処理を流す
 					continue;
+#pragma endregion			
 				}
 				else {
 					//ビーム当たっていない
@@ -232,20 +261,12 @@ void InGame::GetAllCollisions() {
 					float ExpWide = leser->GetExplotionRadius();
 					//爆風に当たった時
 					if (CheckHitSphere(SPIKE, S_wide, ExpPos, ExpWide)) {
- 						spike->OnCollisionPlayerExplosion(ExpPos);
+						spike->OnCollisionPlayerExplosion(ExpPos);
 					}
 #pragma endregion
 				}
 			}
-			
-				
-
-
-
-			
 #pragma endregion
-
-
 
 #pragma region BOSS
 			//埋まる状態でないときに処理
@@ -263,20 +284,8 @@ void InGame::GetAllCollisions() {
 			}
 #pragma endregion
 
-#pragma region 棘同士
-
-			
-			int alredy = spike->GetIdentificationNum();
-
-			int count = 0;
+#pragma region 棘同士			
 			for (Spike* spike2 : spikes) {
-
-				if (count != alredy) {
-					count++;
-					continue;
-				}
-
-
 				//同じ棘でないことを確認
 				if (spike->GetIdentificationNum() != spike2->GetIdentificationNum()) {
 
@@ -322,9 +331,8 @@ void InGame::GetAllCollisions() {
 					}
 				}
 			}
-			
-#pragma endregion
 
+#pragma endregion
 
 #pragma region ボス回復処理
 			//埋まり切りフラグがONの時回復
@@ -336,24 +344,11 @@ void InGame::GetAllCollisions() {
 	}
 #pragma endregion
 
-#pragma region プレイヤーと壁
-	if (map->IsHitWall(PLAYER, P_wide)) {
-		player_->OnCollisionWall(map->GetHitWallX());
-	}
-#pragma endregion
 
-#pragma region プレイヤーとボス
-	if (boss_->IsHitBoss(PLAYER, P_wide)) {
-		player_->OnCollisionBoss();
-	}
-#pragma endregion
-
-
-
-
-	
 }
 
+
+//死亡チェック
 void InGame::CheckDead() {
 	spikes.remove_if([](Spike* spike) {
 		if (spike->IsDead()) {
@@ -365,9 +360,7 @@ void InGame::CheckDead() {
 		});
 }
 
-
-
-
+//終了処理
 void InGame::OnFinalize()
 {
 	for (Spike* spike : spikes) {

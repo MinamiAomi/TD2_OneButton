@@ -60,10 +60,13 @@ public:
 	//棘の管理番号取得
 	const int GetIdentificationNum() { return spikeNum_; }
 
+	//当たり判定がONなのかチェック
 	const bool GetIsCollisionOn() { return collision_on; }
 
+	//埋まり切ったかチェック
 	const bool GetCompleteFillUp() { return CompleteFillUp_; }
 
+	//ボスに当たるときの状態をチェックする
 	const bool IsStateFillUp() {
 		if (state_ == kFillUp||state_==kFlyAway) {
 			return true;
@@ -121,11 +124,15 @@ private:
 	//移動量
 	Vector3 velocity_;
 
+	//死亡判定
+	bool isDead_ = false;
+
 	//減速量
 	const float gensoku = 1.0f / 1000.0f;
 
-	//死亡判定
-	bool isDead_ = false;
+	//棘にかかる重力
+	float gravity = -0.1f;
+
 
 	//爆破アニメーションのカウント
 	int animationCount_ = 0;
@@ -141,6 +148,8 @@ private:
 	//無敵時間残りカウント
 	int noCollisionCount_ = 0;
 
+
+#pragma region 埋まる処理
 	//ボスに埋まり切るかのカウント
 	int fillUpCount_;
 	//埋まるまでのマックス
@@ -148,23 +157,29 @@ private:
 	//埋まり切ったかのフラグ
 	bool CompleteFillUp_ = false;
 
+#pragma endregion
 
-	//棘にかかる重力
-	float gravity=-0.1f;
-
-	//飛ぶ向きが左
+	
+#pragma region 吹き飛ぶ処理
+	//飛ぶ向きが左か否か
 	bool veloLeft_;
+
 	//爆風の時の初期速度
 	Vector3 exploVec = { 0.1f,0.0f,0.0f };
 
 	//吹っ飛ぶときの加算量
 	const float addVeloX_ = 1.0f / 60.0f;
-
-
-
+	
 	//飛ぶ時間
 	float flyAwayCount_ = 0;
 	//飛ぶ瞬間の最大カウント
 	const float maxFlyAwayCount_ = 30;
 
+#pragma endregion
+
+	
+	
+
+
+	
 };
