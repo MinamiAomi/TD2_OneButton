@@ -3,44 +3,6 @@
 Leser::Leser() {}
 Leser::~Leser() {}
 
-void Leser::Initalize(std::shared_ptr<ToonModel> model, const Vector3& playerPos, const Vector3& bossPos) {
-	
-#pragma region ビーム関連
-	//モデルセット
-	modelInstance_.SetModel(model);
-	//中心座標取得
-	Vector3 velo = (playerPos - bossPos) / 2;
-	//中心点
-	Vector3 pos = bossPos + velo;
-
-	//ｙScale取得
-	float yScale = sqrtf(velo.x * velo.x + velo.y * velo.y);
-
-	//変化するwide初期化
-	variableWide_ = leserWide_;
-
-	//Transform再設定
-	worldTransform_.translate = pos;
-	worldTransform_.scale = { leserWide_,yScale,leserWide_ };
-#pragma endregion
-
-#pragma region 爆発関連
-	//モデルセット
-	expModelInstance_.SetModel(model);
-
-	//爆発の情報取得と設定
-	explosionpos_.translate = bossPos;
-	explosionRadius_ = 0;
-	explosionpos_.scale = { explosionRadius_,explosionRadius_ ,explosionRadius_ };
-
-#pragma endregion
-
-
-	
-
-	//描画＆処理フラグＯＮ
-	IsAlive = true;
-}
 
 float Esing(const float& start, const float& end, const float& t) {
 	return start * (1.0f - t) + end * t;

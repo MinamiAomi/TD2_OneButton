@@ -24,8 +24,6 @@ public:
 	Player();
 	~Player();
 
-	//初期化
-	void Initalize(const Vector3& position, std::shared_ptr<ToonModel> toonModel);
 	
 	//モデル完成時調整版
 	void Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>>models);
@@ -140,11 +138,48 @@ private:
 
 private://スペチャ追加分
 
+	//パーツ
+	enum Parts {
+		//頭
+		kHead,
+		//身体
+		kBody,
+		//左手
+		kLArm,
+		//右手
+		kRArm,
+		//左足
+		kLFoot,
+		//右足
+		kRFoot
+	};
+
+	const int  PartsNum = 6;
+
+#pragma region 身体モデル
+	//モデルたち
+	ToonModelInstance headModel_;
+	ToonModelInstance bodyModel_;
+
+	ToonModelInstance LArmModel_;
+	ToonModelInstance RArmModel_;
+
+	ToonModelInstance LFootModel_;
+	ToonModelInstance RFootModel_;
+
+
+	//パーツのワールドTたち
+	std::vector<Transform> worlds_;
+	
+#pragma endregion
+
+
+	//攻撃時に使うモデルまとめ
 	std::vector<std::shared_ptr<ToonModel>>ATKmodels_;
 	
 	float wide_ = 1;
 	//モデル用
-	ToonModelInstance modelInstance_;
+	
 	//移動関数
 	bool isMove = false;
 	//コリジョン処理するか否か
@@ -156,8 +191,7 @@ private://スペチャ追加分
 
 	//レーザーと爆風の仮システム作成
 	std::list<Leser*>lesers_;
-	std::shared_ptr<ToonModel> leser_model_;
-
+	
 
 	float leserWide_ = 0.5f;
 

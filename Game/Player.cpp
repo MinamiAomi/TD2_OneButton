@@ -12,35 +12,26 @@ Player::~Player() {
 
 }
 
-void Player::Initalize(const Vector3& position, std::shared_ptr<ToonModel> PlayertoonModel) {
-	
-	//プレイヤーモデル受け取り
-	model_ = PlayertoonModel;
-	modelInstance_.SetModel(model_);
-
-	//レーザー用モデル読み取り
-	leser_model_ = PlayertoonModel;
-	
-	
-	
-
-	//プレイヤーのモデル
-	worldTransform_.translate = position;
-
-	input = Input::GetInstance();
-
-
-	
-
-}
 
 void Player::Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> models)
 {
 	//プレイヤーモデルの設定
-	modelInstance_.SetModel(models[0]);
+	headModel_.SetModel(models[2]);
+	bodyModel_.SetModel(models[3]);
+
+	LArmModel_.SetModel(models[4]);
+	RArmModel_.SetModel(models[5]);
+
+	LFootModel_.SetModel(models[6]);
+	RFootModel_.SetModel(models[7]);
+
+
+	//パーツのサイズ修正
+	worlds_.resize(PartsNum);
+
 
 	//攻撃に使うモデルまとめ
-	std::vector<std::shared_ptr<ToonModel>>ATKmodels = { models[1],models[2] };
+	std::vector<std::shared_ptr<ToonModel>>ATKmodels = { models[0],models[1] };
 	ATKmodels_ = ATKmodels;
 
 	//プレイヤーのモデル
@@ -115,7 +106,24 @@ void Player::Update() {
 
 
 	worldTransform_.UpdateMatrix();
-	modelInstance_.SetWorldMatrix(worldTransform_.worldMatrix);
+	
+	
+	//パーツの更新
+	for (Transform world : worlds_) {
+		world.UpdateMatrix();
+	}
+
+#pragma region モデル更新
+	headModel_.SetWorldMatrix(worlds_[kHead].worldMatrix);
+	bodyModel_.SetWorldMatrix(worlds_[kBody].worldMatrix);
+
+	LArmModel_.SetWorldMatrix(worlds_[kLArm].worldMatrix);
+	RArmModel_.SetWorldMatrix(worlds_[kRArm].worldMatrix);
+
+	LFootModel_.SetWorldMatrix(worlds_[kLFoot].worldMatrix);
+	RFootModel_.SetWorldMatrix(worlds_[kRFoot].worldMatrix);
+
+#pragma endregion
 
 	
 	lesers_.remove_if([](Leser* leser) {
@@ -195,7 +203,7 @@ void Player::BehaviorJumpInitalize() {
 	Epos.y =*BossY_;
 
 	Leser* leser_ = new Leser();
-	leser_->Initalize(leser_model_, Ppos,Epos );
+	leser_->Initialize(ATKmodels_, Ppos,Epos );
 	lesers_.push_back(leser_);
 #pragma endregion
 
