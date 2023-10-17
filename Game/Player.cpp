@@ -64,6 +64,7 @@ void Player::Update() {
 			BehaviorDropInitalize();
 			break;
 		}
+		//リクエストのリセット
 		behaviorRequest_ = std::nullopt;
 	}
 
