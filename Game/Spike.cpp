@@ -2,41 +2,41 @@
 #include<cassert>
 
 #include"Engine/Graphics/ModelLoader.h"
-
 #include"Externals/ImGui/imgui.h"
 
+
 void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State, Vector3 velo) {
+	//管理番号
 	spikeNum_=num;
-	
-	world_ = world;
-	toonModel_ = toonModel;
-
+	//座標
+	world_ = world;	
 	wide_ = world_.scale.x;
+	world_.UpdateMatrix();
 
-	//modelInstance_ = modelInstance;
 
-	modelInstance_.SetModel(toonModel_);
-
+	//モデル
+	modelInstance_.SetModel(toonModel);
+	
 
 	//状態入力
 	switch (State) {
-	case Stay:
-		state_ = Stay;
+	case kStay:
+		state_ = kStay;
 		break;
-	case Falling:
-		state_ = Falling;
+	case kFalling:
+		//生成時落下処理の時すぐ当たらないよう処理
+		state_ = kFalling;
+		collision_on = false;
+		noCollisionCount_ = 15;
+
+
 		break;
-	case FillUp:
-		state_ = FillUp;
+	case kFillUp:
+		state_ = kFillUp;
 		break;
 
-	case Explosion:
-		animationCount_++;
-		//アニメーションカウントがmaxの値で死亡
-		if (maxAnimationCount <= animationCount_) {
-			isDead_ = true;
-		}
-
+	case kExplosion:
+		
 		break;
 	default:
 		break;
@@ -47,32 +47,58 @@ void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonM
 
 void Spike::Update() {
 
+	//コリジョン処理をするかのフラグ処理
+	if (!collision_on) {
+		if (noCollisionCount_-- <= 0) {
+			collision_on = true;
+		}
+	}
 	
-
+	//実行処理
 	switch (state_) {
-	case Spike::Stay:
+	case Spike::kStay:
 		break;
-	case Spike::Falling:
+	case Spike::kFalling://落っこちる
 
 		//移動量
 		world_.translate = world_.translate + velocity_;
 
+		velocity_.y += gravity;
+
 		break;
-	case Spike::FillUp:
+	case Spike::kFillUp://埋まっていく
+		//座標計算
 		world_.translate = world_.translate + (gensoku * velocity_);
+
+		if (fillUpCount_++ >= maxFillUpCount_) {
+			//死亡フラグON
+			isDead_ = true;
+			//埋まり切りフラグON
+			CompleteFillUp_ = true;
+			//コリジョンを切る
+			collision_on = false;
+			noCollisionCount_ = 60;
+		}
+
+		break;
+	case Spike::kExplosion://爆発
+
+		animationCount_++;
+		//アニメーションカウントがmaxの値で死亡
+		if (maxAnimationCount >= animationCount_) {
+			isDead_ = true;
+		}
+
 		break;
 
-	case Spike::Explosion:
-
-		break;
-
-	case Spike::None:
+	case Spike::kNone:
 
 		break;
 	default:
 		break;
 	}
 
+	//行列更新
 	world_.UpdateMatrix();
 	modelInstance_.SetWorldMatrix(world_.worldMatrix);
 }
@@ -85,7 +111,11 @@ void Spike::OnCollisionPlayer() { isDead_ = true; }
 
 void Spike::OnCollisionBoss() {
 	// 状態をゆっくり沈む状態へ
-	state_ = FillUp;
+	state_ = kFillUp;
+
+	//埋まるまでのカウント初期化
+	fillUpCount_ = 0;
+
 	// 横の加速度を削除
 	velocity_.x = 0;
 
@@ -107,7 +137,7 @@ void Spike::OnCollisionPlayerBeam() {
 
 void Spike::OnCollisionPlayerExplosion(Vector3 ExpPos) {
 	// 状態変化
-	state_ = Falling;
+	state_ = kFalling;
 
 	if (ExpPos.x < world_.translate.x) {
 		velocity_ = { -1.0f, 0.0f, 0.0f };
@@ -115,21 +145,21 @@ void Spike::OnCollisionPlayerExplosion(Vector3 ExpPos) {
 	else {
 		velocity_ = { -1.0f, 0.0f, 0.0f };
 	}
+
+	
 }
 
 void Spike::OnCollisionSpike() {
 	// 座標をmatにする
 	world_.translate = GetmatWtranstate();
 	// 親子関係の削除
-	world_.parent = nullptr;
-
-	
-	
+	world_.parent = nullptr;	
 }
+
 
 void Spike::OnCollisionPlayerStump() {
 	// 状態変化
-	state_ = Explosion;
+	state_ = kExplosion;
 
 	// 座標をmatにする
 	world_.translate= GetmatWtranstate();
@@ -137,9 +167,11 @@ void Spike::OnCollisionPlayerStump() {
 	world_.parent = nullptr;
 }
 
+
 void Spike::OnCollisionWall() {
 	isDead_ = true;
-	state_ = None;
+	state_ = kNone;
 }
+
 
 #pragma endregion

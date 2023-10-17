@@ -8,6 +8,7 @@
 #include"Spike.h"
 #include"map.h"
 #include"Player.h"
+#include"Boss.h"
 
 class InGame : public BaseScene {
 public:
@@ -29,17 +30,28 @@ public:
 	void CheckDead();
 
 
+private://メンバ関数
+	
 	
 private:
-	std::shared_ptr<ToonModel> toonModel_;
-	ToonModelInstance modelInstance_;
+
+
+
+	//カメラ
 	Camera camera_;
-	
+
+	//モデル
+	std::shared_ptr<ToonModel> toonModel_;
+
 	//マップクラス
 	std::unique_ptr<Map>map = nullptr;
+	
 	//棘クラス
 	std::list<Spike*> spikes;
 
 	//プレイヤークラス
 	std::unique_ptr<Player>player_ = nullptr;
+
+	//ボスクラス
+	std::unique_ptr<Boss>boss_ = nullptr;
 };
