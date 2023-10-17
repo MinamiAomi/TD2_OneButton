@@ -8,6 +8,7 @@
 #include"Spike.h"
 #include"map.h"
 #include"Player.h"
+#include"Boss.h"
 
 class InGame : public BaseScene {
 public:
@@ -29,17 +30,52 @@ public:
 	void CheckDead();
 
 
+private://メンバ関数
+	
 	
 private:
+
+#pragma region 各種モデル
+	//仮モデル
 	std::shared_ptr<ToonModel> toonModel_;
-	ToonModelInstance modelInstance_;
+
+	//プレイヤーモデル
+	std::shared_ptr<ToonModel> playerModel_;
+
+	//lezerモデル
+	std::shared_ptr<ToonModel> lezerModel_;
+
+	//プレイヤー攻撃の爆発
+	std::shared_ptr<ToonModel> playerExplotionModel_;
+
+	//ボスモデル
+	std::shared_ptr<ToonModel> bossModel_;
+
+	//ボスが攻撃で使う棘モデル
+	std::shared_ptr<ToonModel>bossSpikeModel_;
+
+	//棘モデル
+	std::shared_ptr<ToonModel> spikeModel_;
+
+
+	
+#pragma endregion
+
+
+	//カメラ
 	Camera camera_;
+
+
 	
 	//マップクラス
 	std::unique_ptr<Map>map = nullptr;
+	
 	//棘クラス
 	std::list<Spike*> spikes;
 
 	//プレイヤークラス
 	std::unique_ptr<Player>player_ = nullptr;
+
+	//ボスクラス
+	std::unique_ptr<Boss>boss_ = nullptr;
 };

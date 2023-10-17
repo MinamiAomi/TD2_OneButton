@@ -39,8 +39,6 @@ void RenderManager::Initialize() {
     auto imguiManager = ImGuiManager::GetInstance();
     imguiManager->Initialize(window->GetHWND(), swapChainBuffer.GetFormat());
     imguiManager->NewFrame();
-
-    timer_.Initialize();
 }
 
 void RenderManager::Finalize() {
@@ -83,7 +81,7 @@ void RenderManager::Render() {
     auto& io = ImGui::GetIO();
     ImGui::Text("Framerate : %f", io.Framerate);
     ImGui::End();
-
+  
     // ImGuiを描画
     auto imguiManager = ImGuiManager::GetInstance();
     imguiManager->Render(commandContext);
@@ -93,10 +91,8 @@ void RenderManager::Render() {
     CommandQueue& commandQueue = graphics_->GetCommandQueue();
     commandQueue.WaitForGPU();
     commandQueue.Excute(commandContext);
-    swapChain_.Present(fps_ - 2);
+    swapChain_.Present();
     commandQueue.Signal();
-
-    timer_.KeepFrameRate(fps_);
 
     imguiManager->NewFrame();
 }
