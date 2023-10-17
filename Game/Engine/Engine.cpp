@@ -20,7 +20,7 @@ void Engine::Run(Game* game) {
 
     auto renderManager = RenderManager::GetInstance();
     renderManager->Initialize();
-
+    
     auto sceneManager = SceneManager::GetInstance();
 
     game->OnInitialize();
@@ -38,4 +38,3 @@ void Engine::Run(Game* game) {
     renderManager->Finalize();
     gameWindow->Shutdown();
 }
-

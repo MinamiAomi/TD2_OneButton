@@ -10,7 +10,6 @@
 #include "ToonRenderer.h"
 #include "SpriteRenderer.h"
 #include "PostEffect.h"
-#include "Timer.h"
 
 class RenderManager {
 public:
@@ -22,7 +21,6 @@ public:
     void Render();
 
     void SetCamera(const Camera& camera) { camera_ = &camera; }
-    void SetFPS(uint32_t fps) { fps_ = fps; }
 
 private:
     RenderManager() = default;
@@ -42,7 +40,4 @@ private:
     PostEffect postEffect_;
 
     const Camera* camera_ = nullptr;
-
-    Timer timer_;
-    uint32_t fps_ = 60;
 };
