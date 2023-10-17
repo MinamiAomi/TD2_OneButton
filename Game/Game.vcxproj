@@ -150,6 +150,7 @@
     <ClCompile Include="Engine\Graphics\ModelLoader.cpp" />
     <ClCompile Include="Engine\Graphics\PostEffect.cpp" />
     <ClCompile Include="Engine\Graphics\RenderManager.cpp" />
+    <ClCompile Include="Engine\Graphics\ResourceManager.cpp" />
     <ClCompile Include="Engine\Graphics\Sprite.cpp" />
     <ClCompile Include="Engine\Graphics\SpriteRenderer.cpp" />
     <ClCompile Include="Engine\Graphics\Timer.cpp" />
