@@ -193,7 +193,7 @@ void InGame::GetAllCollisions() {
 					//サイズ取得
 					int spikesize = (int)spikes.size();
 
-					float newWide = S_wide;
+					float newWide = S_wide*0.8f;
 
 					//新しいTransform作成
 					Transform Newworld;
@@ -295,7 +295,7 @@ void InGame::GetAllCollisions() {
 							leng = SPIKE2 + leng;
 
 							//新しい円の半径設定
-							float newSize = (S_wide + S2_wide) * 0.8f;
+							float newSize = (S_wide + S2_wide) * 0.6f;
 
 							//新しいTransform作成
 							Transform newSpike;

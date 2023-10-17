@@ -55,6 +55,7 @@ void Map::Initialize() {
 void Map::Update() {
 	ImGui::Begin("map");
 	ImGui::DragFloat3("pos", &mapWorld_.translate.x, 0.01f);
+	ImGui::DragFloat3("scale", &mapWorld_.scale.x, 0.01f);
 	ImGui::End();
 
 	//マップ移動
