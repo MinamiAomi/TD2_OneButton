@@ -15,7 +15,9 @@ enum class Behavior {
 	kJump,//ジャンプ(単押し)
 	kDrop,//落下攻撃(長押し)
 	kHit,//ボスに当たった時
+	
 };
+
 
 class Player {
 public:
@@ -25,6 +27,10 @@ public:
 	//初期化
 	void Initalize(const Vector3& position, std::shared_ptr<ToonModel> toonModel);
 	
+	//モデル完成時調整版
+	void Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>>models);
+
+
 	//更新
 	void Update();
 	
@@ -68,42 +74,65 @@ public:
 	
 
 private:
-
+	//kRotのInitalize
 	void BehaviorRootInitalize();
+	//kRotのUpdate
 	void BehaviorRootUpdate();
+	//kJumpのInitalize
 	void BehaviorJumpInitalize();
+	//kJumpのUpdate
 	void BehaviorJumpUpdate();
+	//kDropのInitalize
 	void BehaviorDropInitalize();
+	//kDropのUpdate
 	void BehaviorDropUpdate();
-	void BehaviorHitInitalize();
-	void BehaviorHitUpdate();
-
+	//落下処理
 	void Attack();
+	//敵(トゲやボス)に当たった時
+	//kHitのInitalize
+	void BehaviorHitEnemyInitalize();
+	//kHitのUpdate
+	void BehaviorHitEnemyUpdate();
 
-	//kamataEngine
+	//model
 	std::shared_ptr<ToonModel> model_ = nullptr;
+	//Transform
 	Transform worldTransform_;
+	
 	Input* input = nullptr;
-	//
+	//状態(Behavior)の管理
 	Behavior behavior_ = Behavior::kRoot;
+	//状態(Behavior)のリクエストを管理
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
-	//ジャンプ関連関数
+
+	//重力
 	float gravity = 0.2f;
+
+	//ジャンプする力
 	float Jumpforce = 4.0f;
-	//左右移動関係関数
+
+	//左右移動の速度(絶対値)
 	const float kXaxisSpeed = 0.20f;
+
+	//左右移動の速度(コード内で使用)
 	float moveXaxisSpeed = kXaxisSpeed;
-	//落下攻撃関係関数
+
+	//長押しを何秒しているかのカウント
 	int DropCount = 0;
+	//20フレーム長押ししていたら落下
 	const int kDropAnime = 20;
+	//落ちている途中かどうかのフラグ
 	bool DropFlag = false;
-	//ボスに当たった時用
 
-
-	//std::list<Leser*> lesers_;
-	//Model* leser_model;
+	//敵に当たった時のLerp用の関数(処理t)
+	float t_ = 0;
+	//プレイヤーの位置記録
+	float PposY;
+	//目標の位置
+	float EposY = -31.0f;
 
 	//TODO ちゃんといじろう
+	//プレイヤーのHP
 	int HP = 10;
 
 
@@ -111,6 +140,7 @@ private:
 
 private://スペチャ追加分
 
+	std::vector<std::shared_ptr<ToonModel>>ATKmodels_;
 	
 	float wide_ = 1;
 	//モデル用

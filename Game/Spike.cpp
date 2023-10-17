@@ -65,6 +65,11 @@ void Spike::Update() {
 
 		velocity_.y += gravity;
 
+		//yベクトルが-でコリジョンON
+		if (velocity_.y <= -0.00001f) {
+			collision_on = true;
+			noCollisionCount_ = 0;
+		}
 		break;
 	case Spike::kFillUp://埋まっていく
 		//座標計算
@@ -80,6 +85,8 @@ void Spike::Update() {
 			noCollisionCount_ = 60;
 		}
 
+		
+
 		break;
 	case Spike::kExplosion://爆発
 
@@ -87,6 +94,24 @@ void Spike::Update() {
 		//アニメーションカウントがmaxの値で死亡
 		if (maxAnimationCount >= animationCount_) {
 			isDead_ = true;
+		}
+
+		break;
+	case Spike::kFlyAway:
+		world_.translate = world_.translate + velocity_;
+
+		//飛ぶ方向チェック
+		if (veloLeft_) {
+			velocity_.x -= addVeloX_;
+		}
+		else {
+			velocity_.x += addVeloX_;
+		}
+
+		if (flyAwayCount_++ >= maxFlyAwayCount_) {
+			state_ = kFillUp;
+			velocity_.x = 0;
+			velocity_.y = -1.0f;
 		}
 
 		break;
@@ -137,13 +162,15 @@ void Spike::OnCollisionPlayerBeam() {
 
 void Spike::OnCollisionPlayerExplosion(Vector3 ExpPos) {
 	// 状態変化
-	state_ = kFalling;
+	state_ = kFlyAway;
 
 	if (ExpPos.x < world_.translate.x) {
-		velocity_ = { -1.0f, 0.0f, 0.0f };
+		velocity_ = { 1.0f, 0.0f, 0.0f };
+		veloLeft_ = false;
 	}
 	else {
 		velocity_ = { -1.0f, 0.0f, 0.0f };
+		veloLeft_ = true;
 	}
 
 	

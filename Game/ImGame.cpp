@@ -17,15 +17,49 @@ void InGame::OnInitialize()
 	Vector3 camerapos = { 0.0f,0.0f,-50.0f };
 	camera_.SetPosition(camerapos);
 
+#pragma region モデルの初期化
 
-
+	//仮モデル初期化
 	toonModel_ = std::make_shared<ToonModel>();
 	toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
 
 	
-	//複数モデル読み込みする用
-	//std::vector<std::shared_ptr<ToonModel>> models_;
+	/*
+	//プレイヤーモデル
+	playerModel_ = std::make_shared<ToonModel>();
+	playerModel_->Create(ModelData::LoadObjFile("Resource/Model/player/player.obj"));
+	//レーザー
+	lezerModel_ = std::make_shared<ToonModel>();
+	lezerModel_->Create(ModelData::LoadObjFile("Resource/Model/lazer/lazer.obj"));
+	//レーザー爆発
+	playerExplotionModel_ = std::make_shared<ToonModel>();
+	playerExplotionModel_->Create(ModelData::LoadObjFile("Resource/Model/explosion/explosion.obj"));
+	
+	//プレイヤーモデルたち
+	std::vector<std::shared_ptr<ToonModel>> playerModels_ = { playerModel_,lezerModel_,playerExplotionModel_ };
 
+	//ボス
+	bossModel_ = std::make_shared<ToonModel>();
+	bossModel_->Create(ModelData::LoadObjFile("Resource/Model/boss/boss.obj"));
+	//ボスの棘
+	bossSpikeModel_ = std::make_shared<ToonModel>();
+	bossSpikeModel_->Create(ModelData::LoadObjFile("Resource/Model/boss/boss.obj"));
+
+	//ボスモデルたち
+	std::vector<std::shared_ptr<ToonModel>>bossModels = { bossModel_,bossSpikeModel_ };
+
+	//棘
+	spikeModel_ = std::make_shared<ToonModel>();
+	spikeModel_->Create(ModelData::LoadObjFile("Resource/Model/spike/spike.obj"));
+	*/
+
+#pragma endregion
+
+
+	
+	
+
+	
 	//マップクラス初期化
 	map = std::make_unique<Map>();
 	map->Initialize();
@@ -35,10 +69,13 @@ void InGame::OnInitialize()
 	//棘の数取得
 	int spileNum = (int)spikeWorld.size();
 	//棘の初期設定
-	for (int num = 0; num < spileNum; num++) {		
+	for (int num = 0; num < spileNum; num++) {
+		//管理番号取得
 		int sizeNum=(int)spikes.size();
+		//クラス作成
 		Spike* spike_ = new Spike();
 		spike_->Initialize(sizeNum,spikeWorld[num], toonModel_,0);
+		//プッシュ
 		spikes.push_back(spike_);
 	}
 	//ボスの初期化
@@ -98,7 +135,9 @@ bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 
 	Vector3 p = p1 - p2;
 
-	float Length = sqrtf(p.x * p.x + p.y * p.y) ;
+	float Length = sqrtf(p.x * p.x + p.y * p.y);
+	//計算の誤差を許容する
+	Length += 0.001f;
 
 	if (Length < w1 + w2) {
 		return true;
@@ -185,7 +224,13 @@ void InGame::GetAllCollisions() {
 					//ビーム当たっていない
 					//爆風の範囲の場合
 #pragma region プレイヤービーム爆風
-
+					//爆風の座標を取得
+					Vector3 ExpPos = leser->GetExplosionPos();
+					float ExpWide = leser->GetWide();
+					//爆風に当たった時
+					if (CheckHitSphere(SPIKE, S_wide, ExpPos, ExpWide)) {
+						spike->OnCollisionPlayerExplosion(ExpPos);
+					}
 #pragma endregion
 				}
 			}
@@ -216,7 +261,18 @@ void InGame::GetAllCollisions() {
 #pragma endregion
 
 #pragma region 棘同士
+
+			
+			int alredy = spike->GetIdentificationNum();
+
+			int count = 0;
 			for (Spike* spike2 : spikes) {
+
+				if (count != alredy) {
+					count++;
+					continue;
+				}
+
 
 				//同じ棘でないことを確認
 				if (spike->GetIdentificationNum() != spike2->GetIdentificationNum()) {
@@ -263,6 +319,7 @@ void InGame::GetAllCollisions() {
 					}
 				}
 			}
+			
 #pragma endregion
 
 

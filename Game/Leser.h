@@ -13,6 +13,9 @@ public:
 	//初期化
 	void Initalize(std::shared_ptr<ToonModel> model, const Vector3& playerPos, const Vector3& bossPos);
 	
+	//モデル作成後の初期化
+	void Initialize(std::vector<std::shared_ptr<ToonModel>>models, const Vector3& playerPos, const Vector3& bossPos);
+
 	void Update();
 	
 	void OnCollision();
@@ -31,7 +34,7 @@ public:
 private:
 
 	
-	//
+	//生成されてからフレームのカウント
 	int AliveCount = 240;
 	//動いてるか否か
 	bool IsAlive = true;
@@ -58,9 +61,7 @@ private:
 	//変数変化量
 	float variableWide_ = leserWide_;
 
-	//１フレームに小さくするスケールの量
-	const float SubWide_ = (1.0f * leserWide_) / (30.0f * leserWide_);
-
+	
 #pragma endregion
 
 #pragma region 爆発処理関連
