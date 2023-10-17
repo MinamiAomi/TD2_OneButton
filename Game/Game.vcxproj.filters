@@ -249,6 +249,9 @@
     <ClInclude Include="Engine\Graphics\SpriteRenderer.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Graphics\Timer.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -412,6 +415,9 @@
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Graphics\ResourceManager.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Timer.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>

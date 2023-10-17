@@ -36,6 +36,8 @@ void RenderManager::Initialize() {
     spriteRenderer_.Initialize(swapChainBuffer);
     postEffect_.Initialize(swapChainBuffer);
 
+    timer_.Initialize();
+
     auto imguiManager = ImGuiManager::GetInstance();
     imguiManager->Initialize(window->GetHWND(), swapChainBuffer.GetFormat());
     imguiManager->NewFrame();
@@ -91,8 +93,10 @@ void RenderManager::Render() {
     CommandQueue& commandQueue = graphics_->GetCommandQueue();
     commandQueue.WaitForGPU();
     commandQueue.Excute(commandContext);
-    swapChain_.Present();
+    swapChain_.Present(fps_);
     commandQueue.Signal();
+
+    timer_.KeepFrameRate(fps_);
 
     imguiManager->NewFrame();
 }
