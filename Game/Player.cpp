@@ -266,11 +266,11 @@ void Player::BehaviorHitEnemyInitalize()
 
 void Player::BehaviorHitEnemyUpdate()
 {
-	//t_の値を加算
+	//t_に値を加算
 	t_ += 0.1f;
-
+	//Lerpで上まで動かす
 	worldTransform_.translate.y = Math::Lerp(t_,PposY,EposY);
-	//TODO : 
+	//TODO : 上空で少し待機する処理を追加
 	if (t_ >= 1.0f) {
 		behaviorRequest_ = Behavior::kRoot;
 	}
