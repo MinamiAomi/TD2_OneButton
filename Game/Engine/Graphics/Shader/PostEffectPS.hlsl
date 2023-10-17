@@ -12,7 +12,8 @@ struct PSOutput {
     float4 color : SV_TARGET0;
 };
 
-//float3 LinearToSRGB(float3 color) {
+//float3 LinearToSRGB(float3 color)
+//{
 //    float3 sqrt1 = sqrt(color);
 //    float3 sqrt2 = sqrt(sqrt1);
 //    float3 sqrt3 = sqrt(sqrt2);
@@ -23,8 +24,23 @@ struct PSOutput {
 PSOutput main(PSInput input) {
     PSOutput output;
     
-    output.color = texture_.Sample(sampler_, input.texcoord);
-   // output.color.xyz = LinearToSRGB(output.color.xyz);
+    float2 texcoord = input.texcoord;
     
+    //float len = length(texcoord);
+    //float2 dir = texcoord / len;
+    //texcoord = dir * pow(len, 2.0f);
+    
+    //uint2 size = 0;
+    //texture_.GetDimensions(size.x, size.y);
+    
+
+    //float2 offset = float2(1.0f / size.x, 0.0f);
+    //output.color.r = texture_.Sample(sampler_, texcoord).r;
+    //output.color.g = texture_.Sample(sampler_, texcoord + offset).g;
+    //output.color.b = texture_.Sample(sampler_, texcoord - offset).b;
+    
+    output.color = texture_.Sample(sampler_, texcoord);
+    //output.color.xyz = LinearToSRGB(output.color.xyz);
+        
     return output;
 }

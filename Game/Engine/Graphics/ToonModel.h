@@ -39,8 +39,6 @@ private:
 class ToonModelInstance {
     friend class ToonRenderer;
 public:
-    static const std::list<ToonModelInstance*>& GetInstanceList() { return instanceLists_; }
-
     ToonModelInstance();
     virtual ~ToonModelInstance();
 
@@ -54,7 +52,7 @@ public:
     bool IsActive() const { return isActive_; }
 
 private:
-    static std::list<ToonModelInstance*> instanceLists_;
+    static std::list<ToonModelInstance*> instanceList_;
 
     ToonModelInstance(const ToonModelInstance&) = delete;
     ToonModelInstance& operator=(const ToonModelInstance&) = delete;

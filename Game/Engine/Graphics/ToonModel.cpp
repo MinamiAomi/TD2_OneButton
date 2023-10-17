@@ -75,15 +75,12 @@ void ToonModel::Create(const ModelData& modelData) {
 }
 
 
-std::list<ToonModelInstance*> ToonModelInstance::instanceLists_;
+std::list<ToonModelInstance*> ToonModelInstance::instanceList_;
 
 ToonModelInstance::ToonModelInstance() {
-    instanceLists_.emplace_back(this);
+    instanceList_.emplace_back(this);
 }
 
 ToonModelInstance::~ToonModelInstance() {
-    auto iter = std::find(instanceLists_.begin(), instanceLists_.end(), this);
-    if (iter != instanceLists_.end()) {
-        instanceLists_.erase(iter);
-    }
+    instanceList_.remove(this);
 }

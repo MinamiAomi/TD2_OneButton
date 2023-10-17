@@ -8,6 +8,7 @@
 #include "Core/DepthBuffer.h"
 #include "Bloom.h"
 #include "ToonRenderer.h"
+#include "SpriteRenderer.h"
 #include "PostEffect.h"
 
 class RenderManager {
@@ -34,6 +35,7 @@ private:
     DepthBuffer mainDepthBuffer_;
 
     ToonRenderer toonRenderer_;
+    SpriteRenderer spriteRenderer_;
     Bloom bloom_;
     PostEffect postEffect_;
 

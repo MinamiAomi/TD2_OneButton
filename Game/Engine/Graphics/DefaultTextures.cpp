@@ -8,6 +8,7 @@ namespace DefaultTexture{
     TextureResource White;
     TextureResource Black;
     TextureResource Normal;
+    TextureResource Purple;
 
     void Initialize() {
 
@@ -19,6 +20,8 @@ namespace DefaultTexture{
         Black.Create(commandContext, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, &black);
         UINT normal = 0xFFFF8080;
         Normal.Create(commandContext, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, &normal);
+        UINT pruple = 0xFFFF00FF;
+        Purple.Create(commandContext, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, &pruple);
         commandContext.Close();
         auto graphics = Graphics::GetInstance();
         auto& commandQueue = graphics->GetCommandQueue();
