@@ -31,7 +31,7 @@ public:
 private:
 
 	
-	//
+	//生成されてからフレームのカウント
 	int AliveCount = 240;
 	//動いてるか否か
 	bool IsAlive = true;
