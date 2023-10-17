@@ -35,10 +35,13 @@ void InGame::OnInitialize()
 	//棘の数取得
 	int spileNum = (int)spikeWorld.size();
 	//棘の初期設定
-	for (int num = 0; num < spileNum; num++) {		
+	for (int num = 0; num < spileNum; num++) {
+		//管理番号取得
 		int sizeNum=(int)spikes.size();
+		//クラス作成
 		Spike* spike_ = new Spike();
 		spike_->Initialize(sizeNum,spikeWorld[num], toonModel_,0);
+		//プッシュ
 		spikes.push_back(spike_);
 	}
 	//ボスの初期化
