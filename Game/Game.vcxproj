@@ -73,7 +73,6 @@
     <ClInclude Include="Engine\Graphics\ResourceManager.h" />
     <ClInclude Include="Engine\Graphics\Sprite.h" />
     <ClInclude Include="Engine\Graphics\SpriteRenderer.h" />
-    <ClInclude Include="Engine\Graphics\Timer.h" />
     <ClInclude Include="Engine\Graphics\ToonModel.h" />
     <ClInclude Include="Engine\Graphics\ToonRenderer.h" />
     <ClInclude Include="Engine\Input\Input.h" />
@@ -155,7 +154,6 @@
     <ClCompile Include="Engine\Graphics\ResourceManager.cpp" />
     <ClCompile Include="Engine\Graphics\Sprite.cpp" />
     <ClCompile Include="Engine\Graphics\SpriteRenderer.cpp" />
-    <ClCompile Include="Engine\Graphics\Timer.cpp" />
     <ClCompile Include="Engine\Graphics\ToonModel.cpp" />
     <ClCompile Include="Engine\Graphics\ToonRenderer.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />
