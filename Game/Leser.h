@@ -58,9 +58,7 @@ private:
 	//変数変化量
 	float variableWide_ = leserWide_;
 
-	//１フレームに小さくするスケールの量
-	const float SubWide_ = (1.0f * leserWide_) / (30.0f * leserWide_);
-
+	
 #pragma endregion
 
 #pragma region 爆発処理関連

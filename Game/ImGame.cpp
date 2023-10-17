@@ -98,7 +98,9 @@ bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 
 	Vector3 p = p1 - p2;
 
-	float Length = sqrtf(p.x * p.x + p.y * p.y) ;
+	float Length = sqrtf(p.x * p.x + p.y * p.y);
+	//計算の誤差を許容する
+	Length += 0.001f;
 
 	if (Length < w1 + w2) {
 		return true;
@@ -216,7 +218,18 @@ void InGame::GetAllCollisions() {
 #pragma endregion
 
 #pragma region 棘同士
+
+			
+			int alredy = spike->GetIdentificationNum();
+
+			int count = 0;
 			for (Spike* spike2 : spikes) {
+
+				if (count != alredy) {
+					count++;
+					continue;
+				}
+
 
 				//同じ棘でないことを確認
 				if (spike->GetIdentificationNum() != spike2->GetIdentificationNum()) {
@@ -263,6 +276,7 @@ void InGame::GetAllCollisions() {
 					}
 				}
 			}
+			
 #pragma endregion
 
 

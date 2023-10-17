@@ -28,6 +28,7 @@ void Map::Initialize() {
 	//マップタイルによる座標設定
 	for (int tileY = 0; tileY < mapTileNumY; tileY++) {
 		for (int tileX = 0; tileX < mapTileNumX; tileX++) {
+			//棘
 			if (mapTile[tileY][tileX] == Spike) {
 				Transform world;
 				world.translate = { tileWide * tileX, -tileWide * tileY, 0 };
@@ -40,7 +41,7 @@ void Map::Initialize() {
 				playerW_.parent = &mapWorld_;
 				playerW_.UpdateMatrix();
 			}
-
+			//ボス
 			if (mapTile[tileY][tileX] == Boss) {
 				bossW_.translate = { tileWide * tileX, -tileWide * tileY, 0 };
 				bossW_.parent = &mapWorld_;
@@ -72,7 +73,7 @@ void Map::Update() {
 	ImGui::End();
 
 	//マップ移動
-	//mapWorld_.translate.y += moveMapNum_;
+	mapWorld_.translate.y -= moveMapNum_;
 
 
 	//壁の再計算
