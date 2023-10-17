@@ -25,6 +25,10 @@ public:
 	//初期化
 	void Initalize(const Vector3& position, std::shared_ptr<ToonModel> toonModel);
 	
+	//モデル完成時調整版
+	void Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>>models);
+
+
 	//更新
 	void Update();
 	
@@ -126,6 +130,7 @@ private:
 
 private://スペチャ追加分
 
+	std::vector<std::shared_ptr<ToonModel>>ATKmodels_;
 	
 	float wide_ = 1;
 	//モデル用

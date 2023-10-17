@@ -34,12 +34,28 @@ void Player::Initalize(const Vector3& position, std::shared_ptr<ToonModel> Playe
 
 }
 
+void Player::Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> models)
+{
+	//プレイヤーモデルの設定
+	modelInstance_.SetModel(models[0]);
+
+	//攻撃に使うモデルまとめ
+	std::vector<std::shared_ptr<ToonModel>>ATKmodels = { models[1],models[2] };
+	ATKmodels_ = ATKmodels;
+
+	//プレイヤーのモデル
+	worldTransform_.translate = position;
+
+	//キー入力のインスタンス取得
+	input = Input::GetInstance();
+}
+
+
 void Player::Update() {
 	ImGui::Begin("player");
 	ImGui::DragFloat3("pos", &worldTransform_.translate.x, 0.01f);
 	ImGui::Checkbox("isMove", &isMove);
 	ImGui::End();
-
 	
 	//当たり判定するかの処理
 	if (!collision_on) {

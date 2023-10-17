@@ -17,15 +17,49 @@ void InGame::OnInitialize()
 	Vector3 camerapos = { 0.0f,0.0f,-50.0f };
 	camera_.SetPosition(camerapos);
 
+#pragma region モデルの初期化
 
-
+	//仮モデル初期化
 	toonModel_ = std::make_shared<ToonModel>();
 	toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
 
 	
-	//複数モデル読み込みする用
-	//std::vector<std::shared_ptr<ToonModel>> models_;
+	/*
+	//プレイヤーモデル
+	playerModel_ = std::make_shared<ToonModel>();
+	playerModel_->Create(ModelData::LoadObjFile("Resource/Model/player/player.obj"));
+	//レーザー
+	lezerModel_ = std::make_shared<ToonModel>();
+	lezerModel_->Create(ModelData::LoadObjFile("Resource/Model/lazer/lazer.obj"));
+	//レーザー爆発
+	playerExplotionModel_ = std::make_shared<ToonModel>();
+	playerExplotionModel_->Create(ModelData::LoadObjFile("Resource/Model/explosion/explosion.obj"));
+	
+	//プレイヤーモデルたち
+	std::vector<std::shared_ptr<ToonModel>> playerModels_ = { playerModel_,lezerModel_,playerExplotionModel_ };
 
+	//ボス
+	bossModel_ = std::make_shared<ToonModel>();
+	bossModel_->Create(ModelData::LoadObjFile("Resource/Model/boss/boss.obj"));
+	//ボスの棘
+	bossSpikeModel_ = std::make_shared<ToonModel>();
+	bossSpikeModel_->Create(ModelData::LoadObjFile("Resource/Model/boss/boss.obj"));
+
+	//ボスモデルたち
+	std::vector<std::shared_ptr<ToonModel>>bossModels = { bossModel_,bossSpikeModel_ };
+
+	//棘
+	spikeModel_ = std::make_shared<ToonModel>();
+	spikeModel_->Create(ModelData::LoadObjFile("Resource/Model/spike/spike.obj"));
+	*/
+
+#pragma endregion
+
+
+	
+	
+
+	
 	//マップクラス初期化
 	map = std::make_unique<Map>();
 	map->Initialize();

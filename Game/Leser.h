@@ -13,6 +13,9 @@ public:
 	//初期化
 	void Initalize(std::shared_ptr<ToonModel> model, const Vector3& playerPos, const Vector3& bossPos);
 	
+	//モデル作成後の初期化
+	void Initialize(std::vector<std::shared_ptr<ToonModel>>models, const Vector3& playerPos, const Vector3& bossPos);
+
 	void Update();
 	
 	void OnCollision();

@@ -42,7 +42,7 @@ public:
 		};
 	}
 
-	Vector3 GetBossMatPos() { 
+	Vector3 GetBossMatPos() {
 		return {
 		bossW_.worldMatrix.m[3][0],
 		bossW_.worldMatrix.m[3][1],
@@ -114,7 +114,7 @@ private:
 		{0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0,0},
 	};
 
-	
+
 
 	//タイルの合計数
 	const int tileNum = mapTileNumX * mapTileNumY;
@@ -128,7 +128,7 @@ private:
 	Transform Wall_min;
 	Transform Wall_max;
 
-	
+
 
 	//マップ全体のワールド
 	Transform mapWorld_;
@@ -143,12 +143,10 @@ private:
 	//ボス
 	Transform bossW_;
 
-	
+
 	//マップ配置データ
 	std::vector<std::vector<int>> mapData_;
 
-
-	
 
 	//マップ加算量
 	const float moveMapNum_ = 0.01f;
