@@ -68,42 +68,57 @@ public:
 	
 
 private:
-
+	//kRotのInitalize
 	void BehaviorRootInitalize();
+	//kRotのUpdate
 	void BehaviorRootUpdate();
+	//kJumpのInitalize
 	void BehaviorJumpInitalize();
+	//kJumpのUpdate
 	void BehaviorJumpUpdate();
+	//kDropのInitalize
 	void BehaviorDropInitalize();
+	//kDropのUpdate
 	void BehaviorDropUpdate();
+	//kHitのInitalize
 	void BehaviorHitInitalize();
+	//kHitのUpdate
 	void BehaviorHitUpdate();
 
 	void Attack();
 
-	//kamataEngine
+	//model
 	std::shared_ptr<ToonModel> model_ = nullptr;
+	//Transform
 	Transform worldTransform_;
+	
 	Input* input = nullptr;
-	//
+	//状態(Behavior)の管理
 	Behavior behavior_ = Behavior::kRoot;
+	//状態(Behavior)のリクエストを管理
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
-	//ジャンプ関連関数
+
+	//重力
 	float gravity = 0.2f;
+
+	//ジャンプする力
 	float Jumpforce = 4.0f;
-	//左右移動関係関数
+
+	//左右移動の速度(絶対値)
 	const float kXaxisSpeed = 0.20f;
+
+	//左右移動の速度(コード内で使用)
 	float moveXaxisSpeed = kXaxisSpeed;
-	//落下攻撃関係関数
+
+	//長押しを何秒しているかのカウント
 	int DropCount = 0;
+	//20フレーム長押ししていたら落下
 	const int kDropAnime = 20;
+	//落ちている途中かどうかのフラグ
 	bool DropFlag = false;
-	//ボスに当たった時用
-
-
-	//std::list<Leser*> lesers_;
-	//Model* leser_model;
 
 	//TODO ちゃんといじろう
+	//プレイヤーのHP
 	int HP = 10;
 
 
