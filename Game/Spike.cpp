@@ -21,6 +21,7 @@ void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonM
 		state_ = kStay;
 		break;
 	case kFalling:
+		//生成時落下処理の時すぐ当たらないよう処理
 		state_ = kFalling;
 		collision_on = false;
 		noCollisionCount_ = 15;

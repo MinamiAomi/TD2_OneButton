@@ -74,7 +74,7 @@ public:
 
 #pragma region セッター
 	//死亡セット
-	void SetDead() { isDead_ = true; }
+	void SetDead() { isDead_ = true; collision_on = false; }
 #pragma endregion
 
 

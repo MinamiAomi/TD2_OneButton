@@ -133,7 +133,8 @@ void InGame::GetAllCollisions() {
 			}
 #pragma endregion
 
-#pragma region プレイヤービーム
+#pragma region プレイヤービームと爆風
+
 			//プレイヤーがジャンプ処理中
 			if (player_->GetBehavior() == Behavior::kJump) {
 				//
@@ -143,8 +144,8 @@ void InGame::GetAllCollisions() {
 				//高さを合わせる
 				beamEnd.y = SPIKE.y;
 
-				//当たっているとき
-				if (PLAYER.y>beamEnd.y&&CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
+				//ビームに当たっているとき
+				if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
 
 					//一個目作成
 					//サイズ取得
@@ -169,7 +170,7 @@ void InGame::GetAllCollisions() {
 
 					//死亡判定出す
 					spike->SetDead();
- 					continue;
+					continue;
 				}
 				else {
 					//ビーム当たっていない
@@ -206,12 +207,15 @@ void InGame::GetAllCollisions() {
 
 #pragma region 棘同士
 			for (Spike* spike2 : spikes) {
-				if (spike2->GetIsCollisionOn()) {
-					Vector3 SPIKE2 = spike2->GetmatWtranstate();
-					float S2_wide = spike->GetWide();
 
-					//座標が同じ(同じもの)でないことを確認
-					if (spike->GetIdentificationNum() != spike2->GetIdentificationNum()) {
+				//同じ棘でないことを確認
+				if (spike->GetIdentificationNum() != spike2->GetIdentificationNum()) {
+
+					//当たり判定処理がONになっていることの確認
+					if (spike2->GetIsCollisionOn()) {
+						Vector3 SPIKE2 = spike2->GetmatWtranstate();
+						float S2_wide = spike2->GetWide();
+
 
 						//当たり合ってたら処理
 						if (CheckHitSphere(SPIKE, S_wide, SPIKE2, S2_wide)) {
@@ -219,9 +223,10 @@ void InGame::GetAllCollisions() {
 							//二つの円の間の距離取得
 							Vector3 leng = (SPIKE - SPIKE2);
 							leng /= 2;
+							leng = SPIKE2 + leng;
 
 							//新しい円の半径設定
-							float newSize = (S_wide + S2_wide);
+							float newSize = (S_wide + S2_wide) * 0.8f;
 
 							//新しいTransform作成
 							Transform newSpike;
@@ -243,19 +248,21 @@ void InGame::GetAllCollisions() {
 							spike2->SetDead();
 						}
 
-					}
 
+
+					}
 				}
 			}
 #pragma endregion
-		}
+
 
 #pragma region ボス回復処理
-		//埋まり切りフラグがONの時回復
-		if (spike->GetCompleteFillUp()) {
-			boss_->OnCollisionHealing();
-		}
+			//埋まり切りフラグがONの時回復
+			if (spike->GetCompleteFillUp()) {
+				boss_->OnCollisionHealing();
+			}
 #pragma endregion
+		}
 	}
 #pragma endregion
 
@@ -281,6 +288,7 @@ void InGame::CheckDead() {
 	spikes.remove_if([](Spike* spike) {
 		if (spike->IsDead()) {
 			delete spike;
+			spike = nullptr;
 			return true;
 		}
 		return false;
