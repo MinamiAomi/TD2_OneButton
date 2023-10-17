@@ -8,7 +8,7 @@
 #include "Engine/Math/Transform.h"
 #include "Engine/Input/Input.h"
 //
-//#include "Leser.h"
+#include "Leser.h"
 
 enum class Behavior {
 	kRoot,//通常
@@ -104,6 +104,8 @@ private:
 
 
 private://スペチャ追加分
+
+	
 	float wide_ = 1;
 	//モデル用
 	ToonModelInstance modelInstance_;
@@ -117,6 +119,9 @@ private://スペチャ追加分
 
 
 	//レーザーと爆風の仮システム作成
+	std::list<Leser*>lesers_;
+	std::shared_ptr<ToonModel> leser_model_;
+
 
 	float leserWide_ = 0.5f;
 

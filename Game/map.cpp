@@ -18,7 +18,6 @@ void Map::Initialize() {
 
 	Wall_min.parent = &mapWorld_;
 	Wall_max.parent = &mapWorld_;
-
 #pragma endregion
 
 	

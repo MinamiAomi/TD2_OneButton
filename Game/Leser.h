@@ -10,12 +10,20 @@ public:
 	Leser();
 	~Leser();
 
-	void Initalize(std::shared_ptr<ToonModel> model, const Transform& PlayerworldTransform_);
+	//初期化
+	void Initalize(std::shared_ptr<ToonModel> model, const Vector3& playerPos, const Vector3& bossPos);
+	
 	void Update();
-	//void Draw();
+	
 	void OnCollision();
+
+#pragma region ゲッター
 	bool GetIsAlive() { return IsAlive; }
 
+	const float GetWide() { return variableWide_; }
+#pragma endregion
+
+	
 private:
 
 
@@ -25,4 +33,19 @@ private:
 	//
 	int AliveCount = 240;
 	bool IsAlive = true;
+
+
+	//プレイヤー座標
+	const Transform* playerT_;
+
+	//レーザーの半径
+	const float leserWide_ = 0.5f;
+
+	//変数変化量
+	float variableWide_ = leserWide_;
+
+	//１フレームに小さくするスケールの量
+	const float SubWide_ = (1.0f * leserWide_) / (30.0f * leserWide_);
+
+
 };

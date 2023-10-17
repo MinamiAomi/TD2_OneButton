@@ -2,28 +2,36 @@
 #include"Externals/ImGui/imgui.h"
 
 Player::Player() {}
-Player::~Player() {}
+Player::~Player() {
+
+	//削除
+	for (Leser* leser : lesers_) {
+		delete leser;
+		leser = nullptr;
+	}
+
+}
 
 void Player::Initalize(const Vector3& position, std::shared_ptr<ToonModel> PlayertoonModel) {
 	
-
-
 	//プレイヤーモデル受け取り
 	model_ = PlayertoonModel;
-
 	modelInstance_.SetModel(model_);
 
+	//レーザー用モデル読み取り
+	leser_model_ = PlayertoonModel;
 	
 	
-	//レーザーのモデル
-	/*leser_model = new Model();
-	leser_model = Model::Create();*/
+	
+
 	//プレイヤーのモデル
 	worldTransform_.translate = position;
 
 	input = Input::GetInstance();
 
+
 	
+
 }
 
 void Player::Update() {
@@ -75,9 +83,9 @@ void Player::Update() {
 		}
 	}
 	//TODO
-	/*for (Leser* leser : lesers_) {
+	for (Leser* leser : lesers_) {
 		leser->Update();
-	}*/
+	}
 
 	//爆弾座標設定
 	explosionPos_ = worldTransform_.translate;
@@ -85,6 +93,18 @@ void Player::Update() {
 
 	worldTransform_.UpdateMatrix();
 	modelInstance_.SetWorldMatrix(worldTransform_.worldMatrix);
+
+	
+	lesers_.remove_if([](Leser* leser) {
+		//レーザーが死んだら処理
+		if (!leser->GetIsAlive()) {
+			delete leser;
+			leser = nullptr;
+			return true;
+		}
+		return false;
+		});
+
 }
 
 
@@ -125,28 +145,35 @@ void Player::BehaviorRootInitalize() {
 void Player::BehaviorRootUpdate() {
 	worldTransform_.translate.y -= gravity;
 	worldTransform_.translate.x += moveXaxisSpeed;
-	//TODO
-	/*lesers_.remove_if([](Leser* leser) {
-		if (leser->GetIsAlive()) {
-			delete leser;
-			return true;
-		}
-		return false;
-		});*/
+	
 	//スペースを押すとジャンプする
-	if (input->GetInstance()->IsKeyTrigger(DIK_SPACE)) {
+	if (input->IsKeyTrigger(DIK_SPACE)) {
 		behaviorRequest_ = Behavior::kJump;
 	}
 }
 
 void Player::BehaviorJumpInitalize() {
+	//状態を更新
 	behavior_ = Behavior::kJump;
+	//ジャンプ量を設定
 	Jumpforce = 2.0f;
+	//ｘ移動軸を反転
 	moveXaxisSpeed *= -1;
-	//TODO : Leserクラスを作成
-	//Leser* leser_ = new Leser();
-	//leser_->Initalize(leser_model, worldTransform_);
-	//lesers_.push_back(leser_);
+	
+#pragma region レーザー作成
+	//レーザーの作成
+	//プレイヤー座標取得
+	Vector3 Ppos = GetmatWtranslate();
+	//終点仮作成
+	Vector3 Epos = Ppos;
+	Epos.y -= 10;
+
+	Leser* leser_ = new Leser();
+	leser_->Initalize(leser_model_, Ppos,Epos );
+	lesers_.push_back(leser_);
+#pragma endregion
+
+	
 	DropCount = 0;
 	DropFlag = false;
 }

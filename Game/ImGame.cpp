@@ -23,7 +23,8 @@ void InGame::OnInitialize()
 	toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
 
 	
-	
+	//複数モデル読み込みする用
+	//std::vector<std::shared_ptr<ToonModel>> models_;
 
 	//マップクラス初期化
 	map = std::make_unique<Map>();

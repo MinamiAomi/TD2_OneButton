@@ -11,6 +11,9 @@ void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonM
 	//座標
 	world_ = world;	
 	wide_ = world_.scale.x;
+	world_.UpdateMatrix();
+
+
 	//モデル
 	modelInstance_.SetModel(toonModel);
 
