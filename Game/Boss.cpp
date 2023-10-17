@@ -13,7 +13,6 @@ void Boss::Initalize(const Vector3& position, std::shared_ptr<ToonModel> toonMod
 	//ボスのYラインの処理
 	bossYLine_ = world_.worldMatrix.m[3][1] + wide_;
 
-
 	//モデル描画
 	modelInstance_.SetModel(toonModel);
 
