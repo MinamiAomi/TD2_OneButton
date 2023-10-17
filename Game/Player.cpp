@@ -143,7 +143,9 @@ void Player::BehaviorRootInitalize() {
 }
 
 void Player::BehaviorRootUpdate() {
+	//毎フレームずつ下に引っ張られる
 	worldTransform_.translate.y -= gravity;
+	//左右移動
 	worldTransform_.translate.x += moveXaxisSpeed;
 	
 	//スペースを押すとジャンプする
@@ -173,26 +175,32 @@ void Player::BehaviorJumpInitalize() {
 	lesers_.push_back(leser_);
 #pragma endregion
 
-	
+	//ドロップカウントを初期化
 	DropCount = 0;
+	//ドロップフラグを初期化
 	DropFlag = false;
 }
 
 void Player::BehaviorJumpUpdate() {
-
+	//ジャンプの値をプラス
 	worldTransform_.translate.y += Jumpforce;
+	//左右移動
 	worldTransform_.translate.x += moveXaxisSpeed;
+	//ジャンプの値から毎フレームずつ重力を引いていく
 	if (Jumpforce > 0) {
 		Jumpforce -= gravity;
 	}
+	//ジャンプの値を左右移動と同じ速度にする
 	else if (Jumpforce <= 0) {
 		Jumpforce = -kXaxisSpeed;
 	}
-
+	//長押ししているとプラスされる
 	DropCount++;
+	//一度離してから再入力でもう一度ジャンプ
 	if (input->IsKeyTrigger(DIK_SPACE)) {
 		behaviorRequest_ = Behavior::kJump;
 	}
+	//長押ししていたら落下へ
 	else if (
 		DropCount == kDropAnime && input->IsKeyPressed(DIK_SPACE) != 0) {
 		behaviorRequest_ = Behavior::kDrop;
@@ -204,14 +212,15 @@ void Player::BehaviorDropInitalize() {
 }
 
 void Player::BehaviorDropUpdate() {
+	//貯めている時はゆっくり上に上がる
 	worldTransform_.translate.y += 0.03f;
+	//貯めている時にフレームをカウントする
 	DropCount++;
 	if (DropCount >= kDropAnime * 3) {
+		//貯めているフレームが一定を超えたら、攻撃を開始する
 		Attack();
 	}
-	if (input->IsKeyRelease(DIK_SPACE)) {
-		behaviorRequest_ = Behavior::kRoot;
-	}
+
 }
 
 void Player::BehaviorHitInitalize() {
@@ -227,11 +236,19 @@ void Player::BehaviorHitUpdate() {
 	/*if (t <= 1.0f) {
 		behaviorRequest_ = Behavior::kRoot;
 	}*/
+	/*if (ボスと当たったら) {
+		
+	}*/
 }
 
 void Player::Attack() {
+	//落下中の移動処理
 	worldTransform_.translate.y -= 2.0f;
+	//落ちているときにフラグが立つ
 	DropFlag = true;
+	/*if (ボスに当たったら) {
+		behaviorRequest_ = Behavior::kHit;
+	}*/
 }
 
 
