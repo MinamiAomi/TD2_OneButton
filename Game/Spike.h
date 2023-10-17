@@ -15,6 +15,8 @@ public:
 		kFillUp,
 		// BAKUHATU★
 		kExplosion,
+		//爆風に吹き飛ばされる
+		kFlyAway,
 		//None
 		kNone
 	};
@@ -120,7 +122,7 @@ private:
 	Vector3 velocity_;
 
 	//減速量
-	const float gensoku = 1.0f / 100.0f;
+	const float gensoku = 1.0f / 1000.0f;
 
 	//死亡判定
 	bool isDead_ = false;
@@ -142,11 +144,22 @@ private:
 	//ボスに埋まり切るかのカウント
 	int fillUpCount_;
 	//埋まるまでのマックス
-	const int maxFillUpCount_ = 180;
+	const int maxFillUpCount_ = 6000;
 	//埋まり切ったかのフラグ
 	bool CompleteFillUp_ = false;
 
 
 	//棘にかかる重力
 	float gravity=-0.1f;
+
+	//飛ぶ向きが左
+	bool veloLeft_;
+	//吹っ飛ぶときの加算量
+	const float addVeloX_ = 1.0f / 30.0f;
+
+	//飛ぶ時間
+	float flyAwayCount_ = 0;
+	//飛ぶ瞬間の最大カウント
+	const float maxFlyAwayCount_ = 30;
+
 };

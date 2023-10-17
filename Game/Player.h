@@ -15,7 +15,9 @@ enum class Behavior {
 	kJump,//ジャンプ(単押し)
 	kDrop,//落下攻撃(長押し)
 	kHit,//ボスに当たった時
+	
 };
+
 
 class Player {
 public:

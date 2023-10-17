@@ -224,7 +224,13 @@ void InGame::GetAllCollisions() {
 					//ビーム当たっていない
 					//爆風の範囲の場合
 #pragma region プレイヤービーム爆風
-
+					//爆風の座標を取得
+					Vector3 ExpPos = leser->GetExplosionPos();
+					float ExpWide = leser->GetWide();
+					//爆風に当たった時
+					if (CheckHitSphere(SPIKE, S_wide, ExpPos, ExpWide)) {
+						spike->OnCollisionPlayerExplosion(ExpPos);
+					}
 #pragma endregion
 				}
 			}

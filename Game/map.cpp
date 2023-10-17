@@ -48,23 +48,8 @@ void Map::Initialize() {
 				bossW_.UpdateMatrix();
 			}
 		}
-	}
-
-
-	
+	}	
 #pragma endregion
-
-
-	//引き渡すので更新
-	
-	
-
-
-	
-
-	
-
-
 }
 
 void Map::Update() {
