@@ -266,10 +266,11 @@ void Player::BehaviorHitEnemyInitalize()
 
 void Player::BehaviorHitEnemyUpdate()
 {
+	//t_の値を加算
 	t_ += 0.1f;
-	//TODO : 敵に当たった時にLerpで画面上まで移動
-	worldTransform_.translate.y = Math::Lerp(t_,PposY,EposY);
 
+	worldTransform_.translate.y = Math::Lerp(t_,PposY,EposY);
+	//TODO : 
 	if (t_ >= 1.0f) {
 		behaviorRequest_ = Behavior::kRoot;
 	}
