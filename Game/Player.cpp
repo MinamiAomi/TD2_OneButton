@@ -79,6 +79,9 @@ void Player::Update() {
 		case Behavior::kDrop:
 			BehaviorDropInitalize();
 			break;
+		case Behavior::kHit:
+			BehaviorHitEnemyInitalize();
+			break;
 		}
 		//リクエストのリセット
 		behaviorRequest_ = std::nullopt;
@@ -96,6 +99,9 @@ void Player::Update() {
 			break;
 		case Behavior::kDrop:
 			BehaviorDropUpdate();
+			break;
+		case Behavior::kHit:
+			BehaviorHitEnemyUpdate();
 			break;
 		}
 	}
@@ -151,7 +157,8 @@ void Player::OnCollisionWall(Vector2 wallX)
 
 void Player::OnCollisionBoss()
 {
-	isMove = false;
+	behaviorRequest_ = Behavior::kHit;
+	//isMove = false;
 }
 
 void Player::BehaviorRootInitalize() {
@@ -240,24 +247,6 @@ void Player::BehaviorDropUpdate() {
 
 }
 
-void Player::BehaviorHitInitalize() {
-	behavior_ = Behavior::kHit;
-	//t = 0.0f;
-}
-
-void Player::BehaviorHitUpdate() {
-	//t += 0.1f;
-	//TODO : 敵に当たった時にLerpで画面上まで移動
-	//worldTransform_.translation_.y = Lerp();
-	
-	/*if (t <= 1.0f) {
-		behaviorRequest_ = Behavior::kRoot;
-	}*/
-	/*if (ボスと当たったら) {
-		
-	}*/
-}
-
 void Player::Attack() {
 	//落下中の移動処理
 	worldTransform_.translate.y -= 2.0f;
@@ -266,6 +255,24 @@ void Player::Attack() {
 	/*if (ボスに当たったら) {
 		behaviorRequest_ = Behavior::kHit;
 	}*/
+}
+
+void Player::BehaviorHitEnemyInitalize()
+{
+	behavior_ = Behavior::kHit;
+	t_ = 0.0f;
+	PposY = worldTransform_.translate.y;
+}
+
+void Player::BehaviorHitEnemyUpdate()
+{
+	t_ += 0.1f;
+	//TODO : 敵に当たった時にLerpで画面上まで移動
+	worldTransform_.translate.y = Math::Lerp(t_,PposY,EposY);
+
+	if (t_ >= 1.0f) {
+		behaviorRequest_ = Behavior::kRoot;
+	}
 }
 
 

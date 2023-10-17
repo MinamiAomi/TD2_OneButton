@@ -84,12 +84,13 @@ private:
 	void BehaviorDropInitalize();
 	//kDropのUpdate
 	void BehaviorDropUpdate();
-	//kHitのInitalize
-	void BehaviorHitInitalize();
-	//kHitのUpdate
-	void BehaviorHitUpdate();
-
+	//落下処理
 	void Attack();
+	//敵(トゲやボス)に当たった時
+	//kHitのInitalize
+	void BehaviorHitEnemyInitalize();
+	//kHitのUpdate
+	void BehaviorHitEnemyUpdate();
 
 	//model
 	std::shared_ptr<ToonModel> model_ = nullptr;
@@ -120,6 +121,13 @@ private:
 	const int kDropAnime = 20;
 	//落ちている途中かどうかのフラグ
 	bool DropFlag = false;
+
+	//敵に当たった時のLerp用の関数(処理t)
+	float t_ = 0;
+	//プレイヤーの位置記録
+	float PposY;
+	//目標の位置
+	float EposY = -31.0f;
 
 	//TODO ちゃんといじろう
 	//プレイヤーのHP
