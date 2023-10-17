@@ -43,7 +43,6 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Clear.h" />
     <ClInclude Include="Engine\Application\Game.h" />
-    <ClInclude Include="Engine\Application\ResourceManager.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Graphics\Core\ColorBuffer.h" />
@@ -71,7 +70,9 @@
     <ClInclude Include="Engine\Graphics\ModelLoader.h" />
     <ClInclude Include="Engine\Graphics\PostEffect.h" />
     <ClInclude Include="Engine\Graphics\RenderManager.h" />
+    <ClInclude Include="Engine\Graphics\ResourceManager.h" />
     <ClInclude Include="Engine\Graphics\Sprite.h" />
+    <ClInclude Include="Engine\Graphics\SpriteRenderer.h" />
     <ClInclude Include="Engine\Graphics\Timer.h" />
     <ClInclude Include="Engine\Graphics\ToonModel.h" />
     <ClInclude Include="Engine\Graphics\ToonRenderer.h" />
@@ -151,6 +152,9 @@
     <ClCompile Include="Engine\Graphics\ModelLoader.cpp" />
     <ClCompile Include="Engine\Graphics\PostEffect.cpp" />
     <ClCompile Include="Engine\Graphics\RenderManager.cpp" />
+    <ClCompile Include="Engine\Graphics\Sprite.cpp" />
+    <ClCompile Include="Engine\Graphics\SpriteRenderer.cpp" />
+    <ClCompile Include="Engine\Graphics\Timer.cpp" />
     <ClCompile Include="Engine\Graphics\ToonModel.cpp" />
     <ClCompile Include="Engine\Graphics\ToonRenderer.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />

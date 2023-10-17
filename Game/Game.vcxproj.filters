@@ -240,10 +240,13 @@
     <ClInclude Include="Boss.h">
       <Filter>Game\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Application\ResourceManager.h">
-      <Filter>Engine\Application</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Graphics\Sprite.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\ResourceManager.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\SpriteRenderer.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -401,6 +404,12 @@
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Game\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Sprite.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\SpriteRenderer.cpp">
+      <Filter>Engine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

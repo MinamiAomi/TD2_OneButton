@@ -34,7 +34,7 @@ void ToonRenderer::Render(CommandContext& commandContext, const Camera& camera) 
         Vector3 outlineColor;
     };
 
-    auto& instanceList = ToonModelInstance::GetInstanceList();
+    auto& instanceList = ToonModelInstance::instanceList_;
 
 
     // 描画
