@@ -81,7 +81,7 @@ void RenderManager::Render() {
     auto& io = ImGui::GetIO();
     ImGui::Text("Framerate : %f", io.Framerate);
     ImGui::End();
-  
+
     // ImGuiを描画
     auto imguiManager = ImGuiManager::GetInstance();
     imguiManager->Render(commandContext);
