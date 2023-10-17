@@ -21,25 +21,39 @@ public:
 	bool GetIsAlive() { return IsAlive; }
 
 	const float GetWide() { return variableWide_; }
+
+	const Vector3 GetExplosionPos() {
+		return explosionpos_.translate;
+	}
 #pragma endregion
 
 	
 private:
 
+	
+	//
+	int AliveCount = 240;
+	//動いてるか否か
+	bool IsAlive = true;
 
+	//処理t
+	float t_ = 0;
+
+	//処理速度
+	const float addT_ = 1.0f / 30.0f;
+
+
+#pragma region レーザー関連
+	//transform
 	Transform worldTransform_;
 	//モデル描画
 	ToonModelInstance modelInstance_;
-	//
-	int AliveCount = 240;
-	bool IsAlive = true;
-
-
-	//プレイヤー座標
-	const Transform* playerT_;
 
 	//レーザーの半径
 	const float leserWide_ = 0.5f;
+
+	//レーザーの終わりの半径
+	const float endLeserWide_ = 0.0f;
 
 	//変数変化量
 	float variableWide_ = leserWide_;
@@ -47,5 +61,23 @@ private:
 	//１フレームに小さくするスケールの量
 	const float SubWide_ = (1.0f * leserWide_) / (30.0f * leserWide_);
 
+#pragma endregion
 
+#pragma region 爆発処理関連
+	//モデル
+	ToonModelInstance expModelInstance_;
+	//爆発中心点
+	Transform explosionpos_;
+	//爆発最大点
+	const float maxExplosionRadius_ = 5.0f;
+
+	const float minExplosionRadius_ = 0.0f;
+
+
+	//爆発半径の変数
+	float explosionRadius_ = 0.0f;
+
+#pragma endregion
+
+	
 };

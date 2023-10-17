@@ -41,14 +41,15 @@ void InGame::OnInitialize()
 		spike_->Initialize(sizeNum,spikeWorld[num], toonModel_,0);
 		spikes.push_back(spike_);
 	}
+	//ボスの初期化
+	boss_ = std::make_unique<Boss>();
+	boss_->Initalize(map->GetBossMatPos(), toonModel_);
 
 	//プレイヤーの初期化
 	player_ = std::make_unique<Player>();
 	player_->Initalize(map->GetPlayerPosition(),toonModel_);
-
-	//ボスの初期化
-	boss_ = std::make_unique<Boss>();
-	boss_->Initalize(map->GetBossMatPos(), toonModel_);
+	player_->SetBossY(&boss_->GetBossYLine());
+	
 }
 
 void InGame::OnUpdate()
@@ -135,15 +136,16 @@ void InGame::GetAllCollisions() {
 #pragma endregion
 
 #pragma region プレイヤービームと爆風
+			for (Leser* leser : player_->Getlesers()) {
 
-			//プレイヤーがジャンプ処理中
-			if (player_->GetBehavior() == Behavior::kJump) {
-				//
-				float beamWide = player_->BeamWide();
+				//レーザーのwide取得
+				float beamWide = leser->GetWide();
 
-				Vector3 beamEnd = player_->GetmatWtranslate();
+				//ビームの終点取得
+				Vector3 beamEnd = leser->GetExplosionPos();
 				//高さを合わせる
 				beamEnd.y = SPIKE.y;
+
 
 				//ビームに当たっているとき
 				if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
@@ -152,20 +154,26 @@ void InGame::GetAllCollisions() {
 					//サイズ取得
 					int spikesize = (int)spikes.size();
 
+					//新しいTransform作成
 					Transform Newworld;
+					//座標設定
 					Newworld.translate = SPIKE;
 
+					//最初に渡すベクトル値
+					Vector3 newVelo = { 0.5f,0.5f,0 };
+
+					//クラス作成
 					Spike* newSpike = new Spike;
-					newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling, { 0.5f,0.5f,0 });
-
-
+					newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling,newVelo);
+					//プッシュ
 					spikes.push_back(newSpike);
 
 					//二個目作成
+					//x軸反転
+					newVelo.x *= -1;
+
 					Spike* newSpike2 = new Spike;
-					newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling, { -0.5f,0.5f,0 });
-
-
+					newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling, newVelo);
 					spikes.push_back(newSpike2);
 
 
@@ -179,13 +187,14 @@ void InGame::GetAllCollisions() {
 #pragma region プレイヤービーム爆風
 
 #pragma endregion
-
-
 				}
-
-
-
 			}
+			
+				
+
+
+
+			
 #pragma endregion
 
 

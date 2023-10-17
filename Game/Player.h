@@ -55,8 +55,14 @@ public:
 	const float GetWide() { return wide_; }
 
 	const Behavior GetBehavior() { return behavior_; }
+	
+	const std::list<Leser*>Getlesers() { return lesers_; }
 
 	const float BeamWide() { return leserWide_; }
+#pragma endregion
+
+#pragma region セッター
+	void SetBossY(const float* bossY) { BossY_ = bossY; }
 #pragma endregion
 
 	
@@ -129,5 +135,6 @@ private://スペチャ追加分
 
 	float explosionRadius_ = 5;
 
-
+	//ボスの接触平面Y座標
+	const float* BossY_;
 };

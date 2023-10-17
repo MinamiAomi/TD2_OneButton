@@ -31,7 +31,7 @@ public:
 	/// ボスの上のラインを取得
 	/// </summary>
 	/// <returns>Y座標</returns>
-	float GetBossYLine() { return world_.worldMatrix.m[3][1]+wide_; }
+	const float& GetBossYLine() { return bossYLine_; }
 
 	/// <summary>
 	/// ボスのmatT取得
@@ -55,13 +55,12 @@ public:
 
 	
 private:
-
-	
-
 	//座標
 	Transform world_;
 	//モデル描画用
 	ToonModelInstance modelInstance_;
+
+	float bossYLine_;
 
 	float wide_;
 

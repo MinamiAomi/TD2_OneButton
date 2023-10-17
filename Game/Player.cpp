@@ -164,9 +164,9 @@ void Player::BehaviorJumpInitalize() {
 	//レーザーの作成
 	//プレイヤー座標取得
 	Vector3 Ppos = GetmatWtranslate();
-	//終点仮作成
+	//終点作成
 	Vector3 Epos = Ppos;
-	Epos.y -= 10;
+	Epos.y =*BossY_;
 
 	Leser* leser_ = new Leser();
 	leser_->Initalize(leser_model_, Ppos,Epos );

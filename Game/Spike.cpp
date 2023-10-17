@@ -16,7 +16,7 @@ void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonM
 
 	//モデル
 	modelInstance_.SetModel(toonModel);
-
+	
 
 	//状態入力
 	switch (State) {
