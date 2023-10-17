@@ -102,16 +102,26 @@ void Spike::Update() {
 
 		//飛ぶ方向チェック
 		if (veloLeft_) {
-			velocity_.x -= addVeloX_;
+			velocity_.x += addVeloX_;
+			if(velocity_.x>=0.0f){
+				state_ = kFillUp;
+				velocity_.x = 0;
+				velocity_.y = 0;
+			}
 		}
 		else {
-			velocity_.x += addVeloX_;
+			velocity_.x -= addVeloX_;
+			if (velocity_.x <= 0.0f) {
+				state_ = kFillUp;
+				velocity_.x = 0;
+				velocity_.y = 0;
+			}
 		}
 
 		if (flyAwayCount_++ >= maxFlyAwayCount_) {
 			state_ = kFillUp;
 			velocity_.x = 0;
-			velocity_.y = -1.0f;
+			velocity_.y = 0;
 		}
 
 		break;
@@ -164,12 +174,14 @@ void Spike::OnCollisionPlayerExplosion(Vector3 ExpPos) {
 	// 状態変化
 	state_ = kFlyAway;
 
+	//爆心地によるベクトルと情報の初期化
 	if (ExpPos.x < world_.translate.x) {
-		velocity_ = { 1.0f, 0.0f, 0.0f };
+		velocity_ = exploVec;
 		veloLeft_ = false;
 	}
 	else {
-		velocity_ = { -1.0f, 0.0f, 0.0f };
+		velocity_ = exploVec;
+		velocity_.x *= -1;
 		veloLeft_ = true;
 	}
 

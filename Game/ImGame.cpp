@@ -193,10 +193,13 @@ void InGame::GetAllCollisions() {
 					//サイズ取得
 					int spikesize = (int)spikes.size();
 
+					float newWide = S_wide;
+
 					//新しいTransform作成
 					Transform Newworld;
 					//座標設定
 					Newworld.translate = SPIKE;
+					Newworld.scale = { newWide,newWide,newWide };
 
 					//最初に渡すベクトル値
 					Vector3 newVelo = { 0.5f,0.5f,0 };
@@ -226,10 +229,10 @@ void InGame::GetAllCollisions() {
 #pragma region プレイヤービーム爆風
 					//爆風の座標を取得
 					Vector3 ExpPos = leser->GetExplosionPos();
-					float ExpWide = leser->GetWide();
+					float ExpWide = leser->GetExplotionRadius();
 					//爆風に当たった時
 					if (CheckHitSphere(SPIKE, S_wide, ExpPos, ExpWide)) {
-						spike->OnCollisionPlayerExplosion(ExpPos);
+ 						spike->OnCollisionPlayerExplosion(ExpPos);
 					}
 #pragma endregion
 				}

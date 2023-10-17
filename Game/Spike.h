@@ -65,7 +65,7 @@ public:
 	const bool GetCompleteFillUp() { return CompleteFillUp_; }
 
 	const bool IsStateFillUp() {
-		if (state_ == kFillUp) {
+		if (state_ == kFillUp||state_==kFlyAway) {
 			return true;
 		}
 		else {
@@ -154,8 +154,13 @@ private:
 
 	//飛ぶ向きが左
 	bool veloLeft_;
+	//爆風の時の初期速度
+	Vector3 exploVec = { 0.1f,0.0f,0.0f };
+
 	//吹っ飛ぶときの加算量
-	const float addVeloX_ = 1.0f / 30.0f;
+	const float addVeloX_ = 1.0f / 60.0f;
+
+
 
 	//飛ぶ時間
 	float flyAwayCount_ = 0;

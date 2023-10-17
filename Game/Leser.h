@@ -25,6 +25,8 @@ public:
 
 	const float GetWide() { return variableWide_; }
 
+	const float GetExplotionRadius() { return explosionRadius_; }
+
 	const Vector3 GetExplosionPos() {
 		return explosionpos_.translate;
 	}
@@ -70,7 +72,7 @@ private:
 	//爆発中心点
 	Transform explosionpos_;
 	//爆発最大点
-	const float maxExplosionRadius_ = 5.0f;
+	const float maxExplosionRadius_ = 3.0f;
 
 	const float minExplosionRadius_ = 0.0f;
 
