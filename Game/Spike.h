@@ -102,20 +102,55 @@ public:
 
 private://各状態の初期化と更新処理
 
+	//状態が変わったかチェック
+	bool ckeckStateChange_ = false;
+
+	//状態が変わった際に初期化をする処理をまとめた関数
+	void CheckAllStateInitialize();
+
+	//状態ごとの更新処理をまとめた関数
+	void StateUpdate();
+
+#pragma region 各種初期化関数
 	//木についている状態の初期化
-	void StayInitialize();
+	void Stay_Initialize();
 
 	//落ちる状態の初期化
-	void FallingInitialize();
+	void Falling_Initialize();
 
 	//埋まる状態の初期化
-	void FillUpInitiaize();
+	void FillUp_Initiaize();
 
 	//爆発の初期化
-	void ExplosionInitialize();
+	void Explosion_Initialize();
 
 	//横に飛ぶ処理の追加
-	void FlyAwayInitialize();
+	void FlyAway_Initialize();
+#pragma endregion
+
+
+#pragma region	各種更新関数
+	//更新処理
+	//木についている状態の更新
+	void Stay_Update();
+
+	//落ちる状態の初期化
+	void Falling_Update();
+
+	//埋まる状態の初期化
+	void FillUp_Update();
+
+	//爆発の初期化
+	void Explosion_Update();
+
+	//横に飛ぶ処理の追加
+	void FlyAway_Update();
+#pragma endregion
+
+	
+
+	
+	
 private:
 	
 	//管理番号
