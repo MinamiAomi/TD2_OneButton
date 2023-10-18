@@ -14,7 +14,7 @@ void Leser::Initialize(std::vector<std::shared_ptr<ToonModel>>ATK, const Vector3
 {
 #pragma region ビーム関連
 	//モデルセット
-	modelInstance_.SetModel(ATK[0]);
+	leserModelInstance_.SetModel(ATK[0]);
 	//中心座標取得
 	Vector3 velo = (playerPos - bossPos) / 2;
 	//中心点
@@ -27,8 +27,8 @@ void Leser::Initialize(std::vector<std::shared_ptr<ToonModel>>ATK, const Vector3
 	variableWide_ = leserWide_;
 
 	//Transform再設定
-	worldTransform_.translate = pos;
-	worldTransform_.scale = { leserWide_,yScale,leserWide_ };
+	leserTransform_.translate = pos;
+	leserTransform_.scale = { leserWide_,yScale,leserWide_ };
 #pragma endregion
 
 #pragma region 爆発関連
@@ -46,25 +46,25 @@ void Leser::Initialize(std::vector<std::shared_ptr<ToonModel>>ATK, const Vector3
 
 
 	//描画＆処理フラグＯＮ
-	IsAlive = true;
+	IsAlive_ = true;
 }
 
 void Leser::Update() {
 	
 	//アクティブ中に処理
-	if (IsAlive) {
+	if (IsAlive_) {
 		
 #pragma region ビーム関連
-		worldTransform_.rotate.y += 1.0f / 30.0f;
+		leserTransform_.rotate.y += 1.0f / 30.0f;
 
 		//処理
-		worldTransform_.scale.x = variableWide_;
-		worldTransform_.scale.z = variableWide_;
+		leserTransform_.scale.x = variableWide_;
+		leserTransform_.scale.z = variableWide_;
 
 		
 		//行列と描画用処理
-		worldTransform_.UpdateMatrix();
-		modelInstance_.SetWorldMatrix(worldTransform_.worldMatrix);
+		leserTransform_.UpdateMatrix();
+		leserModelInstance_.SetWorldMatrix(leserTransform_.worldMatrix);
 #pragma endregion
 
 #pragma region 爆破関連
@@ -85,13 +85,12 @@ void Leser::Update() {
 
 		//t=1で終了
 		if (t_>=1.0f) {
-			IsAlive = false;
+			IsAlive_ = false;
 		}	
 	}
 }
 
 
 void Leser::OnCollision() {
-	IsAlive = false;
-
+	IsAlive_ = false;
 }

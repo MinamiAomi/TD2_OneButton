@@ -140,7 +140,7 @@ void InGame::OnUpdate()
 
 
 	//プレイヤー更新後にカメラ更新
-	Vector3 cpos = boss_->GetmatWT();
+	Vector3 cpos = boss_->GetMatWT();
 	cpos.z = camera_.GetPosition().z;
 	cpos.x = camera_.GetPosition().x;
 	cpos.y += 20;
@@ -224,7 +224,7 @@ void InGame::CollisionAboutSpike()
 			for (Leser* leser : player_->Getlesers()) {
 #pragma region ビーム
 				//レーザーのwide取得
-				float beamWide = leser->GetWide();
+				float beamWide = leser->GetLeserWide();
 
 				//ビームの終点取得
 				Vector3 beamEnd = leser->GetExplosionPos();
@@ -252,7 +252,7 @@ void InGame::CollisionAboutSpike()
 
 					//クラス作成
 					Spike* newSpike = new Spike;
-					newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling, newVelo);
+					newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
 					//プッシュ
 					spikes.push_back(newSpike);
 
@@ -262,7 +262,7 @@ void InGame::CollisionAboutSpike()
 
 					//クラス作成とプッシュ
 					Spike* newSpike2 = new Spike;
-					newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling, newVelo);
+					newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
 					spikes.push_back(newSpike2);
 
 
@@ -336,7 +336,7 @@ void InGame::CollisionAboutSpike()
 
 							//新しいスパイクの生成
 							Spike* newspike = new Spike();
-							newspike->Initialize(sizeNum, newSpike, toonModel_, Spike::SpikeState::kFalling);
+							newspike->Initialize(sizeNum, newSpike, toonModel_, Spike::State::kFalling);
 
 							//ぷっす
 							spikes.push_back(newspike);

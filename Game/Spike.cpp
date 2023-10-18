@@ -176,11 +176,11 @@ void Spike::OnCollisionPlayerExplosion(Vector3 ExpPos) {
 
 	//爆心地によるベクトルと情報の初期化
 	if (ExpPos.x < world_.translate.x) {
-		velocity_ = exploVec;
+		velocity_ = exploVec_;
 		veloLeft_ = false;
 	}
 	else {
-		velocity_ = exploVec;
+		velocity_ = exploVec_;
 		velocity_.x *= -1;
 		veloLeft_ = true;
 	}

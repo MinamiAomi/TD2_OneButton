@@ -23,7 +23,7 @@ public:
 	/// </summary>
 	/// <param name="pos">座標</param>
 	/// <param name="wide">半径</param>
-	/// <returns></returns>
+	/// <returns>当たっているか否か</returns>
 	bool IsHitBoss(const Vector3& pos, const float& wide);
 
 #pragma region ゲッター
@@ -36,8 +36,8 @@ public:
 	/// <summary>
 	/// ボスのmatT取得
 	/// </summary>
-	/// <returns>wtt</returns>
-	const Vector3 GetmatWT() {
+	/// <returns>worldTransformTranslate</returns>
+	const Vector3 GetMatWT() {
 		return {
 			world_.worldMatrix.m[3][0],
 			world_.worldMatrix.m[3][1],
@@ -47,6 +47,7 @@ public:
 #pragma endregion
 
 #pragma region オンコリ
+	//ボスのダメージくらう処理
 	void OnCollisionExplosion(int dmg);
 
 	//ボス回復処理
@@ -60,13 +61,16 @@ private:
 	//モデル描画用
 	ToonModelInstance modelInstance_;
 
+	//ボスの上側の座標Y
 	float bossYLine_;
 
-	float wide_;
+	//中心点からの高さ
+	float height_;
 
-	//ヒットポイント
-	int HP_;
-
-	//最大値
+	
+	//HP最大値
 	const int maxHP_ = 100;
+	//ヒットポイント
+	int HP_ = maxHP_;
+
 };

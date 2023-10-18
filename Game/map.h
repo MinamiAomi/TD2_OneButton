@@ -13,11 +13,15 @@ struct hitWideX {
 
 class Map {
 public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Initialize();
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
-
-	//void Draw(ViewProjection view);
 
 	/// <summary>
 	/// 壁に当たっているかの確認
@@ -27,8 +31,14 @@ public:
 	/// <returns>当たっているか否か</returns>
 	bool IsHitWall(const Vector3& playerpos, const float& wide);
 
+	/// <summary>
+	/// マップの移動速度を加速させる
+	/// </summary>
+	/// <param name="second">何秒処理するか</param>
+	void SetMapMoveAcceleration(const float second);
 
 #pragma region ゲッター
+
 	//棘のtransform取得
 	std::vector<Transform> GetSpikeWorld() { return world_; }
 
@@ -42,6 +52,7 @@ public:
 		};
 	}
 
+	//matWorld取得
 	Vector3 GetBossMatPos() {
 		return {
 		bossW_.worldMatrix.m[3][0],
@@ -50,36 +61,44 @@ public:
 		};
 	}
 
-
-
+	//壁の左右のx座標取得(x=min,y=max)
 	Vector2 GetHitWallX() { return hitsWallX_; }
+
 #pragma endregion
 
 
 private:
 
-	float GetWallMinX() { return Wall_min.worldMatrix.m[3][0]; }
-	float GetWallMaxX() { return Wall_max.worldMatrix.m[3][0]; }
+	//マップ全体のワールド
+	Transform mapWorld_;
 
-	Vector2 hitsWallX_;
+	//マップチップ別のワールド
+	std::vector<Transform> world_;
 
+	//プレイヤー
+	Transform playerW_;
+
+	//ボス
+	Transform bossW_;
+
+#pragma region マップの配置関連
 	//タイルサイズ
-	static const int mapTileNumX = 13;
-	static const int mapTileNumY = 32;
+	static const int mapTileNumX_ = 13;
+	static const int mapTileNumY_ = 32;
 
 	//蒲田の四角のサイズ
-	const float tileWide = 2.0f;
+	const float tileWide_ = 2.0f;
 
+	//タイルの種類
 	enum Tile {
-		None,
-		Spike,
-		Player,
-		Boss
+		None,		//0
+		Spike,		//1
+		Player,		//2
+		Boss		//3
 	};
 
-	int wallCount = 0;
-
-	const int mapTile[mapTileNumY][mapTileNumX] = {
+	//マップ情報
+	const int mapTile_[mapTileNumY_][mapTileNumX_] = {
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0},
@@ -114,43 +133,40 @@ private:
 		{0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0,0},
 	};
 
-
-
-	//タイルの合計数
-	const int tileNum = mapTileNumX * mapTileNumY;
-
-	struct WallX {
-		float min;
-		float max;
-	};
+#pragma endregion
+	
+#pragma region 壁の処理関連
+	//壁の左右のX値（x=min.y=max)
+	Vector2 hitsWallX_;
 
 	//壁との当たり判定で使う
-	Transform Wall_min;
-	Transform Wall_max;
+	Transform Wall_min_;
+	Transform Wall_max_;
+#pragma endregion
 
 
+#pragma region マップの移動関連
+	//マップ加算量
+	const float moveMapNum_ = 0.01f;
 
-	//マップ全体のワールド
-	Transform mapWorld_;
+	//マップが動くか
+	bool mapMove_ = true;
 
-	//マップチップ別のワールド
-	std::vector<Transform> world_;
+#pragma region 加速処理関連
+	//加速しているか否か
+	bool isMoveAcceleration_ = false;
 
-	//プレイヤー
-	Transform playerW_;
+	//マップの加算量
+	float mapAcceNum_ = 2.0f;
 
+	//移動する時間
+	float moveSeconds_;
 
-	//ボス
-	Transform bossW_;
+#pragma endregion
+
+#pragma endregion
 
 
 	//マップ配置データ
 	std::vector<std::vector<int>> mapData_;
-
-
-	//マップ加算量
-	const float moveMapNum_ = 0.01f;
-
-
-	bool mapMove_ = true;
 };

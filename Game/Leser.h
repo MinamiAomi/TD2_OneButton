@@ -11,20 +11,33 @@ public:
 	~Leser();
 
 	
-	//モデル作成後の初期化
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="ATK">レーザー（０）と爆発（１）のモデル配列</param>
+	/// <param name="playerPos">プレイヤー座標（発生地点座標）</param>
+	/// <param name="bossPos">ボス座標（攻撃設置点座標)</param>
 	void Initialize(std::vector<std::shared_ptr<ToonModel>>ATK, const Vector3& playerPos, const Vector3& bossPos);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 	
+	/// <summary>
+	/// コリジョン
+	/// </summary>
 	void OnCollision();
 
 #pragma region ゲッター
-	bool GetIsAlive() { return IsAlive; }
-
-	const float GetWide() { return variableWide_; }
-
+	//動いているか否か
+	bool GetIsAlive() { return IsAlive_; }
+	//レーザーの半径取得
+	const float GetLeserWide() { return variableWide_; }
+	//爆発半径取得
 	const float GetExplotionRadius() { return explosionRadius_; }
 
+	//爆発の中心点取得
 	const Vector3 GetExplosionPos() {
 		return explosionpos_.translate;
 	}
@@ -35,9 +48,9 @@ private:
 
 	
 	//生成されてからフレームのカウント
-	int AliveCount = 240;
+	int AliveCount_ = 240;
 	//動いてるか否か
-	bool IsAlive = true;
+	bool IsAlive_ = true;
 
 	//処理t
 	float t_ = 0;
@@ -48,11 +61,11 @@ private:
 
 #pragma region レーザー関連
 	//transform
-	Transform worldTransform_;
+	Transform leserTransform_;
 	//モデル描画
-	ToonModelInstance modelInstance_;
+	ToonModelInstance leserModelInstance_;
 
-	//レーザーの半径
+	//レーザーの最大半径
 	const float leserWide_ = 0.5f;
 
 	//レーザーの終わりの半径
@@ -65,18 +78,17 @@ private:
 #pragma endregion
 
 #pragma region 爆発処理関連
-	//モデル
-	ToonModelInstance expModelInstance_;
 	//爆発中心点
 	Transform explosionpos_;
-	//爆発最大点
+	//モデル
+	ToonModelInstance expModelInstance_;
+	//爆発最大半径
 	const float maxExplosionRadius_ = 3.0f;
-
+	//最小爆発半径
 	const float minExplosionRadius_ = 0.0f;
 
-
 	//爆発半径の変数
-	float explosionRadius_ = 0.0f;
+	float explosionRadius_ = minExplosionRadius_;
 
 #pragma endregion
 
