@@ -45,10 +45,10 @@ void InGame::OnInitialize()
 
 	
 	//レーザー
-	lezerModel_ = std::make_shared<ToonModel>();
+	std::shared_ptr<ToonModel> lezerModel_ = std::make_shared<ToonModel>();
 	lezerModel_->Create(ModelData::LoadObjFile("Resources/Model/laser/laser.obj"));
 	//レーザー爆発
-	playerExplotionModel_ = std::make_shared<ToonModel>();
+	std::shared_ptr<ToonModel> playerExplotionModel_ = std::make_shared<ToonModel>();
 	//playerExplotionModel_->Create(ModelData::LoadObjFile("Resource/Model/explosion/explosion.obj"));
 	playerExplotionModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
 	//プレイヤーモデルたち
@@ -102,7 +102,9 @@ void InGame::OnInitialize()
 	//プレイヤーの初期化
 	player_ = std::make_unique<Player>();
 	//player_->Initalize(map->GetPlayerPosition(),toonModel_);
-	player_->Initialize(map->GetPlayerPosition(), playerModels_);
+	player_->Initialize(map->GetPlayerPosition(), lezerModel_, playerExplotionModel_
+		, pHead, pBody, pLArm, pRArm, pLFoot, pRFoot);
+	
 	player_->SetBossY(&boss_->GetBossYLine());
 	
 }

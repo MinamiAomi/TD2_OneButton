@@ -41,23 +41,16 @@ private:
 	//仮モデル
 	std::shared_ptr<ToonModel> toonModel_;
 
-	//プレイヤーモデル
-	std::shared_ptr<ToonModel> playerModel_;
 
-	//lezerモデル
-	std::shared_ptr<ToonModel> lezerModel_;
-
-	//プレイヤー攻撃の爆発
-	std::shared_ptr<ToonModel> playerExplotionModel_;
 
 	//ボスモデル
-	std::shared_ptr<ToonModel> bossModel_;
+	//std::shared_ptr<ToonModel> bossModel_;
 
 	//ボスが攻撃で使う棘モデル
-	std::shared_ptr<ToonModel>bossSpikeModel_;
+	//std::shared_ptr<ToonModel>bossSpikeModel_;
 
 	//棘モデル
-	std::shared_ptr<ToonModel> spikeModel_;
+	//std::shared_ptr<ToonModel> spikeModel_;
 
 
 	

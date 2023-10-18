@@ -13,32 +13,52 @@ Player::~Player() {
 }
 
 
-void Player::Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> models)
+void Player::Initialize(const Vector3& position, std::shared_ptr<ToonModel>MLeser, std::shared_ptr<ToonModel>MExplo,
+	std::shared_ptr<ToonModel>MHead, std::shared_ptr<ToonModel>MBody,
+	std::shared_ptr<ToonModel>MLArm, std::shared_ptr<ToonModel>MRArm,
+	std::shared_ptr<ToonModel>MLFoot, std::shared_ptr<ToonModel>MRFoot)
 {
+
+
+	//キー入力のインスタンス取得
+	input = Input::GetInstance();
+
+
 	//プレイヤーモデルの設定
-	headModel_.SetModel(models[2]);
-	bodyModel_.SetModel(models[3]);
+	//headModel_.SetModel(MHead);
+	//bodyModel_.SetModel(MBody);
 
-	LArmModel_.SetModel(models[4]);
-	RArmModel_.SetModel(models[5]);
+	//LArmModel_.SetModel(MLArm);
+	//RArmModel_.SetModel(MRArm);
 
-	LFootModel_.SetModel(models[6]);
-	RFootModel_.SetModel(models[7]);
+	//LFootModel_.SetModel(MLFoot);
+	//RFootModel_.SetModel(MRFoot);
 
+	models_[kHead].SetModel(MHead);
+	models_[kBody].SetModel(MBody);
+
+	models_[kLArm].SetModel(MLArm);
+	models_[kRArm].SetModel(MRArm);
+
+	models_[kLFoot].SetModel(MLFoot);
+	models_[kRFoot].SetModel(MRFoot);
 
 	//パーツのサイズ修正
-	worlds_.resize(PartsNum);
-
-
+	
+	
 	//攻撃に使うモデルまとめ
-	std::vector<std::shared_ptr<ToonModel>>ATKmodels = { models[0],models[1] };
-	ATKmodels_ = ATKmodels;
+	MLeser_ = MLeser;
+	MExplosion_ = MExplo;
 
 	//プレイヤーのモデル
 	worldTransform_.translate = position;
 
-	//キー入力のインスタンス取得
-	input = Input::GetInstance();
+
+	//親設定
+	for (int i = 0; i < PartsNum; i++) {
+		worlds_[i].parent = &worldTransform_;
+	}
+
 }
 
 
@@ -105,23 +125,15 @@ void Player::Update() {
 	explosionPos_ = worldTransform_.translate;
 
 
+	//プレイヤー中心行列更新
 	worldTransform_.UpdateMatrix();
-	
-	
-	//パーツの更新
-	for (Transform world : worlds_) {
-		world.UpdateMatrix();
-	}
 
 #pragma region モデル更新
-	headModel_.SetWorldMatrix(worlds_[kHead].worldMatrix);
-	bodyModel_.SetWorldMatrix(worlds_[kBody].worldMatrix);
-
-	LArmModel_.SetWorldMatrix(worlds_[kLArm].worldMatrix);
-	RArmModel_.SetWorldMatrix(worlds_[kRArm].worldMatrix);
-
-	LFootModel_.SetWorldMatrix(worlds_[kLFoot].worldMatrix);
-	RFootModel_.SetWorldMatrix(worlds_[kRFoot].worldMatrix);
+	
+	for (int i = 0; i < PartsNum; i++) {
+		worlds_[i].UpdateMatrix();
+		models_[i].SetWorldMatrix(worlds_[i].worldMatrix);
+	}
 
 #pragma endregion
 
@@ -203,7 +215,7 @@ void Player::BehaviorJumpInitalize() {
 	Epos.y =*BossY_;
 
 	Leser* leser_ = new Leser();
-	leser_->Initialize(ATKmodels_, Ppos,Epos );
+	leser_->Initialize(MLeser_,MExplosion_, Ppos,Epos );
 	lesers_.push_back(leser_);
 #pragma endregion
 
