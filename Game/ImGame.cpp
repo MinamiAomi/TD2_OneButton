@@ -24,22 +24,22 @@ void InGame::OnInitialize()
 	toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
 
 	//頭
-	pHead_ = std::make_shared<ToonModel>();
+	std::shared_ptr<ToonModel>pHead_ = std::make_shared<ToonModel>();
 	pHead_->Create(ModelData::LoadObjFile("Resources/Model/player/head.obj"));
 	//身体
-	pBody_ = std::make_shared<ToonModel>();
+	std::shared_ptr<ToonModel>pBody_ = std::make_shared<ToonModel>();
 	pBody_->Create(ModelData::LoadObjFile("Resources/Model/player/body.obj"));
 	//左手
-	pLArm_ = std::make_shared<ToonModel>();
+	std::shared_ptr<ToonModel>pLArm_ = std::make_shared<ToonModel>();
 	pLArm_->Create(ModelData::LoadObjFile("Resources/Model/player/LArm.obj"));
 	//右手
-	pRArm_ = std::make_shared<ToonModel>();
+	std::shared_ptr<ToonModel>pRArm_ = std::make_shared<ToonModel>();
 	pRArm_->Create(ModelData::LoadObjFile("Resources/Model/player/RArm.obj"));
 	//左足
-	pLFoot_ = std::make_shared<ToonModel>();
+	std::shared_ptr<ToonModel>pLFoot_ = std::make_shared<ToonModel>();
 	pLFoot_->Create(ModelData::LoadObjFile("Resources/Model/player/LFoot.obj"));
 	//右足
-	pRFoot_ = std::make_shared<ToonModel>();
+	std::shared_ptr<ToonModel>pRFoot_ = std::make_shared<ToonModel>();
 	pRFoot_->Create(ModelData::LoadObjFile("Resources/Model/player/RFoot.obj"));
 
 
@@ -54,10 +54,11 @@ void InGame::OnInitialize()
 	//プレイヤーモデルたち
 	std::vector<std::shared_ptr<ToonModel>> playerModels_ = {pHead_,pBody_,pLArm_,pRArm_,pLFoot_,pRFoot_};
 	std::vector<std::shared_ptr<ToonModel>> playerATKModels = { lezerModel_,playerExplotionModel_ };
-	/*
+	
 	//ボス
-	bossModel_ = std::make_shared<ToonModel>();
-	bossModel_->Create(ModelData::LoadObjFile("Resource/Model/boss/boss.obj"));
+	std::shared_ptr<ToonModel>bossModel_ = std::make_shared<ToonModel>();
+	bossModel_->Create(ModelData::LoadObjFile("Resources/Model/boss/boss.obj"));
+	/*
 	//ボスの棘
 	bossSpikeModel_ = std::make_shared<ToonModel>();
 	bossSpikeModel_->Create(ModelData::LoadObjFile("Resource/Model/boss/boss.obj"));
@@ -97,7 +98,7 @@ void InGame::OnInitialize()
 	}
 	//ボスの初期化
 	boss_ = std::make_unique<Boss>();
-	boss_->Initalize(map->GetBossMatPos(), toonModel_);
+	boss_->Initalize(map->GetBossMatPos(), bossModel_);
 
 	//プレイヤーの初期化
 	player_ = std::make_unique<Player>();

@@ -4,7 +4,7 @@ void Boss::Initalize(const Vector3& position, std::shared_ptr<ToonModel> toonMod
 {
 	//座標設定
 	world_.translate = position;
-	world_.scale.x = 10;
+	//world_.scale.x = 10;
 	world_.UpdateMatrix();
 
 	//ボスのｙのスケール設定

@@ -42,18 +42,7 @@ private:
 	std::shared_ptr<ToonModel> toonModel_;
 
 
-	std::shared_ptr<ToonModel>pHead_;
-
-	std::shared_ptr<ToonModel>pBody_;
-
-	std::shared_ptr<ToonModel>pLArm_;
-
-	std::shared_ptr<ToonModel>pRArm_;
-
-	std::shared_ptr<ToonModel>pLFoot_;
-
-	std::shared_ptr<ToonModel>pRFoot_;
-
+	
 	//ボスモデル
 	//std::shared_ptr<ToonModel> bossModel_;
 
