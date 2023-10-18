@@ -25,8 +25,8 @@ public:
 	~Player();
 
 	
+	//初期化
 	void Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> partsModels, std::vector<std::shared_ptr<ToonModel>> ATKmodels);
-
 
 	//更新
 	void Update();
@@ -71,6 +71,11 @@ public:
 	
 
 private:
+
+	//モデル更新
+	void ModelsUpdate();
+
+
 	//kRotのInitalize
 	void BehaviorRootInitalize();
 	//kRotのUpdate
