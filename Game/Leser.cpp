@@ -10,11 +10,11 @@ float Esing(const float& start, const float& end, const float& t) {
 
 
 
-void Leser::Initialize(std::shared_ptr<ToonModel>MLeser, std::shared_ptr<ToonModel>MExplosion, const Vector3& playerPos, const Vector3& bossPos)
+void Leser::Initialize(std::vector<std::shared_ptr<ToonModel>>ATK, const Vector3& playerPos, const Vector3& bossPos)
 {
 #pragma region ビーム関連
 	//モデルセット
-	modelInstance_.SetModel(MLeser);
+	modelInstance_.SetModel(ATK[0]);
 	//中心座標取得
 	Vector3 velo = (playerPos - bossPos) / 2;
 	//中心点
@@ -33,7 +33,7 @@ void Leser::Initialize(std::shared_ptr<ToonModel>MLeser, std::shared_ptr<ToonMod
 
 #pragma region 爆発関連
 	//モデルセット
-	expModelInstance_.SetModel(MExplosion);
+	expModelInstance_.SetModel(ATK[1]);
 
 	//爆発の情報取得と設定
 	explosionpos_.translate = bossPos;

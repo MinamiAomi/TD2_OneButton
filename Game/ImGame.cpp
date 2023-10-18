@@ -24,23 +24,23 @@ void InGame::OnInitialize()
 	toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
 
 	//頭
-	std::shared_ptr<ToonModel>pHead = std::make_shared<ToonModel>();
-	pHead->Create(ModelData::LoadObjFile("Resources/Model/player/head.obj"));
+	pHead_ = std::make_shared<ToonModel>();
+	pHead_->Create(ModelData::LoadObjFile("Resources/Model/player/head.obj"));
 	//身体
-	std::shared_ptr<ToonModel>pBody = std::make_shared<ToonModel>();
-	pBody->Create(ModelData::LoadObjFile("Resources/Model/player/body.obj"));
+	pBody_ = std::make_shared<ToonModel>();
+	pBody_->Create(ModelData::LoadObjFile("Resources/Model/player/body.obj"));
 	//左手
-	std::shared_ptr<ToonModel>pLArm = std::make_shared<ToonModel>();
-	pLArm->Create(ModelData::LoadObjFile("Resources/Model/player/LArm.obj"));
+	pLArm_ = std::make_shared<ToonModel>();
+	pLArm_->Create(ModelData::LoadObjFile("Resources/Model/player/LArm.obj"));
 	//右手
-	std::shared_ptr<ToonModel>pRArm = std::make_shared<ToonModel>();
-	pRArm->Create(ModelData::LoadObjFile("Resources/Model/player/RArm.obj"));
+	pRArm_ = std::make_shared<ToonModel>();
+	pRArm_->Create(ModelData::LoadObjFile("Resources/Model/player/RArm.obj"));
 	//左足
-	std::shared_ptr<ToonModel>pLFoot = std::make_shared<ToonModel>();
-	pLArm->Create(ModelData::LoadObjFile("Resources/Model/player/LFoot.obj"));
+	pLFoot_ = std::make_shared<ToonModel>();
+	pLFoot_->Create(ModelData::LoadObjFile("Resources/Model/player/LFoot.obj"));
 	//右足
-	std::shared_ptr<ToonModel>pRFoot = std::make_shared<ToonModel>();
-	pRArm->Create(ModelData::LoadObjFile("Resources/Model/player/RFoot.obj"));
+	pRFoot_ = std::make_shared<ToonModel>();
+	pRFoot_->Create(ModelData::LoadObjFile("Resources/Model/player/RFoot.obj"));
 
 
 	
@@ -52,8 +52,8 @@ void InGame::OnInitialize()
 	//playerExplotionModel_->Create(ModelData::LoadObjFile("Resource/Model/explosion/explosion.obj"));
 	playerExplotionModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
 	//プレイヤーモデルたち
-	std::vector<std::shared_ptr<ToonModel>> playerModels_ = { lezerModel_,playerExplotionModel_
-	,pHead,pBody,pLArm,pRArm,pLFoot,pRFoot};
+	std::vector<std::shared_ptr<ToonModel>> playerModels_ = {pHead_,pBody_,pLArm_,pRArm_,pLFoot_,pRFoot_};
+	std::vector<std::shared_ptr<ToonModel>> playerATKModels = { lezerModel_,playerExplotionModel_ };
 	/*
 	//ボス
 	bossModel_ = std::make_shared<ToonModel>();
@@ -101,9 +101,8 @@ void InGame::OnInitialize()
 
 	//プレイヤーの初期化
 	player_ = std::make_unique<Player>();
-	//player_->Initalize(map->GetPlayerPosition(),toonModel_);
-	player_->Initialize(map->GetPlayerPosition(), lezerModel_, playerExplotionModel_
-		, pHead, pBody, pLArm, pRArm, pLFoot, pRFoot);
+	
+	player_->Initialize(map->GetPlayerPosition(),playerModels_,playerATKModels );
 	
 	player_->SetBossY(&boss_->GetBossYLine());
 	

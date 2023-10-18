@@ -25,11 +25,7 @@ public:
 	~Player();
 
 	
-	//モデル完成時調整版
-	void Initialize(const Vector3& position, std::shared_ptr<ToonModel>MLeser, std::shared_ptr<ToonModel>MExplo, 
-		std::shared_ptr<ToonModel>MHead, std::shared_ptr<ToonModel>MBody,
-		std::shared_ptr<ToonModel>MLArm, std::shared_ptr<ToonModel>MRArm,
-		std::shared_ptr<ToonModel>MLFoot, std::shared_ptr<ToonModel>MRFoot);
+	void Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> partsModels, std::vector<std::shared_ptr<ToonModel>> ATKmodels);
 
 
 	//更新
@@ -161,15 +157,6 @@ private://スペチャ追加分
 
 #pragma region 身体モデル
 	//モデルたち
-	ToonModelInstance headModel_;
-	ToonModelInstance bodyModel_;
-
-	ToonModelInstance LArmModel_;
-	ToonModelInstance RArmModel_;
-
-	ToonModelInstance LFootModel_;
-	ToonModelInstance RFootModel_;
-
 	ToonModelInstance models_[6];
 
 	//パーツのワールドTたち
@@ -179,12 +166,8 @@ private://スペチャ追加分
 
 
 	//攻撃時に使うモデルまとめ
-	//std::vector<std::shared_ptr<ToonModel>>ATKmodels_;
+	std::vector<std::shared_ptr<ToonModel>>ATKmodels_;
 	
-	std::shared_ptr<ToonModel>MLeser_;
-
-	std::shared_ptr<ToonModel>MExplosion_;
-
 	float wide_ = 1;
 	//モデル用
 	
@@ -209,4 +192,8 @@ private://スペチャ追加分
 
 	//ボスの接触平面Y座標
 	const float* BossY_;
+
+
+
+
 };

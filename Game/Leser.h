@@ -12,7 +12,7 @@ public:
 
 	
 	//モデル作成後の初期化
-	void Initialize(std::shared_ptr<ToonModel>MLeser, std::shared_ptr<ToonModel>MExplosion, const Vector3& playerPos, const Vector3& bossPos);
+	void Initialize(std::vector<std::shared_ptr<ToonModel>>ATK, const Vector3& playerPos, const Vector3& bossPos);
 
 	void Update();
 	

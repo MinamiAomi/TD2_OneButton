@@ -13,42 +13,24 @@ Player::~Player() {
 }
 
 
-void Player::Initialize(const Vector3& position, std::shared_ptr<ToonModel>MLeser, std::shared_ptr<ToonModel>MExplo,
-	std::shared_ptr<ToonModel>MHead, std::shared_ptr<ToonModel>MBody,
-	std::shared_ptr<ToonModel>MLArm, std::shared_ptr<ToonModel>MRArm,
-	std::shared_ptr<ToonModel>MLFoot, std::shared_ptr<ToonModel>MRFoot)
+
+void Player::Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> partsModels, std::vector<std::shared_ptr<ToonModel>> ATKmodels)
 {
-
-
 	//キー入力のインスタンス取得
 	input = Input::GetInstance();
 
 
-	//プレイヤーモデルの設定
-	//headModel_.SetModel(MHead);
-	//bodyModel_.SetModel(MBody);
+	for (int i = 0; i < PartsNum; i++) {
+		models_[i].SetModel(partsModels[i]);
+	}
 
-	//LArmModel_.SetModel(MLArm);
-	//RArmModel_.SetModel(MRArm);
-
-	//LFootModel_.SetModel(MLFoot);
-	//RFootModel_.SetModel(MRFoot);
-
-	models_[kHead].SetModel(MHead);
-	models_[kBody].SetModel(MBody);
-
-	models_[kLArm].SetModel(MLArm);
-	models_[kRArm].SetModel(MRArm);
-
-	models_[kLFoot].SetModel(MLFoot);
-	models_[kRFoot].SetModel(MRFoot);
+	
 
 	//パーツのサイズ修正
-	
-	
+
+
 	//攻撃に使うモデルまとめ
-	MLeser_ = MLeser;
-	MExplosion_ = MExplo;
+	ATKmodels_ = ATKmodels;
 
 	//プレイヤーのモデル
 	worldTransform_.translate = position;
@@ -60,7 +42,6 @@ void Player::Initialize(const Vector3& position, std::shared_ptr<ToonModel>MLese
 	}
 
 }
-
 
 void Player::Update() {
 	ImGui::Begin("player");
@@ -215,7 +196,7 @@ void Player::BehaviorJumpInitalize() {
 	Epos.y =*BossY_;
 
 	Leser* leser_ = new Leser();
-	leser_->Initialize(MLeser_,MExplosion_, Ppos,Epos );
+	leser_->Initialize(ATKmodels_, Ppos,Epos );
 	lesers_.push_back(leser_);
 #pragma endregion
 
