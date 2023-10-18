@@ -150,4 +150,7 @@ private:
 
 	//マップ加算量
 	const float moveMapNum_ = 0.01f;
+
+
+	bool mapMove_ = true;
 };

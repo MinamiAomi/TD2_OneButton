@@ -53,14 +53,18 @@ void Map::Initialize() {
 }
 
 void Map::Update() {
+#ifdef _DEBUG
 	ImGui::Begin("map");
 	ImGui::DragFloat3("pos", &mapWorld_.translate.x, 0.01f);
 	ImGui::DragFloat3("scale", &mapWorld_.scale.x, 0.01f);
+	ImGui::Checkbox("move", &mapMove_);
 	ImGui::End();
+#endif // _DEBUG
 
-	//マップ移動
-	mapWorld_.translate.y -= moveMapNum_;
-
+	if (mapMove_) {
+		//マップ移動
+		mapWorld_.translate.y -= moveMapNum_;
+	}
 
 	//壁の再計算
 	hitsWallX_.x = Wall_min.worldMatrix.m[3][0];

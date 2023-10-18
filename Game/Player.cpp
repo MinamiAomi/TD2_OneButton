@@ -44,6 +44,7 @@ void Player::Update() {
 	ImGui::Begin("player");
 	ImGui::DragFloat3("pos", &worldTransform_.translate.x, 0.01f);
 	ImGui::DragFloat3("rotate", &worldTransform_.rotate.x, 0.01f);
+	ImGui::DragFloat3("scale", &worldTransform_.scale.x, 0.01f);
 	ImGui::Checkbox("isMove", &isMove);
 	ImGui::End();
 #endif // _DEBUG
