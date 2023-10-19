@@ -37,9 +37,11 @@ void InGame::OnInitialize() {
 
 #pragma endregion
 
-
-
-
+	std::shared_ptr<Texture>E_BossHeal = std::make_shared<Texture>();
+	E_BossHeal->Load("Resources/Heal.png");
+	sprite.SetTexture(E_BossHeal);
+	sprite.SetIsActive(true);
+	sprite.SetPosition({20,30});
 
 
     //マップクラス初期化

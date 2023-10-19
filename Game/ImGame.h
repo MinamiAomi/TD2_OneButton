@@ -1,6 +1,7 @@
 #pragma once
 #include"Engine/Scene/BaseScene.h"
 #include "Engine/Graphics/ToonModel.h"
+#include "Engine/Graphics/Sprite.h"
 #include "Math/Camera.h"
 
 #include<list>
@@ -60,8 +61,9 @@ private:
 	//カメラ
 	Camera camera_;
 
-
+	Sprite sprite;
 	
+
 	//マップクラス
 	std::unique_ptr<Map>map = nullptr;
 	
