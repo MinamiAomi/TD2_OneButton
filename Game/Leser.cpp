@@ -1,5 +1,7 @@
 #include "Leser.h"
 
+#include "Graphics/ResourceManager.h"
+
 Leser::Leser() {}
 Leser::~Leser() {}
 
@@ -10,11 +12,15 @@ float Esing(const float& start, const float& end, const float& t) {
 
 
 
-void Leser::Initialize(std::vector<std::shared_ptr<ToonModel>>ATK, const Vector3& playerPos, const Vector3& bossPos)
+void Leser::Initialize(const Vector3& playerPos, const Vector3& bossPos)
 {
+	ResourceManager* resourceManager = ResourceManager::GetInstance();
+	const char laserModelName[] = "Laser";
+	const char explosionModelName[] = "Explosion";
+
 #pragma region ビーム関連
 	//モデルセット
-	leserModelInstance_.SetModel(ATK[0]);
+	leserModelInstance_.SetModel(resourceManager->FindModel(laserModelName));
 	//中心座標取得
 	Vector3 velo = (playerPos - bossPos) / 2;
 	//中心点
@@ -33,7 +39,7 @@ void Leser::Initialize(std::vector<std::shared_ptr<ToonModel>>ATK, const Vector3
 
 #pragma region 爆発関連
 	//モデルセット
-	expModelInstance_.SetModel(ATK[1]);
+	expModelInstance_.SetModel(resourceManager->FindModel(explosionModelName));
 
 	//爆発の情報取得と設定
 	explosionpos_.translate = bossPos;

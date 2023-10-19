@@ -11,7 +11,7 @@ public:
 	/// </summary>
 	/// <param name="position">出現座標</param>
 	/// <param name="toonModel">モデル情報</param>
-	void Initalize(const Vector3& position, std::shared_ptr<ToonModel> toonModel);
+	void Initalize(const Vector3& position);
 
 	/// <summary>
 	/// 更新

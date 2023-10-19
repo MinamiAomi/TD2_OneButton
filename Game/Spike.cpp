@@ -3,9 +3,12 @@
 
 #include"Engine/Graphics/ModelLoader.h"
 #include"Externals/ImGui/imgui.h"
+#include "Graphics/ResourceManager.h"
 
-
-void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State, Vector3 velo) {
+void Spike::Initialize(int num,Transform world, int State, Vector3 velo) {
+	ResourceManager* resourceManager = ResourceManager::GetInstance();
+	const char spikeModelName[] = "Spike";
+	
 	//管理番号
 	spikeNum_=num;
 	//座標
@@ -15,7 +18,7 @@ void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonM
 
 
 	//モデル
-	modelInstance_.SetModel(toonModel);
+	modelInstance_.SetModel(resourceManager->FindModel(spikeModelName));
 	
 
 	//状態入力

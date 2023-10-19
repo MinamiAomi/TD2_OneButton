@@ -15,7 +15,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="State">状態</param>
 	/// <param name="velo">移動ベクトル</param>
-	void Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonModel, int State=kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
+	void Initialize(int num,Transform world, int State=kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
 
 
 	void Update();

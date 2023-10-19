@@ -66,7 +66,7 @@ private:
 	std::unique_ptr<Map>map = nullptr;
 	
 	//棘クラス
-	std::list<Spike*> spikes;
+	std::list<std::unique_ptr<Spike>> spikes;
 
 	//プレイヤークラス
 	std::unique_ptr<Player>player_ = nullptr;

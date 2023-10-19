@@ -17,7 +17,7 @@ public:
 	/// <param name="ATK">レーザー（０）と爆発（１）のモデル配列</param>
 	/// <param name="playerPos">プレイヤー座標（発生地点座標）</param>
 	/// <param name="bossPos">ボス座標（攻撃設置点座標)</param>
-	void Initialize(std::vector<std::shared_ptr<ToonModel>>ATK, const Vector3& playerPos, const Vector3& bossPos);
+	void Initialize(const Vector3& playerPos, const Vector3& bossPos);
 
 	/// <summary>
 	/// 更新
