@@ -76,15 +76,17 @@ void Map::Update() {
 		}
 	}
 
-	//壁の再計算
-	hitsWallX_.x = Wall_min_.worldMatrix.m[3][0];
-	hitsWallX_.y = Wall_max_.worldMatrix.m[3][0];
-
+	
 
 	//更新
 	mapWorld_.UpdateMatrix();	
 	Wall_min_.UpdateMatrix();
 	Wall_max_.UpdateMatrix();
+
+	//壁の再計算
+	hitsWallX_.x = Wall_min_.worldMatrix.m[3][0];
+	hitsWallX_.y = Wall_max_.worldMatrix.m[3][0];
+
 }
 
 
