@@ -47,96 +47,192 @@ void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonM
 
 void Spike::Update() {
 
+	//状態が変化した際初期化処理をする
+	CheckAllStateInitialize();
+
+	//状態ごとの更新
+	StateUpdate();
+
+	//行列更新
+	world_.UpdateMatrix();
+	modelInstance_.SetWorldMatrix(world_.worldMatrix);
+}
+
+void Spike::CheckAllStateInitialize()
+{
+	if (ckeckStateChange_) {
+		switch (state_)
+		{
+		case Spike::kStay:
+			Stay_Initialize();
+			break;
+		case Spike::kFalling:
+			Falling_Initialize();
+			break;
+		case Spike::kFillUp:
+			FillUp_Initiaize();
+			break;
+		case Spike::kExplosion:
+			Explosion_Initialize();
+			break;
+		case Spike::kFlyAway:
+			FlyAway_Initialize();
+			break;
+		case Spike::kNone:
+			break;
+		default:
+			break;
+		}
+		ckeckStateChange_ = false;
+	}
+}
+
+void Spike::StateUpdate()
+{
 	//コリジョン処理をするかのフラグ処理
 	if (!collision_on) {
 		if (noCollisionCount_-- <= 0) {
 			collision_on = true;
 		}
 	}
-	
+
 	//実行処理
 	switch (state_) {
 	case Spike::kStay:
+		Stay_Update();
 		break;
 	case Spike::kFalling://落っこちる
 
-		//移動量
-		world_.translate = world_.translate + velocity_;
+		Falling_Update();
 
-		velocity_.y += gravity;
-
-		//yベクトルが-でコリジョンON
-		if (velocity_.y <= -0.00001f) {
-			collision_on = true;
-			noCollisionCount_ = 0;
-		}
 		break;
 	case Spike::kFillUp://埋まっていく
-		//座標計算
-		world_.translate = world_.translate + (gensoku * velocity_);
 
-		if (fillUpCount_++ >= maxFillUpCount_) {
-			//死亡フラグON
-			isDead_ = true;
-			//埋まり切りフラグON
-			CompleteFillUp_ = true;
-			//コリジョンを切る
-			collision_on = false;
-			noCollisionCount_ = 60;
-		}
-
-		
+		FillUp_Update();
 
 		break;
 	case Spike::kExplosion://爆発
 
-		animationCount_++;
-		//アニメーションカウントがmaxの値で死亡
-		if (maxAnimationCount >= animationCount_) {
-			isDead_ = true;
-		}
+		Explosion_Update();
 
 		break;
 	case Spike::kFlyAway:
-		world_.translate = world_.translate + velocity_;
 
-		//飛ぶ方向チェック
-		if (veloLeft_) {
-			velocity_.x += addVeloX_;
-			if(velocity_.x>=0.0f){
-				state_ = kFillUp;
-				velocity_.x = 0;
-				velocity_.y = 0;
-			}
-		}
-		else {
-			velocity_.x -= addVeloX_;
-			if (velocity_.x <= 0.0f) {
-				state_ = kFillUp;
-				velocity_.x = 0;
-				velocity_.y = 0;
-			}
-		}
-
-		if (flyAwayCount_++ >= maxFlyAwayCount_) {
-			state_ = kFillUp;
-			velocity_.x = 0;
-			velocity_.y = 0;
-		}
+		FlyAway_Update();
 
 		break;
 
 	case Spike::kNone:
-
 		break;
 	default:
 		break;
 	}
 
-	//行列更新
-	world_.UpdateMatrix();
-	modelInstance_.SetWorldMatrix(world_.worldMatrix);
 }
+
+
+#pragma region 各状態移行時初期化処理
+
+
+
+void Spike::Stay_Initialize()
+{
+
+}
+
+void Spike::Falling_Initialize()
+{
+}
+
+void Spike::FillUp_Initiaize()
+{
+}
+
+void Spike::Explosion_Initialize()
+{
+}
+
+void Spike::FlyAway_Initialize()
+{
+}
+
+
+#pragma endregion
+
+#pragma region 各状態更新処理
+
+void Spike::Stay_Update()
+{
+}
+
+void Spike::Falling_Update()
+{
+	//移動量
+	world_.translate = world_.translate + velocity_;
+
+	velocity_.y += gravity;
+
+	//yベクトルが-でコリジョンON
+	if (velocity_.y <= -0.00001f) {
+		collision_on = true;
+		noCollisionCount_ = 0;
+	}
+}
+
+void Spike::FillUp_Update()
+{
+	//座標計算
+	world_.translate = world_.translate + (gensoku * velocity_);
+
+	if (fillUpCount_++ >= maxFillUpCount_) {
+		//死亡フラグON
+		isDead_ = true;
+		//埋まり切りフラグON
+		CompleteFillUp_ = true;
+		//コリジョンを切る
+		collision_on = false;
+		noCollisionCount_ = 60;
+	}
+}
+
+void Spike::Explosion_Update()
+{
+	animationCount_++;
+	//アニメーションカウントがmaxの値で死亡
+	if (maxAnimationCount >= animationCount_) {
+		isDead_ = true;
+	}
+}
+
+void Spike::FlyAway_Update()
+{
+	world_.translate = world_.translate + velocity_;
+
+	//飛ぶ方向チェック
+	if (veloLeft_) {
+		velocity_.x += addVeloX_;
+		if (velocity_.x >= 0.0f) {
+			state_ = kFillUp;
+			velocity_.x = 0;
+			velocity_.y = 0;
+		}
+	}
+	else {
+		velocity_.x -= addVeloX_;
+		if (velocity_.x <= 0.0f) {
+			state_ = kFillUp;
+			velocity_.x = 0;
+			velocity_.y = 0;
+		}
+	}
+
+	if (flyAwayCount_++ >= maxFlyAwayCount_) {
+		state_ = kFillUp;
+		velocity_.x = 0;
+		velocity_.y = 0;
+	}
+}
+#pragma endregion
 
 
 
@@ -176,11 +272,11 @@ void Spike::OnCollisionPlayerExplosion(Vector3 ExpPos) {
 
 	//爆心地によるベクトルと情報の初期化
 	if (ExpPos.x < world_.translate.x) {
-		velocity_ = exploVec;
+		velocity_ = exploVec_;
 		veloLeft_ = false;
 	}
 	else {
-		velocity_ = exploVec;
+		velocity_ = exploVec_;
 		velocity_.x *= -1;
 		veloLeft_ = true;
 	}
@@ -211,6 +307,6 @@ void Spike::OnCollisionWall() {
 	isDead_ = true;
 	state_ = kNone;
 }
-
-
 #pragma endregion
+
+

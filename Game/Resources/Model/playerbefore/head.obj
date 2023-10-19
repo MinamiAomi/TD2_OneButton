@@ -1,6 +1,6 @@
 # Blender 3.5.0
 # www.blender.org
-mtllib head.mtl
+mtllib Head.mtl
 o Head
 v 2.077079 -2.087198 -2.129818
 v 2.077079 -2.087198 2.044578

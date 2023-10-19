@@ -6,20 +6,7 @@
 
 class Spike {
 public:
-	enum SpikeState {
-		// 木についている
-		kStay,
-		// 落ちる
-		kFalling,
-		// 埋まる
-		kFillUp,
-		// BAKUHATU★
-		kExplosion,
-		//爆風に吹き飛ばされる
-		kFlyAway,
-		//None
-		kNone
-	};
+	
 
 	/// <summary>
 	/// 初期化
@@ -103,8 +90,67 @@ public:
 #pragma endregion
 
 
+	enum State {
+		
+		kStay,			//木についている
+		kFalling,		//落ちる		
+		kFillUp,		//埋まる
+		kExplosion,		//BAKUHATU★		
+		kFlyAway,		//爆風に吹き飛ばされる		
+		kNone			//None
+	};
+
+private://各状態の初期化と更新処理
+
+	//状態が変わったかチェック
+	bool ckeckStateChange_ = false;
+
+	//状態が変わった際に初期化をする処理をまとめた関数
+	void CheckAllStateInitialize();
+
+	//状態ごとの更新処理をまとめた関数
+	void StateUpdate();
+
+#pragma region 各種初期化関数
+	//木についている状態の初期化
+	void Stay_Initialize();
+
+	//落ちる状態の初期化
+	void Falling_Initialize();
+
+	//埋まる状態の初期化
+	void FillUp_Initiaize();
+
+	//爆発の初期化
+	void Explosion_Initialize();
+
+	//横に飛ぶ処理の追加
+	void FlyAway_Initialize();
+#pragma endregion
 
 
+#pragma region	各種更新関数
+	//更新処理
+	//木についている状態の更新
+	void Stay_Update();
+
+	//落ちる状態の初期化
+	void Falling_Update();
+
+	//埋まる状態の初期化
+	void FillUp_Update();
+
+	//爆発の初期化
+	void Explosion_Update();
+
+	//横に飛ぶ処理の追加
+	void FlyAway_Update();
+#pragma endregion
+
+	
+
+	
+	
 private:
 	
 	//管理番号
@@ -119,7 +165,7 @@ private:
 	float wide_;
 
 	//状態
-	SpikeState state_;
+	State state_;
 
 	//移動量
 	Vector3 velocity_;
@@ -165,7 +211,7 @@ private:
 	bool veloLeft_;
 
 	//爆風の時の初期速度
-	Vector3 exploVec = { 0.1f,0.0f,0.0f };
+	Vector3 exploVec_ = { 0.1f,0.0f,0.0f };
 
 	//吹っ飛ぶときの加算量
 	const float addVeloX_ = 1.0f / 60.0f;

@@ -12,50 +12,43 @@ Player::~Player() {
 
 }
 
-void Player::Initalize(const Vector3& position, std::shared_ptr<ToonModel> PlayertoonModel) {
-	
-	//プレイヤーモデル受け取り
-	model_ = PlayertoonModel;
-	modelInstance_.SetModel(model_);
 
-	//レーザー用モデル読み取り
-	leser_model_ = PlayertoonModel;
-	
-	
-	
 
-	//プレイヤーのモデル
-	worldTransform_.translate = position;
-
+void Player::Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> partsModels, std::vector<std::shared_ptr<ToonModel>> ATKmodels)
+{
+	//キー入力のインスタンス取得
 	input = Input::GetInstance();
 
+	//モデルセット
+	for (int i = 0; i < PartsNum; i++) {
+		models_[i].SetModel(partsModels[i]);
+	}
 
-	
-
-}
-
-void Player::Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> models)
-{
-	//プレイヤーモデルの設定
-	modelInstance_.SetModel(models[0]);
 
 	//攻撃に使うモデルまとめ
-	std::vector<std::shared_ptr<ToonModel>>ATKmodels = { models[1],models[2] };
 	ATKmodels_ = ATKmodels;
 
 	//プレイヤーのモデル
 	worldTransform_.translate = position;
 
-	//キー入力のインスタンス取得
-	input = Input::GetInstance();
+
+	//親設定
+	for (int i = 0; i < PartsNum; i++) {
+		worlds_[i].parent = &worldTransform_;
+	}
+
 }
 
-
 void Player::Update() {
+#ifdef _DEBUG
 	ImGui::Begin("player");
 	ImGui::DragFloat3("pos", &worldTransform_.translate.x, 0.01f);
+	ImGui::DragFloat3("rotate", &worldTransform_.rotate.x, 0.01f);
+	ImGui::DragFloat3("scale", &worldTransform_.scale.x, 0.01f);
 	ImGui::Checkbox("isMove", &isMove);
 	ImGui::End();
+#endif // _DEBUG
+
 	
 	//当たり判定するかの処理
 	if (!collision_on) {
@@ -114,8 +107,10 @@ void Player::Update() {
 	explosionPos_ = worldTransform_.translate;
 
 
+	//プレイヤー中心行列更新
 	worldTransform_.UpdateMatrix();
-	modelInstance_.SetWorldMatrix(worldTransform_.worldMatrix);
+
+	ModelsUpdate();
 
 	
 	lesers_.remove_if([](Leser* leser) {
@@ -129,7 +124,43 @@ void Player::Update() {
 		});
 
 }
+void Player::ModelsUpdate()
+{
+#ifdef _DEBUG
+	ImGui::Begin("player Parts");
+	ImGui::Text("positions");
+	ImGui::DragFloat3("head pos", &worlds_[kHead].translate.x, 0.01f);
+	ImGui::DragFloat3("body pos", &worlds_[kBody].translate.x, 0.01f);
 
+	ImGui::DragFloat3("LArm pos", &worlds_[kLArm].translate.x, 0.01f);
+	ImGui::DragFloat3("RArm pos", &worlds_[kRArm].translate.x, 0.01f);
+
+	ImGui::DragFloat3("LFoot pos", &worlds_[kLFoot].translate.x, 0.01f);
+	ImGui::DragFloat3("RFoot pos", &worlds_[kRFoot].translate.x, 0.01f);
+
+	ImGui::Text("rotates");
+
+	ImGui::DragFloat3("head rotate", &worlds_[kHead].rotate.x, 0.01f);
+	ImGui::DragFloat3("body rotate", &worlds_[kBody].rotate.x, 0.01f);
+
+	ImGui::DragFloat3("LArm rotate", &worlds_[kLArm].rotate.x, 0.01f);
+	ImGui::DragFloat3("RArm rotate", &worlds_[kRArm].rotate.x, 0.01f);
+
+	ImGui::DragFloat3("LFoot rotate", &worlds_[kLFoot].rotate.x, 0.01f);
+	ImGui::DragFloat3("RFoot rotate", &worlds_[kRFoot].rotate.x, 0.01f);
+
+	ImGui::End();
+#endif // _DEBUG
+
+
+
+#pragma region モデル更新
+	for (int i = 0; i < PartsNum; i++) {
+		worlds_[i].UpdateMatrix();
+		models_[i].SetWorldMatrix(worlds_[i].worldMatrix);
+	}
+#pragma endregion
+}
 
 
 void Player::OnCollision() {
@@ -160,6 +191,8 @@ void Player::OnCollisionBoss()
 	behaviorRequest_ = Behavior::kHit;
 	//isMove = false;
 }
+
+
 
 void Player::BehaviorRootInitalize() {
 	behavior_ = Behavior::kRoot;
@@ -195,7 +228,7 @@ void Player::BehaviorJumpInitalize() {
 	Epos.y =*BossY_;
 
 	Leser* leser_ = new Leser();
-	leser_->Initalize(leser_model_, Ppos,Epos );
+	leser_->Initialize(ATKmodels_, Ppos,Epos );
 	lesers_.push_back(leser_);
 #pragma endregion
 

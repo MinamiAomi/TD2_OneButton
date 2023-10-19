@@ -23,24 +23,42 @@ void InGame::OnInitialize()
 	toonModel_ = std::make_shared<ToonModel>();
 	toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
 
-	
-	/*
-	//プレイヤーモデル
-	playerModel_ = std::make_shared<ToonModel>();
-	playerModel_->Create(ModelData::LoadObjFile("Resource/Model/player/player.obj"));
-	//レーザー
-	lezerModel_ = std::make_shared<ToonModel>();
-	lezerModel_->Create(ModelData::LoadObjFile("Resource/Model/lazer/lazer.obj"));
-	//レーザー爆発
-	playerExplotionModel_ = std::make_shared<ToonModel>();
-	playerExplotionModel_->Create(ModelData::LoadObjFile("Resource/Model/explosion/explosion.obj"));
-	
-	//プレイヤーモデルたち
-	std::vector<std::shared_ptr<ToonModel>> playerModels_ = { playerModel_,lezerModel_,playerExplotionModel_ };
+	//頭
+	std::shared_ptr<ToonModel>pHead_ = std::make_shared<ToonModel>();
+	pHead_->Create(ModelData::LoadObjFile("Resources/Model/player/head.obj"));
+	//身体
+	std::shared_ptr<ToonModel>pBody_ = std::make_shared<ToonModel>();
+	pBody_->Create(ModelData::LoadObjFile("Resources/Model/player/body.obj"));
+	//左手
+	std::shared_ptr<ToonModel>pLArm_ = std::make_shared<ToonModel>();
+	pLArm_->Create(ModelData::LoadObjFile("Resources/Model/player/LArm.obj"));
+	//右手
+	std::shared_ptr<ToonModel>pRArm_ = std::make_shared<ToonModel>();
+	pRArm_->Create(ModelData::LoadObjFile("Resources/Model/player/RArm.obj"));
+	//左足
+	std::shared_ptr<ToonModel>pLFoot_ = std::make_shared<ToonModel>();
+	pLFoot_->Create(ModelData::LoadObjFile("Resources/Model/player/LFoot.obj"));
+	//右足
+	std::shared_ptr<ToonModel>pRFoot_ = std::make_shared<ToonModel>();
+	pRFoot_->Create(ModelData::LoadObjFile("Resources/Model/player/RFoot.obj"));
 
+
+	
+	//レーザー
+	std::shared_ptr<ToonModel> lezerModel_ = std::make_shared<ToonModel>();
+	lezerModel_->Create(ModelData::LoadObjFile("Resources/Model/laser/laser.obj"));
+	//レーザー爆発
+	std::shared_ptr<ToonModel> playerExplotionModel_ = std::make_shared<ToonModel>();
+	//playerExplotionModel_->Create(ModelData::LoadObjFile("Resource/Model/explosion/explosion.obj"));
+	playerExplotionModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
+	//プレイヤーモデルたち
+	std::vector<std::shared_ptr<ToonModel>> playerModels_ = {pHead_,pBody_,pLArm_,pRArm_,pLFoot_,pRFoot_};
+	std::vector<std::shared_ptr<ToonModel>> playerATKModels = { lezerModel_,playerExplotionModel_ };
+	
 	//ボス
-	bossModel_ = std::make_shared<ToonModel>();
-	bossModel_->Create(ModelData::LoadObjFile("Resource/Model/boss/boss.obj"));
+	std::shared_ptr<ToonModel>bossModel_ = std::make_shared<ToonModel>();
+	bossModel_->Create(ModelData::LoadObjFile("Resources/Model/boss/boss.obj"));
+	/*
 	//ボスの棘
 	bossSpikeModel_ = std::make_shared<ToonModel>();
 	bossSpikeModel_->Create(ModelData::LoadObjFile("Resource/Model/boss/boss.obj"));
@@ -80,11 +98,13 @@ void InGame::OnInitialize()
 	}
 	//ボスの初期化
 	boss_ = std::make_unique<Boss>();
-	boss_->Initalize(map->GetBossMatPos(), toonModel_);
+	boss_->Initalize(map->GetBossMatPos(), bossModel_);
 
 	//プレイヤーの初期化
 	player_ = std::make_unique<Player>();
-	player_->Initalize(map->GetPlayerPosition(),toonModel_);
+	
+	player_->Initialize(map->GetPlayerPosition(),playerModels_,playerATKModels );
+	
 	player_->SetBossY(&boss_->GetBossYLine());
 	
 }
@@ -120,7 +140,7 @@ void InGame::OnUpdate()
 
 
 	//プレイヤー更新後にカメラ更新
-	Vector3 cpos = boss_->GetmatWT();
+	Vector3 cpos = boss_->GetMatWT();
 	cpos.z = camera_.GetPosition().z;
 	cpos.x = camera_.GetPosition().x;
 	cpos.y += 20;
@@ -204,7 +224,7 @@ void InGame::CollisionAboutSpike()
 			for (Leser* leser : player_->Getlesers()) {
 #pragma region ビーム
 				//レーザーのwide取得
-				float beamWide = leser->GetWide();
+				float beamWide = leser->GetLeserWide();
 
 				//ビームの終点取得
 				Vector3 beamEnd = leser->GetExplosionPos();
@@ -232,7 +252,7 @@ void InGame::CollisionAboutSpike()
 
 					//クラス作成
 					Spike* newSpike = new Spike;
-					newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling, newVelo);
+					newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
 					//プッシュ
 					spikes.push_back(newSpike);
 
@@ -242,7 +262,7 @@ void InGame::CollisionAboutSpike()
 
 					//クラス作成とプッシュ
 					Spike* newSpike2 = new Spike;
-					newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::SpikeState::kFalling, newVelo);
+					newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
 					spikes.push_back(newSpike2);
 
 
@@ -316,7 +336,7 @@ void InGame::CollisionAboutSpike()
 
 							//新しいスパイクの生成
 							Spike* newspike = new Spike();
-							newspike->Initialize(sizeNum, newSpike, toonModel_, Spike::SpikeState::kFalling);
+							newspike->Initialize(sizeNum, newSpike, toonModel_, Spike::State::kFalling);
 
 							//ぷっす
 							spikes.push_back(newspike);

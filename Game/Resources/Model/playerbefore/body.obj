@@ -1,6 +1,6 @@
 # Blender 3.5.0
 # www.blender.org
-mtllib body.mtl
+mtllib Body.mtl
 o Body
 v 3.077904 -1.118012 -1.436107
 v 3.077904 -1.769668 0.425005
