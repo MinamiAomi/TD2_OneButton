@@ -276,11 +276,11 @@ void Player::BehaviorJumpUpdate() {
 	//左右移動
 	worldTransform_.translate.x += moveXaxisSpeed;
 	//ジャンプの値から毎フレームずつ重力を引いていく
-	if (Jumpforce > 0) {
+	if (Jumpforce > -kXaxisSpeed) {
 		Jumpforce -= gravity;
 	}
 	//ジャンプの値を左右移動と同じ速度にする
-	else if (Jumpforce <= 0) {
+	else {
 		Jumpforce = -kXaxisSpeed;
 	}
 	//一度離してから再入力でもう一度ジャンプ

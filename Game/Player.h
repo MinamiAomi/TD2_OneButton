@@ -110,13 +110,13 @@ private:
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
 	//重力
-	float gravity = 0.2f;
+	float gravity = 0.25f;
 
 	//ジャンプする力
-	float Jumpforce = 4.0f;
+	float Jumpforce = 0.015f;
 
 	//左右移動の速度(絶対値)
-	const float kXaxisSpeed = 0.20f;
+	const float kXaxisSpeed = 0.30f;
 
 	//左右移動の速度(コード内で使用)
 	float moveXaxisSpeed = kXaxisSpeed;
