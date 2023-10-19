@@ -26,7 +26,7 @@ public:
 
 	
 	//初期化
-	void Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> partsModels, std::vector<std::shared_ptr<ToonModel>> ATKmodels);
+	void Initialize(const Vector3& position);
 
 	//更新
 	void Update();
@@ -168,10 +168,6 @@ private://スペチャ追加分
 	Transform worlds_[6];
 	
 #pragma endregion
-
-
-	//攻撃時に使うモデルまとめ
-	std::vector<std::shared_ptr<ToonModel>>ATKmodels_;
 	
 	//円も出る幅
 	float wide_ = 1;

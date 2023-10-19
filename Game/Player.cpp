@@ -1,6 +1,8 @@
 #include "Player.h"
 #include"Externals/ImGui/imgui.h"
 
+#include "Graphics/ResourceManager.h"
+
 Player::Player() {}
 Player::~Player() {
 
@@ -14,18 +16,25 @@ Player::~Player() {
 
 
 
-void Player::Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> partsModels, std::vector<std::shared_ptr<ToonModel>> ATKmodels) {
+void Player::Initialize(const Vector3& position)
+{
 	//キー入力のインスタンス取得
 	input = Input::GetInstance();
 
+	const char* modelNames[] = {
+		"PlayerHead",
+		"PlayerBody",
+		"PlayerLArm",
+		"PlayerRArm",
+		"PlayerLFoot",
+		"PlayerRFoot",
+	};
+
+	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	//モデルセット
 	for (int i = 0; i < PartsNum; i++) {
-		models_[i].SetModel(partsModels[i]);
+		models_[i].SetModel(resourceManager->FindModel(modelNames[i]));
 	}
-
-
-	//攻撃に使うモデルまとめ
-	ATKmodels_ = ATKmodels;
 
 	//プレイヤーのモデル
 	worldTransform_.translate = position;
@@ -222,7 +231,7 @@ void Player::BehaviorJumpInitalize() {
 	Epos.y = *BossY_;
 
 	Leser* leser_ = new Leser();
-	leser_->Initialize(ATKmodels_, Ppos, Epos);
+	leser_->Initialize(Ppos,Epos );
 	lesers_.push_back(leser_);
 #pragma endregion
 

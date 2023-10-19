@@ -1,170 +1,156 @@
-#include"ImGame.h"
+#include "ImGame.h"
 
-#include"Externals/ImGui/imgui.h"
+#include "Externals/ImGui/imgui.h"
 #include "Engine/Graphics/RenderManager.h"
-#include"Engine/Graphics/ModelLoader.h"
+#include "Engine/Graphics/ModelLoader.h"
 #include "Engine/Scene/SceneManager.h"
 
 
 #include "Math/Transform.h"
 
-void InGame::OnInitialize()
-{
+void InGame::OnInitialize() {
 
-	RenderManager::GetInstance()->SetCamera(camera_);
+    RenderManager::GetInstance()->SetCamera(camera_);
 
-	//カメラ座標初期化
-	Vector3 camerapos = { 0.0f,0.0f,-50.0f };
-	camera_.SetPosition(camerapos);
+    //カメラ座標初期化
+    Vector3 camerapos = { 0.0f,0.0f,-40.0f };
+    camera_.SetPosition(camerapos);
 
 #pragma region モデルの初期化
 
-	//仮モデル初期化
-	toonModel_ = std::make_shared<ToonModel>();
-	toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
+    //仮モデル初期化
+ /*   toonModel_ = std::make_shared<ToonModel>();
+    toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));*/
 
-	//頭
-	std::shared_ptr<ToonModel>pHead_ = std::make_shared<ToonModel>();
-	pHead_->Create(ModelData::LoadObjFile("Resources/Model/player/head.obj"));
-	//身体
-	std::shared_ptr<ToonModel>pBody_ = std::make_shared<ToonModel>();
-	pBody_->Create(ModelData::LoadObjFile("Resources/Model/player/body.obj"));
-	//左手
-	std::shared_ptr<ToonModel>pLArm_ = std::make_shared<ToonModel>();
-	pLArm_->Create(ModelData::LoadObjFile("Resources/Model/player/LArm.obj"));
-	//右手
-	std::shared_ptr<ToonModel>pRArm_ = std::make_shared<ToonModel>();
-	pRArm_->Create(ModelData::LoadObjFile("Resources/Model/player/RArm.obj"));
-	//左足
-	std::shared_ptr<ToonModel>pLFoot_ = std::make_shared<ToonModel>();
-	pLFoot_->Create(ModelData::LoadObjFile("Resources/Model/player/LFoot.obj"));
-	//右足
-	std::shared_ptr<ToonModel>pRFoot_ = std::make_shared<ToonModel>();
-	pRFoot_->Create(ModelData::LoadObjFile("Resources/Model/player/RFoot.obj"));
+        /*
+    //ボスの棘
+    bossSpikeModel_ = std::make_shared<ToonModel>();
+    bossSpikeModel_->Create(ModelData::LoadObjFile("Resource/Model/boss/boss.obj"));
 
+    //ボスモデルたち
+    std::vector<std::shared_ptr<ToonModel>>bossModels = { bossModel_,bossSpikeModel_ };
 
-	
-	//レーザー
-	std::shared_ptr<ToonModel> lezerModel_ = std::make_shared<ToonModel>();
-	lezerModel_->Create(ModelData::LoadObjFile("Resources/Model/laser/laser.obj"));
-	//レーザー爆発
-	std::shared_ptr<ToonModel> playerExplotionModel_ = std::make_shared<ToonModel>();
-	//playerExplotionModel_->Create(ModelData::LoadObjFile("Resource/Model/explosion/explosion.obj"));
-	playerExplotionModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));
-	//プレイヤーモデルたち
-	std::vector<std::shared_ptr<ToonModel>> playerModels_ = {pHead_,pBody_,pLArm_,pRArm_,pLFoot_,pRFoot_};
-	std::vector<std::shared_ptr<ToonModel>> playerATKModels = { lezerModel_,playerExplotionModel_ };
-	
-	//ボス
-	std::shared_ptr<ToonModel>bossModel_ = std::make_shared<ToonModel>();
-	bossModel_->Create(ModelData::LoadObjFile("Resources/Model/boss/boss.obj"));
-	/*
-	//ボスの棘
-	bossSpikeModel_ = std::make_shared<ToonModel>();
-	bossSpikeModel_->Create(ModelData::LoadObjFile("Resource/Model/boss/boss.obj"));
-
-	//ボスモデルたち
-	std::vector<std::shared_ptr<ToonModel>>bossModels = { bossModel_,bossSpikeModel_ };
-
-	//棘
-	spikeModel_ = std::make_shared<ToonModel>();
-	spikeModel_->Create(ModelData::LoadObjFile("Resource/Model/spike/spike.obj"));
-	*/
+    //棘
+    spikeModel_ = std::make_shared<ToonModel>();
+    spikeModel_->Create(ModelData::LoadObjFile("Resource/Model/spike/spike.obj"));
+    */
 
 #pragma endregion
 
 
-	
-	
 
-	
-	//マップクラス初期化
-	map = std::make_unique<Map>();
-	map->Initialize();
 
-	//スパイクのTransformコピー
-	std::vector<Transform> spikeWorld = map->GetSpikeWorld();
-	//棘の数取得
-	int spileNum = (int)spikeWorld.size();
-	//棘の初期設定
-	for (int num = 0; num < spileNum; num++) {
-		//管理番号取得
-		int sizeNum=(int)spikes.size();
-		//クラス作成
-		Spike* spike_ = new Spike();
-		spike_->Initialize(sizeNum,spikeWorld[num], toonModel_,0);
-		//プッシュ
-		spikes.push_back(spike_);
-	}
-	//ボスの初期化
-	boss_ = std::make_unique<Boss>();
-	boss_->Initalize(map->GetBossMatPos(), bossModel_);
 
-	//プレイヤーの初期化
-	player_ = std::make_unique<Player>();
-	
-	player_->Initialize(map->GetPlayerPosition(),playerModels_,playerATKModels );
-	
-	player_->SetBossY(&boss_->GetBossYLine());
-	
+
+    //マップクラス初期化
+    map = std::make_unique<Map>();
+    map->Initialize();
+
+    //スパイクのTransformコピー
+    std::vector<Transform> spikeWorld = map->GetSpikeWorld();
+    //棘の数取得
+    int spileNum = (int)spikeWorld.size();
+    //棘の初期設定
+    for (int num = 0; num < spileNum; num++) {
+        //管理番号取得
+        int sizeNum = (int)spikes.size();
+        //クラス作成
+        Spike* spike_ = new Spike();
+        spike_->Initialize(sizeNum, spikeWorld[num], 0);
+        //プッシュ
+        spikes.emplace_back(spike_);
+    }
+    //ボスの初期化
+    boss_ = std::make_unique<Boss>();
+    boss_->Initalize(map->GetBossMatPos());
+
+    //プレイヤーの初期化
+    player_ = std::make_unique<Player>();
+
+    player_->Initialize(map->GetPlayerPosition());
+
+    player_->SetBossY(&boss_->GetBossYLine());
+
 }
 
-void InGame::OnUpdate()
-{
-	
-	
-
-	//マップ更新
-	map->Update();
-
-	//ボス更新
-	boss_->Update();
-	
-
-	//棘更新
-	for (Spike* spike : spikes) {
-		spike->Update();
-	}
-
-	//プレイヤー更新
-	player_->Update();
+void InGame::OnUpdate() {
 
 
 
-	
-	
-	//当たり判定チェック
-	GetAllCollisions();
-	//
-	CheckDead();
+    //マップ更新
+    map->Update();
+
+    //ボス更新
+    boss_->Update();
 
 
-	//プレイヤー更新後にカメラ更新
-	Vector3 cpos = boss_->GetMatWT();
-	cpos.z = camera_.GetPosition().z;
-	cpos.x = camera_.GetPosition().x;
-	cpos.y += 30;
-	camera_.SetPosition(cpos);
-	
-	camera_.UpdateMatrices();
+    //棘更新
+    for (std::unique_ptr<Spike>& spike : spikes) {
+        spike->Update();
+    }
 
+    //プレイヤー更新
+    player_->Update();
+
+
+
+    //当たり判定チェック
+    GetAllCollisions();
+    //
+    CheckDead();
+
+
+    //プレイヤー更新後にカメラ更新
+    Vector3 cpos = boss_->GetMatWT();
+    cpos.z = camera_.GetPosition().z;
+    cpos.x = camera_.GetPosition().x;
+    cpos.y += 20;
+    camera_.SetPosition(cpos);
+
+#ifdef _DEBUG
+    static float fovY = 25.0f;
+    static float nearZ = 50.0f;
+    static float farZ = 200.0f;
+    static Vector3 position = { 0.0f, -42.0f, -100.0f };
+    static Vector3 rotate = {};
+
+    //position = camera_.GetPosition();
+
+    ImGui::Begin("Camera");
+    ImGui::DragFloat3("Position", &position.x, 0.1f);
+    ImGui::DragFloat3("Rotate", &rotate.x, 0.1f);
+    ImGui::DragFloat("FovY", &fovY, 0.1f, 0.0f, 180.0f);
+    ImGui::DragFloat("NearZ", &nearZ, 0.1f);
+    ImGui::DragFloat("FarZ", &farZ, 1.0f);
+    ImGui::End();
+
+    rotate.x = std::fmod(rotate.x, 360.0f);
+    rotate.y = std::fmod(rotate.y, 360.0f);
+    rotate.z = std::fmod(rotate.z, 360.0f);
+
+    camera_.SetPosition(position);
+    camera_.SetRotate(Quaternion::MakeFromEulerAngle(rotate * Math::ToRadian));
+    camera_.SetPerspective(fovY * Math::ToRadian, 540.0f / 720.0f, nearZ, farZ);
+#endif // _DEBUG
+
+    camera_.UpdateMatrices();
 }
 
 
 bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 
-	Vector3 p = p1 - p2;
+    Vector3 p = p1 - p2;
 
-	float Length = sqrtf(p.x * p.x + p.y * p.y);
-	//計算の誤差を許容する
-	Length += 0.001f;
+    float Length = sqrtf(p.x * p.x + p.y * p.y);
+    //計算の誤差を許容する
+    Length += 0.001f;
 
-	if (Length < w1 + w2) {
-		return true;
-	}
-	else {
-		return false;
-	}
+    if (Length < w1 + w2) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 
@@ -172,55 +158,52 @@ bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 void InGame::GetAllCollisions() {
 
 
-	CollisionAboutSpike();
+    CollisionAboutSpike();
 
-	//プレイヤー座標と半径
-	Vector3 PLAYER = player_->GetmatWtranslate();
-	float P_wide = player_->GetWide();
+    //プレイヤー座標と半径
+    Vector3 PLAYER = player_->GetmatWtranslate();
+    float P_wide = player_->GetWide();
 #pragma region プレイヤーと壁
-	if (map->IsHitWall(PLAYER, P_wide)) {
-		player_->OnCollisionWall(map->GetHitWallX());
-	}
+    if (map->IsHitWall(PLAYER, P_wide)) {
+        player_->OnCollisionWall(map->GetHitWallX());
+    }
 #pragma endregion
 
 #pragma region プレイヤーとボス
-	if (boss_->IsHitBoss(PLAYER, P_wide)) {
-		player_->OnCollisionBoss();
-	}
+    if (boss_->IsHitBoss(PLAYER, P_wide)) {
+        player_->OnCollisionBoss();
+    }
 #pragma endregion
 
 
 
 
-	
+
 }
 
 
 
-void InGame::CollisionAboutSpike()
-{
+void InGame::CollisionAboutSpike() {
 #pragma region 棘に関する当たり判定
-	//スパイクのWorld
+    //スパイクのWorld
 
-	//プレイヤー座標と半径
-	Vector3 PLAYER = player_->GetmatWtranslate();
-	float P_wide = player_->GetWide();
+    //プレイヤー座標と半径
+    Vector3 PLAYER = player_->GetmatWtranslate();
+    float P_wide = player_->GetWide();
 
 
-	for (Spike* spike : spikes) {	
-
-		//死んだ弾は処理しない
-		if (!spike->IsDead()) {
-
-			//座標と半径取得
-			Vector3 SPIKE = spike->GetmatWtranstate();
-			float S_wide = spike->GetWide();
+    for (std::unique_ptr<Spike>& spike : spikes) {
+      //死んだ弾は処理しない
+        	if (!spike->IsDead()) {
+            //座標と半径取得
+            Vector3 SPIKE = spike->GetmatWtranstate();
+            float S_wide = spike->GetWide();
 #pragma region プレイヤー
-			//当たった時の処理
-			if (CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
-				spike->OnCollisionPlayer();
-				player_->OnCollision();
-			}
+            //当たった時の処理
+            if (CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
+                spike->OnCollisionPlayer();
+                player_->OnCollision();
+            }
 #pragma endregion
 
 
@@ -260,7 +243,7 @@ void InGame::CollisionAboutSpike()
 						Spike* newSpike = new Spike;
 						newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
 						//プッシュ
-						spikes.push_back(newSpike);
+						spikes.emplace_back(newSpike);
 
 						//二個目作成
 						//x軸反転
@@ -269,7 +252,7 @@ void InGame::CollisionAboutSpike()
 						//クラス作成とプッシュ
 						Spike* newSpike2 = new Spike;
 						newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
-						spikes.push_back(newSpike2);
+						spikes.emplace_back(newSpike2);
 
 
 						//死亡判定出す
@@ -305,17 +288,16 @@ void InGame::CollisionAboutSpike()
 #pragma endregion
 
 #pragma region 壁
-			//壁に当たっていれば処理
-			if (map->IsHitWall(SPIKE, S_wide)) {
-				spike->OnCollisionWall();
-			}
+            //壁に当たっていれば処理
+            if (map->IsHitWall(SPIKE, S_wide)) {
+                spike->OnCollisionWall();
+            }
 #pragma endregion
 
 #pragma region 棘同士			
-
 			//棘同士の当たり判定処理をするか
 			if (spike->GetIsCollisonOnSpike()) {
-				for (Spike* spike2 : spikes) {
+				 for (std::unique_ptr<Spike>& spike2 : spikes) {
 					//同じ棘でないことを確認&&死んだ奴は処理しない
 					if (spike->GetIdentificationNum() != spike2->GetIdentificationNum() && !spike->IsDead() && !spike2->IsDead()) {
 
@@ -323,32 +305,32 @@ void InGame::CollisionAboutSpike()
 						Vector3 SPIKE2 = spike2->GetmatWtranstate();
 						float S2_wide = spike2->GetWide();
 
+                        //当たり合ってたら処理
+                        if (CheckHitSphere(SPIKE, S_wide, SPIKE2, S2_wide)) {
 
-						//当たり合ってたら処理
-						if (CheckHitSphere(SPIKE, S_wide, SPIKE2, S2_wide)) {
+                            //二つの円の間の距離取得
+                            Vector3 leng = (SPIKE - SPIKE2);
+                            leng /= 2;
+                            leng = SPIKE2 + leng;
 
-							//二つの円の間の距離取得
-							Vector3 leng = (SPIKE - SPIKE2);
-							leng /= 2;
-							leng = SPIKE2 + leng;
+                            //新しい円の半径設定
+                            float newSize = (S_wide + S2_wide) * 0.6f;
 
-							//新しい円の半径設定
-							float newSize = (S_wide + S2_wide) * 0.6f;
+                            //新しいTransform作成
+                            Transform newSpike;
+                            newSpike.translate = leng;							//位置設定
+                            newSpike.scale = { newSize,newSize ,newSize };		//サイズ設定
 
-							//新しいTransform作成
-							Transform newSpike;
-							newSpike.translate = leng;							//位置設定
-							newSpike.scale = { newSize,newSize ,newSize };		//サイズ設定
+                            //サイズ取得
+                            int sizeNum = (int)spikes.size();
 
-							//サイズ取得
-							int sizeNum = (int)spikes.size();
+                            //新しいスパイクの生成
+                            Spike* newspike = new Spike();
+                            newspike->Initialize(sizeNum, newSpike, Spike::State::kFalling);
 
-							//新しいスパイクの生成
-							Spike* newspike = new Spike();
-							newspike->Initialize(sizeNum, newSpike, toonModel_, Spike::State::kFalling);
+                            //ぷっす
+                            spikes.emplace_back(newspike);
 
-							//ぷっす
-							spikes.push_back(newspike);
 
 							//オンコリ処理
 							spike->OnCollisionSpike();
@@ -367,11 +349,12 @@ void InGame::CollisionAboutSpike()
 #pragma endregion
 		}
 #pragma region ボス回復処理
-			//埋まり切りフラグがONの時回復
-			if (spike->GetCompleteFillUp()) {
-				boss_->OnCollisionHealing();
-			}
+            //埋まり切りフラグがONの時回復
+            if (spike->GetCompleteFillUp()) {
+                boss_->OnCollisionHealing();
+            }
 #pragma endregion
+
 		
 	}
 #pragma endregion
@@ -382,22 +365,15 @@ void InGame::CollisionAboutSpike()
 
 //死亡チェック
 void InGame::CheckDead() {
-	spikes.remove_if([](Spike* spike) {
-		if (spike->IsDead()) {
-			delete spike;
-			spike = nullptr;
-			return true;
-		}
-		return false;
-		});
+    spikes.remove_if([](std::unique_ptr<Spike>& spike) {
+        if (spike->IsDead()) {
+            return true;
+        }
+        return false;
+        });
 }
 
 //終了処理
-void InGame::OnFinalize()
-{
-	for (Spike* spike : spikes) {
-		delete spike;
-		spike = nullptr;
-	}
+void InGame::OnFinalize() {
 
 }

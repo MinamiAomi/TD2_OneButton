@@ -15,8 +15,5 @@ public:
 	void OnFinalize() override;
 
 private:
-	std::shared_ptr<ToonModel> toonModel_;
-	Transform transform_;
-	ToonModelInstance modelInstance_;
 	Camera camera_;
 };

@@ -1,7 +1,12 @@
 #include"Boss.h"
 
-void Boss::Initalize(const Vector3& position, std::shared_ptr<ToonModel> toonModel)
+#include "Graphics/ResourceManager.h"
+
+void Boss::Initalize(const Vector3& position)
 {
+	ResourceManager* resourceManager = ResourceManager::GetInstance();
+	const char bossModelName[] = "Boss";
+
 	//座標設定
 	world_.translate = position;
 	//world_.scale.x = 10;
@@ -14,7 +19,7 @@ void Boss::Initalize(const Vector3& position, std::shared_ptr<ToonModel> toonMod
 	bossYLine_ = world_.worldMatrix.m[3][1] + height_;
 
 	//モデルセット
-	modelInstance_.SetModel(toonModel);
+	modelInstance_.SetModel(resourceManager->FindModel(bossModelName));
 
 }
 
