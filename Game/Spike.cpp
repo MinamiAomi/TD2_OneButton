@@ -26,12 +26,12 @@ void Spike::Initialize(int num,Transform world, std::shared_ptr<ToonModel> toonM
 	case kFalling:
 		//生成時落下処理の時すぐ当たらないよう処理
 		state_ = kFalling;
-		collision_on_for_Boss = false;
+		collisionOnForBoss_ = false;
 
 		//
-		collision_on_for_Player = false;
+		collisionOnForPlayer_ = false;
 
-		collision_on_for_Spike = false;
+		collisionOnForSpike_ = false;
 
 		noCollisionCount_ = 15;
 
@@ -98,9 +98,9 @@ void Spike::StateUpdate()
 	//コリジョン処理をするかのフラグ処理
 	if (noCollisionCount_> 0) {
 		if (noCollisionCount_-- <= 0) {
-			collision_on_for_Boss = true;
-			collision_on_for_Player = true;
-			collision_on_for_Spike = true;
+			collisionOnForBoss_ = true;
+			collisionOnForPlayer_ = true;
+			collisionOnForSpike_ = true;
 		}
 	}
 
@@ -171,9 +171,9 @@ void Spike::FillUp_Initiaize()
 
 
 	//各種当たり判定フラグの初期化
-	collision_on_for_Boss = true;
-	collision_on_for_Player = true;
-	collision_on_for_Spike = true;
+	collisionOnForBoss_ = true;
+	collisionOnForPlayer_ = true;
+	collisionOnForSpike_ = true;
 }
 
 void Spike::Explosion_Initialize()
@@ -202,7 +202,7 @@ void Spike::Falling_Update()
 
 	//yベクトルが-でコリジョンON
 	if (velocity_.y <= -0.00001f) {
-		collision_on_for_Boss = true;
+		collisionOnForBoss_ = true;
 		noCollisionCount_ = 0;
 	}
 }
@@ -218,7 +218,7 @@ void Spike::FillUp_Update()
 		//埋まり切りフラグON
 		CompleteFillUp_ = true;
 		//コリジョンを切る
-		collision_on_for_Boss = false;
+		collisionOnForBoss_ = false;
 		noCollisionCount_ = 60;
 	}
 }
@@ -309,7 +309,7 @@ void Spike::OnCollisionSpike() {
 	isDead_ = true;
 
 	//
-	collision_on_for_Boss = false;
+	collisionOnForBoss_ = false;
 
 	// 座標をmatにする
 	world_.translate = GetmatWtranstate();
