@@ -4,9 +4,7 @@
 #include<Externals/ImGui/imgui.h>
 
 
-
 void Map::Initialize() { 
-	
 #pragma region 壁関連
 	//壁のX値設定
 	//最小値	
@@ -46,8 +44,8 @@ void Map::Initialize() {
 		}
 	}	
 #pragma endregion
-
 }
+
 
 void Map::Update() {
 #ifdef _DEBUG
@@ -60,7 +58,6 @@ void Map::Update() {
 
 	//マップが動くとき
 	if (mapMove_) {
-
 		//加速処理を行っているか否か
 		if (isMoveAcceleration_) {
 			//行っている場合
@@ -75,8 +72,6 @@ void Map::Update() {
 			mapWorld_.translate.y -= moveMapNum_;
 		}
 	}
-
-	
 
 	//更新
 	mapWorld_.UpdateMatrix();	
