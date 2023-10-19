@@ -76,6 +76,7 @@ void Player::Update() {
 	worldTransform_.rotate = FixModelRotate("rotate", 0);
 	ImGui::DragFloat3("scale", &worldTransform_.scale.x, 0.01f);
 	ImGui::Checkbox("isMove", &isMove);
+	ImGui::DragInt("DropCount", &DropCount);
 	ImGui::End();
 #endif // _DEBUG
 
@@ -237,7 +238,7 @@ void Player::BehaviorRootUpdate() {
 	worldTransform_.translate.x += moveXaxisSpeed;
 
 	//スペースを押すとジャンプする
-	if (input->IsKeyTrigger(DIK_SPACE)) {
+	if (input->IsKeyRelease(DIK_SPACE)) {
 		behaviorRequest_ = Behavior::kJump;
 	}
 }
@@ -282,16 +283,17 @@ void Player::BehaviorJumpUpdate() {
 	else if (Jumpforce <= 0) {
 		Jumpforce = -kXaxisSpeed;
 	}
-	//長押ししているとプラスされる
-	DropCount++;
 	//一度離してから再入力でもう一度ジャンプ
-	if (input->IsKeyTrigger(DIK_SPACE)) {
+	if (input->IsKeyRelease(DIK_SPACE)) {
 		behaviorRequest_ = Behavior::kJump;
 	}
 	//長押ししていたら落下へ
-	else if (
-		DropCount == kDropAnime && input->IsKeyPressed(DIK_SPACE) != 0) {
-		behaviorRequest_ = Behavior::kDrop;
+	else if (input->IsKeyPressed(DIK_SPACE) != 0) {
+		//長押ししているとプラスされる
+		DropCount++;
+		if (DropCount == kDropAnime) {
+			behaviorRequest_ = Behavior::kDrop;
+		}
 	}
 }
 
