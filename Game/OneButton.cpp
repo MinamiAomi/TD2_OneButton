@@ -8,6 +8,8 @@
 #include "ImGame.h"
 #include "Graphics/ResourceManager.h"
 #include "Externals/nlohmann/json.hpp"
+#include "Graphics/Sprite.h"
+#include "Graphics/ToonModel.h"
 
 void OneButton::OnInitialize() {
     SceneManager* sceneManager = SceneManager::GetInstance();
@@ -22,8 +24,6 @@ void OneButton::OnFinalize() {
 
 void OneButton::LoadResource() {
     ResourceManager* resourceManager = ResourceManager::GetInstance();
-    std::shared_ptr<ToonModel> toonModel;
-    std::shared_ptr<Texture> texture;
 
     std::ifstream file("Resources/LoadResource.json");
     assert(file.is_open());
@@ -35,9 +35,17 @@ void OneButton::LoadResource() {
     for (auto& model : models) {
         std::string name = model.at("Name");
         std::string path = model.at("Path");
-        toonModel = std::make_shared<ToonModel>();
+        auto toonModel = std::make_shared<ToonModel>();
         toonModel->Create(ModelData::LoadObjFile(path));
         resourceManager->AddModel(name, toonModel);
     }
 
+    nlohmann::json& images = json.at("Images");
+    for (auto& image : images) {
+        std::string name = image.at("Name");
+        std::string path = image.at("Path");
+        auto texture = std::make_shared<Texture>();
+        texture->Load(path);
+        resourceManager->AddTexture(name, texture);
+    }
 }
