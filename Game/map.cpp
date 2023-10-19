@@ -4,9 +4,7 @@
 #include<Externals/ImGui/imgui.h>
 
 
-
 void Map::Initialize() { 
-	
 #pragma region 壁関連
 	//壁のX値設定
 	//最小値	
@@ -18,7 +16,7 @@ void Map::Initialize() {
 	Wall_max_.parent = &mapWorld_;
 #pragma endregion	
 #pragma region それ以外マップオブジェクト
-	mapWorld_.translate = { -10.0f, 0.0f, 0.0f };
+	mapWorld_.translate = { -14.5f, 0.0f, 0.0f };
 	mapWorld_.UpdateMatrix();
 
 	//マップタイルによる座標設定
@@ -46,8 +44,8 @@ void Map::Initialize() {
 		}
 	}	
 #pragma endregion
-
 }
+
 
 void Map::Update() {
 #ifdef _DEBUG
@@ -60,7 +58,6 @@ void Map::Update() {
 
 	//マップが動くとき
 	if (mapMove_) {
-
 		//加速処理を行っているか否か
 		if (isMoveAcceleration_) {
 			//行っている場合
@@ -76,15 +73,15 @@ void Map::Update() {
 		}
 	}
 
-	//壁の再計算
-	hitsWallX_.x = Wall_min_.worldMatrix.m[3][0];
-	hitsWallX_.y = Wall_max_.worldMatrix.m[3][0];
-
-
 	//更新
 	mapWorld_.UpdateMatrix();	
 	Wall_min_.UpdateMatrix();
 	Wall_max_.UpdateMatrix();
+
+	//壁の再計算
+	hitsWallX_.x = Wall_min_.worldMatrix.m[3][0];
+	hitsWallX_.y = Wall_max_.worldMatrix.m[3][0];
+
 }
 
 

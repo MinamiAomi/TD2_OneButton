@@ -61,7 +61,7 @@ public:
 	
 	const std::list<Leser*>Getlesers() { return lesers_; }
 
-	const float BeamWide() { return leserWide_; }
+	
 #pragma endregion
 
 #pragma region セッター
@@ -168,30 +168,22 @@ private://スペチャ追加分
 	Transform worlds_[6];
 	
 #pragma endregion
-
-			
+	
+	//円も出る幅
 	float wide_ = 1;
-	//モデル用
 	
 	//移動関数
 	bool isMove = false;
+
 	//コリジョン処理するか否か
 	bool collision_on = true;
 
 	//無敵時間残りカウント
 	int noCollisionCount_ = 0;
 
-
 	//レーザーと爆風の仮システム作成
 	std::list<Leser*>lesers_;
 	
-
-	float leserWide_ = 0.5f;
-
-	Vector3 explosionPos_;
-
-	float explosionRadius_ = 5;
-
 	//ボスの接触平面Y座標
 	const float* BossY_;
 

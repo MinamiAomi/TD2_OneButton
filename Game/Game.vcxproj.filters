@@ -61,6 +61,9 @@
     <Filter Include="Game\Boss">
       <UniqueIdentifier>{a88f12b9-0e70-41fc-8634-41e98f2e0f9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GlovalVariables">
+      <UniqueIdentifier>{9bcf8669-8cc9-4dec-b88f-c576d93992c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -252,6 +255,9 @@
     <ClInclude Include="Engine\Graphics\Timer.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalVariables.h">
+      <Filter>Game\GlovalVariables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -419,6 +425,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Graphics\Timer.cpp">
       <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalVariables.cpp">
+      <Filter>Game\GlovalVariables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

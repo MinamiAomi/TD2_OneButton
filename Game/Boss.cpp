@@ -35,14 +35,19 @@ void Boss::Update()
 
 bool Boss::IsHitBoss(const Vector3& pos, const float& wide)
 {
+	//ボス座標取得
 	Vector3 bosspos = GetMatWT();
+
 	//x座標を合わせる
 	bosspos.x = pos.x;
 
+	//差分計算
 	Vector3 diff = pos - bosspos;
 
+	//距離計算
 	float Hlength = sqrtf(diff.x * diff.x + diff.y * diff.y);
 
+	//当たっていたら処理
 	if (Hlength <= wide + height_) {
 		return true;
 	}

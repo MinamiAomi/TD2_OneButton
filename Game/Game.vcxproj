@@ -88,6 +88,7 @@
     <ClInclude Include="Engine\Math\Transform.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Scene\SceneManager.h" />
+    <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="ImGame.h" />
     <ClInclude Include="Leser.h" />
     <ClInclude Include="map.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Engine\Math\Geometry.cpp" />
     <ClCompile Include="Engine\Math\MathUtils.cpp" />
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />
+    <ClCompile Include="GlobalVariables.cpp" />
     <ClCompile Include="ImGame.cpp" />
     <ClCompile Include="Leser.cpp" />
     <ClCompile Include="main.cpp" />
