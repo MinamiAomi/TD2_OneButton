@@ -37,15 +37,6 @@
     <Filter Include="Engine\Scene">
       <UniqueIdentifier>{dcf29146-bfd2-4236-84f8-b7015e10bed0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Title">
-      <UniqueIdentifier>{7c9495a5-0c59-4f05-9581-967a99073fda}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\InGame">
-      <UniqueIdentifier>{def1f215-2258-4803-8dba-fef532827214}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Clear">
-      <UniqueIdentifier>{af5df716-377b-46fd-9a28-95bb7679e357}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Player">
       <UniqueIdentifier>{a6da5924-ebd2-4adb-b3be-68d5333264e5}</UniqueIdentifier>
     </Filter>
@@ -63,6 +54,24 @@
     </Filter>
     <Filter Include="Game\GlovalVariables">
       <UniqueIdentifier>{9bcf8669-8cc9-4dec-b88f-c576d93992c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Stage">
+      <UniqueIdentifier>{d33beeff-c65b-4414-9ff9-59fe6e0a5e1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Stage\Clear">
+      <UniqueIdentifier>{af5df716-377b-46fd-9a28-95bb7679e357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Stage\InGame">
+      <UniqueIdentifier>{def1f215-2258-4803-8dba-fef532827214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Stage\StageSerect">
+      <UniqueIdentifier>{a64ae098-a0bc-4ca1-919c-9167d87b6278}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Stage\Title">
+      <UniqueIdentifier>{7c9495a5-0c59-4f05-9581-967a99073fda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Stage\GameOver">
+      <UniqueIdentifier>{8c9df276-932a-466c-a661-532cd8a81de8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -220,13 +229,13 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
-      <Filter>Game\Title</Filter>
+      <Filter>Game\Stage\Title</Filter>
     </ClInclude>
     <ClInclude Include="ImGame.h">
-      <Filter>Game\InGame</Filter>
+      <Filter>Game\Stage\InGame</Filter>
     </ClInclude>
     <ClInclude Include="Clear.h">
-      <Filter>Game\Clear</Filter>
+      <Filter>Game\Stage\Clear</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Game\Player</Filter>
@@ -257,6 +266,12 @@
     </ClInclude>
     <ClInclude Include="GlobalVariables.h">
       <Filter>Game\GlovalVariables</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSerect.h">
+      <Filter>Game\Stage\StageSerect</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+      <Filter>Game\Stage\GameOver</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -391,13 +406,13 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
-      <Filter>Game\Title</Filter>
+      <Filter>Game\Stage\Title</Filter>
     </ClCompile>
     <ClCompile Include="ImGame.cpp">
-      <Filter>Game\InGame</Filter>
+      <Filter>Game\Stage\InGame</Filter>
     </ClCompile>
     <ClCompile Include="Clear.cpp">
-      <Filter>Game\Clear</Filter>
+      <Filter>Game\Stage\Clear</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Game\Player</Filter>
@@ -428,6 +443,12 @@
     </ClCompile>
     <ClCompile Include="GlobalVariables.cpp">
       <Filter>Game\GlovalVariables</Filter>
+    </ClCompile>
+    <ClCompile Include="StageSerect.cpp">
+      <Filter>Game\Stage\StageSerect</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>Game\Stage\GameOver</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
