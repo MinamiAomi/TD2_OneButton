@@ -188,8 +188,7 @@ void Player::ModelsUpdate() {
 #pragma endregion
 }
 
-Quaternion Player::FixModelRotate(const char* label, const int& bodyPartNumber)
-{
+Quaternion Player::FixModelRotate(const char* label, const int& bodyPartNumber) {
 	ImGui::DragFloat3(label, &modelEuler[bodyPartNumber].x, 0.1f);
 	modelEuler[bodyPartNumber].x = std::fmod(modelEuler[bodyPartNumber].x, 360.0f);
 	modelEuler[bodyPartNumber].y = std::fmod(modelEuler[bodyPartNumber].y, 360.0f);
@@ -216,7 +215,8 @@ void Player::OnCollisionWall(Vector2 wallX) {
 	}
 	worldTransform_.UpdateMatrix();
 
-	moveXaxisSpeed *= -1;
+	//移動を反転
+	MoveReverse();
 }
 
 void Player::OnCollisionBoss() {
@@ -248,8 +248,8 @@ void Player::BehaviorJumpInitalize() {
 	behavior_ = Behavior::kJump;
 	//ジャンプ量を設定
 	Jumpforce = 2.0f;
-	//ｘ移動軸を反転
-	moveXaxisSpeed *= -1;
+	//移動を反転
+	MoveReverse();
 
 #pragma region レーザー作成
 	//レーザーの作成
@@ -298,6 +298,14 @@ void Player::BehaviorJumpUpdate() {
 }
 
 void Player::BehaviorDropInitalize() {
+	//落下用にモデルを調整する
+	modelEuler[0] = { 90.0f, 180.0f, 0.0f };
+	worldTransform_.rotate = Quaternion::MakeFromEulerAngle(modelEuler[0] * Math::ToRadian);
+	modelEuler[1] = {-180.0f, modelEuler[1].y, 180.0f};
+	worlds_[kHead].rotate = Quaternion::MakeFromEulerAngle(modelEuler[1] * Math::ToRadian);
+	worlds_[kLFoot].translate = { worlds_[kLFoot].translate.x, -0.75f, worlds_[kLFoot].translate.z };
+	worlds_[kRFoot].translate = { worlds_[kRFoot].translate.x, -0.75f, worlds_[kRFoot].translate.z };
+
 	behavior_ = Behavior::kDrop;
 }
 
@@ -336,9 +344,28 @@ void Player::BehaviorHitEnemyUpdate() {
 	worldTransform_.translate.y = Math::Lerp(t_, PposY, EposY);
 	//TODO : 上空で少し待機する処理を追加
 	if (t_ >= 1.0f) {
+		// モデルを "落下用" → "基本用" へ移行する
+		modelEuler[0] = { 0.0f, 0.0f, 0.0f };
+		worldTransform_.rotate = Quaternion::MakeFromEulerAngle(modelEuler[0] * Math::ToRadian);
+		modelEuler[1] = { -90.0f, modelEuler[1].y, 0.0f };
+		worlds_[kHead].rotate = Quaternion::MakeFromEulerAngle(modelEuler[1] * Math::ToRadian);
+		worlds_[kLFoot].translate = { worlds_[kLFoot].translate.x, -1.5f, worlds_[kLFoot].translate.z };
+		worlds_[kRFoot].translate = { worlds_[kRFoot].translate.x, -1.5f, worlds_[kRFoot].translate.z };
+
 		behaviorRequest_ = Behavior::kRoot;
 	}
 }
 
+void Player::MoveReverse() {
+	//ｘ移動軸を反転
+	moveXaxisSpeed *= -1;
 
-
+	//ｘ移動の自然数判定で傾きを変化させる
+	if (moveXaxisSpeed > 0) {
+		modelEuler[0].z = -kGlideAngle;
+	}
+	else {
+		modelEuler[0].z = kGlideAngle;
+	}
+	worldTransform_.rotate = Quaternion::MakeFromEulerAngle(modelEuler[0] *Math::ToRadian);
+}

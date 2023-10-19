@@ -110,7 +110,7 @@ private:
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
 	//重力
-	float gravity = 0.25f;
+	float gravity = 0.35f;
 
 	//ジャンプする力
 	float Jumpforce = 0.015f;
@@ -190,9 +190,9 @@ private://スペチャ追加分
 	const float* BossY_;
 
 
-#pragma region 奏太へ
+#pragma region 奏太ZONE
 
-	// 部位の総数 + 全体 の回転をつかさどる
+	//部位の総数+全体の回転ベクトル
 	Vector3 modelEuler[7] = {
 		{0.0f, 0.0f, 0.0f},
 		{ -90.0f,0.5f,0.0f },
@@ -221,6 +221,12 @@ private://スペチャ追加分
 	//右足
 	const Vector3 modelRFootPos = { 0.8f,-1.5f,2.0f };
 	const Quaternion modelRFootRot = Quaternion::MakeFromEulerAngle(modelEuler[6] *Math::ToRadian);
+
+	//移動時に少し傾かせる
+	const float kGlideAngle = 5.0f;
+
+	//移動反転処理
+	void MoveReverse();
 
 #pragma endregion
 
