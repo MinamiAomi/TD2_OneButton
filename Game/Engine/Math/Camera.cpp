@@ -6,7 +6,7 @@ Camera::Camera(ProjectionType projectionType) {
     rotate_ = Quaternion::MakeLookRotation(-position_);
 
     projection_.perspective.fovY = 45.0f * Math::ToRadian;
-    projection_.perspective.aspectRaito = 720.0f / 540.0f;
+    projection_.perspective.aspectRaito = 540.0f / 720.0f;
     nearClip_ = 0.1f;
     farClip_ = 100.0f;
 

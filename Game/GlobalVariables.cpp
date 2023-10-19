@@ -7,7 +7,6 @@
 #include<fstream>
 
 
-
 GlobalVariables* GlobalVariables::GetInstance() {
 	static GlobalVariables Instance;
 	return &Instance;
@@ -99,7 +98,7 @@ void GlobalVariables::Update() {
 		if (ImGui::Button("Save")) {
 			SaveFile(groupName);
 			std::string message = std::format("{}.json saved.", groupName);
-			MessageBoxA(nullptr, message.c_str(), "GlobalVariables", 0);
+			//MessageBoxA(nullptr, message.c_str(), "GlobalVariables", 0);
 		}
 
 
@@ -169,7 +168,7 @@ void GlobalVariables::SaveFile(const std::string& groupName) {
 	//ファイルオープン失敗?
 	if (ofs.fail()) {
 		std::string message = "Failed open file for write";
-		MessageBoxA(nullptr, message.c_str(), "GlobalVariables", 0);
+		//MessageBoxA(nullptr, message.c_str(), "GlobalVariables", 0);
 		assert(0);
 		return;
 	}
@@ -214,7 +213,7 @@ void GlobalVariables::LoadFile(const std::string& groupName) {
 	// ファイルオープン失敗?
 	if (ifs.fail()) {
 		std::string message = "Failed open file for write";
-		MessageBoxA(nullptr, message.c_str(), "GlobalVariables", 0);
+		//MessageBoxA(nullptr, message.c_str(), "GlobalVariables", 0);
 		assert(0);
 		return;
 	}

@@ -30,7 +30,7 @@ void Player::Initialize(const Vector3& position, std::vector<std::shared_ptr<Too
 
 	//プレイヤーのモデル
 	worldTransform_.translate = position;
-
+	wide_ = worldTransform_.scale.x;
 
 	//親設定
 	for (int i = 0; i < PartsNum; i++) {
@@ -103,9 +103,7 @@ void Player::Update() {
 		leser->Update();
 	}
 
-	//爆弾座標設定
-	explosionPos_ = worldTransform_.translate;
-
+	
 
 	//プレイヤー中心行列更新
 	worldTransform_.UpdateMatrix();

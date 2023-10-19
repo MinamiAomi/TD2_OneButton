@@ -48,7 +48,14 @@ public:
 	const int GetIdentificationNum() { return spikeNum_; }
 
 	//当たり判定がONなのかチェック
-	const bool GetIsCollisionOn() { return collision_on; }
+	const bool GetIsCollisionOnBoss() { return collision_on_for_Boss; }
+
+	//当たり判定がONなのかチェック
+	const bool GetIsCollisonOnPlayer() { return collision_on_for_Player; }
+
+	//当たり判定がONなのかチェック
+	const bool GetIsCollisonOnSpike() { return collision_on_for_Spike; }
+
 
 	//埋まり切ったかチェック
 	const bool GetCompleteFillUp() { return CompleteFillUp_; }
@@ -66,7 +73,7 @@ public:
 
 #pragma region セッター
 	//死亡セット
-	void SetDead() { isDead_ = true; collision_on = false; }
+	void SetDead() { isDead_ = true; collision_on_for_Boss = false; }
 #pragma endregion
 
 
@@ -188,8 +195,15 @@ private:
 
 
 
-	//コリジョン処理するか否か
-	bool collision_on = true;
+	//ボスとコリジョン処理するか否か
+	bool collision_on_for_Boss = true;
+
+	//プレイヤーのビームとコリジョン処理するか
+	bool collision_on_for_Player = true;
+
+	//プパイクとの処理するか
+	bool collision_on_for_Spike = true;
+
 
 	//無敵時間残りカウント
 	int noCollisionCount_ = 0;

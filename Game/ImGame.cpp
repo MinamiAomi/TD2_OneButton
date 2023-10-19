@@ -143,7 +143,7 @@ void InGame::OnUpdate()
 	Vector3 cpos = boss_->GetMatWT();
 	cpos.z = camera_.GetPosition().z;
 	cpos.x = camera_.GetPosition().x;
-	cpos.y += 20;
+	cpos.y += 30;
 	camera_.SetPosition(cpos);
 	
 	camera_.UpdateMatrices();
@@ -207,8 +207,11 @@ void InGame::CollisionAboutSpike()
 	float P_wide = player_->GetWide();
 
 
-	for (Spike* spike : spikes) {
-		if (spike->GetIsCollisionOn()) {
+	for (Spike* spike : spikes) {	
+
+		//死んだ弾は処理しない
+		if (!spike->IsDead()) {
+
 			//座標と半径取得
 			Vector3 SPIKE = spike->GetmatWtranstate();
 			float S_wide = spike->GetWide();
@@ -220,77 +223,81 @@ void InGame::CollisionAboutSpike()
 			}
 #pragma endregion
 
+
 #pragma region プレイヤービームと爆風
-			for (Leser* leser : player_->Getlesers()) {
+			//	プレイヤー攻撃に当たる状態かチェック
+			if (spike->GetIsCollisonOnPlayer()) {
+				for (Leser* leser : player_->Getlesers()) {
 #pragma region ビーム
-				//レーザーのwide取得
-				float beamWide = leser->GetLeserWide();
+					//レーザーのwide取得
+					float beamWide = leser->GetLeserWide();
 
-				//ビームの終点取得
-				Vector3 beamEnd = leser->GetExplosionPos();
-				//高さを合わせる
-				beamEnd.y = SPIKE.y;
-
-
-				//ビームに当たっているとき
-				if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
-
-					//一個目作成
-					//サイズ取得
-					int spikesize = (int)spikes.size();
-
-					float newWide = S_wide * 0.8f;
-
-					//新しいTransform作成
-					Transform Newworld;
-					//座標設定
-					Newworld.translate = SPIKE;
-					Newworld.scale = { newWide,newWide,newWide };
-
-					//最初に渡すベクトル値
-					Vector3 newVelo = { 0.5f,0.5f,0 };
-
-					//クラス作成
-					Spike* newSpike = new Spike;
-					newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
-					//プッシュ
-					spikes.push_back(newSpike);
-
-					//二個目作成
-					//x軸反転
-					newVelo.x *= -1;
-
-					//クラス作成とプッシュ
-					Spike* newSpike2 = new Spike;
-					newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
-					spikes.push_back(newSpike2);
+					//ビームの終点取得
+					Vector3 beamEnd = leser->GetExplosionPos();
+					//高さを合わせる
+					beamEnd.y = SPIKE.y;
 
 
-					//死亡判定出す
-					spike->SetDead();
-					//死んだので処理を流す
-					continue;
+					//ビームに当たっているとき
+					if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
+
+						//一個目作成
+						//サイズ取得
+						int spikesize = (int)spikes.size();
+
+						float newWide = S_wide * 0.8f;
+
+						//新しいTransform作成
+						Transform Newworld;
+						//座標設定
+						Newworld.translate = SPIKE;
+						Newworld.scale = { newWide,newWide,newWide };
+
+						//最初に渡すベクトル値
+						Vector3 newVelo = { 0.5f,0.5f,0 };
+
+						//クラス作成
+						Spike* newSpike = new Spike;
+						newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
+						//プッシュ
+						spikes.push_back(newSpike);
+
+						//二個目作成
+						//x軸反転
+						newVelo.x *= -1;
+
+						//クラス作成とプッシュ
+						Spike* newSpike2 = new Spike;
+						newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
+						spikes.push_back(newSpike2);
+
+
+						//死亡判定出す
+						spike->SetDead();
+						//死んだので処理を流す
+						continue;
 #pragma endregion			
-				}
-				else {
-					//ビーム当たっていない
-					//爆風の範囲の場合
+					}
+					else {
+						//ビーム当たっていない
+						//爆風の範囲の場合
 #pragma region プレイヤービーム爆風
 					//爆風の座標を取得
-					Vector3 ExpPos = leser->GetExplosionPos();
-					float ExpWide = leser->GetExplotionRadius();
-					//爆風に当たった時
-					if (CheckHitSphere(SPIKE, S_wide, ExpPos, ExpWide)) {
-						spike->OnCollisionPlayerExplosion(ExpPos);
-					}
+						Vector3 ExpPos = leser->GetExplosionPos();
+						float ExpWide = leser->GetExplotionRadius();
+						//爆風に当たった時
+						if (CheckHitSphere(SPIKE, S_wide, ExpPos, ExpWide)) {
+							spike->OnCollisionPlayerExplosion(ExpPos);
+						}
 #pragma endregion
+					}
 				}
 			}
 #pragma endregion
 
 #pragma region BOSS
-			//埋まる状態でないときに処理
-			if (!spike->IsStateFillUp()) {
+			//ボスに対して当たり判定処理をするかどうかチェック
+			if (spike->GetIsCollisionOnBoss()) {
 				if (boss_->IsHitBoss(SPIKE, S_wide)) {
 					spike->OnCollisionBoss();
 				}
@@ -305,12 +312,14 @@ void InGame::CollisionAboutSpike()
 #pragma endregion
 
 #pragma region 棘同士			
-			for (Spike* spike2 : spikes) {
-				//同じ棘でないことを確認
-				if (spike->GetIdentificationNum() != spike2->GetIdentificationNum()) {
 
-					//当たり判定処理がONになっていることの確認
-					if (spike2->GetIsCollisionOn()) {
+			//棘同士の当たり判定処理をするか
+			if (spike->GetIsCollisonOnSpike()) {
+				for (Spike* spike2 : spikes) {
+					//同じ棘でないことを確認&&死んだ奴は処理しない
+					if (spike->GetIdentificationNum() != spike2->GetIdentificationNum() && !spike->IsDead() && !spike2->IsDead()) {
+
+
 						Vector3 SPIKE2 = spike2->GetmatWtranstate();
 						float S2_wide = spike2->GetWide();
 
@@ -341,26 +350,29 @@ void InGame::CollisionAboutSpike()
 							//ぷっす
 							spikes.push_back(newspike);
 
-							//くっついた二つに死亡判定を
-							spike->SetDead();
-							spike2->SetDead();
+							//オンコリ処理
+							spike->OnCollisionSpike();
+							spike2->OnCollisionSpike();
+
+
+							break;
 						}
+
 
 
 
 					}
 				}
 			}
-
 #pragma endregion
-
+		}
 #pragma region ボス回復処理
 			//埋まり切りフラグがONの時回復
 			if (spike->GetCompleteFillUp()) {
 				boss_->OnCollisionHealing();
 			}
 #pragma endregion
-		}
+		
 	}
 #pragma endregion
 

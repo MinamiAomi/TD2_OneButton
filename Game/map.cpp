@@ -16,7 +16,7 @@ void Map::Initialize() {
 	Wall_max_.parent = &mapWorld_;
 #pragma endregion	
 #pragma region それ以外マップオブジェクト
-	mapWorld_.translate = { -10.0f, 0.0f, 0.0f };
+	mapWorld_.translate = { -14.5f, 0.0f, 0.0f };
 	mapWorld_.UpdateMatrix();
 
 	//マップタイルによる座標設定
