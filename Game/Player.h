@@ -188,7 +188,7 @@ private://スペチャ追加分
 	const float* BossY_;
 
 
-#pragma region 奏太へ♡
+#pragma region 奏太へ
 	//頭
 	const Vector3 modelHeadPos = { 0.0f,0.0f,0.0f };
 	//身体
