@@ -37,14 +37,7 @@ void InGame::OnInitialize() {
 
 #pragma endregion
 
-	E_BossHeal = std::make_shared<Texture>();
-	E_BossHeal->Load("Resources/Heal.png");
-	sprite.SetTexture(E_BossHeal);
-	sprite.SetIsActive(true);
-    sprite.SetDrawOrder(0);
-	sprite.SetPosition(TexPos_.translate.GetXY());
-	sprite.SetRotate(0.0f);
-    sprite.SetScale({ 1.0f,1.0f });
+	
 
 
     //マップクラス初期化
@@ -119,10 +112,7 @@ void InGame::OnUpdate() {
     static Vector3 position = { 0.0f, -42.0f, -100.0f };
     static Vector3 rotate = {};
 
-    ImGui::Begin("Texture");
-    ImGui::DragFloat2("Position", &TexPos_.translate.x, 0.1f);
-    //sprite.SetPosition(TexPos_.translate.GetXY());
-    ImGui::End();
+    
     //position = camera_.GetPosition();
 
     ImGui::Begin("Camera");

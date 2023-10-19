@@ -61,10 +61,7 @@ private:
 	//カメラ
 	Camera camera_;
 
-	std::shared_ptr<Texture>E_BossHeal;
-	Sprite sprite;
-	//Vector2 TexPos = {0,0};
-	Transform TexPos_;
+	
 
 	//マップクラス
 	std::unique_ptr<Map>map = nullptr;
