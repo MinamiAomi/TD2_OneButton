@@ -37,7 +37,7 @@ spikeModel_->Create(ModelData::LoadObjFile("Resource/Model/spike/spike.obj"));
 
 #pragma endregion
 
-
+	
 
 
 

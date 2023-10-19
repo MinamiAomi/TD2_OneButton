@@ -1,17 +1,18 @@
 {
     "Models" : [
-        { "Name" : "PlayerHead", "Path" : "Resources/Model/player/head.obj" },
-        { "Name" : "PlayerBody", "Path" : "Resources/Model/player/body.obj" },
-        { "Name" : "PlayerLArm", "Path" : "Resources/Model/player/LArm.obj" },
-        { "Name" : "PlayerRArm", "Path" : "Resources/Model/player/RArm.obj" },
+        { "Name" : "PlayerHead",  "Path" : "Resources/Model/player/head.obj" },
+        { "Name" : "PlayerBody",  "Path" : "Resources/Model/player/body.obj" },
+        { "Name" : "PlayerLArm",  "Path" : "Resources/Model/player/LArm.obj" },
+        { "Name" : "PlayerRArm",  "Path" : "Resources/Model/player/RArm.obj" },
         { "Name" : "PlayerLFoot", "Path" : "Resources/Model/player/LFoot.obj" },
         { "Name" : "PlayerRFoot", "Path" : "Resources/Model/player/RFoot.obj" },
-        { "Name" : "Laser", "Path" : "Resources/Model/laser/laser.obj" },
-        { "Name" : "Explosion", "Path" : "Resources/Model/explosion/explosion.obj" },
-        { "Name" : "Boss", "Path" : "Resources/Model/boss/boss.obj" },
-        { "Name" : "BossSpike", "Path" : "Resources/Model/bossSpike/bossSpike.obj"},
-        { "Name" : "Spike", "Path" : "Resources/Model/spike/spike.obj"}    
+        { "Name" : "Laser",       "Path" : "Resources/Model/laser/laser.obj" },
+        { "Name" : "Explosion",   "Path" : "Resources/Model/explosion/explosion.obj" },
+        { "Name" : "Boss",        "Path" : "Resources/Model/boss/boss.obj" },
+        { "Name" : "BossSpike",   "Path" : "Resources/Model/bossSpike/bossSpike.obj"},
+        { "Name" : "Spike",       "Path" : "Resources/Model/spike/spike.obj"}    
     ],
-    "Images" : {
-    }
+    "Images" : [
+        { "Name" : "TitleLogo",       "Path" : "Resources/Image/titleLogo.png"} 
+    ]
 }

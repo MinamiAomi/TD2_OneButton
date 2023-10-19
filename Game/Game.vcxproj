@@ -97,6 +97,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Spike.h" />
     <ClInclude Include="StageSerect.h" />
+    <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +180,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Spike.cpp" />
     <ClCompile Include="StageSerect.cpp" />
+    <ClCompile Include="TitleLogo.cpp" />
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>

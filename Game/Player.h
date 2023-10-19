@@ -74,6 +74,8 @@ private:
 
 	//モデル更新
 	void ModelsUpdate();
+	//モデルの回転修正
+	Quaternion FixModelRotate(const char* label, const int& bodyPartNumber);
 
 
 	//kRotのInitalize
@@ -108,13 +110,13 @@ private:
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
 	//重力
-	float gravity = 0.2f;
+	float gravity = 0.25f;
 
 	//ジャンプする力
-	float Jumpforce = 4.0f;
+	float Jumpforce = 0.015f;
 
 	//左右移動の速度(絶対値)
-	const float kXaxisSpeed = 0.20f;
+	const float kXaxisSpeed = 0.30f;
 
 	//左右移動の速度(コード内で使用)
 	float moveXaxisSpeed = kXaxisSpeed;
@@ -189,18 +191,36 @@ private://スペチャ追加分
 
 
 #pragma region 奏太へ
+
+	// 部位の総数 + 全体 の回転をつかさどる
+	Vector3 modelEuler[7] = {
+		{0.0f, 0.0f, 0.0f},
+		{ -90.0f,0.5f,0.0f },
+		{ -80.0f,0.0f,0.0f },
+		{ 0.0f,0.0f,0.0f },
+		{ 0.0f,0.0f,0.0f },
+		{ 0.0f,0.0f,0.0f },
+		{ 0.0f,0.0f,0.0f }
+	};
+
 	//頭
-	const Vector3 modelHeadPos = { 0.0f,0.0f,0.0f };
+	const Vector3 modelHeadPos = { 0.0f,0.5f,-0.4f };
+	const Quaternion modelHeadRot = Quaternion::MakeFromEulerAngle(modelEuler[1] * Math::ToRadian);
 	//身体
-	const Vector3 modelBodyPos = { 0.0f,0.0f,0.0f };
+	const Vector3 modelBodyPos = { 0.0f,-0.75f,1.0f };
+	const Quaternion modelBodyRot = Quaternion::MakeFromEulerAngle(modelEuler[2] *Math::ToRadian);
 	//左腕
-	const Vector3 modelLArmPos = { 0.0f,0.0f,0.0f };
+	const Vector3 modelLArmPos = { -1.7f,0.0f,0.0f };
+	const Quaternion modelLArmRot = Quaternion::MakeFromEulerAngle(modelEuler[3] *Math::ToRadian);
 	//右腕
-	const Vector3 modelRArmPos = { 0.0f,0.0f,0.0f };
+	const Vector3 modelRArmPos = { 1.7f,0.0f,0.0f };
+	const Quaternion modelRArmRot = Quaternion::MakeFromEulerAngle(modelEuler[4] *Math::ToRadian);
 	//左足
-	const Vector3 modelLFootPos = { 0.0f,0.0f,0.0f };
+	const Vector3 modelLFootPos = { -0.8f,-1.5f,2.0f };
+	const Quaternion modelLFootRot = Quaternion::MakeFromEulerAngle(modelEuler[5] *Math::ToRadian);
 	//右足
-	const Vector3 modelRFootPos = { 0.0f,0.0f,0.0f };
+	const Vector3 modelRFootPos = { 0.8f,-1.5f,2.0f };
+	const Quaternion modelRFootRot = Quaternion::MakeFromEulerAngle(modelEuler[6] *Math::ToRadian);
 
 #pragma endregion
 

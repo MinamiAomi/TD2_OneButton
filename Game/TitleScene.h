@@ -7,6 +7,7 @@
 #include "Math/Camera.h"
 #include "Math/Transform.h"
 
+#include "TitleLogo.h"
 
 class TitleScene : public BaseScene {
 public:
@@ -16,4 +17,10 @@ public:
 
 private:
 	Camera camera_;
+
+	std::unique_ptr<TitleLogo> titleLogo_;
+	std::shared_ptr<Texture>E_BossHeal;
+	Sprite sprite;
+	//Vector2 TexPos = {0,0};
+	Transform TexPos_;
 };
