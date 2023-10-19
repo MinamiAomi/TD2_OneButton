@@ -41,7 +41,8 @@ void InGame::OnInitialize() {
 	E_BossHeal->Load("Resources/Heal.png");
 	sprite.SetTexture(E_BossHeal);
 	sprite.SetIsActive(true);
-	sprite.SetPosition(TexPos);
+    sprite.SetDrawOrder(0);
+	sprite.SetPosition(TexPos_.translate.GetXY());
 
 
     //マップクラス初期化
@@ -117,8 +118,8 @@ void InGame::OnUpdate() {
     static Vector3 rotate = {};
 
     ImGui::Begin("Texture");
-    ImGui::DragFloat2("Position", &TexPos.x, 0.1f);
-    sprite.SetPosition(TexPos);
+    ImGui::DragFloat2("Position", &TexPos_.translate.x, 0.1f);
+    sprite.SetPosition(TexPos_.translate.GetXY());
     ImGui::End();
     //position = camera_.GetPosition();
 
