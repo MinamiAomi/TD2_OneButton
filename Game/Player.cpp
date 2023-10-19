@@ -47,13 +47,22 @@ void Player::Initialize(const Vector3& position)
 #pragma region パーツの座標設定
 
 	worlds_[kHead].translate = modelHeadPos;
+	worlds_[kHead].rotate = modelHeadRot;
+
 	worlds_[kBody].translate = modelBodyPos;
+	worlds_[kBody].rotate = modelBodyRot;
 
 	worlds_[kLArm].translate = modelLArmPos;
+	worlds_[kLArm].rotate = modelLArmRot;
+
 	worlds_[kRArm].translate = modelRArmPos;
+	worlds_[kRArm].rotate = modelRArmRot;
 
 	worlds_[kLFoot].translate = modelLFootPos;
+	worlds_[kLFoot].rotate = modelLFootRot;
+
 	worlds_[kRFoot].translate = modelRFootPos;
+	worlds_[kRFoot].rotate = modelRFootRot;
 
 #pragma endregion
 
@@ -64,12 +73,7 @@ void Player::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("player");
 	ImGui::DragFloat3("pos", &worldTransform_.translate.x, 0.01f);
-	static Vector3 euler = {};
-	ImGui::DragFloat3("rotate", &euler.x, 0.1f);
-	euler.x = std::fmod(euler.x, 360.0f);
-	euler.y = std::fmod(euler.y, 360.0f);
-	euler.z = std::fmod(euler.z, 360.0f);
-	worldTransform_.rotate = Quaternion::MakeFromEulerAngle(euler * Math::ToRadian);
+	worldTransform_.rotate = FixModelRotate("rotate", 0);
 	ImGui::DragFloat3("scale", &worldTransform_.scale.x, 0.01f);
 	ImGui::Checkbox("isMove", &isMove);
 	ImGui::End();
@@ -163,14 +167,12 @@ void Player::ModelsUpdate() {
 
 	ImGui::Text("rotates");
 
-	ImGui::DragFloat3("head rotate", &worlds_[kHead].rotate.x, 0.01f);
-	ImGui::DragFloat3("body rotate", &worlds_[kBody].rotate.x, 0.01f);
-
-	ImGui::DragFloat3("LArm rotate", &worlds_[kLArm].rotate.x, 0.01f);
-	ImGui::DragFloat3("RArm rotate", &worlds_[kRArm].rotate.x, 0.01f);
-
-	ImGui::DragFloat3("LFoot rotate", &worlds_[kLFoot].rotate.x, 0.01f);
-	ImGui::DragFloat3("RFoot rotate", &worlds_[kRFoot].rotate.x, 0.01f);
+	worlds_[kHead].rotate = FixModelRotate("head rotate", 1);
+	worlds_[kBody].rotate = FixModelRotate("body rotate", 2);
+	worlds_[kLArm].rotate = FixModelRotate("LArm rotate", 3);
+	worlds_[kRArm].rotate = FixModelRotate("RArm rotate", 4);
+	worlds_[kLFoot].rotate = FixModelRotate("LFoot rotate", 5);
+	worlds_[kRFoot].rotate = FixModelRotate("RFoot rotate", 6);
 
 	ImGui::End();
 #endif // _DEBUG
@@ -185,6 +187,14 @@ void Player::ModelsUpdate() {
 #pragma endregion
 }
 
+Quaternion Player::FixModelRotate(const char* label, const int& bodyPartNumber)
+{
+	ImGui::DragFloat3(label, &modelEuler[bodyPartNumber].x, 0.1f);
+	modelEuler[bodyPartNumber].x = std::fmod(modelEuler[bodyPartNumber].x, 360.0f);
+	modelEuler[bodyPartNumber].y = std::fmod(modelEuler[bodyPartNumber].y, 360.0f);
+	modelEuler[bodyPartNumber].z = std::fmod(modelEuler[bodyPartNumber].z, 360.0f);
+	return Quaternion::MakeFromEulerAngle(modelEuler[bodyPartNumber] * Math::ToRadian);
+}
 
 void Player::OnCollision() {
 	if (DropFlag) {
