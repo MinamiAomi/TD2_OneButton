@@ -8,12 +8,16 @@ void TitleScene::OnInitialize() {
 
     RenderManager::GetInstance()->SetCamera(camera_);
 
-
+    titleLogo_ = std::make_unique<TitleLogo>();
+    titleLogo_->Initialize();
 }
 
 void TitleScene::OnUpdate() {
-    camera_.UpdateMatrices();
 
+    titleLogo_->Update();
+
+
+    camera_.UpdateMatrices();
 }
 
 void TitleScene::OnFinalize() {

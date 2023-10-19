@@ -55,23 +55,26 @@
     <Filter Include="Game\GlovalVariables">
       <UniqueIdentifier>{9bcf8669-8cc9-4dec-b88f-c576d93992c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Stage">
+    <Filter Include="Game\Scene">
       <UniqueIdentifier>{d33beeff-c65b-4414-9ff9-59fe6e0a5e1c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Stage\Clear">
+    <Filter Include="Game\Scene\Clear">
       <UniqueIdentifier>{af5df716-377b-46fd-9a28-95bb7679e357}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Stage\InGame">
+    <Filter Include="Game\Scene\InGame">
       <UniqueIdentifier>{def1f215-2258-4803-8dba-fef532827214}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Stage\StageSerect">
+    <Filter Include="Game\Scene\StageSerect">
       <UniqueIdentifier>{a64ae098-a0bc-4ca1-919c-9167d87b6278}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Stage\Title">
+    <Filter Include="Game\Scene\Title">
       <UniqueIdentifier>{7c9495a5-0c59-4f05-9581-967a99073fda}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Stage\GameOver">
+    <Filter Include="Game\Scene\GameOver">
       <UniqueIdentifier>{8c9df276-932a-466c-a661-532cd8a81de8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Title">
+      <UniqueIdentifier>{00164e34-da29-48d9-bffd-ff33fae2b245}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -229,13 +232,13 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
-      <Filter>Game\Stage\Title</Filter>
+      <Filter>Game\Scene\Title</Filter>
     </ClInclude>
     <ClInclude Include="ImGame.h">
-      <Filter>Game\Stage\InGame</Filter>
+      <Filter>Game\Scene\InGame</Filter>
     </ClInclude>
     <ClInclude Include="Clear.h">
-      <Filter>Game\Stage\Clear</Filter>
+      <Filter>Game\Scene\Clear</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Game\Player</Filter>
@@ -268,10 +271,13 @@
       <Filter>Game\GlovalVariables</Filter>
     </ClInclude>
     <ClInclude Include="StageSerect.h">
-      <Filter>Game\Stage\StageSerect</Filter>
+      <Filter>Game\Scene\StageSerect</Filter>
     </ClInclude>
     <ClInclude Include="GameOver.h">
-      <Filter>Game\Stage\GameOver</Filter>
+      <Filter>Game\Scene\GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>Game\Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -406,13 +412,13 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
-      <Filter>Game\Stage\Title</Filter>
+      <Filter>Game\Scene\Title</Filter>
     </ClCompile>
     <ClCompile Include="ImGame.cpp">
-      <Filter>Game\Stage\InGame</Filter>
+      <Filter>Game\Scene\InGame</Filter>
     </ClCompile>
     <ClCompile Include="Clear.cpp">
-      <Filter>Game\Stage\Clear</Filter>
+      <Filter>Game\Scene\Clear</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Game\Player</Filter>
@@ -445,10 +451,13 @@
       <Filter>Game\GlovalVariables</Filter>
     </ClCompile>
     <ClCompile Include="StageSerect.cpp">
-      <Filter>Game\Stage\StageSerect</Filter>
+      <Filter>Game\Scene\StageSerect</Filter>
     </ClCompile>
     <ClCompile Include="GameOver.cpp">
-      <Filter>Game\Stage\GameOver</Filter>
+      <Filter>Game\Scene\GameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>Game\Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
