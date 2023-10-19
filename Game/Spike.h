@@ -81,7 +81,7 @@ public:
 	//プレイヤーと当たった時
 	void OnCollisionPlayer();
 	//ボスと当たった時
-	void OnCollisionBoss();
+	void OnCollisionBoss(const float& bossPosY);
 	//プレイヤーのレーザー攻撃に当たった時
 	void OnCollisionPlayerBeam();
 	//プレイヤーの攻撃の爆破に当たった時

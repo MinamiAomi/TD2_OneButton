@@ -158,13 +158,7 @@ void Spike::FillUp_Initiaize() {
 	// 横の加速度を削除
 	velocity_.x = 0;
 
-	// 座標をmatにする
-	world_.translate = GetmatWtranstate();
-	// 親子関係の削除
-	world_.parent = nullptr;
-
-	//更新処理
-	world_.UpdateMatrix();
+	
 
 
 	//各種当たり判定フラグの初期化
@@ -231,6 +225,7 @@ void Spike::FlyAway_Update() {
 		velocity_.x += addVeloX_;
 		if (velocity_.x >= 0.0f) {
 			state_ = kFillUp;
+			  
 			ckeckStateChange_ = true;
 		}
 	}
@@ -244,8 +239,7 @@ void Spike::FlyAway_Update() {
 
 	if (flyAwayCount_++ >= maxFlyAwayCount_) {
 		state_ = kFillUp;
-		velocity_.x = 0;
-		velocity_.y = 0;
+		ckeckStateChange_ = true;
 	}
 }
 #pragma endregion
@@ -256,7 +250,18 @@ void Spike::FlyAway_Update() {
 
 void Spike::OnCollisionPlayer() { isDead_ = true; }
 
-void Spike::OnCollisionBoss() {
+void Spike::OnCollisionBoss(const float&bossPosY) {
+
+	// 座標をmatにする
+	world_.translate = GetmatWtranstate();
+	// 親子関係の削除
+	world_.parent = nullptr;
+	//棘の高さをボスより上にする
+	world_.translate.y = bossPosY - wide_;
+
+	//更新処理
+	world_.UpdateMatrix();
+
 	// 状態をゆっくり沈む状態へ
 	state_ = kFillUp;
 	ckeckStateChange_ = true;

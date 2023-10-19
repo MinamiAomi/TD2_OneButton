@@ -282,7 +282,7 @@ void InGame::CollisionAboutSpike() {
 			//ボスに対して当たり判定処理をするかどうかチェック
 			if (spike->GetIsCollisionOnBoss()) {
 				if (boss_->IsHitBoss(SPIKE, S_wide)) {
-					spike->OnCollisionBoss();
+					spike->OnCollisionBoss(boss_->GetBossYLine());
 				}
 			}
 #pragma endregion

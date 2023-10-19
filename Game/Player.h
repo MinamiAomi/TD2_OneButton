@@ -188,6 +188,21 @@ private://スペチャ追加分
 	const float* BossY_;
 
 
+#pragma region 奏太へ♡
+	//頭
+	const Vector3 modelHeadPos = { 0.0f,0.0f,0.0f };
+	//身体
+	const Vector3 modelBodyPos = { 0.0f,0.0f,0.0f };
+	//左腕
+	const Vector3 modelLArmPos = { 0.0f,0.0f,0.0f };
+	//右腕
+	const Vector3 modelRArmPos = { 0.0f,0.0f,0.0f };
+	//左足
+	const Vector3 modelLFootPos = { 0.0f,0.0f,0.0f };
+	//右足
+	const Vector3 modelRFootPos = { 0.0f,0.0f,0.0f };
+
+#pragma endregion
 
 
 };

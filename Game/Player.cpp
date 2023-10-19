@@ -44,6 +44,19 @@ void Player::Initialize(const Vector3& position)
 	for (int i = 0; i < PartsNum; i++) {
 		worlds_[i].parent = &worldTransform_;
 	}
+#pragma region パーツの座標設定
+
+	worlds_[kHead].translate = modelHeadPos;
+	worlds_[kBody].translate = modelBodyPos;
+
+	worlds_[kLArm].translate = modelLArmPos;
+	worlds_[kRArm].translate = modelRArmPos;
+
+	worlds_[kLFoot].translate = modelLFootPos;
+	worlds_[kRFoot].translate = modelRFootPos;
+
+#pragma endregion
+
 
 }
 
@@ -51,7 +64,12 @@ void Player::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("player");
 	ImGui::DragFloat3("pos", &worldTransform_.translate.x, 0.01f);
-	ImGui::DragFloat3("rotate", &worldTransform_.rotate.x, 0.01f);
+	static Vector3 euler = {};
+	ImGui::DragFloat3("rotate", &euler.x, 0.1f);
+	euler.x = std::fmod(euler.x, 360.0f);
+	euler.y = std::fmod(euler.y, 360.0f);
+	euler.z = std::fmod(euler.z, 360.0f);
+	worldTransform_.rotate = Quaternion::MakeFromEulerAngle(euler * Math::ToRadian);
 	ImGui::DragFloat3("scale", &worldTransform_.scale.x, 0.01f);
 	ImGui::Checkbox("isMove", &isMove);
 	ImGui::End();
