@@ -241,7 +241,7 @@ void InGame::CollisionAboutSpike() {
 
 						//クラス作成
 						Spike* newSpike = new Spike;
-						newSpike->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
+						newSpike->Initialize(spikesize, Newworld, Spike::State::kFalling, newVelo);
 						//プッシュ
 						spikes.emplace_back(newSpike);
 
@@ -251,7 +251,7 @@ void InGame::CollisionAboutSpike() {
 
 						//クラス作成とプッシュ
 						Spike* newSpike2 = new Spike;
-						newSpike2->Initialize(spikesize, Newworld, toonModel_, Spike::State::kFalling, newVelo);
+						newSpike2->Initialize(spikesize, Newworld, Spike::State::kFalling, newVelo);
 						spikes.emplace_back(newSpike2);
 
 
