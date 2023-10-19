@@ -14,8 +14,7 @@ Player::~Player() {
 
 
 
-void Player::Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> partsModels, std::vector<std::shared_ptr<ToonModel>> ATKmodels)
-{
+void Player::Initialize(const Vector3& position, std::vector<std::shared_ptr<ToonModel>> partsModels, std::vector<std::shared_ptr<ToonModel>> ATKmodels) {
 	//キー入力のインスタンス取得
 	input = Input::GetInstance();
 
@@ -49,7 +48,7 @@ void Player::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
-	
+
 	//当たり判定するかの処理
 	if (!collision_on) {
 		if (noCollisionCount_-- <= 0) {
@@ -103,14 +102,14 @@ void Player::Update() {
 		leser->Update();
 	}
 
-	
+
 
 	//プレイヤー中心行列更新
 	worldTransform_.UpdateMatrix();
 
 	ModelsUpdate();
 
-	
+
 	lesers_.remove_if([](Leser* leser) {
 		//レーザーが死んだら処理
 		if (!leser->GetIsAlive()) {
@@ -122,8 +121,7 @@ void Player::Update() {
 		});
 
 }
-void Player::ModelsUpdate()
-{
+void Player::ModelsUpdate() {
 #ifdef _DEBUG
 	ImGui::Begin("player Parts");
 	ImGui::Text("positions");
@@ -171,8 +169,7 @@ void Player::OnCollision() {
 
 }
 
-void Player::OnCollisionWall(Vector2 wallX)
-{
+void Player::OnCollisionWall(Vector2 wallX) {
 	if (wallX.x > worldTransform_.translate.x - wide_) {
 		worldTransform_.translate.x = wallX.x + wide_;
 	}
@@ -184,8 +181,7 @@ void Player::OnCollisionWall(Vector2 wallX)
 	moveXaxisSpeed *= -1;
 }
 
-void Player::OnCollisionBoss()
-{
+void Player::OnCollisionBoss() {
 	behaviorRequest_ = Behavior::kHit;
 	//isMove = false;
 }
@@ -202,7 +198,7 @@ void Player::BehaviorRootUpdate() {
 	worldTransform_.translate.y -= gravity;
 	//左右移動
 	worldTransform_.translate.x += moveXaxisSpeed;
-	
+
 	//スペースを押すとジャンプする
 	if (input->IsKeyTrigger(DIK_SPACE)) {
 		behaviorRequest_ = Behavior::kJump;
@@ -216,17 +212,17 @@ void Player::BehaviorJumpInitalize() {
 	Jumpforce = 2.0f;
 	//ｘ移動軸を反転
 	moveXaxisSpeed *= -1;
-	
+
 #pragma region レーザー作成
 	//レーザーの作成
 	//プレイヤー座標取得
 	Vector3 Ppos = GetmatWtranslate();
 	//終点作成
 	Vector3 Epos = Ppos;
-	Epos.y =*BossY_;
+	Epos.y = *BossY_;
 
 	Leser* leser_ = new Leser();
-	leser_->Initialize(ATKmodels_, Ppos,Epos );
+	leser_->Initialize(ATKmodels_, Ppos, Epos);
 	lesers_.push_back(leser_);
 #pragma endregion
 
@@ -288,19 +284,17 @@ void Player::Attack() {
 	}*/
 }
 
-void Player::BehaviorHitEnemyInitalize()
-{
+void Player::BehaviorHitEnemyInitalize() {
 	behavior_ = Behavior::kHit;
 	t_ = 0.0f;
 	PposY = worldTransform_.translate.y;
 }
 
-void Player::BehaviorHitEnemyUpdate()
-{
+void Player::BehaviorHitEnemyUpdate() {
 	//t_に値を加算
 	t_ += 0.1f;
 	//Lerpで上まで動かす
-	worldTransform_.translate.y = Math::Lerp(t_,PposY,EposY);
+	worldTransform_.translate.y = Math::Lerp(t_, PposY, EposY);
 	//TODO : 上空で少し待機する処理を追加
 	if (t_ >= 1.0f) {
 		behaviorRequest_ = Behavior::kRoot;

@@ -181,7 +181,7 @@ private:
 	bool isDead_ = false;
 
 	//減速量
-	const float gensoku = 1.0f / 1000.0f;
+	const float gensoku_ = 1.0f / 1000.0f;
 
 	//棘にかかる重力
 	float gravity = -0.1f;
