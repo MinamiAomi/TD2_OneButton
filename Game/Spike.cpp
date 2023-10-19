@@ -5,7 +5,7 @@
 #include"Externals/ImGui/imgui.h"
 #include "Graphics/ResourceManager.h"
 
-void Spike::Initialize(int num,Transform world, int State, Vector3 velo) {
+void Spike::Initialize(int num,Transform world,  const float* bossYLine, int State, Vector3 velo) {
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	const char spikeModelName[] = "Spike";
 	
@@ -20,30 +20,29 @@ void Spike::Initialize(int num,Transform world, int State, Vector3 velo) {
 	//モデル
 	modelInstance_.SetModel(resourceManager->FindModel(spikeModelName));
 
+	//ボスのY座標取得
+	BossYLine_ = bossYLine;
+
+	//生成時すぐ当たらないよう処理
+	collisionOnForBoss_ = false;
+	collisionOnForPlayer_ = false;
+	collisionOnForSpike_ = false;
+
+	//当たらないフレーム数
+	noCollisionCount_ = 15;
+
 
 	//生成時の状態設定
 	switch (State) {
 	case kStay:
 		state_ = kStay;
 		break;
-	case kFalling:
-		//生成時落下処理の時すぐ当たらないよう処理
+	case kFalling:	
 		state_ = kFalling;
-		collisionOnForBoss_ = false;
-
-		//
-		collisionOnForPlayer_ = false;
-
-		collisionOnForSpike_ = false;
-
-		noCollisionCount_ = 15;
-
-
 		break;
 	case kFillUp:
 		state_ = kFillUp;
 		break;
-
 	case kExplosion:
 		state_ = kExplosion;
 		break;
@@ -96,7 +95,7 @@ void Spike::CheckAllStateInitialize() {
 
 void Spike::StateUpdate() {
 	//コリジョン処理をするかのフラグ処理
-	if (noCollisionCount_ > 0) {
+	if (noCollisionCount_>=0) {
 		if (noCollisionCount_-- <= 0) {
 			collisionOnForBoss_ = true;
 			collisionOnForPlayer_ = true;
@@ -152,6 +151,18 @@ void Spike::Falling_Initialize() {
 }
 
 void Spike::FillUp_Initiaize() {
+
+	// 座標をmatにする
+	world_.translate = GetmatWtranstate();
+	// 親子関係の削除
+	world_.parent = nullptr;
+	//更新処理
+	world_.UpdateMatrix();
+
+	world_.translate.x = *BossYLine_ + wide_;
+
+
+
 	//埋まるまでのカウント初期化
 	fillUpCount_ = 0;
 
@@ -159,7 +170,6 @@ void Spike::FillUp_Initiaize() {
 	velocity_.x = 0;
 
 	
-
 
 	//各種当たり判定フラグの初期化
 	collisionOnForBoss_ = true;
@@ -195,9 +205,14 @@ void Spike::Falling_Update() {
 }
 
 void Spike::FillUp_Update() {
+
+	//常にボスとの当たり判定処理はオフ
+	collisionOnForBoss_ = false;
+
 	//座標計算
 	world_.translate = world_.translate + (gensoku_ * velocity_);
 
+	//埋まり切ったら処理
 	if (fillUpCount_++ >= maxFillUpCount_) {
 		//死亡フラグON
 		isDead_ = true;
@@ -250,17 +265,9 @@ void Spike::FlyAway_Update() {
 
 void Spike::OnCollisionPlayer() { isDead_ = true; }
 
-void Spike::OnCollisionBoss(const float&bossPosY) {
+void Spike::OnCollisionBoss() {
 
-	// 座標をmatにする
-	world_.translate = GetmatWtranstate();
-	// 親子関係の削除
-	world_.parent = nullptr;
-	//棘の高さをボスより上にする
-	world_.translate.y = bossPosY - wide_;
-
-	//更新処理
-	world_.UpdateMatrix();
+	
 
 	// 状態をゆっくり沈む状態へ
 	state_ = kFillUp;

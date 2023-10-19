@@ -15,7 +15,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="State">状態</param>
 	/// <param name="velo">移動ベクトル</param>
-	void Initialize(int num,Transform world, int State=kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
+	void Initialize(int num,Transform world,const float*bossYLine, int State=kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
 
 
 	void Update();
@@ -38,9 +38,6 @@ public:
 	//半径取得
 	const float GetWide() { return wide_; }
 
-	//加速度取得
-	Vector3 GetVelocity_() const { return velocity_; }
-
 	//死亡フラグ取得
 	bool IsDead() const { return isDead_; }
 
@@ -61,8 +58,8 @@ public:
 	const bool GetCompleteFillUp() { return CompleteFillUp_; }
 
 	//ボスに当たるときの状態をチェックする
-	const bool IsStateFillUp() {
-		if (state_ == kFillUp||state_==kFlyAway) {
+	const bool IsStateStay() {
+		if (state_ == kStay) {
 			return true;
 		}
 		else {
@@ -81,7 +78,7 @@ public:
 	//プレイヤーと当たった時
 	void OnCollisionPlayer();
 	//ボスと当たった時
-	void OnCollisionBoss(const float& bossPosY);
+	void OnCollisionBoss();
 	//プレイヤーのレーザー攻撃に当たった時
 	void OnCollisionPlayerBeam();
 	//プレイヤーの攻撃の爆破に当たった時
@@ -217,6 +214,8 @@ private:
 	//埋まり切ったかのフラグ
 	bool CompleteFillUp_ = false;
 
+	//ボスのコリジョンの上部分
+	const float* BossYLine_;
 #pragma endregion
 
 	
