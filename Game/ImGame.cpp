@@ -40,9 +40,11 @@ void InGame::OnInitialize() {
 	E_BossHeal = std::make_shared<Texture>();
 	E_BossHeal->Load("Resources/Heal.png");
 	sprite.SetTexture(E_BossHeal);
-	/*sprite.SetIsActive(true);
+	sprite.SetIsActive(true);
     sprite.SetDrawOrder(0);
-	sprite.SetPosition(TexPos_.translate.GetXY());*/
+	sprite.SetPosition(TexPos_.translate.GetXY());
+	sprite.SetRotate(0.0f);
+    sprite.SetScale({ 1.0f,1.0f });
 
 
     //マップクラス初期化
