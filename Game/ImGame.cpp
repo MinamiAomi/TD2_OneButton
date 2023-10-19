@@ -40,9 +40,9 @@ void InGame::OnInitialize() {
 	E_BossHeal = std::make_shared<Texture>();
 	E_BossHeal->Load("Resources/Heal.png");
 	sprite.SetTexture(E_BossHeal);
-	sprite.SetIsActive(true);
+	/*sprite.SetIsActive(true);
     sprite.SetDrawOrder(0);
-	sprite.SetPosition(TexPos_.translate.GetXY());
+	sprite.SetPosition(TexPos_.translate.GetXY());*/
 
 
     //マップクラス初期化
@@ -119,7 +119,7 @@ void InGame::OnUpdate() {
 
     ImGui::Begin("Texture");
     ImGui::DragFloat2("Position", &TexPos_.translate.x, 0.1f);
-    sprite.SetPosition(TexPos_.translate.GetXY());
+    //sprite.SetPosition(TexPos_.translate.GetXY());
     ImGui::End();
     //position = camera_.GetPosition();
 
