@@ -10,7 +10,7 @@ void Map::Initialize() {
 	//最小値	
 	Wall_min_.translate = { -tileWide_ / 2,0,0 };
 	//最大値
-	Wall_max_.translate = { (tileWide_ * mapTileNumX_) - tileWide_ / 2.0f,0,0 };
+	Wall_max_.translate = { (tileWide_ * (mapTileNumX_-1)) + (tileWide_ / 2.0f),0,0 };
 
 	Wall_min_.parent = &mapWorld_;
 	Wall_max_.parent = &mapWorld_;

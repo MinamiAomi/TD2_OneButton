@@ -29,7 +29,7 @@ void Spike::Initialize(int num,Transform world,  const float* bossYLine, int Sta
 	collisionOnForSpike_ = false;
 
 	//当たらないフレーム数
-	noCollisionCount_ = 15;
+	noCollisionCount_ = 30;
 
 
 	//生成時の状態設定
@@ -61,9 +61,7 @@ void Spike::Update() {
 	//状態ごとの更新
 	StateUpdate();
 
-	//行列更新
-	world_.UpdateMatrix();
-	modelInstance_.SetWorldMatrix(world_.worldMatrix);
+	
 }
 
 void Spike::CheckAllStateInitialize() {
@@ -135,6 +133,8 @@ void Spike::StateUpdate() {
 		break;
 	}
 
+	world_.UpdateMatrix();
+	modelInstance_.SetWorldMatrix(world_.worldMatrix);
 }
 
 
@@ -159,7 +159,7 @@ void Spike::FillUp_Initiaize() {
 	//更新処理
 	world_.UpdateMatrix();
 
-	world_.translate.x = *BossYLine_ + wide_;
+	world_.translate.y = *BossYLine_ + wide_;
 
 
 

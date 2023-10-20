@@ -101,14 +101,14 @@ void InGame::OnUpdate() {
 	//
 	CheckDead();
 
-
+	/*
 	//プレイヤー更新後にカメラ更新
 	Vector3 cpos = boss_->GetMatWT();
 	cpos.z = camera_.GetPosition().z;
 	cpos.x = camera_.GetPosition().x;
 	cpos.y += 20;
 	camera_.SetPosition(cpos);
-
+	*/
 #ifdef _DEBUG
 	static float fovY = 25.0f;
 	static float nearZ = 50.0f;
@@ -248,8 +248,13 @@ void InGame::CollisionAboutSpike() {
 						spikes.emplace_back(newSpike);
 
 						//二個目作成
+						
+						//一個足す
+						spikesize++;
+
 						//x軸反転
 						newVelo.x *= -1;
+
 
 						//クラス作成とプッシュ
 						Spike* newSpike2 = new Spike;
