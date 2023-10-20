@@ -6,6 +6,8 @@
 Player::Player() {}
 Player::~Player() {
 
+
+
 	//削除
 	for (Leser* leser : lesers_) {
 		delete leser;

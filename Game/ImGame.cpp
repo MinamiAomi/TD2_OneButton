@@ -2,40 +2,25 @@
 
 #include "Externals/ImGui/imgui.h"
 #include "Engine/Graphics/RenderManager.h"
-#include "Engine/Graphics/ModelLoader.h"
-#include "Engine/Scene/SceneManager.h"
 
 
 #include "Math/Transform.h"
 
+#include "Clear.h"
+
 void InGame::OnInitialize() {
 
+	sceneManager_ = SceneManager::GetInstance();
+	input_ = Input::GetInstance();
+
 	RenderManager::GetInstance()->SetCamera(camera_);
+
 
 	//カメラ座標初期化
 	Vector3 camerapos = { 0.0f,0.0f,-40.0f };
 	camera_.SetPosition(camerapos);
 
-#pragma region モデルの初期化
 
-	//仮モデル初期化
- /*   toonModel_ = std::make_shared<ToonModel>();
-	toonModel_->Create(ModelData::LoadObjFile("Resources/Model/sphere.obj"));*/
-
-	/*
-//ボスの棘
-bossSpikeModel_ = std::make_shared<ToonModel>();
-bossSpikeModel_->Create(ModelData::LoadObjFile("Resource/Model/boss/boss.obj"));
-
-//ボスモデルたち
-std::vector<std::shared_ptr<ToonModel>>bossModels = { bossModel_,bossSpikeModel_ };
-
-//棘
-spikeModel_ = std::make_shared<ToonModel>();
-spikeModel_->Create(ModelData::LoadObjFile("Resource/Model/spike/spike.obj"));
-*/
-
-#pragma endregion
 
 	
 
@@ -54,23 +39,18 @@ spikeModel_->Create(ModelData::LoadObjFile("Resource/Model/spike/spike.obj"));
 	//スパイクのTransformコピー
 	std::vector<Transform> spikeWorld = map->GetSpikeWorld();
 	//棘の数取得
-	int spileNum = (int)spikeWorld.size();
+	int AllSpikeNum = (int)spikeWorld.size();
 	//棘の初期設定
-	for (int num = 0; num < spileNum; num++) {
-		//管理番号取得
-		int sizeNum = (int)spikes.size();
-		//クラス作成
-		Spike* spike_ = new Spike();
-		spike_->Initialize(sizeNum, spikeWorld[num], &boss_->GetBossYLine());
-		//プッシュ
-		spikes.emplace_back(spike_);
+	for (int num = 0; num < AllSpikeNum; num++) {
+
+		AddSpike(spikeWorld[num]);
+
+		
 	}
 
 	//プレイヤーの初期化
 	player_ = std::make_unique<Player>();
-
 	player_->Initialize(map->GetPlayerPosition());
-
 	player_->SetBossY(&boss_->GetBossYLine());
 
 }
@@ -98,17 +78,10 @@ void InGame::OnUpdate() {
 
 	//当たり判定チェック
 	GetAllCollisions();
-	//
+	//死亡チェック
 	CheckDead();
 
-	/*
-	//プレイヤー更新後にカメラ更新
-	Vector3 cpos = boss_->GetMatWT();
-	cpos.z = camera_.GetPosition().z;
-	cpos.x = camera_.GetPosition().x;
-	cpos.y += 20;
-	camera_.SetPosition(cpos);
-	*/
+
 #ifdef _DEBUG
 	static float fovY = 25.0f;
 	static float nearZ = 50.0f;
@@ -136,6 +109,9 @@ void InGame::OnUpdate() {
 #endif // _DEBUG
 
 	camera_.UpdateMatrices();
+
+	//シーンチェンジ処理
+	SceneChange();
 }
 
 
@@ -185,6 +161,8 @@ void InGame::GetAllCollisions() {
 
 
 
+
+
 void InGame::CollisionAboutSpike() {
 #pragma region 棘に関する当たり判定
 	//スパイクのWorld
@@ -227,8 +205,7 @@ void InGame::CollisionAboutSpike() {
 					if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
 
 						//一個目作成
-						//サイズ取得
-						int spikesize = (int)spikes.size();
+						
 
 						float newWide = S_wide * 0.8f;
 
@@ -241,26 +218,15 @@ void InGame::CollisionAboutSpike() {
 						//最初に渡すベクトル値
 						Vector3 newVelo = { 0.5f,0.5f,0 };
 
-						//クラス作成
-						Spike* newSpike = new Spike;
-						newSpike->Initialize(spikesize, Newworld, &boss_->GetBossYLine(), Spike::State::kFalling, newVelo);
-						//プッシュ
-						spikes.emplace_back(newSpike);
 
-						//二個目作成
+						AddSpike(Newworld, Spike::State::kFalling,newVelo);
+
 						
-						//一個足す
-						spikesize++;
-
+						//二個目作成
 						//x軸反転
 						newVelo.x *= -1;
 
-
-						//クラス作成とプッシュ
-						Spike* newSpike2 = new Spike;
-						newSpike2->Initialize(spikesize, Newworld, &boss_->GetBossYLine(), Spike::State::kFalling, newVelo);
-						spikes.emplace_back(newSpike2);
-
+						AddSpike(Newworld, Spike::State::kFalling, newVelo);
 
 						//死亡判定出す
 						spike->SetDead();
@@ -315,15 +281,11 @@ void InGame::CollisionAboutSpike() {
 								newSpike.translate = leng;							//位置設定
 								newSpike.scale = { newSize,newSize ,newSize };		//サイズ設定
 
-								//サイズ取得
-								int sizeNum = (int)spikes.size();
-
 								//新しいスパイクの生成
-								Spike* newspike = new Spike();
-								newspike->Initialize(sizeNum, newSpike, &boss_->GetBossYLine(), Spike::State::kFalling);
+								AddSpike(newSpike, Spike::State::kFalling);
 
-								//ぷっす
-								spikes.emplace_back(newspike);
+
+								
 
 
 								//オンコリ処理
@@ -385,7 +347,32 @@ void InGame::CheckDead() {
 		});
 }
 
+void InGame::AddSpike(const Transform& trans, const int state, const Vector3 velo) {
+
+	//クラス作成
+	Spike* spike_ = new Spike();
+	spike_->Initialize(spikeNum_, trans, &boss_->GetBossYLine(),state,velo);
+	//プッシュ
+	spikes.emplace_back(spike_);
+
+	//次の番号に変更
+	spikeNum_++;
+
+}
+
+
+void InGame::SceneChange() {
+	//スぺースキーでタイトル
+	if (input_->IsKeyTrigger(DIK_1)) {
+		//シーン設定
+		sceneManager_->ChangeScene<Clear>();
+	}
+}
+
 //終了処理
 void InGame::OnFinalize() {
 
 }
+
+
+
