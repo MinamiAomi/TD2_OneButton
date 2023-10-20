@@ -60,6 +60,7 @@ void InGame::OnInitialize() {
 	player_->Initialize(map->GetPlayerPosition());
 	player_->SetBossY(&boss_->GetBossYLine());
 
+	
 }
 
 void InGame::OnUpdate() {

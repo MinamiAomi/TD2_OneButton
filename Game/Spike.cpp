@@ -5,6 +5,7 @@
 #include"Externals/ImGui/imgui.h"
 #include "Graphics/ResourceManager.h"
 
+
 void Spike::Initialize(int num,Transform world,  const float* bossYLine, int State, Vector3 velo) {
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	const char spikeModelName[] = "Spike";

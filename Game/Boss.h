@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/Graphics/ToonModel.h"
 #include "Engine/Math/Transform.h"
-
+#include<string>
 
 class Boss {
 public:
@@ -12,6 +12,12 @@ public:
 	/// <param name="position">出現座標</param>
 	/// <param name="toonModel">モデル情報</param>
 	void Initalize(const Vector3& position);
+
+	/// <summary>
+	/// 値設定
+	/// </summary>
+	void ValueSetting();
+
 
 	/// <summary>
 	/// 更新
@@ -69,8 +75,9 @@ private:
 
 	
 	//HP最大値
-	const int maxHP_ = 100;
+	int maxHP_ = 100;
 	//ヒットポイント
 	int HP_ = maxHP_;
 
+	std::string groupName_ = "Boss";
 };

@@ -1,9 +1,10 @@
 #pragma once
 
+#include "Math/Transform.h"
+
+#include<string>
 
 #include<vector>
-
-#include "Math/Transform.h"
 
 
 struct hitWideX {
@@ -22,6 +23,12 @@ public:
 	/// 更新
 	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// 値設定
+	/// </summary>
+	void ValueSetting();
+
 
 	/// <summary>
 	/// 壁に当たっているかの確認
@@ -148,7 +155,7 @@ private:
 
 #pragma region マップの移動関連
 	//マップ加算量
-	const float moveMapNum_ = 0.01f;
+	float moveMapNum_ = 0.01f;
 
 	//マップが動くか
 	bool mapMove_ = true;
@@ -167,6 +174,7 @@ private:
 
 #pragma endregion
 
+	std::string groupName_ = "Map";
 
 	//マップ配置データ
 	std::vector<std::vector<int>> mapData_;

@@ -2,7 +2,7 @@
 #include<cassert>
 #include<stdio.h>
 #include<Externals/ImGui/imgui.h>
-
+#include"GlobalVariables.h"
 
 void Map::Initialize() { 
 #pragma region 壁関連
@@ -44,6 +44,19 @@ void Map::Initialize() {
 		}
 	}	
 #pragma endregion
+
+	//パラメータのうけとり
+	ValueSetting();
+
+}
+void Map::ValueSetting() {
+	GlobalVariables* globaV = GlobalVariables::GetInstance();
+	GlobalVariables::GetInstance()->CreateGroup(groupName_);
+
+	std::string keyVelocityMoveMap = "veloMoveMapNum : マップの１フレームに動く量";
+
+	globaV->AddItem(groupName_, keyVelocityMoveMap, moveMapNum_);
+	moveMapNum_ = globaV->GetFloatvalue(groupName_, keyVelocityMoveMap);
 }
 
 
@@ -83,6 +96,8 @@ void Map::Update() {
 	hitsWallX_.y = Wall_max_.worldMatrix.m[3][0];
 
 }
+
+
 
 
 

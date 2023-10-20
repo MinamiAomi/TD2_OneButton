@@ -1,7 +1,6 @@
 #include "GlobalVariables.h"
 
 #include<Externals/ImGui/imgui.h>
-
 #include<Externals/nlohmann/json.hpp>
 
 #include<fstream>
@@ -63,6 +62,7 @@ void GlobalVariables::Update() {
 
 
 	for (std::map<std::string, Group>::iterator itGroup = datas_.begin(); itGroup != datas_.end(); ++itGroup) {
+#ifdef _DEBUG
 		// グループ名
 		const std::string& groupName = itGroup->first;
 
@@ -81,15 +81,15 @@ void GlobalVariables::Update() {
 
 			if (std::holds_alternative<int32_t>(item.value)) {
 				int32_t* ptr = std::get_if<int32_t>(&item.value);
-				ImGui::SliderInt(itemName.c_str(), ptr, 0, 100);
+				ImGui::DragInt(itemName.c_str(), ptr, 1);
 			}
 			else if (std::holds_alternative<float>(item.value)) {
 				float* ptr = std::get_if<float>(&item.value);
-				ImGui::SliderFloat(itemName.c_str(), ptr, 0, 100);
+				ImGui::DragFloat(itemName.c_str(), ptr, 0.01f);
 			}
 			else if (std::holds_alternative<Vector3>(item.value)) {
 				Vector3* ptr = std::get_if<Vector3>(&item.value);
-				ImGui::SliderFloat3(itemName.c_str(), reinterpret_cast<float*>(ptr), 0, 100);
+				ImGui::DragFloat3(itemName.c_str(), reinterpret_cast<float*>(ptr), 0.01f);
 			}
 		}
 
@@ -109,6 +109,9 @@ void GlobalVariables::Update() {
 
 	ImGui::EndMenuBar();
 	ImGui::End();
+#endif // _DEBUG
+
+		
 }
 
 void GlobalVariables::SaveFile(const std::string& groupName) {

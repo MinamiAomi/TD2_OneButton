@@ -1,6 +1,7 @@
 #include"Boss.h"
 
 #include "Graphics/ResourceManager.h"
+#include"GlobalVariables.h"
 
 void Boss::Initalize(const Vector3& position)
 {
@@ -21,6 +22,22 @@ void Boss::Initalize(const Vector3& position)
 	//モデルセット
 	modelInstance_.SetModel(resourceManager->FindModel(bossModelName));
 
+	ValueSetting();
+
+}
+
+void Boss::ValueSetting() {
+	GlobalVariables* globaV = GlobalVariables::GetInstance();
+	GlobalVariables::GetInstance()->CreateGroup(groupName_);
+
+	std::string keyHP = "maxHP : 最大ヒットポイント";
+	std::string keyHeight = "height : 中心点からの高さ";
+
+	globaV->AddItem(groupName_, keyHP, maxHP_);
+	globaV->AddItem(groupName_, keyHeight, height_);
+
+	maxHP_ = globaV->GetIntvalue(groupName_, keyHP);
+	height_ = globaV->GetFloatvalue(groupName_, keyHeight);
 }
 
 void Boss::Update()
