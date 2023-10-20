@@ -90,6 +90,7 @@
     <ClInclude Include="Engine\Scene\SceneManager.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="GlobalVariables.h" />
+    <ClInclude Include="Heal.h" />
     <ClInclude Include="ImGame.h" />
     <ClInclude Include="Leser.h" />
     <ClInclude Include="map.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GlobalVariables.cpp" />
+    <ClCompile Include="Heal.cpp" />
     <ClCompile Include="ImGame.cpp" />
     <ClCompile Include="Leser.cpp" />
     <ClCompile Include="main.cpp" />

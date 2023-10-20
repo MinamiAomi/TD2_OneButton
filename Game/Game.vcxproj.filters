@@ -76,6 +76,12 @@
     <Filter Include="Game\Title">
       <UniqueIdentifier>{00164e34-da29-48d9-bffd-ff33fae2b245}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Effect">
+      <UniqueIdentifier>{d30eddc3-f2f2-4d55-bc20-88e58b2f650f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effect\Heal">
+      <UniqueIdentifier>{c23e1e5d-7d3c-4048-86f9-6d59c24cecc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -279,6 +285,9 @@
     <ClInclude Include="TitleLogo.h">
       <Filter>Game\Title</Filter>
     </ClInclude>
+    <ClInclude Include="Heal.h">
+      <Filter>Game\Effect\Heal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -458,6 +467,9 @@
     </ClCompile>
     <ClCompile Include="TitleLogo.cpp">
       <Filter>Game\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Heal.cpp">
+      <Filter>Game\Effect\Heal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
