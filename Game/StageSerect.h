@@ -1,6 +1,7 @@
 #pragma once
-#include<Engine/Scene/BaseScene.h>
-#include<Engine/Scene/SceneManager.h>
+#include"Engine/Scene/BaseScene.h"
+#include"Engine/Scene/SceneManager.h"
+#include"Engine/Input/Input.h"
 
 class StageSerect : public BaseScene {
 
@@ -11,5 +12,6 @@ public:
 
 
 private:
-	SceneManager* sceneManager_;
+	Input* input_;
+
 };

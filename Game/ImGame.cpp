@@ -2,15 +2,14 @@
 
 #include "Externals/ImGui/imgui.h"
 #include "Engine/Graphics/RenderManager.h"
-
-
 #include "Math/Transform.h"
-
+#include"GlobalVariables.h"
 #include "Clear.h"
 
 void InGame::OnInitialize() {
 
-	sceneManager_ = SceneManager::GetInstance();
+	GlobalVariables::GetInstance()->LoadFiles();
+	
 	input_ = Input::GetInstance();
 
 	RenderManager::GetInstance()->SetCamera(camera_);
@@ -64,7 +63,7 @@ void InGame::OnInitialize() {
 }
 
 void InGame::OnUpdate() {
-
+	GlobalVariables::GetInstance()->Update();
 
 
 	//マップ更新
@@ -373,10 +372,13 @@ void InGame::AddSpike(const Transform& trans, const int state, const Vector3 vel
 
 
 void InGame::SceneChange() {
-	//スぺースキーでタイトル
+	//1キーでクリア
 	if (input_->IsKeyTrigger(DIK_1)) {
+		//インスタンス取得
+		SceneManager* sceneManager = SceneManager::GetInstance();
 		//シーン設定
-		sceneManager_->ChangeScene<Clear>();
+		sceneManager->ChangeScene<Clear>();
+
 	}
 }
 

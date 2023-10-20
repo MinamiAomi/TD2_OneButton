@@ -25,5 +25,5 @@ private:
 	Input* input_;
 
 	// 
-	SceneManager* sceneManager_;
+	
 };

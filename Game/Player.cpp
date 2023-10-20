@@ -1,7 +1,8 @@
 #include "Player.h"
-#include"Externals/ImGui/imgui.h"
 
+#include"Externals/ImGui/imgui.h"
 #include "Graphics/ResourceManager.h"
+#include"GlobalVariables.h"
 
 Player::Player() {}
 Player::~Player() {
@@ -18,10 +19,9 @@ Player::~Player() {
 
 
 
-void Player::Initialize(const Vector3& position)
-{
+void Player::Initialize(const Vector3& position) {
 	//キー入力のインスタンス取得
-	input = Input::GetInstance();
+	input_ = Input::GetInstance();
 
 	const char* modelNames[] = {
 		"PlayerHead",
@@ -40,14 +40,24 @@ void Player::Initialize(const Vector3& position)
 
 	//プレイヤーのモデル
 	worldTransform_.translate = position;
-	wide_ = worldTransform_.scale.x;
+
 
 	//親設定
 	for (int i = 0; i < PartsNum; i++) {
 		worlds_[i].parent = &worldTransform_;
 	}
-#pragma region パーツの座標設定
 
+
+	ValueSetting();
+
+
+
+}
+
+void Player::ValueSetting() {
+
+#pragma region パーツの座標設定
+	
 	worlds_[kHead].translate = modelHeadPos;
 	worlds_[kHead].rotate = modelHeadRot;
 
@@ -65,11 +75,76 @@ void Player::Initialize(const Vector3& position)
 
 	worlds_[kRFoot].translate = modelRFootPos;
 	worlds_[kRFoot].rotate = modelRFootRot;
+	
+#pragma endregion
+	//インスタンス取得
+	GlobalVariables* globalV = GlobalVariables::GetInstance();
+	//グループの追加
+	GlobalVariables::GetInstance()->CreateGroup(groupName_);
 
+
+#pragma region parts
+
+
+
+	std::string keyHead = "head : 頭";
+	std::string keyBody = "body : 身体";
+	std::string keyLArm = "LeftArm : 左腕";
+	std::string keyRArm = "RightArm : 右腕";
+	std::string keyLFoot = "LeftFoot : 左足";
+	std::string keyRFoot = "RightFoot : 右足";
+
+
+	//情報登録
+	globalV->AddItem(groupName_, keyHead + "座標", worlds_[kHead].translate);
+	globalV->AddItem(groupName_, keyBody + "座標", worlds_[kBody].translate);
+	globalV->AddItem(groupName_, keyLArm + "座標", worlds_[kLArm].translate);
+	globalV->AddItem(groupName_, keyRArm + "座標", worlds_[kRArm].translate);
+	globalV->AddItem(groupName_, keyLFoot + "座標", worlds_[kLFoot].translate);
+	globalV->AddItem(groupName_, keyRFoot + "座標", worlds_[kRFoot].translate);
+
+	//setData
+	worlds_[kHead].translate = globalV->GetVector3value(groupName_, keyHead + "座標");
+	worlds_[kBody].translate = globalV->GetVector3value(groupName_, keyBody + "座標");
+	worlds_[kLArm].translate = globalV->GetVector3value(groupName_, keyLArm + "座標");
+	worlds_[kRArm].translate = globalV->GetVector3value(groupName_, keyRArm + "座標");
+	worlds_[kLFoot].translate = globalV->GetVector3value(groupName_, keyLFoot + "座標");
+	worlds_[kRFoot].translate = globalV->GetVector3value(groupName_, keyRFoot + "座標");
+
+	//回転むりぽ
 #pragma endregion
 
+#pragma region Other
+
+	//各種キー
+	std::string keyWide = "wide : 半径";
+	std::string keyHp = "HP : ヒットポイント";
+	std::string keyGravity = "gravity : 重力";
+	std::string keyJumpForce = "jumpForce : ジャンプパワー";
+	std::string keykXaxisSPD = "x-axisSPD : 横移動最大速度";
+	std::string keyDropF = "DropATKCountFrame : フレーム数長押しで落下";
+	std::string keyGlideAngle = "glideAngle : 移動時の傾き量";
+
+
+	globalV->AddItem(groupName_, keyWide, wide_);
+	globalV->AddItem(groupName_, keyHp, HP_);
+	globalV->AddItem(groupName_, keyGravity, gravity_);
+	globalV->AddItem(groupName_, keyJumpForce, Jumpforce_);
+	globalV->AddItem(groupName_, keykXaxisSPD, kXaxisSpeed_);
+	globalV->AddItem(groupName_, keyDropF, kDropAnime_);
+	globalV->AddItem(groupName_, keyGlideAngle, kGlideAngle_);
+
+	wide_ = globalV->GetFloatvalue(groupName_, keyWide);
+	HP_ = globalV->GetIntvalue(groupName_, keyHp);
+	gravity_ = globalV->GetFloatvalue(groupName_, keyGravity);
+	Jumpforce_ = globalV->GetFloatvalue(groupName_, keyJumpForce);
+	kXaxisSpeed_ = globalV->GetFloatvalue(groupName_, keykXaxisSPD);
+	kDropAnime_ = globalV->GetIntvalue(groupName_, keyDropF);
+	kGlideAngle_ = globalV->GetFloatvalue(groupName_, keyGlideAngle);
+#pragma endregion
 
 }
+
 
 void Player::Update() {
 #ifdef _DEBUG
@@ -198,12 +273,13 @@ Quaternion Player::FixModelRotate(const char* label, const int& bodyPartNumber) 
 	return Quaternion::MakeFromEulerAngle(modelEuler[bodyPartNumber] * Math::ToRadian);
 }
 
+
 void Player::OnCollision() {
 	if (DropFlag) {
 		return;
 	}
 	else {
-		HP -= 1;
+		HP_ -= 1;
 	}
 
 }
@@ -235,12 +311,12 @@ void Player::BehaviorRootInitalize() {
 
 void Player::BehaviorRootUpdate() {
 	//毎フレームずつ下に引っ張られる
-	worldTransform_.translate.y -= gravity;
+	worldTransform_.translate.y -= gravity_;
 	//左右移動
-	worldTransform_.translate.x += moveXaxisSpeed;
+	worldTransform_.translate.x += moveXaxisSpeed_;
 
 	//スペースを押すとジャンプする
-	if (input->IsKeyRelease(DIK_SPACE)) {
+	if (input_->IsKeyRelease(DIK_SPACE)) {
 		behaviorRequest_ = Behavior::kJump;
 	}
 }
@@ -249,7 +325,7 @@ void Player::BehaviorJumpInitalize() {
 	//状態を更新
 	behavior_ = Behavior::kJump;
 	//ジャンプ量を設定
-	Jumpforce = 2.0f;
+	Jumpforce_ = 2.0f;
 	//移動を反転
 	MoveReverse();
 
@@ -262,7 +338,7 @@ void Player::BehaviorJumpInitalize() {
 	Epos.y = *BossY_;
 
 	Leser* leser_ = new Leser();
-	leser_->Initialize(Ppos,Epos );
+	leser_->Initialize(Ppos, Epos);
 	lesers_.push_back(leser_);
 #pragma endregion
 
@@ -274,26 +350,26 @@ void Player::BehaviorJumpInitalize() {
 
 void Player::BehaviorJumpUpdate() {
 	//ジャンプの値をプラス
-	worldTransform_.translate.y += Jumpforce;
+	worldTransform_.translate.y += Jumpforce_;
 	//左右移動
-	worldTransform_.translate.x += moveXaxisSpeed;
+	worldTransform_.translate.x += moveXaxisSpeed_;
 	//ジャンプの値から毎フレームずつ重力を引いていく
-	if (Jumpforce > -kXaxisSpeed) {
-		Jumpforce -= gravity;
+	if (Jumpforce_ > -kXaxisSpeed_) {
+		Jumpforce_ -= gravity_;
 	}
 	//ジャンプの値を左右移動と同じ速度にする
 	else {
-		Jumpforce = -kXaxisSpeed;
+		Jumpforce_ = -kXaxisSpeed_;
 	}
 	//一度離してから再入力でもう一度ジャンプ
-	if (input->IsKeyRelease(DIK_SPACE)) {
+	if (input_->IsKeyRelease(DIK_SPACE)) {
 		behaviorRequest_ = Behavior::kJump;
 	}
 	//長押ししていたら落下へ
-	else if (input->IsKeyPressed(DIK_SPACE) != 0) {
+	else if (input_->IsKeyPressed(DIK_SPACE) != 0) {
 		//長押ししているとプラスされる
 		DropCount++;
-		if (DropCount == kDropAnime) {
+		if (DropCount == kDropAnime_) {
 			behaviorRequest_ = Behavior::kDrop;
 		}
 	}
@@ -303,7 +379,7 @@ void Player::BehaviorDropInitalize() {
 	//落下用にモデルを調整する
 	modelEuler[0] = { 90.0f, 180.0f, 0.0f };
 	worldTransform_.rotate = Quaternion::MakeFromEulerAngle(modelEuler[0] * Math::ToRadian);
-	modelEuler[1] = {-180.0f, modelEuler[1].y, 180.0f};
+	modelEuler[1] = { -180.0f, modelEuler[1].y, 180.0f };
 	worlds_[kHead].rotate = Quaternion::MakeFromEulerAngle(modelEuler[1] * Math::ToRadian);
 	worlds_[kLFoot].translate = { worlds_[kLFoot].translate.x, -0.75f, worlds_[kLFoot].translate.z };
 	worlds_[kRFoot].translate = { worlds_[kRFoot].translate.x, -0.75f, worlds_[kRFoot].translate.z };
@@ -316,7 +392,7 @@ void Player::BehaviorDropUpdate() {
 	worldTransform_.translate.y += 0.03f;
 	//貯めている時にフレームをカウントする
 	DropCount++;
-	if (DropCount >= kDropAnime * 3) {
+	if (DropCount >= kDropAnime_ * 3) {
 		//貯めているフレームが一定を超えたら、攻撃を開始する
 		Attack();
 	}
@@ -360,14 +436,14 @@ void Player::BehaviorHitEnemyUpdate() {
 
 void Player::MoveReverse() {
 	//ｘ移動軸を反転
-	moveXaxisSpeed *= -1;
+	moveXaxisSpeed_ *= -1;
 
 	//ｘ移動の自然数判定で傾きを変化させる
-	if (moveXaxisSpeed > 0) {
-		modelEuler[0].z = -kGlideAngle;
+	if (moveXaxisSpeed_ > 0) {
+		modelEuler[0].z = -kGlideAngle_;
 	}
 	else {
-		modelEuler[0].z = kGlideAngle;
+		modelEuler[0].z = kGlideAngle_;
 	}
-	worldTransform_.rotate = Quaternion::MakeFromEulerAngle(modelEuler[0] *Math::ToRadian);
+	worldTransform_.rotate = Quaternion::MakeFromEulerAngle(modelEuler[0] * Math::ToRadian);
 }

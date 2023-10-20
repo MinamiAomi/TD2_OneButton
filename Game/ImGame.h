@@ -63,13 +63,9 @@ private:
 #pragma endregion
 
 
-#pragma region シーン転換
+
 	//キー入力
 	Input* input_;
-
-	// シーンマネージャー
-	SceneManager* sceneManager_;
-#pragma endregion
 
 
 	//カメラ

@@ -25,12 +25,22 @@ public:
 	~Player();
 
 	
-	//初期化
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="position">初期座標</param>
 	void Initialize(const Vector3& position);
 
-	//更新
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 	
+	/// <summary>
+	/// 値設定
+	/// </summary>
+	void ValueSetting();
+
 #pragma region オンコリジョン
 	void OnCollision();
 
@@ -103,28 +113,28 @@ private:
 	//Transform
 	Transform worldTransform_;
 	
-	Input* input = nullptr;
+	Input* input_ = nullptr;
 	//状態(Behavior)の管理
 	Behavior behavior_ = Behavior::kRoot;
 	//状態(Behavior)のリクエストを管理
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
 	//重力
-	float gravity = 0.35f;
+	float gravity_ = 0.35f;
 
 	//ジャンプする力
-	float Jumpforce = 0.015f;
+	float Jumpforce_ = 0.015f;
 
 	//左右移動の速度(絶対値)
-	const float kXaxisSpeed = 0.30f;
+	float kXaxisSpeed_ = 0.30f;
 
 	//左右移動の速度(コード内で使用)
-	float moveXaxisSpeed = kXaxisSpeed;
+	float moveXaxisSpeed_ = kXaxisSpeed_;
 
 	//長押しを何秒しているかのカウント
 	int DropCount = 0;
 	//20フレーム長押ししていたら落下
-	const int kDropAnime = 20;
+	int kDropAnime_ = 20;
 	//落ちている途中かどうかのフラグ
 	bool DropFlag = false;
 
@@ -137,7 +147,7 @@ private:
 
 	//TODO ちゃんといじろう
 	//プレイヤーのHP
-	int HP = 10;
+	int HP_ = 10;
 
 
 
@@ -223,12 +233,13 @@ private://スペチャ追加分
 	const Quaternion modelRFootRot = Quaternion::MakeFromEulerAngle(modelEuler[6] *Math::ToRadian);
 
 	//移動時に少し傾かせる
-	const float kGlideAngle = 5.0f;
+	float kGlideAngle_ = 5.0f;
 
 	//移動反転処理
 	void MoveReverse();
 
 #pragma endregion
 
+	const char* groupName_ = "Player";
 
 };
