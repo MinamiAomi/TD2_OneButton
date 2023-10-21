@@ -11,7 +11,32 @@ public:
 	void OnFinalize() override;
 
 
-private:
+private://メンバ関数
+	//ステージ１を選んでいるときの処理
+	void State1Update();
+
+	//ステージ１を選んでいるときの処理
+	void State2Update();
+
+	//ステージ１を選んでいるときの処理
+	void State3Update();
+
+private://メンバ変数
+
+	//キー入力
 	Input* input_;
+
+	//ステージ選択
+	enum State {
+		kStage1,
+		kStage2,
+		kStage3
+	};
+
+	//どのステージを選んでいるかの状態
+	State state_ = kStage1;
+
+	//同時押しの対策
+	int control_ = 0;
 
 };
