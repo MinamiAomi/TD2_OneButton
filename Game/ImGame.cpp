@@ -200,49 +200,55 @@ void InGame::CollisionAboutSpike() {
 
 #pragma region プレイヤービームと爆風
 			//	プレイヤー攻撃に当たる状態かチェック
-			if (spike->GetIsCollisonOnPlayer()) {
-				for (Leser* leser : player_->Getlesers()) {
+			
+			for (Leser* leser : player_->Getlesers()) {
+				if (spike->GetIsCollisonOnPlayer()) {
 #pragma region ビーム
-					//レーザーのwide取得
-					float beamWide = leser->GetLeserWide();
+					if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
+						//レーザーのwide取得
+						float beamWide = leser->GetLeserWide();
 
-					//ビームの終点取得
-					Vector3 beamEnd = leser->GetExplosionPos();
-					//高さを合わせる
-					beamEnd.y = SPIKE.y;
-
-
-					//ビームに当たっているとき
-					if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
-
-						//一個目作成
-						
-
-						float newWide = S_wide * 0.8f;
-
-						//新しいTransform作成
-						Transform Newworld;
-						//座標設定
-						Newworld.translate = SPIKE;
-						Newworld.scale = { newWide,newWide,newWide };
-
-						//最初に渡すベクトル値
-						Vector3 newVelo = { 0.5f,0.5f,0 };
+						//ビームの終点取得
+						Vector3 beamEnd = leser->GetExplosionPos();
+						//高さを合わせる
+						beamEnd.y = SPIKE.y;
 
 
-						AddSpike(Newworld, Spike::State::kFalling,newVelo);
+						//ビームに当たっているとき
+						if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
 
-						
-						//二個目作成
-						//x軸反転
-						newVelo.x *= -1;
+							leser->OnCollision(spike->GetIdentificationNum());
 
-						AddSpike(Newworld, Spike::State::kFalling, newVelo);
+							//一個目作成
+							float newWide = S_wide * 0.8f;
 
-						//死亡判定出す
-						spike->SetDead();
-						//死んだので処理を流す
-						break;
+							//新しいTransform作成
+							Transform Newworld;
+							//座標設定
+							Newworld.translate = SPIKE;
+							Newworld.scale = { newWide,newWide,newWide };
+
+
+							//最初に渡すベクトル値
+							Vector3 newVelo = { 0.5f,0.5f,0 };
+
+
+							AddSpike(Newworld, Spike::State::kFalling, newVelo);
+							leser->OnCollision(spikeNum_);
+
+
+							//二個目作成
+							//x軸反転
+							newVelo.x *= -1;
+
+							AddSpike(Newworld, Spike::State::kFalling, newVelo);
+							leser->OnCollision(spikeNum_);
+
+							//死亡判定出す
+							spike->SetDead();
+							//死んだので処理を流す
+							break;
+						}
 					}
 #pragma endregion			
 					

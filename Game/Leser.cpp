@@ -97,6 +97,16 @@ void Leser::Update() {
 }
 
 
-void Leser::OnCollision() {
-	IsAlive_ = false;
+void Leser::OnCollision(const int& num) {
+	//当たった棘の管理番号登録
+	alreadyHitBallNumber_.emplace_back(num);
+}
+
+bool Leser::IsAlreadyHit(const int& num) {
+	for (int alreadyHitNum : alreadyHitBallNumber_) {
+		if (alreadyHitNum == num) {
+			return true;
+		}
+	}
+	return false;
 }

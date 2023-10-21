@@ -70,7 +70,7 @@ public:
 
 #pragma region セッター
 	//死亡セット
-	void SetDead() { isDead_ = true; collisionOnForBoss_ = false; }
+	void SetDead() { isDead_ = true; collisionOnForBoss_ = false; collisionOnForPlayer_ = false; collisionOnForSpike_ = false; }
 #pragma endregion
 
 

@@ -5,6 +5,8 @@
 #include "Engine/Graphics/ToonModel.h"
 #include "Engine/Math/Transform.h"
 
+#include<vector>
+
 class Leser {
 public:
 	Leser();
@@ -27,7 +29,12 @@ public:
 	/// <summary>
 	/// コリジョン
 	/// </summary>
-	void OnCollision();
+	void OnCollision(const int& num);
+
+	/// <summary>
+	/// すでにその棘が当たっているか
+	/// </summary>
+	bool IsAlreadyHit(const int& num);
 
 #pragma region ゲッター
 	//動いているか否か
@@ -56,8 +63,10 @@ private:
 	float t_ = 0;
 
 	//処理速度
-	const float addT_ = 1.0f / 30.0f;
+	const float addT_ = 1.0f / 10.0f;
 
+	//すでにコリジョン処理をしたものを保存
+	std::vector<int>alreadyHitBallNumber_;
 
 #pragma region レーザー関連
 	//transform

@@ -57,7 +57,8 @@ void Player::Initialize(const Vector3& position) {
 void Player::ValueSetting() {
 
 #pragma region パラメータ設定
-	/*ファイルのキー名変えたりするとおかしくなってフォルダ内のjson消さなきゃいけなくなるのでこれは残す
+	//ファイルのキー名変えたりするとおかしくなってフォルダ内のjson消さなきゃいけなくなるのでこれは残す
+	
 	worlds_[kHead].translate = modelHeadPos;
 	worlds_[kHead].rotate = modelHeadRot;
 
@@ -75,7 +76,7 @@ void Player::ValueSetting() {
 
 	worlds_[kRFoot].translate = modelRFootPos;
 	worlds_[kRFoot].rotate = modelRFootRot;
-	*/
+	
 	//インスタンス取得
 	GlobalVariables* globalV = GlobalVariables::GetInstance();
 	//グループの追加

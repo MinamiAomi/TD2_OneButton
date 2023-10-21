@@ -30,7 +30,7 @@ void Spike::Initialize(int num,Transform world,  const float* bossYLine, int Sta
 	collisionOnForSpike_ = false;
 
 	//当たらないフレーム数
-	noCollisionCount_ = 30;
+	noCollisionCount_ = 15;
 
 
 	//生成時の状態設定
@@ -163,7 +163,6 @@ void Spike::FillUp_Initiaize() {
 	world_.translate.y = *BossYLine_ + wide_;
 
 
-
 	//埋まるまでのカウント初期化
 	fillUpCount_ = 0;
 
@@ -172,10 +171,8 @@ void Spike::FillUp_Initiaize() {
 
 	
 
-	//各種当たり判定フラグの初期化
-	collisionOnForBoss_ = true;
-	collisionOnForPlayer_ = true;
-	collisionOnForSpike_ = true;
+
+	
 }
 
 void Spike::Explosion_Initialize() {
@@ -201,7 +198,9 @@ void Spike::Falling_Update() {
 	//yベクトルが-でコリジョンON
 	if (velocity_.y <= -0.00001f) {
 		collisionOnForBoss_ = true;
-		noCollisionCount_ = 0;
+	}
+	else {
+		collisionOnForBoss_ = false;
 	}
 }
 
