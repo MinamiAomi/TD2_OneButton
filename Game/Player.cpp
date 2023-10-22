@@ -381,7 +381,7 @@ void Player::BehaviorDropInitalize() {
 	//落下用にモデルを調整する
 	modelEuler[0] = { 90.0f, 180.0f, 0.0f };
 	worldTransform_.rotate = Quaternion::MakeFromEulerAngle(modelEuler[0] * Math::ToRadian);
-	modelEuler[1] = { -180.0f, modelEuler[1].y, 180.0f };
+	modelEuler[1] = { 90.0f, modelEuler[1].y, 180.0f };
 	worlds_[kHead].rotate = Quaternion::MakeFromEulerAngle(modelEuler[1] * Math::ToRadian);
 	worlds_[kLFoot].translate = { worlds_[kLFoot].translate.x, -0.75f, worlds_[kLFoot].translate.z };
 	worlds_[kRFoot].translate = { worlds_[kRFoot].translate.x, -0.75f, worlds_[kRFoot].translate.z };
@@ -427,7 +427,7 @@ void Player::BehaviorHitEnemyUpdate() {
 		// モデルを "落下用" → "基本用" へ移行する
 		modelEuler[0] = { 0.0f, 0.0f, 0.0f };
 		worldTransform_.rotate = Quaternion::MakeFromEulerAngle(modelEuler[0] * Math::ToRadian);
-		modelEuler[1] = { -90.0f, modelEuler[1].y, 0.0f };
+		modelEuler[1] = { 0.0f, modelEuler[1].y, 0.0f };
 		worlds_[kHead].rotate = Quaternion::MakeFromEulerAngle(modelEuler[1] * Math::ToRadian);
 		worlds_[kLFoot].translate = { worlds_[kLFoot].translate.x, -1.5f, worlds_[kLFoot].translate.z };
 		worlds_[kRFoot].translate = { worlds_[kRFoot].translate.x, -1.5f, worlds_[kRFoot].translate.z };
