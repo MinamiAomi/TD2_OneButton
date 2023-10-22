@@ -19,5 +19,5 @@ private:
 	//テクスチャの位置
 	Transform TexPos_;
 
-
+	
 };

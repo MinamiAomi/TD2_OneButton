@@ -3,7 +3,8 @@
 #include"Engine/Scene/BaseScene.h"
 #include"Engine/Scene/SceneManager.h"
 #include "Engine/Input/Input.h"
-
+#include"Engine/Graphics/Sprite.h"
+#include"Engine/Math/Transform.h"
 
 #include<memory>
 
@@ -24,6 +25,8 @@ private:
 	//キー入力
 	Input* input_;
 
-	// 
-	
+	//クリアの文字
+	Sprite clearTex_;
+	//座標
+	Transform clearTrans_;
 };
