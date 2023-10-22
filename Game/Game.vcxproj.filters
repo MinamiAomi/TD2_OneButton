@@ -82,6 +82,9 @@
     <Filter Include="Game\Effect\Heal">
       <UniqueIdentifier>{c23e1e5d-7d3c-4048-86f9-6d59c24cecc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\nlohmann">
+      <UniqueIdentifier>{eb5a56f9-4216-4d6b-b246-66377166131e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -287,6 +290,12 @@
     </ClInclude>
     <ClInclude Include="Heal.h">
       <Filter>Game\Effect\Heal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\nlohmann\json.hpp">
+      <Filter>Externals\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\nlohmann\json_fwd.hpp">
+      <Filter>Externals\nlohmann</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

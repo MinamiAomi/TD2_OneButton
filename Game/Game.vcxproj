@@ -40,6 +40,8 @@
     <ClInclude Include="..\Externals\ImGui\imstb_truetype.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Externals\nlohmann\json.hpp" />
+    <ClInclude Include="..\Externals\nlohmann\json_fwd.hpp" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Clear.h" />
     <ClInclude Include="Engine\Application\Game.h" />
