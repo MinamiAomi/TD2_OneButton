@@ -38,7 +38,7 @@ void InGame::OnInitialize() {
 	
 	//ヒールエフェクト
 	heal_ = std::make_unique<Heal>();
-	heal_->Initalize();
+	//heal_->Initalize();
 
 
 	//スパイクのTransformコピー
