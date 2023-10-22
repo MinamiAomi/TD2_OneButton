@@ -21,6 +21,10 @@ private://メンバ関数
 	//ステージ１を選んでいるときの処理
 	void State3Update();
 
+	/// <summary>
+	/// シーンチェンジ
+	/// </summary>
+	void ChangeScene();
 private://メンバ変数
 
 	//キー入力

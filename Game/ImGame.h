@@ -42,7 +42,7 @@ public:
 	/// <summary>
 	/// 棘を増やす処理まとめ
 	/// </summary>
-	void AddSpike(const Transform& trans, const int state = 0, const Vector3 velo = { 0.0f,0.0f,0.0f });
+	void AddSpike(const Transform& trans, const int state = 0, const Vector3 velo = { 0.0f,0.0f,0.0f },int damage=1);
 
 private://メンバ関数
 

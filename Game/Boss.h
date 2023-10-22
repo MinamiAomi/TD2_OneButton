@@ -57,7 +57,7 @@ public:
 	void OnCollisionExplosion(int dmg);
 
 	//ボス回復処理
-	void OnCollisionHealing();
+	void OnCollisionHealing(int dmg);
 #pragma endregion
 
 	
@@ -80,4 +80,6 @@ private:
 	int HP_ = maxHP_;
 
 	std::string groupName_ = "Boss";
+
+	bool isDead_ = false;
 };

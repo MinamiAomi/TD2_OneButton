@@ -11,10 +11,15 @@ void Clear::OnInitialize() {
 	//仮画像
 	const char textureName[] = "TemporaryImage";
 
+	clearTrans_.translate = { 270.0f,500.0f,0.0f };
+
+	Vector2 texScale = { 64.0f,64.0f };
+
 	clearTex_.SetTexture(resourceManager->FindTexture(textureName));
 	clearTex_.SetPosition(clearTrans_.translate.GetXY());
 	clearTex_.SetAnchor({ 0.5f,0.5f });
 	clearTex_.SetTexcoordRect({ 0.0f,0.0f },{64.0f, 64.0f});
+	clearTex_.SetScale(texScale);
 	clearTex_.SetIsActive(true);
 
 }
@@ -25,6 +30,7 @@ void Clear::OnUpdate() {
 	ImGui::Begin("titletex");
 	ImGui::DragFloat3("pos", &clearTrans_.translate.x);
 	ImGui::End();
+	clearTex_.SetPosition(clearTrans_.translate.GetXY());
 #endif // _DEBUG
 
 
@@ -37,11 +43,11 @@ void Clear::OnFinalize() {
 }
 
 void Clear::SceneChange() {
-	//1キーでゲームシーン
-	if (input_->IsKeyTrigger(DIK_1)) {
+	//SPACEキーでゲームシーン
+	if (input_->IsKeyTrigger(DIK_SPACE)) {
 		//インスタンス取得
 		SceneManager* sceneManager = SceneManager::GetInstance();
 		//シーン設定
-		sceneManager->ChangeScene<InGame>();
+		sceneManager->ChangeScene<TitleScene>();
 	}
 }
