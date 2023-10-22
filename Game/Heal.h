@@ -9,7 +9,7 @@ public:
 	Heal();
 	~Heal();
 
-	void Initalize();
+	void Initalize(const Vector2& position);
 	void Update();
 	//void Draw();
 
@@ -18,4 +18,6 @@ private:
 	Sprite sprite;
 	//テクスチャの位置
 	Transform TexPos_;
+
+
 };

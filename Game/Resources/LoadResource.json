@@ -13,6 +13,7 @@
         { "Name" : "Spike",       "Path" : "Resources/Model/spike/spike.obj"}    
     ],
     "Images" : [
-        { "Name" : "TitleLogo",       "Path" : "Resources/Image/titleLogo.png"} 
+        { "Name" : "TitleLogo",       "Path" : "Resources/Image/titleLogo.png"},
+        { "Name" : "Heal",       "Path" : "Resources/Image/Heal.png"} 
     ]
 }
