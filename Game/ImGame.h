@@ -12,6 +12,8 @@
 #include"Player.h"
 #include"Boss.h"
 
+#include "Heal.h"
+
 class InGame : public BaseScene {
 public:
 
@@ -71,10 +73,7 @@ private:
 	//カメラ
 	Camera camera_;
 
-	std::shared_ptr<Texture>E_BossHeal;
-	Sprite sprite;
-	//Vector2 TexPos = {0,0};
-	Transform TexPos_;
+	
 
 	//マップクラス
 	std::unique_ptr<Map>map = nullptr;
@@ -90,4 +89,6 @@ private:
 
 	//ボスクラス
 	std::unique_ptr<Boss>boss_ = nullptr;
+	
+	std::unique_ptr<Heal>heal_ = nullptr;
 };
