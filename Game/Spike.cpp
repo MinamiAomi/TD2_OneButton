@@ -6,7 +6,7 @@
 #include "Graphics/ResourceManager.h"
 
 
-void Spike::Initialize(int num,Transform world,  const float* bossYLine, int State, Vector3 velo) {
+void Spike::Initialize(int num,Transform world,  const float* bossYLine, int DMG, int State, Vector3 velo) {
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	const char spikeModelName[] = "Spike";
 	
@@ -23,6 +23,9 @@ void Spike::Initialize(int num,Transform world,  const float* bossYLine, int Sta
 
 	//ボスのY座標取得
 	BossYLine_ = bossYLine;
+
+	damage_ = DMG;
+
 
 	//生成時すぐ当たらないよう処理
 	collisionOnForBoss_ = false;
@@ -176,9 +179,17 @@ void Spike::FillUp_Initiaize() {
 }
 
 void Spike::Explosion_Initialize() {
+	collisionOnForBoss_ = false;
+	collisionOnForPlayer_ = false;
+	collisionOnForSpike_ = false;
+
+	noCollisionCount_ = 10000;
+	isExplosion_ = true;
+	
 }
 
 void Spike::FlyAway_Initialize() {
+
 }
 
 
@@ -263,7 +274,7 @@ void Spike::FlyAway_Update() {
 
 #pragma region OnCollision
 
-void Spike::OnCollisionPlayer() { isDead_ = true; }
+void Spike::OnCollisionPlayer() { state_ = kExplosion; }
 
 void Spike::OnCollisionBoss() {
 
@@ -324,16 +335,23 @@ void Spike::OnCollisionPlayerStump() {
 	// 状態変化
 	state_ = kExplosion;
 
+
 	// 座標をmatにする
 	world_.translate = GetmatWtranstate();
 	// 親子関係の削除
 	world_.parent = nullptr;
+	//更新
+	world_.UpdateMatrix();
 }
 
 
 void Spike::OnCollisionWall() {
 	isDead_ = true;
 	state_ = kNone;
+}
+void Spike::OnCollisionExplotionBoss() {
+	//ダメージを与えたという処理を有効に
+	isApplicationDamage = true;
 }
 #pragma endregion
 

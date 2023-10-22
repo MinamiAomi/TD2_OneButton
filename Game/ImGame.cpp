@@ -185,7 +185,7 @@ void InGame::CollisionAboutSpike() {
 			float S_wide = spike->GetWide();
 #pragma region プレイヤー
 			//当たった時の処理
-			if (CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
+			if (spike->GetIsCollisonOnPlayer() && CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
 				spike->OnCollisionPlayer();
 				player_->OnCollision();
 			}
@@ -292,8 +292,14 @@ void InGame::CollisionAboutSpike() {
 								newSpike.translate = leng;							//位置設定
 								newSpike.scale = { newSize,newSize ,newSize };		//サイズ設定
 
+								//ダメージのついか
+								int DMG = spike->GetDamege() + spike2->GetDamege();
+
+								//ダメージの追加加算
+								DMG += 1;
+
 								//新しいスパイクの生成
-								AddSpike(newSpike, Spike::State::kFalling);
+								AddSpike(newSpike, Spike::State::kFalling, {0.0f,0.0f,0.0f},DMG);
 
 
 								
@@ -330,13 +336,21 @@ void InGame::CollisionAboutSpike() {
 					spike->OnCollisionBoss();
 				}
 			}
+
+			//爆破時の処理
+			if (spike->IsDamageProcessing()) {
+				if (boss_->IsHitBoss(SPIKE, S_wide)) {
+					spike->OnCollisionExplotionBoss();
+					boss_->OnCollisionExplosion(spike->GetDamege());
+				}
+			}
 #pragma endregion
 
 		}
 #pragma region ボス回復処理
 		//埋まり切りフラグがONの時回復
 		if (spike->GetCompleteFillUp()) {
-			boss_->OnCollisionHealing();
+			boss_->OnCollisionHealing(spike->GetDamege());
 		}
 #pragma endregion
 
@@ -358,11 +372,11 @@ void InGame::CheckDead() {
 		});
 }
 
-void InGame::AddSpike(const Transform& trans, const int state, const Vector3 velo) {
+void InGame::AddSpike(const Transform& trans, const int state, const Vector3 velo,int damage) {
 
 	//クラス作成
 	Spike* spike_ = new Spike();
-	spike_->Initialize(spikeNum_, trans, &boss_->GetBossYLine(),state,velo);
+	spike_->Initialize(spikeNum_, trans, &boss_->GetBossYLine(),damage,state,velo);
 	//プッシュ
 	spikes.emplace_back(spike_);
 

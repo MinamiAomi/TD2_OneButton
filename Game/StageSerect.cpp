@@ -37,38 +37,13 @@ void StageSerect::OnUpdate() {
 		break;
 	}
 
+	ChangeScene();
 }
 
 void StageSerect::OnFinalize() {
 
 
-	//１キーでゲーム
-	if (input_->IsKeyTrigger(DIK_SPACE)) {
-		//インスタンス取得
-		SceneManager* sceneManager = SceneManager::GetInstance();
 
-		//選択しているステージに移動
-		switch (state_) {
-		case StageSerect::kStage1:
-			//シーン設定
-			sceneManager->ChangeScene<InGame>();
-			break;
-
-		case StageSerect::kStage2:
-			//シーン設定
-			sceneManager->ChangeScene<InGame>();
-			break;
-
-		case StageSerect::kStage3:
-			//シーン設定
-			sceneManager->ChangeScene<InGame>();
-			break;
-
-		default:
-			break;
-		}
-		
-	}
 }
 
 void StageSerect::State1Update() {
@@ -109,5 +84,35 @@ void StageSerect::State3Update() {
 	//左
 	else if (state_ == -1) {
 		state_ = kStage2;
+	}
+}
+
+void StageSerect::ChangeScene() {
+	//１キーでゲーム
+	if (input_->IsKeyTrigger(DIK_SPACE)) {
+		//インスタンス取得
+		SceneManager* sceneManager = SceneManager::GetInstance();
+
+		//選択しているステージに移動
+		switch (state_) {
+		case StageSerect::kStage1:
+			//シーン設定
+			sceneManager->ChangeScene<InGame>();
+			break;
+
+		case StageSerect::kStage2:
+			//シーン設定
+			sceneManager->ChangeScene<InGame>();
+			break;
+
+		case StageSerect::kStage3:
+			//シーン設定
+			sceneManager->ChangeScene<InGame>();
+			break;
+
+		default:
+			break;
+		}
+
 	}
 }

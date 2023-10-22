@@ -63,7 +63,19 @@ bool Boss::IsHitBoss(const Vector3& pos, const float& wide)
 	return false;
 }
 
-void Boss::OnCollisionHealing()
+void Boss::OnCollisionExplosion(int dmg) {
+	HP_ -= dmg;
+
+	if (HP_ <= 0) {
+		isDead_ = true;
+	}
+}
+
+void Boss::OnCollisionHealing(int dmg)
 {
-	HP_++;
+	HP_ += dmg;
+
+	if (HP_ >= maxHP_) {
+		HP_ = maxHP_;
+	}
 }
