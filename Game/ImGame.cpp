@@ -92,7 +92,7 @@ void InGame::OnUpdate() {
 	static float fovY = 25.0f;
 	static float nearZ = 50.0f;
 	static float farZ = 200.0f;
-	static Vector3 position = { 0.0f, -42.0f, -100.0f };
+	static Vector3 position = { 0.0f, -44.0f, -100.0f };
 	static Vector3 rotate = {};
 
 	//position = camera_.GetPosition();
