@@ -79,10 +79,12 @@ void RenderManager::Render() {
 
     spriteRenderer_.Render(commandContext, 0.0f, 0.0f, (float)swapChainBuffer.GetWidth(), (float)swapChainBuffer.GetHeight());
 
+#ifdef _DEBUG
     ImGui::Begin("Engine");
     auto& io = ImGui::GetIO();
     ImGui::Text("Framerate : %f", io.Framerate);
     ImGui::End();
+#endif // _DEBUG
 
     // ImGuiを描画
     auto imguiManager = ImGuiManager::GetInstance();
