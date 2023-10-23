@@ -223,23 +223,25 @@ void InGame::CollisionAboutSpike() {
 
 
 #pragma region プレイヤービームと爆風
-			//	プレイヤー攻撃に当たる状態かチェック
-
+			
 			for (Leser* leser : player_->Getlesers()) {
+				//	プレイヤー攻撃に当たる状態かチェック
 				if (spike->GetIsCollisonOnPlayer()) {
 #pragma region ビーム
-					if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
-						//レーザーのwide取得
-						float beamWide = leser->GetLeserWide();
 
-						//ビームの終点取得
-						Vector3 beamEnd = leser->GetExplosionPos();
-						//高さを合わせる
-						beamEnd.y = SPIKE.y;
+					//レーザーのwide取得
+					float beamWide = leser->GetLeserWide();
+
+					//ビームの終点取得
+					Vector3 beamEnd = leser->GetExplosionPos();
+					//高さを合わせる
+					beamEnd.y = SPIKE.y;
 
 
-						//ビームに当たっているとき
-						if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
+					//ビームに当たっているとき
+					if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
+						//同じレーザーが新しく生成した棘と当たらないようにする処理
+						if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
 
 							leser->OnCollision(spike->GetIdentificationNum());
 
@@ -258,6 +260,7 @@ void InGame::CollisionAboutSpike() {
 
 
 							AddSpike(Newworld, Spike::State::kFalling, newVelo);
+							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
 
@@ -266,6 +269,7 @@ void InGame::CollisionAboutSpike() {
 							newVelo.x *= -1;
 
 							AddSpike(Newworld, Spike::State::kFalling, newVelo);
+							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
 							//死亡判定出す
@@ -273,9 +277,8 @@ void InGame::CollisionAboutSpike() {
 							//死んだので処理を流す
 							break;
 						}
+	
 					}
-#pragma endregion			
-
 					else {
 						//ビーム当たっていない
 						//爆風の範囲の場合
@@ -289,6 +292,9 @@ void InGame::CollisionAboutSpike() {
 						}
 #pragma endregion
 					}
+#pragma endregion			
+
+
 				}
 			}
 #pragma endregion
