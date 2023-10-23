@@ -51,7 +51,8 @@ void Boss::Update()
 	ImGui::End();
 #endif // _DEBUG
 
-
+	//攻撃に関する処理
+	BossATK();
 
 	//更新
 	world_.UpdateMatrix();
@@ -72,6 +73,10 @@ bool Boss::IsHitBoss(const Vector3& pos, const float& wide)
 
 	
 	return false;
+}
+
+void Boss::BossATK() {
+
 }
 
 void Boss::OnCollisionExplosion(int dmg) {

@@ -32,6 +32,10 @@ public:
 	/// <returns>当たっているか否か</returns>
 	bool IsHitBoss(const Vector3& pos, const float& wide);
 
+	/// <summary>
+	/// ボスの攻撃関連
+	/// </summary>
+	void BossATK();
 #pragma region ゲッター
 	/// <summary>
 	/// ボスの上のラインを取得
@@ -82,4 +86,13 @@ private:
 	std::string groupName_ = "Boss";
 
 	bool isDead_ = false;
+
+
+#pragma region 攻撃関連
+	enum ATKType {
+		kNone,//何もしない
+		kSpike
+	};
+#pragma endregion
+
 };

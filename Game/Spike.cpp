@@ -258,18 +258,18 @@ void Spike::Explosion_Update() {
 	animationCount_++;
 
 	//半径
-	float t = (float)animationCount_ + 5.0f / (float)maxAnimationCount;
+	float t = (float)animationCount_ / (float)maxAnimationCount;
 
 	if (t >= 1.0f) {
 		t = 1.0f;
 	}
-	//半径
+	
 	float wide= Math::Lerp(t, 0, wide_);
 	exploTrans_.scale = { wide,wide,wide };
 	
 	
 	//アニメーションカウントがmaxの値で死亡
-	if (maxAnimationCount <= animationCount_) {
+	if (maxAnimationCount*1.5f <= animationCount_) {
 		isDead_ = true;
 	}
 }
