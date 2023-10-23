@@ -59,9 +59,7 @@ void InGame::OnInitialize() {
 	player_->Initialize(map->GetPlayerPosition());
 	player_->SetBossY(&boss_->GetBossYLine());
 
-	Heal* heal_ = new Heal();
-	heal_->Initalize({0.0f,-49.0f});
-	heals_.push_back(heal_);
+
 }
 
 void InGame::OnUpdate() {
@@ -390,7 +388,9 @@ void InGame::CollisionAboutSpike() {
 		if (spike->GetCompleteFillUp()) {
 			boss_->OnCollisionHealing(spike->GetDamege());
 			//ボスが回復するときのエフェクトを生成
-			
+			Heal* heal_ = new Heal();
+			heal_->Initalize({ 0.0f,-49.0f });
+			heals_.push_back(heal_);
 		}
 #pragma endregion
 
