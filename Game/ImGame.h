@@ -93,5 +93,5 @@ private:
 	//ボスクラス
 	std::unique_ptr<Boss>boss_ = nullptr;
 
-	std::unique_ptr<Heal>heal_ = nullptr;
+	std::list<Heal*> heals_;
 };

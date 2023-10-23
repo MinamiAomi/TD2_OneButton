@@ -13,11 +13,15 @@ public:
 	void Update();
 	//void Draw();
 
+	bool GetisAlive() { return isAlive_; }
+
 private:
 	//スプライトのインスタンス
 	Sprite sprite;
 	//テクスチャの位置
 	Transform TexPos_;
 
-	
+	int AnimeFrame_ = 0;
+
+	bool isAlive_ = true;
 };

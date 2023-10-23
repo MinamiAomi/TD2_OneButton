@@ -40,8 +40,6 @@ void InGame::OnInitialize() {
 	boss_->Initalize(map->GetBossMatPos());
 
 	//ヒールエフェクト
-	heal_ = std::make_unique<Heal>();
-	//heal_->Initalize();
 
 
 	//スパイクのTransformコピー
@@ -79,6 +77,19 @@ void InGame::OnUpdate() {
 	for (std::unique_ptr<Spike>& spike : spikes) {
 		spike->Update();
 	}
+
+	//エフェクト更新
+	for (Heal* heal_ : heals_) {
+		heal_->Update();
+	}
+	//フラグが立っていたら削除
+	heals_.remove_if([](Heal* Heal_) {
+		if (Heal_->GetisAlive() == false) {
+			delete Heal_;
+			return true;
+		}
+		return false;
+		});
 
 	//プレイヤー更新
 	player_->Update();
@@ -370,6 +381,10 @@ void InGame::CollisionAboutSpike() {
 		//埋まり切りフラグがONの時回復
 		if (spike->GetCompleteFillUp()) {
 			boss_->OnCollisionHealing(spike->GetDamege());
+			//ボスが回復するときのエフェクトを生成
+			Heal* heal_ = new Heal();
+			heal_->Initalize(spike->GetWorld().translate.GetXY());
+			heals_.push_back(heal_);
 		}
 #pragma endregion
 
