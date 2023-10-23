@@ -88,6 +88,9 @@
     <Filter Include="Game\Effect\Dust">
       <UniqueIdentifier>{374b0b99-b0f0-47d7-90a0-62db7cd5cea0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BossSpike">
+      <UniqueIdentifier>{bb276877-993a-46f4-92cb-087967e9e49b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -300,6 +303,9 @@
     <ClInclude Include="Dust.h">
       <Filter>Game\Effect\Dust</Filter>
     </ClInclude>
+    <ClInclude Include="BossSpike.h">
+      <Filter>Game\BossSpike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -486,6 +492,9 @@
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Dust.cpp">
       <Filter>Game\Effect\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="BossSpike.cpp">
+      <Filter>Game\BossSpike</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

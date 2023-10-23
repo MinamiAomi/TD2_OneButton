@@ -3,6 +3,8 @@
 #include "Engine/Math/Transform.h"
 #include<string>
 
+#include"BossSpike.h"
+
 class Boss {
 public:
 
@@ -64,6 +66,11 @@ public:
 	void OnCollisionHealing(int dmg);
 #pragma endregion
 
+
+private:
+
+	//棘攻撃処理
+	void SpikeAttack();
 	
 private:
 	//座標
@@ -91,8 +98,66 @@ private:
 #pragma region 攻撃関連
 	enum ATKType {
 		kNone,//何もしない
-		kSpike
+		kSpikeExpATK, //攻撃
 	};
+
+	//攻撃状態
+	ATKType atkType_ = kNone;
+
+	//攻撃のウェーブ管理
+	enum ATKWave {
+		kSetup,	//準備処理
+		kWave1,
+		kWave2,
+		kWave3,
+		Revert,
+	};
+
+	//攻撃の動きの段階処理
+	ATKWave atkWave_ = kSetup;
+	//ウェーブごとの初期化
+	bool waveInitialize_ = false;
+
+	//攻撃待機の待ち時間
+	int WaitATKCount_ = 0;
+
+	//与える待ち時間の
+	const int maxWaitATKCount = 60 * 10;
+
+	bool IsCount_=true;
+
+	//モーションに使うT
+	float animetionT_ = 0;
+#pragma endregion
+
+#pragma region 棘飛ばして爆破攻撃
+
+	std::unique_ptr<BossSpike>bossSpike_;
+
+	//==SetUp
+	const Vector2 setUpScale = { 1.0f,0.90f };
+
+	//攻撃構える処理１のアニメーション加算地
+	const float addSetUpAnimation_ = 1.0f / 60.0f;
+
+	//==WAVE1==
+	const Vector2 wave1Scale = { setUpScale.y,2.0f };
+
+	//攻撃構える処理１のアニメーション加算地
+	const float addWave1Animation_ = 1.0f / 30.0f;
+
+	//==WAVE2==
+
+	//攻撃構える処理１のアニメーション加算地
+	const float addWave2Animation_ = 1.0f / 15.0f;
+
+	//==WAVE3==
+	const float addWave3Animation_ = 1.0f / 60.0f;
+
+	//==Revert==
+	const Vector2 revertScale = { wave1Scale.y,1.0f };
+	const float addRevertAnimation_ = 1.0f / 60.0f;
+
 #pragma endregion
 
 };

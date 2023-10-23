@@ -211,11 +211,9 @@ void InGame::CollisionAboutSpike() {
 				player_->OnCollision();
 			}
 			else {
-				//プレイヤーの攻撃の爆破に巻き込まれた場合
-				float playerExplotionWide = player_->GetExplosionRadius();
-
+				
 				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる
-				if (player_->GetIsATKBossFlag() && CheckHitSphere(SPIKE, S_wide, PLAYER, playerExplotionWide) && spike->IsStateFillUp()) {
+				if (player_->GetIsATKBossFlag() && spike->IsStateFillUp()) {
 					spike->OnCollisionPlayerStump();
 				}
 			}
@@ -360,7 +358,7 @@ void InGame::CollisionAboutSpike() {
 
 #pragma region 壁
 			//壁に当たっていれば処理
-			if (map->IsHitWall(SPIKE, S_wide)) {
+			if (map->IsHitWallSpike(SPIKE, S_wide)) {
 				spike->OnCollisionWall();
 			}
 #pragma endregion
