@@ -294,6 +294,9 @@
     <ClInclude Include="Background.h">
       <Filter>Game\Background</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Graphics\TranslucentRenderer.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -478,6 +481,9 @@
       <Filter>Game\Effect\Heal</Filter>
     </ClCompile>
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Engine\Graphics\TranslucentRenderer.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">

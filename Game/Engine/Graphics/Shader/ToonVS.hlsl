@@ -6,6 +6,8 @@ ConstantBuffer<Scene> scene_ : register(b0);
 
 struct Instance {
     float4x4 worldMatrix;
+    float3 color;
+    float alpha;
 };
 ConstantBuffer<Instance> instance_ : register(b1);
 

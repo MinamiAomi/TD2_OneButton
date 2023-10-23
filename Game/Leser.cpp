@@ -40,6 +40,9 @@ void Leser::Initialize(const Vector3& playerPos, const Vector3& bossPos)
 #pragma region 爆発関連
 	//モデルセット
 	expModelInstance_.SetModel(resourceManager->FindModel(explosionModelName));
+	expModelInstance_.SetIsActive(false);
+	/*expModelInstance_.SetPass(ToonModelInstance::Pass::Translucent); */
+	expModelInstance_.SetAlpha(1.0f);
 
 	//爆発の情報取得と設定
 	explosionpos_.translate = bossPos;

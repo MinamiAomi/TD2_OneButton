@@ -30,6 +30,8 @@ void ToonRenderer::Render(CommandContext& commandContext, const Camera& camera) 
 
     struct InstanceConstant {
         Matrix4x4 worldMatrix;
+        Vector3 color;
+        float alpha;
         float outlineWidth;
         Vector3 outlineColor;
         uint32_t isLighting;
@@ -48,21 +50,45 @@ void ToonRenderer::Render(CommandContext& commandContext, const Camera& camera) 
     scene.cameraPosition = camera.GetPosition();
     commandContext.SetDynamicConstantBufferView(ToonRootIndex::Scene, sizeof(scene), &scene);
 
+    // ライティングを使用した描画
     for (auto& instance : instanceList) {
         if (instance->IsActive() && instance->model_) {
+            // ライティングする
+            if (instance->isLighting_ && instance->pass_ == ToonModelInstance::Pass::Opaque) {
 
-            InstanceConstant data;
-            data.worldMatrix = instance->worldMatrix_;
-            data.outlineWidth = instance->outlineWidth_;
-            data.outlineColor = instance->outlineColor_;
-            data.isLighting = instance->isLighting_ ? 1 : 0;
-            commandContext.SetDynamicConstantBufferView(ToonRootIndex::Instance, sizeof(data), &data); 
+                InstanceConstant data;
+                data.worldMatrix = instance->worldMatrix_;
+                data.color = instance->color_;
+                data.alpha = instance->alpha_;
+                data.outlineWidth = instance->outlineWidth_;
+                data.outlineColor = instance->outlineColor_;
+                data.isLighting = instance->isLighting_ ? 1 : 0;
+                commandContext.SetDynamicConstantBufferView(ToonRootIndex::Instance, sizeof(data), &data);
+                // アウトライン描画
+                if (instance->useOutline_) {
+                    commandContext.SetPipelineState(outlinePipelineState_);
 
-            // アウトライン描画
-            if (instance->useOutline_) {
-                commandContext.SetPipelineState(outlinePipelineState_);
-
+                    for (auto& mesh : instance->model_->meshes_) {
+                        D3D12_VERTEX_BUFFER_VIEW vbv{};
+                        vbv.BufferLocation = mesh.vertexBuffer.GetGPUVirtualAddress();
+                        vbv.SizeInBytes = (UINT)mesh.vertexBuffer.GetBufferSize();
+                        vbv.StrideInBytes = (UINT)sizeof(ModelData::Vertex);
+                        commandContext.SetVertexBuffer(0, vbv);
+                        D3D12_INDEX_BUFFER_VIEW ibv{};
+                        ibv.BufferLocation = mesh.indexBuffer.GetGPUVirtualAddress();
+                        ibv.SizeInBytes = (UINT)mesh.indexBuffer.GetBufferSize();
+                        ibv.Format = (sizeof(ModelData::Index) == 2) ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT;
+                        commandContext.SetIndexBuffer(ibv);
+                        commandContext.DrawIndexed(mesh.indexCount);
+                    }
+                }
+                // オブジェクト描画
+                commandContext.SetPipelineState(toonPipelineState_);
                 for (auto& mesh : instance->model_->meshes_) {
+                    commandContext.SetConstantBuffer(ToonRootIndex::Material, mesh.material->constantBuffer.GetGPUVirtualAddress());
+                    commandContext.SetDescriptorTable(ToonRootIndex::Texture, mesh.material->texture->textureResource.GetSRV());
+                    commandContext.SetDescriptorTable(ToonRootIndex::Sampler, mesh.material->texture->sampler);
+
                     D3D12_VERTEX_BUFFER_VIEW vbv{};
                     vbv.BufferLocation = mesh.vertexBuffer.GetGPUVirtualAddress();
                     vbv.SizeInBytes = (UINT)mesh.vertexBuffer.GetBufferSize();
@@ -75,25 +101,6 @@ void ToonRenderer::Render(CommandContext& commandContext, const Camera& camera) 
                     commandContext.SetIndexBuffer(ibv);
                     commandContext.DrawIndexed(mesh.indexCount);
                 }
-            }
-            // オブジェクト描画
-            commandContext.SetPipelineState(toonPipelineState_);
-            for (auto& mesh : instance->model_->meshes_) {
-                commandContext.SetConstantBuffer(ToonRootIndex::Material, mesh.material->constantBuffer.GetGPUVirtualAddress());
-                commandContext.SetDescriptorTable(ToonRootIndex::Texture, mesh.material->texture->textureResource.GetSRV());
-                commandContext.SetDescriptorTable(ToonRootIndex::Sampler, mesh.material->texture->sampler);
-
-                D3D12_VERTEX_BUFFER_VIEW vbv{};
-                vbv.BufferLocation = mesh.vertexBuffer.GetGPUVirtualAddress();
-                vbv.SizeInBytes = (UINT)mesh.vertexBuffer.GetBufferSize();
-                vbv.StrideInBytes = (UINT)sizeof(ModelData::Vertex);
-                commandContext.SetVertexBuffer(0, vbv);
-                D3D12_INDEX_BUFFER_VIEW ibv{};
-                ibv.BufferLocation = mesh.indexBuffer.GetGPUVirtualAddress();
-                ibv.SizeInBytes = (UINT)mesh.indexBuffer.GetBufferSize();
-                ibv.Format = (sizeof(ModelData::Index) == 2) ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT;
-                commandContext.SetIndexBuffer(ibv);
-                commandContext.DrawIndexed(mesh.indexCount);
             }
         }
     }

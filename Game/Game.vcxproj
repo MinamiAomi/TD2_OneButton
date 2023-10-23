@@ -77,6 +77,7 @@
     <ClInclude Include="Engine\Graphics\Timer.h" />
     <ClInclude Include="Engine\Graphics\ToonModel.h" />
     <ClInclude Include="Engine\Graphics\ToonRenderer.h" />
+    <ClInclude Include="Engine\Graphics\TranslucentRenderer.h" />
     <ClInclude Include="Engine\Input\Input.h" />
     <ClInclude Include="Engine\Math\Color.h" />
     <ClInclude Include="Engine\Math\Random.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Engine\Graphics\Timer.cpp" />
     <ClCompile Include="Engine\Graphics\ToonModel.cpp" />
     <ClCompile Include="Engine\Graphics\ToonRenderer.cpp" />
+    <ClCompile Include="Engine\Graphics\TranslucentRenderer.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />
     <ClCompile Include="Engine\Math\Color.cpp" />
     <ClCompile Include="Engine\Graphics\Bloom.cpp" />
