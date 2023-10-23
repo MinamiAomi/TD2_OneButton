@@ -37,7 +37,6 @@ void ToonRenderer::Render(CommandContext& commandContext, const Camera& camera) 
 
     auto& instanceList = ToonModelInstance::instanceList_;
 
-
     // 描画
     commandContext.SetRootSignature(rootSignature_);
     commandContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -193,7 +192,6 @@ void ToonRenderer::InitializeToonPass(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvForm
     pipelineStateDesc.BlendState = Helper::BlendDisable;
     pipelineStateDesc.DepthStencilState = Helper::DepthStateReadWrite;
     pipelineStateDesc.RasterizerState = Helper::RasterizerDefault;
-    // 前面カリング
     pipelineStateDesc.NumRenderTargets = 1;
     pipelineStateDesc.RTVFormats[0] = rtvFormat;
     pipelineStateDesc.DSVFormat = dsvFormat;

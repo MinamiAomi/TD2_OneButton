@@ -527,5 +527,11 @@
     <None Include="Engine\Graphics\Shader\SpritePS.hlsl">
       <Filter>Engine\Graphics\Shader</Filter>
     </None>
+    <None Include="Engine\Graphics\Shader\TranslucentVS.hlsl">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </None>
+    <None Include="Engine\Graphics\Shader\TranslucentPS.hlsl">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

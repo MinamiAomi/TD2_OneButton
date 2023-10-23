@@ -91,13 +91,13 @@ void InGame::OnUpdate() {
 	CheckDead();
 
 
-#ifdef _DEBUG
 	static float fovY = 25.0f;
 	static float nearZ = 50.0f;
 	static float farZ = 200.0f;
 	static Vector3 position = { 0.0f, -44.0f, -100.0f };
 	static Vector3 rotate = {};
 
+#ifdef _DEBUG
 	//position = camera_.GetPosition();
 	ImGui::Begin("Camera");
 	ImGui::DragFloat3("Position", &position.x, 0.1f);
@@ -106,15 +106,14 @@ void InGame::OnUpdate() {
 	ImGui::DragFloat("NearZ", &nearZ, 0.1f);
 	ImGui::DragFloat("FarZ", &farZ, 1.0f);
 	ImGui::End();
+#endif // _DEBUG
 
 	rotate.x = std::fmod(rotate.x, 360.0f);
 	rotate.y = std::fmod(rotate.y, 360.0f);
 	rotate.z = std::fmod(rotate.z, 360.0f);
-
 	camera_.SetPosition(position);
 	camera_.SetRotate(Quaternion::MakeFromEulerAngle(rotate * Math::ToRadian));
 	camera_.SetPerspective(fovY * Math::ToRadian, 540.0f / 720.0f, nearZ, farZ);
-#endif // _DEBUG
 
 	camera_.UpdateMatrices();
 	// 背景はカメラを使用しているためカメラの後に更新

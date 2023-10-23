@@ -83,7 +83,7 @@ PSOutput main(PSInput input)
     directionalLight_.color = float3(1.0f, 1.0f, 1.0f);
     
     // テクスチャの色
-    float3 textureColor = texture_.Sample(sampler_, input.texcoord).rgb;
+    float4 textureColor = texture_.Sample(sampler_, input.texcoord);
     //float3 textureColor = float3(0.6f, 0.6f, 0.6f);
     // 拡散反射
     float3 diffuse = material_.diffuse * ToonDiffuse(normal, directionalLight_.direction);
@@ -93,7 +93,13 @@ PSOutput main(PSInput input)
     float3 shadeColor = (diffuse + specular) * directionalLight_.color * directionalLight_.intensity;
     
     PSOutput output;
-    output.color.rgb = textureColor * lerp(float3(1.0f, 1.0f, 1.0f), shadeColor, instance_.isLighting);
+    output.color.rgb = textureColor.rgb * lerp(float3(1.0f, 1.0f, 1.0f), shadeColor, instance_.isLighting);
+    output.color.a = textureColor.a;
+    // 完全な透明はピクセルを捨てる
+    if (output.color.a <= 0.0f) {
+        discard;
+    }
+    // 半透明は不対応
     output.color.a = 1.0f;
     
     //output.color.rgb = specular;
