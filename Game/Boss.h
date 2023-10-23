@@ -35,6 +35,14 @@ public:
 	bool IsHitBoss(const Vector3& pos, const float& wide);
 
 	/// <summary>
+	/// ボスの攻撃に当たったどうか
+	/// </summary>
+	/// <param name="pos"></param>
+	/// <param name="wide"></param>
+	bool IsHitBossATK(const Vector3& pos, const float& wide);
+
+
+	/// <summary>
 	/// ボスの攻撃関連
 	/// </summary>
 	void BossATK();
@@ -55,6 +63,13 @@ public:
 			world_.worldMatrix.m[3][1],
 			world_.worldMatrix.m[3][2]
 		};
+	}
+
+	bool GetBossATKSpikeExplo() {
+		if (atkType_ == kSpikeExpATK && atkWave_ == kWave1) {
+			return true;
+		}
+		return false;
 	}
 #pragma endregion
 

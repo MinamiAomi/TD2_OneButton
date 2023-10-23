@@ -201,6 +201,18 @@ void InGame::CollisionAboutSpike() {
 	for (std::unique_ptr<Spike>& spike : spikes) {
 		//死んだ弾は処理しない
 		if (!spike->IsDead()) {
+
+#pragma region ボスの攻撃処理で使用されたとき
+			if (boss_->GetBossATKSpikeExplo()) {
+				//埋まっていく状態の敵をすべてコリジョンオフにして飛ばす
+				if (spike->IsStateFillUp()) {
+					spike->OnCollisionBossATK(Skipvelo);
+				}
+			}
+#pragma endregion
+
+
+
 			//座標と半径取得
 			Vector3 SPIKE = spike->GetmatWtranstate();
 			float S_wide = spike->GetWide();
@@ -380,6 +392,12 @@ void InGame::CollisionAboutSpike() {
 			}
 #pragma endregion
 
+
+#pragma region ボスの攻撃で当たったかどうか
+			if (boss_->IsHitBossATK(SPIKE, S_wide)) {
+				spike->OnCollisionBossATKExplosion();
+			}
+#pragma endregion
 		}
 #pragma region ボス回復処理
 		//埋まり切りフラグがONの時回復

@@ -16,8 +16,7 @@ void Boss::Initalize(const Vector3& position)
 	world_.UpdateMatrix();
 
 	//ボスのｙのスケール設定
-	height_ = world_.scale.y;
-
+	
 	//ボスのYラインの設定
 	bossYLine_ = world_.worldMatrix.m[3][1] + height_;
 
@@ -94,6 +93,26 @@ int GetRandomNum(int wideOrmax, bool isWide) {
 		num = rand() % wideOrmax;
 	}
 	return num;
+}
+
+bool Boss::IsHitBossATK(const Vector3& pos, const float& wide) {
+
+	if (atkType_ == kSpikeExpATK && atkWave_ == kWave2) {
+
+		//ボスの攻撃のY座標取得
+		float ATKposY = world_.translate.y + bossSpike_->GetATKScaleNum();
+
+		//判定対象のｙ座標
+		float Epos = pos.y - wide;
+
+		//もし範囲より小さい場合
+		if (ATKposY <= Epos) {
+			return true;
+		}
+	}
+
+	return false;
+
 }
 
 void Boss::BossATK() {

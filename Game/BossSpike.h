@@ -16,6 +16,11 @@ public:
 
 	//棘を小さくする更新
 	void UpdateShrinkSpike(const float& t);
+
+#pragma region ゲッター
+	float GetATKScaleNum() { return world_.scale.y; }
+#pragma endregion
+
 private:
 
 	ToonModelInstance model_;

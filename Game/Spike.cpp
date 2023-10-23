@@ -162,7 +162,7 @@ void Spike::Stay_Initialize() {
 }
 
 void Spike::Falling_Initialize() {
-	velocity_ = { 0.0f,0.0f,0.0f };
+	
 }
 
 void Spike::FillUp_Initiaize() {
@@ -388,6 +388,23 @@ void Spike::OnCollisionWall() {
 void Spike::OnCollisionExplotionBoss() {
 	//ダメージを与えたという処理を有効に
 	isApplicationDamage = true;
+}
+void Spike::OnCollisionBossATK(Vector3 velo) {
+	velocity_ = velo;
+	state_ = kFalling;
+
+	//コリジョン処理ほぼOFF
+	collisionOnForBoss_ = false;
+	collisionOnForPlayer_ = false;
+	collisionOnForSpike_ = false;
+
+	//戻らないような秒数
+	noCollisionCount_ = 600;
+}
+void Spike::OnCollisionBossATKExplosion() {
+	state_ =kExplosion;
+	ckeckStateChange_ = true;
+
 }
 #pragma endregion
 

@@ -94,4 +94,8 @@ private:
 	std::unique_ptr<Boss>boss_ = nullptr;
 
 	std::list<Heal*> heals_;
+
+
+	//吹き飛ばすベクトル量
+	Vector3 Skipvelo = { 0.0f,2.0f,0.0 };
 };

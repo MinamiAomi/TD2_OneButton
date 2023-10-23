@@ -112,6 +112,12 @@ public:
 	//ボスに攻撃を与えたときの処理
 	void OnCollisionExplotionBoss();
 
+
+	//ボスの攻撃に利用されたときのコリジョン
+	void OnCollisionBossATK(Vector3 velo);
+
+	//ボスの攻撃で爆破する
+	void OnCollisionBossATKExplosion();
 #pragma endregion
 
 
