@@ -43,6 +43,7 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Clear.h" />
+    <ClInclude Include="Dust.h" />
     <ClInclude Include="Engine\Application\Game.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
     <ClInclude Include="Engine\Engine.h" />
@@ -134,6 +135,7 @@
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Clear.cpp" />
+    <ClCompile Include="Dust.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Graphics\Core\ColorBuffer.cpp" />

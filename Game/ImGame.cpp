@@ -389,7 +389,7 @@ void InGame::CollisionAboutSpike() {
 			boss_->OnCollisionHealing(spike->GetDamege());
 			//ボスが回復するときのエフェクトを生成
 			Heal* heal_ = new Heal();
-			heal_->Initalize(spike->GetWorld().translate.GetXY());
+			heal_->Initalize({ 0.0f,-49.0f });
 			heals_.push_back(heal_);
 		}
 #pragma endregion

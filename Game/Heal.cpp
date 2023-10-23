@@ -7,11 +7,11 @@ Heal::~Heal() {}
 void Heal::Initalize(const Vector2& position)
 {
 	TexPos_.translate.x = position.x;
-	TexPos_.translate.y = -59;
+	TexPos_.translate.y = position.y;
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	const char bossModelName[] = "Heal";
 	sprite.SetTexture(resourceManager->FindTexture(bossModelName));
-	sprite.SetPosition(TexPos_.translate.GetXY());
+	sprite.SetPosition({28,120});
 	sprite.SetScale({ 32.0f,32.0f });
 	sprite.SetTexcoordRect({ 0.0f,0.0f }, { 32,32 });
 	AnimeFrame_ = 0;
