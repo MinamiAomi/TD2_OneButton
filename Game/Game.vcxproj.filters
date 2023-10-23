@@ -297,6 +297,9 @@
     <ClInclude Include="Background.h">
       <Filter>Game\Background</Filter>
     </ClInclude>
+    <ClInclude Include="Dust.h">
+      <Filter>Game\Effect\Dust</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -481,6 +484,9 @@
       <Filter>Game\Effect\Heal</Filter>
     </ClCompile>
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Dust.cpp">
+      <Filter>Game\Effect\Dust</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">
