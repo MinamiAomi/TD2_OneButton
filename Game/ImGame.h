@@ -11,6 +11,7 @@
 #include"map.h"
 #include"Player.h"
 #include"Boss.h"
+#include "Background.h"
 
 #include "Heal.h"
 
@@ -77,6 +78,8 @@ private:
 
 	//マップクラス
 	std::unique_ptr<Map>map = nullptr;
+	// 背景
+	std::unique_ptr<Background> background_;
 
 	//棘クラス
 	std::list<std::unique_ptr<Spike>> spikes;
@@ -89,6 +92,6 @@ private:
 
 	//ボスクラス
 	std::unique_ptr<Boss>boss_ = nullptr;
-	
+
 	std::unique_ptr<Heal>heal_ = nullptr;
 };

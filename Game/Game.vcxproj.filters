@@ -82,6 +82,9 @@
     <Filter Include="Game\Effect\Heal">
       <UniqueIdentifier>{c23e1e5d-7d3c-4048-86f9-6d59c24cecc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Background">
+      <UniqueIdentifier>{c0fa8784-d49e-49ab-a277-5cb107b6f270}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -288,6 +291,9 @@
     <ClInclude Include="Heal.h">
       <Filter>Game\Effect\Heal</Filter>
     </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>Game\Background</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -471,6 +477,7 @@
     <ClCompile Include="Heal.cpp">
       <Filter>Game\Effect\Heal</Filter>
     </ClCompile>
+    <ClCompile Include="Background.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">

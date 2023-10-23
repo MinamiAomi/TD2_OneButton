@@ -9,12 +9,11 @@
         { "Name" : "Laser",       "Path" : "Resources/Model/laser/laser.obj" },
         { "Name" : "Explosion",   "Path" : "Resources/Model/explosion/explosion.obj" },
         { "Name" : "Boss",        "Path" : "Resources/Model/boss/boss.obj" },
-        { "Name" : "BossSpike",   "Path" : "Resources/Model/bossSpike/bossSpike.obj"},
-        { "Name" : "Spike",       "Path" : "Resources/Model/spike/spike.obj"}    
+        { "Name" : "BossSpike",   "Path" : "Resources/Model/bossSpike/bossSpike.obj" },
+        { "Name" : "Spike",       "Path" : "Resources/Model/spike/spike.obj" },    
+        { "Name" : "Background",  "Path" : "Resources/Model/background/background.obj" }
     ],
     "Images" : [
-        { "Name" : "TitleLogo",       "Path" : "Resources/Image/titleLogo.png"},
-        { "Name" : "Heal",       "Path" : "Resources/Image/Heal.png"} ,
-	{ "Name" : "TemporaryImage", "Path" : "Resources/Image/white.png"}
+        { "Name" : "TitleLogo",       "Path" : "Resources/Image/titleLogo.png" } 
     ]
 }

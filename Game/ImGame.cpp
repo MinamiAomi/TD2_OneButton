@@ -32,6 +32,9 @@ void InGame::OnInitialize() {
 	map = std::make_unique<Map>();
 	map->Initialize();
 
+	background_ = std::make_unique<Background>();
+	background_->Initialize(&camera_);
+
 	//ボスの初期化
 	boss_ = std::make_unique<Boss>();
 	boss_->Initalize(map->GetBossMatPos());
@@ -114,6 +117,8 @@ void InGame::OnUpdate() {
 #endif // _DEBUG
 
 	camera_.UpdateMatrices();
+	// 背景はカメラを使用しているためカメラの後に更新
+	background_->Update();
 
 	//シーンチェンジ処理
 	SceneChange();

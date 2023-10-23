@@ -5,6 +5,14 @@ struct Scene
 };
 ConstantBuffer<Scene> scene_ : register(b0);
 
+struct Instance {
+    float4x4 worldMatrix;
+    float outlineWidth;
+    float3 outlineColor;
+    uint isLighting;
+};
+ConstantBuffer<Instance> instance_ : register(b1);
+
 struct Material
 {
     float3 diffuse;
@@ -84,9 +92,8 @@ PSOutput main(PSInput input)
     // シェーディングによる色
     float3 shadeColor = (diffuse + specular) * directionalLight_.color * directionalLight_.intensity;
     
-    
     PSOutput output;
-    output.color.rgb = textureColor * shadeColor;
+    output.color.rgb = textureColor * lerp(float3(1.0f, 1.0f, 1.0f), shadeColor, instance_.isLighting);
     output.color.a = 1.0f;
     
     //output.color.rgb = specular;

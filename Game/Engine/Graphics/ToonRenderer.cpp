@@ -32,6 +32,7 @@ void ToonRenderer::Render(CommandContext& commandContext, const Camera& camera) 
         Matrix4x4 worldMatrix;
         float outlineWidth;
         Vector3 outlineColor;
+        uint32_t isLighting;
     };
 
     auto& instanceList = ToonModelInstance::instanceList_;
@@ -55,6 +56,7 @@ void ToonRenderer::Render(CommandContext& commandContext, const Camera& camera) 
             data.worldMatrix = instance->worldMatrix_;
             data.outlineWidth = instance->outlineWidth_;
             data.outlineColor = instance->outlineColor_;
+            data.isLighting = instance->isLighting_ ? 1 : 0;
             commandContext.SetDynamicConstantBufferView(ToonRootIndex::Instance, sizeof(data), &data); 
 
             // アウトライン描画

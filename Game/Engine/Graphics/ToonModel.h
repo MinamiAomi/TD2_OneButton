@@ -48,6 +48,7 @@ public:
     void SetOutlineWidth(float width) { outlineWidth_ = width; }
     void SetOutlineColor(const Vector3& color) { outlineColor_ = color; }
     void SetUseOutline(bool useOutline) { useOutline_ = useOutline; }
+    void SetIsLighting(bool isLighting) { isLighting_ = isLighting; }
 
     bool IsActive() const { return isActive_; }
 
@@ -64,5 +65,6 @@ private:
     float outlineWidth_ = {0.02f};
     Vector3 outlineColor_;
     bool useOutline_ = true;
+    bool isLighting_ = true;
     bool isActive_ = true;
 };
