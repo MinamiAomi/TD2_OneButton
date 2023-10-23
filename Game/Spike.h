@@ -67,6 +67,13 @@ public:
 		}
 	}
 
+	bool IsStateFillUp() {
+		if (state_ == kFillUp) {
+			return true;
+		}
+		return false;
+	}
+
 	const bool IsDamageProcessing() {
 		if (isExplosion_ && !isApplicationDamage) {
 			return true;
@@ -99,8 +106,10 @@ public:
 	//プレイヤーのため攻撃に当たった時
 	void OnCollisionPlayerStump();
 
+	//壁との当たり判定
 	void OnCollisionWall();
 
+	//ボスに攻撃を与えたときの処理
 	void OnCollisionExplotionBoss();
 
 #pragma endregion

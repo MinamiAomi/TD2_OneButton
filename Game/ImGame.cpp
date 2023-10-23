@@ -9,7 +9,7 @@
 void InGame::OnInitialize() {
 
 	GlobalVariables::GetInstance()->LoadFiles();
-	
+
 	input_ = Input::GetInstance();
 
 	RenderManager::GetInstance()->SetCamera(camera_);
@@ -28,7 +28,7 @@ void InGame::OnInitialize() {
 
 
 
-//マップクラス初期化
+	//マップクラス初期化
 	map = std::make_unique<Map>();
 	map->Initialize();
 
@@ -38,7 +38,7 @@ void InGame::OnInitialize() {
 	//ボスの初期化
 	boss_ = std::make_unique<Boss>();
 	boss_->Initalize(map->GetBossMatPos());
-	
+
 	//ヒールエフェクト
 	heal_ = std::make_unique<Heal>();
 	//heal_->Initalize();
@@ -53,7 +53,7 @@ void InGame::OnInitialize() {
 
 		AddSpike(spikeWorld[num]);
 
-		
+
 	}
 
 	//プレイヤーの初期化
@@ -61,7 +61,7 @@ void InGame::OnInitialize() {
 	player_->Initialize(map->GetPlayerPosition());
 	player_->SetBossY(&boss_->GetBossYLine());
 
-	
+
 }
 
 void InGame::OnUpdate() {
@@ -148,6 +148,11 @@ void InGame::GetAllCollisions() {
 
 	CollisionAboutSpike();
 
+	//ボスに攻撃して埋まってるやつ全部爆破させたのでfalse
+	if (player_->GetIsATKBossFlag()) {
+		player_->SetATKBossFlag(false);
+	}
+
 	//プレイヤー座標と半径
 	Vector3 PLAYER = player_->GetmatWtranslate();
 	float P_wide = player_->GetWide();
@@ -194,12 +199,21 @@ void InGame::CollisionAboutSpike() {
 				spike->OnCollisionPlayer();
 				player_->OnCollision();
 			}
+			else {
+				//プレイヤーの攻撃の爆破に巻き込まれた場合
+				float playerExplotionWide = player_->GetExplosionRadius();
+
+				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる
+				if (player_->GetIsATKBossFlag() && CheckHitSphere(SPIKE, S_wide, PLAYER, playerExplotionWide) && spike->IsStateFillUp()) {
+					spike->OnCollisionPlayerStump();
+				}
+			}
 #pragma endregion
 
 
 #pragma region プレイヤービームと爆風
 			//	プレイヤー攻撃に当たる状態かチェック
-			
+
 			for (Leser* leser : player_->Getlesers()) {
 				if (spike->GetIsCollisonOnPlayer()) {
 #pragma region ビーム
@@ -250,7 +264,7 @@ void InGame::CollisionAboutSpike() {
 						}
 					}
 #pragma endregion			
-					
+
 					else {
 						//ビーム当たっていない
 						//爆風の範囲の場合
@@ -304,10 +318,10 @@ void InGame::CollisionAboutSpike() {
 								DMG += 1;
 
 								//新しいスパイクの生成
-								AddSpike(newSpike, Spike::State::kFalling, {0.0f,0.0f,0.0f},DMG);
+								AddSpike(newSpike, Spike::State::kFalling, { 0.0f,0.0f,0.0f }, DMG);
 
 
-								
+
 
 
 								//オンコリ処理
@@ -377,11 +391,11 @@ void InGame::CheckDead() {
 		});
 }
 
-void InGame::AddSpike(const Transform& trans, const int state, const Vector3 velo,int damage) {
+void InGame::AddSpike(const Transform& trans, const int state, const Vector3 velo, int damage) {
 
 	//クラス作成
 	Spike* spike_ = new Spike();
-	spike_->Initialize(spikeNum_, trans, &boss_->GetBossYLine(),damage,state,velo);
+	spike_->Initialize(spikeNum_, trans, &boss_->GetBossYLine(), damage, state, velo);
 	//プッシュ
 	spikes.emplace_back(spike_);
 

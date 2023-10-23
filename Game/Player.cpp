@@ -154,7 +154,7 @@ void Player::Update() {
 	ImGui::DragFloat3("pos", &worldTransform_.translate.x, 0.01f);
 	worldTransform_.rotate = FixModelRotate("rotate", 0);
 	ImGui::DragFloat3("scale", &worldTransform_.scale.x, 0.01f);
-	ImGui::Checkbox("isMove", &isMove);
+	ImGui::Checkbox("isMove", &isMove_);
 	ImGui::DragInt("DropCount", &DropCount);
 	ImGui::End();
 #endif // _DEBUG
@@ -191,7 +191,7 @@ void Player::Update() {
 	}
 
 	//更新処理
-	if (isMove) {
+	if (isMove_) {
 		switch (behavior_) {
 		case Behavior::kRoot:
 		default:
@@ -300,7 +300,17 @@ void Player::OnCollisionWall(Vector2 wallX) {
 }
 
 void Player::OnCollisionBoss() {
+
+	//長押し攻撃で当たった場合
+	if (behavior_ == Behavior::kDrop) {
+		isATKBoss_ = true;
+	}//その他の場合
+	else {
+		
+	}
+	//処理状態遷移
 	behaviorRequest_ = Behavior::kHit;
+	
 	//isMove = false;
 }
 

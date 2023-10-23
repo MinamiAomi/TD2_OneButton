@@ -1,6 +1,8 @@
 #include"Boss.h"
 
 #include "Graphics/ResourceManager.h"
+#include"Externals/ImGui/imgui.h"
+
 #include"GlobalVariables.h"
 
 void Boss::Initalize(const Vector3& position)
@@ -42,6 +44,15 @@ void Boss::ValueSetting() {
 
 void Boss::Update()
 {
+#ifdef _DEBUG
+	ImGui::Begin("Boss");
+	ImGui::DragFloat3("pos", &world_.translate.x, 0.01f);
+	ImGui::DragInt("HP", &HP_);
+	ImGui::End();
+#endif // _DEBUG
+
+
+
 	//更新
 	world_.UpdateMatrix();
 	modelInstance_.SetWorldMatrix(world_.worldMatrix);
