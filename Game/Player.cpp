@@ -1,6 +1,9 @@
 #include "Player.h"
 
+#ifdef _DEBUG
 #include"Externals/ImGui/imgui.h"
+#endif // _DEBUG
+
 #include "Graphics/ResourceManager.h"
 #include"GlobalVariables.h"
 
@@ -280,6 +283,9 @@ Quaternion Player::FixModelRotate(const char* label, const int& bodyPartNumber) 
 
 
 void Player::OnCollision() {
+
+	//処理状態遷移
+	behaviorRequest_ = Behavior::kHit;
 	if (DropFlag) {
 		return;
 	}
@@ -433,10 +439,15 @@ void Player::BehaviorHitEnemyInitalize() {
 void Player::BehaviorHitEnemyUpdate() {
 	//t_に値を加算
 	t_ += 0.1f;
+
+	float remakeT = t_;
+	if (remakeT >= 1.0f) {
+		remakeT = 1.0f;
+	}
 	//Lerpで上まで動かす
-	worldTransform_.translate.y = Math::Lerp(t_, PposY, EposY);
+	worldTransform_.translate.y = Math::Lerp(remakeT, PposY, EposY);
 	//TODO : 上空で少し待機する処理を追加
-	if (t_ >= 1.0f) {
+	if (t_ >= 1.2f) {
 		// モデルを "落下用" → "基本用" へ移行する
 		modelEuler[0] = { 0.0f, 0.0f, 0.0f };
 		worldTransform_.rotate = Quaternion::MakeFromEulerAngle(modelEuler[0] * Math::ToRadian);
@@ -446,6 +457,9 @@ void Player::BehaviorHitEnemyUpdate() {
 		worlds_[kRFoot].translate = { worlds_[kRFoot].translate.x, -1.5f, worlds_[kRFoot].translate.z };
 
 		behaviorRequest_ = Behavior::kRoot;
+
+		//コリジョンするか
+		isCollisonActive = true;
 	}
 }
 

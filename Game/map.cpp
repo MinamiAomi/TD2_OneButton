@@ -119,6 +119,23 @@ bool Map::IsHitWall(const Vector3& playerpos,const float& wide) {
 	return false;
 }
 
+bool Map::IsHitWallSpike(const Vector3& playerpos, const float& wide) {
+
+	//壁の左に当たっている場合true
+	if (playerpos.x + wide < hitsWallX_.x) {
+		return true;
+	}
+
+	//壁の右に当たっている場合true
+	if (playerpos.x - wide > hitsWallX_.y) {
+		return true;
+	}
+
+
+	//外に出ていなければfalse
+	return false;
+}
+
 void Map::SetMapMoveAcceleration(const float second)
 {
 	isMoveAcceleration_ = true;

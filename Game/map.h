@@ -39,6 +39,15 @@ public:
 	bool IsHitWall(const Vector3& playerpos, const float& wide);
 
 	/// <summary>
+	/// 棘専用
+	/// </summary>
+	/// <param name="playerpos"></param>
+	/// <param name="wide"></param>
+	/// <returns></returns>
+	bool IsHitWallSpike(const Vector3& playerpos, const float& wide);
+
+
+	/// <summary>
 	/// マップの移動速度を加速させる
 	/// </summary>
 	/// <param name="second">何秒処理するか</param>

@@ -40,8 +40,6 @@ void InGame::OnInitialize() {
 	boss_->Initalize(map->GetBossMatPos());
 
 	//ヒールエフェクト
-	heal_ = std::make_unique<Heal>();
-	//heal_->Initalize();
 
 
 	//スパイクのTransformコピー
@@ -79,6 +77,19 @@ void InGame::OnUpdate() {
 	for (std::unique_ptr<Spike>& spike : spikes) {
 		spike->Update();
 	}
+
+	//エフェクト更新
+	for (Heal* heal_ : heals_) {
+		heal_->Update();
+	}
+	//フラグが立っていたら削除
+	heals_.remove_if([](Heal* Heal_) {
+		if (Heal_->GetisAlive() == false) {
+			delete Heal_;
+			return true;
+		}
+		return false;
+		});
 
 	//プレイヤー更新
 	player_->Update();
@@ -189,6 +200,18 @@ void InGame::CollisionAboutSpike() {
 	for (std::unique_ptr<Spike>& spike : spikes) {
 		//死んだ弾は処理しない
 		if (!spike->IsDead()) {
+
+#pragma region ボスの攻撃処理で使用されたとき
+			if (boss_->GetBossATKSpikeExplo()) {
+				//埋まっていく状態の敵をすべてコリジョンオフにして飛ばす
+				if (spike->IsStateFillUp()) {
+					spike->OnCollisionBossATK(Skipvelo);
+				}
+			}
+#pragma endregion
+
+
+
 			//座標と半径取得
 			Vector3 SPIKE = spike->GetmatWtranstate();
 			float S_wide = spike->GetWide();
@@ -199,11 +222,9 @@ void InGame::CollisionAboutSpike() {
 				player_->OnCollision();
 			}
 			else {
-				//プレイヤーの攻撃の爆破に巻き込まれた場合
-				float playerExplotionWide = player_->GetExplosionRadius();
-
+				
 				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる
-				if (player_->GetIsATKBossFlag() && CheckHitSphere(SPIKE, S_wide, PLAYER, playerExplotionWide) && spike->IsStateFillUp()) {
+				if (player_->GetIsATKBossFlag() && spike->IsStateFillUp()) {
 					spike->OnCollisionPlayerStump();
 				}
 			}
@@ -211,23 +232,25 @@ void InGame::CollisionAboutSpike() {
 
 
 #pragma region プレイヤービームと爆風
-			//	プレイヤー攻撃に当たる状態かチェック
-
+			
 			for (Leser* leser : player_->Getlesers()) {
+				//	プレイヤー攻撃に当たる状態かチェック
 				if (spike->GetIsCollisonOnPlayer()) {
 #pragma region ビーム
-					if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
-						//レーザーのwide取得
-						float beamWide = leser->GetLeserWide();
 
-						//ビームの終点取得
-						Vector3 beamEnd = leser->GetExplosionPos();
-						//高さを合わせる
-						beamEnd.y = SPIKE.y;
+					//レーザーのwide取得
+					float beamWide = leser->GetLeserWide();
+
+					//ビームの終点取得
+					Vector3 beamEnd = leser->GetExplosionPos();
+					//高さを合わせる
+					beamEnd.y = SPIKE.y;
 
 
-						//ビームに当たっているとき
-						if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
+					//ビームに当たっているとき
+					if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
+						//同じレーザーが新しく生成した棘と当たらないようにする処理
+						if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
 
 							leser->OnCollision(spike->GetIdentificationNum());
 
@@ -246,6 +269,7 @@ void InGame::CollisionAboutSpike() {
 
 
 							AddSpike(Newworld, Spike::State::kFalling, newVelo);
+							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
 
@@ -254,6 +278,7 @@ void InGame::CollisionAboutSpike() {
 							newVelo.x *= -1;
 
 							AddSpike(Newworld, Spike::State::kFalling, newVelo);
+							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
 							//死亡判定出す
@@ -261,9 +286,8 @@ void InGame::CollisionAboutSpike() {
 							//死んだので処理を流す
 							break;
 						}
+	
 					}
-#pragma endregion			
-
 					else {
 						//ビーム当たっていない
 						//爆風の範囲の場合
@@ -277,6 +301,9 @@ void InGame::CollisionAboutSpike() {
 						}
 #pragma endregion
 					}
+#pragma endregion			
+
+
 				}
 			}
 #pragma endregion
@@ -342,7 +369,7 @@ void InGame::CollisionAboutSpike() {
 
 #pragma region 壁
 			//壁に当たっていれば処理
-			if (map->IsHitWall(SPIKE, S_wide)) {
+			if (map->IsHitWallSpike(SPIKE, S_wide)) {
 				spike->OnCollisionWall();
 			}
 #pragma endregion
@@ -364,11 +391,21 @@ void InGame::CollisionAboutSpike() {
 			}
 #pragma endregion
 
+
+#pragma region ボスの攻撃で当たったかどうか
+			if (boss_->IsHitBossATK(SPIKE, S_wide)) {
+				spike->OnCollisionBossATKExplosion();
+			}
+#pragma endregion
 		}
 #pragma region ボス回復処理
 		//埋まり切りフラグがONの時回復
 		if (spike->GetCompleteFillUp()) {
 			boss_->OnCollisionHealing(spike->GetDamege());
+			//ボスが回復するときのエフェクトを生成
+			Heal* heal_ = new Heal();
+			heal_->Initalize({ 0.0f,-49.0f });
+			heals_.push_back(heal_);
 		}
 #pragma endregion
 

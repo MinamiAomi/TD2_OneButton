@@ -149,7 +149,7 @@ private:
 	//プレイヤーの位置記録
 	float PposY;
 	//目標の位置
-	float EposY = -31.0f;
+	float EposY = -25.0f;
 
 	//TODO ちゃんといじろう
 	//プレイヤーのHP
@@ -252,4 +252,6 @@ private://スペチャ追加分
 	bool isATKBoss_ = false;
 
 	float explosionRadius_ = 2.0f;
+
+	bool isCollisonActive = true;
 };

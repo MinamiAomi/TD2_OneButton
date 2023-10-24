@@ -112,6 +112,12 @@ public:
 	//ボスに攻撃を与えたときの処理
 	void OnCollisionExplotionBoss();
 
+
+	//ボスの攻撃に利用されたときのコリジョン
+	void OnCollisionBossATK(Vector3 velo);
+
+	//ボスの攻撃で爆破する
+	void OnCollisionBossATKExplosion();
 #pragma endregion
 
 
@@ -209,7 +215,7 @@ private:
 	int animationCount_ = 0;
 
 	//アニメーションの終わりカウント
-	const int maxAnimationCount = 60;
+	const int maxAnimationCount = 30;
 
 
 
@@ -245,9 +251,9 @@ private:
 	bool veloLeft_;
 
 	//爆風の時の初期速度
-	Vector3 exploVec_ = { 0.1f,0.0f,0.0f };
+	Vector3 exploVec_ = { 0.5f,0.0f,0.0f };
 
-	//吹っ飛ぶときの加算量
+	//吹っ飛ぶときの減算量
 	const float addVeloX_ = 1.0f / 60.0f;
 
 	//飛ぶ時間
@@ -264,4 +270,9 @@ private:
 
 	//ダメージ量
 	int damage_ = 1;
+
+
+	ToonModelInstance exploModel_;
+
+	Transform exploTrans_;
 };

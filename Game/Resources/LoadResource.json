@@ -14,6 +14,7 @@
         { "Name" : "Background",  "Path" : "Resources/Model/background/background.obj" }
     ],
     "Images" : [
-        { "Name" : "TitleLogo",       "Path" : "Resources/Image/titleLogo.png" } 
+        { "Name" : "TitleLogo",       "Path" : "Resources/Image/titleLogo.png" }, 
+        { "Name" : "Heal",       "Path" : "Resources/Image/Heal.png" } 
     ]
 }
