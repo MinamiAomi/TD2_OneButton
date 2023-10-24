@@ -22,11 +22,11 @@ private:
 	//テクスチャの位置
 	Transform model_world[5];
 	Vector2 model_move[5] = {
-		{-0.1f,0.0f},
+		{-0.15f,0.0f},
 		{-0.1f,0.1f},
-		{0.0f,0.1f},
+		{0.0f,0.15f},
 		{0.1f,0.1f},
-		{0.1f,0.0f},
+		{0.15f,0.0f},
 	};
 
 	int AnimeFrame_ = 0;

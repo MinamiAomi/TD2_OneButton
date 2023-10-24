@@ -38,7 +38,7 @@ void LeserDust::Update()
 	//アニメフレームを加算
 	AnimeFrame_ += 1;
 	//アニメフレームが規定値を超えたらフラグをオフにする
-	if (AnimeFrame_ >= 60.0f) {
+	if (AnimeFrame_ >= 45.0f) {
 		isAlive_ = false;
 	}
 }
