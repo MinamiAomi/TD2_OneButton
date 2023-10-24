@@ -341,6 +341,12 @@ void InGame::CollisionAboutSpike() {
 				Vector3 ExpPos = leser->GetExplosionPos();
 				float ExpWide = leser->GetExplotionRadius();
 				if (boss_->IsHitBoss(ExpPos, ExpWide)) {
+					//TODO : 判定が1フレーム以上あるので、今のままだとLeserDustがたくさん出てしまう
+					//レーザーの粒子を出す
+					/*LeserDust* leserDust = new LeserDust();
+					leserDust->Initalize(leser->GetExplosionPos().GetXY());
+					leserDusts_.emplace_back(leserDust);*/
+					
 					//中に処理
 				}
 #pragma endregion
