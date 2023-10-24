@@ -8,6 +8,7 @@
 #include "Core/DepthBuffer.h"
 #include "Bloom.h"
 #include "ToonRenderer.h"
+#include "TranslucentRenderer.h"
 #include "SpriteRenderer.h"
 #include "PostEffect.h"
 #include "Timer.h"
@@ -37,6 +38,7 @@ private:
     DepthBuffer mainDepthBuffer_;
 
     ToonRenderer toonRenderer_;
+    TranslucentRenderer translucentRenderer_;
     SpriteRenderer spriteRenderer_;
     Bloom bloom_;
     PostEffect postEffect_;

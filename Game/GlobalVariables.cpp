@@ -63,7 +63,6 @@ void GlobalVariables::Update() {
 
 
 	for (std::map<std::string, Group>::iterator itGroup = datas_.begin(); itGroup != datas_.end(); ++itGroup) {
-
 		// グループ名
 		const std::string& groupName = itGroup->first;
 
