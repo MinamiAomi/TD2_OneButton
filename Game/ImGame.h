@@ -13,7 +13,7 @@
 #include"Boss.h"
 #include "Background.h"
 #include"Limit.h"
-
+#include "SpeedEffect.h"
 #include "Heal.h"
 
 class InGame : public BaseScene {

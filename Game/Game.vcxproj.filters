@@ -94,6 +94,9 @@
     <Filter Include="Game\Limit">
       <UniqueIdentifier>{ca9d149d-5221-4110-8a82-4cc47e6d2865}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\SpeedEffect">
+      <UniqueIdentifier>{20a02fcb-69d6-4a32-b291-b23c6f0612d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -315,6 +318,9 @@
     <ClInclude Include="Limit.h">
       <Filter>Game\Limit</Filter>
     </ClInclude>
+    <ClInclude Include="SpeedEffect.h">
+      <Filter>Game\SpeedEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -512,6 +518,9 @@
     </ClCompile>
     <ClCompile Include="Limit.cpp">
       <Filter>Game\Limit</Filter>
+    </ClCompile>
+    <ClCompile Include="SpeedEffect.cpp">
+      <Filter>Game\SpeedEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
