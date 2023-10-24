@@ -6,12 +6,13 @@ Heal::~Heal() {}
 
 void Heal::Initalize(const Vector2& position)
 {
-	model_ = std::make_unique<ToonModelInstance>();
+	
 	world_.translate.x = position.x;
 	world_.translate.y = position.y;
 	world_.UpdateMatrix();
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	const char ModelName[] = "Heal";
+	model_ = std::make_unique<ToonModelInstance>();
 	model_->SetModel(resourceManager->FindModel(ModelName));
 	model_->SetWorldMatrix(world_.worldMatrix);
 	model_->SetPass(ToonModelInstance::Pass::Translucent);

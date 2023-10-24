@@ -3,11 +3,11 @@
 #include "Graphics/ToonModel.h"
 #include "Engine/Math/Transform.h"
 #include "Externals/ImGui/imgui.h"
-class Dust
+class LeserDust
 {
 public:
-	Dust();
-	~Dust();
+	LeserDust();
+	~LeserDust();
 
 	void Initalize(const Vector2& position);
 	void Update();
