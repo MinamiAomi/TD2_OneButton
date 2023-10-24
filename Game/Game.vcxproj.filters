@@ -492,9 +492,6 @@
     <ClCompile Include="Heal.cpp">
       <Filter>Game\Effect\Heal</Filter>
     </ClCompile>
-    <ClCompile Include="Background.cpp" />
-      <Filter>Game\Background</Filter>
-     </ClCompile>
     <ClCompile Include="Engine\Graphics\TranslucentRenderer.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
@@ -503,6 +500,9 @@
     </ClCompile>
     <ClCompile Include="BossSpike.cpp">
       <Filter>Game\BossSpike</Filter>
+    </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>Game\Background</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
