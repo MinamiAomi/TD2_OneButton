@@ -29,4 +29,9 @@ private:
 	Sprite clearTex_;
 	//座標
 	Transform clearTrans_;
+
+	//残りスコア
+	int limitScore_ = 0;
+	//ボブかどうか（0=false,1=true)
+	bool isBob_ = 0;
 };
