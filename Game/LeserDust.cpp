@@ -22,7 +22,8 @@ void LeserDust::Initalize(const Vector2& position)
 
 void LeserDust::Update()
 {
-	//AnimeFrame_ += 1;
+	world_.translate.y += 0.1f;
+	AnimeFrame_ += 1;
 	world_.UpdateMatrix();
 	model_->SetWorldMatrix(world_.worldMatrix);
 	if (AnimeFrame_ >= 60.0f) { 

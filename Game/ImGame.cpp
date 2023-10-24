@@ -60,10 +60,6 @@ void InGame::OnInitialize() {
 	player_->Initialize(map->GetPlayerPosition());
 	player_->SetBossY(&boss_->GetBossYLine());
 
-	LeserDust* leserDust = new LeserDust();
-	leserDust->Initalize({ 0.0f,-49.0f });
-	leserDusts_.emplace_back(leserDust);
-
 	limit_ = std::make_unique<Limit>();
 	limit_->Initialize();
 
@@ -97,6 +93,13 @@ void InGame::OnUpdate() {
 	//フラグが立っていたら削除
 	heals_.remove_if([](std::unique_ptr<Heal>& Heal_) {
 		if (Heal_->GetisAlive() == false) {
+			return true;
+		}
+		return false;
+		});
+
+	leserDusts_.remove_if([](std::unique_ptr<LeserDust>& leserDust_) {
+		if (leserDust_->GetisAlive() == false) {
 			return true;
 		}
 		return false;
@@ -271,6 +274,11 @@ void InGame::CollisionAboutSpike() {
 
 					//ビームに当たっているとき
 					if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
+						//レーザーの粒子
+						LeserDust* leserDust = new LeserDust();
+						leserDust->Initalize(leser->GetExplosionPos().GetXY());
+						leserDusts_.emplace_back(leserDust);
+
 						//同じレーザーが新しく生成した棘と当たらないようにする処理
 						if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
 

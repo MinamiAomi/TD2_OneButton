@@ -13,6 +13,8 @@ public:
 	void Update();
 	//void Draw();
 
+	bool GetisAlive() { return isAlive_; }
+
 private:
 	//モデルのインスタンス
 	std::unique_ptr<ToonModelInstance> model_;
