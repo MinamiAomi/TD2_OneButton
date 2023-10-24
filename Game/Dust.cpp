@@ -25,6 +25,11 @@ void Dust::Update()
 	if (AnimeFrame_ >= 60.0f) {
 		isAlive_ = false;
 	}
+#ifdef _DEBUG
+	ImGui::Begin("Dust");
+	ImGui::SliderFloat2("Pos", &world_.translate.x, -50.0f, 50.0f);
+	ImGui::End();
+#endif
 }
 
 //void Dust::Draw(){}
