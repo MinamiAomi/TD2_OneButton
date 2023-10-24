@@ -21,7 +21,7 @@
         { "Name" : "limit", 	  "Path" : "Resources/Image/limit.png" },
 	    { "Name" : "uvChecker",   "Path" : "Resources/uvChecker.png" },
 	    { "Name" : "number",  	  "Path" : "Resources/Image/number.png", "Inter" : "Point", "Exten" : "Wrap"  },
-        { "Name" : "resultImage1","Path" : "Resources/Image/resultImage1.png"}
-	
+        { "Name" : "clearBackGround","Path" : "Resources/Image/clearBackGround.png" },
+        { "Name" : "youWin",      "Path" : "Resources/Image/youWin.png", "Inter" : "Point", "Exten" : "Wrap" }
     ]
 }

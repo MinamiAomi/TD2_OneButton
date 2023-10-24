@@ -1,131 +1,150 @@
 #include "ClearLimit.h"
 #include "Graphics/ResourceManager.h"
 
-void ClearLimit::Initialize() {
+void ClearLimit::Initialize(uint32_t limitScore) {
 
-	const char textureName[] = "number";
-	ResourceManager* resourceManager = ResourceManager::GetInstance();
+    const char textureName[] = "number";
+    ResourceManager* resourceManager = ResourceManager::GetInstance();
 
-	Vector2 texScale = { texScale_,texScale_ };
+    Vector2 texScale = { texScale_,texScale_ };
 
-	//画像の初期化
-	for (int i = 0; i < digitNum; i++) {
-		numSprite_[i].spirte = std::make_unique<Sprite>();
-		numSprite_[i].spirte->SetTexture(resourceManager->FindTexture(textureName));
+    // 画像の初期化
+    for (int i = 0; i < digitNum; i++) {
+        numSprite_[i].sprite = std::make_unique<Sprite>();
+        numSprite_[i].sprite->SetTexture(resourceManager->FindTexture(textureName));
 
-		numSprite_[i].spirte->SetAnchor({ 0.5f,0.5f });
-		numSprite_[i].spirte->SetScale(texScale);
-		numSprite_[i].spirte->SetIsActive(true);
-	}
+        numSprite_[i].sprite->SetAnchor({ 0.5f,0.5f });
+        numSprite_[i].sprite->SetScale(texScale);
+        numSprite_[i].sprite->SetIsActive(true);
+        numSprite_[i].sprite->SetColor({ 0.0f,0.0f,0.0f,1.0f });
+    }
 
-	const char meterName[] = "limit";
+    const char meterName[] = "limit";
 
-	meterSprite_.spirte = std::make_unique<Sprite>();
-	meterSprite_.spirte->SetTexture(resourceManager->FindTexture(meterName));
-	meterSprite_.spirte->SetAnchor({ 0.5f,0.5f });
-	meterSprite_.spirte->SetScale(mScale_);
-	meterSprite_.spirte->SetTexcoordRect({ 0.0f,0.0f }, { 150.0f,200.0f });
-	meterSprite_.spirte->SetIsActive(true);
+    meterSprite_.sprite = std::make_unique<Sprite>();
+    meterSprite_.sprite->SetTexture(resourceManager->FindTexture(meterName));
+    meterSprite_.sprite->SetAnchor({ 0.5f,0.5f });
+    meterSprite_.sprite->SetScale(mScale_);
+    meterSprite_.sprite->SetTexcoordRect({ 0.0f,0.0f }, { 150.0f,200.0f });
+    meterSprite_.sprite->SetIsActive(true);
+    meterSprite_.sprite->SetColor({ 0.0f,0.0f,0.0f,1.0f });
 
+    limit_ = limitScore;
 }
 
-void ClearLimit::Update(int limit) {
+void ClearLimit::Update() {
+    // スコアの表示に動きをつける
+    ScoreAnimation();
+    // 桁の調整を行う
+    DigitAdjustment();
+}
 
-	if (limit != 0) {
+void ClearLimit::ScoreAnimation() {
 
-		//一桁目取得
-		num_[0] = limit % 10;
+    // tの値を増やしクランプする
+    if (limitEasingt_ < 1.0f) {
+        limitEasingt_ += 0.01f;
+    }
+    else if (limitEasingt_ > 1.0f) {
+        limitEasingt_ = 1.0f;
+    }
 
-		//二桁目の取得
-		num_[1] = limit - num_[0];
+    displayLimitMeter_ = uint32_t(Math::Lerp(limitEasingt_, 0, float(limit_)));
+}
 
+void ClearLimit::DigitAdjustment() {
 
-		int count = 0;
-		while (true) {
-			count++;
-			num_[1] -= 10;
-			//二桁目の数字を作成
-			if (num_[1] == 0) {
+    if (displayLimitMeter_ != 0) {
+        // 一桁目取得
+        num_[0] = displayLimitMeter_ % 10;
+        // 二桁目の取得
+        num_[1] = displayLimitMeter_ - num_[0];
 
-				//三桁目がある場合
-				if (count >= 10) {
-					//二桁目の数字を入力
-					num_[1] = count % 10;
-					numSprite_[1].spirte->SetIsActive(true);
-					//値を代入
-					num_[2] = count;
-					//初期化
-					count = 0;
-					while (true) {
-						count++;
-						num_[2] -= 10;
-						//三桁目の数字を取得
-						if (num_[2] == 0) {
-							num_[2] = count;
-							numSprite_[2].spirte->SetIsActive(true);
+        uint32_t count = 0;
+        while (true) {
+            count++;
+            num_[1] -= 10;
+            // 二桁目の数字を作成
+            if (num_[1] == 0) {
 
-							numSprite_[0].position = center_;
-							numSprite_[0].position.x += texScale_ / 2.0f;
+                // 三桁目がある場合
+                if (count >= 10) {
+                    // 二桁目の数字を入力
+                    num_[1] = count % 10;
+                    numSprite_[1].sprite->SetIsActive(true);
+                    // 値を代入
+                    num_[2] = count;
+                    // 初期化
+                    count = 0;
+                    while (true) {
+                        count++;
+                        num_[2] -= 10;
+                        // 三桁目の数字を取得
+                        if (num_[2] == 0) {
+                            num_[2] = count;
+                            numSprite_[2].sprite->SetIsActive(true);
 
-							numSprite_[1].position = center_;
+                            numSprite_[0].position = center_;
+                            numSprite_[0].position.x += texScale_ / 2.0f;
 
-							numSprite_[0].position = center_;
-							numSprite_[0].position.x -= texScale_ / 2.0f;
+                            numSprite_[1].position = center_;
 
-							break;
-						}
-					}
-				}
-				else {//ない場合
-					num_[1] = count;
-					numSprite_[1].spirte->SetIsActive(true);
-					numSprite_[2].spirte->SetIsActive(false);
+                            numSprite_[0].position = center_;
+                            numSprite_[0].position.x -= texScale_ / 2.0f;
 
-					//座標処理
-					numSprite_[0].position = center_;
-					numSprite_[0].position.x += texScale_ / 4.0f;
+                            break;
+                        }
+                    }
+                }
+                else {// ない場合
+                    num_[1] = count;
+                    numSprite_[1].sprite->SetIsActive(true);
+                    numSprite_[2].sprite->SetIsActive(false);
 
-					numSprite_[1].position = center_;
-					numSprite_[1].position.x -= texScale_ / 4.0f;
+                    // 座標処理
+                    numSprite_[0].position = center_;
+                    numSprite_[0].position.x += texScale_ / 4.0f;
 
-					break;
-				}
+                    numSprite_[1].position = center_;
+                    numSprite_[1].position.x -= texScale_ / 4.0f;
 
-
-			}//以下一桁の場合
-			else if (num_[1] < 0.0f) {
-
-				//数字を中心点に
-				numSprite_[0].position = center_;
-
-				numSprite_[1].spirte->SetIsActive(false);
-				numSprite_[2].spirte->SetIsActive(false);
-
-
-				break;
-			}
-		}
-
-	}
-	else {
-		num_[0] = 0;
-		//数字を中心点に
-		numSprite_[0].position = center_;
-
-		numSprite_[1].spirte->SetIsActive(false);
-		numSprite_[2].spirte->SetIsActive(false);
-
-	}
+                    break;
+                }
 
 
-	for (int i = 0; i < digitNum; i++) {
-		numSprite_[i].spirte->SetPosition(numSprite_[i].position);
-		numSprite_[i].spirte->SetTexcoordRect({ texSize * num_[i],0.0f }, { texSize,texSize });
-	}
+            }// 以下一桁の場合
+            else if (num_[1] < 0.0f) {
 
-	//座標設定
-	meterSprite_.position = numSprite_[0].position;
-	meterSprite_.position.x = numSprite_[0].position.x + texScale_ / 2.0f;
-	meterSprite_.position += mPos_;
-	meterSprite_.spirte->SetPosition(meterSprite_.position);
+                // 数字を中心点に
+                numSprite_[0].position = center_;
+
+                numSprite_[1].sprite->SetIsActive(false);
+                numSprite_[2].sprite->SetIsActive(false);
+
+
+                break;
+            }
+        }
+
+    }
+    else {
+        num_[0] = 0;
+        // 数字を中心点に
+        numSprite_[0].position = center_;
+
+        numSprite_[1].sprite->SetIsActive(false);
+        numSprite_[2].sprite->SetIsActive(false);
+
+    }
+
+    for (int i = 0; i < digitNum; i++) {
+        numSprite_[i].sprite->SetPosition(numSprite_[i].position);
+        numSprite_[i].sprite->SetTexcoordRect({ texSize * num_[i],0.0f }, { texSize,texSize });
+    }
+
+    // 座標設定
+    meterSprite_.position = numSprite_[0].position;
+    meterSprite_.position.x = numSprite_[0].position.x + texScale_ / 2.0f;
+    meterSprite_.position += mPos_;
+    meterSprite_.sprite->SetPosition(meterSprite_.position);
 }
