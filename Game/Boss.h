@@ -158,20 +158,20 @@ private:
 	//==WAVE1==
 	const Vector2 wave1Scale = { setUpScale.y,2.0f };
 
-	//攻撃構える処理１のアニメーション加算地
-	const float addWave1Animation_ = 1.0f / 30.0f;
+	//攻撃構える処理2のアニメーション加算地
+	const float addWave1Animation_ = 1.0f / 45.0f;
 
 	//==WAVE2==
 
-	//攻撃構える処理１のアニメーション加算地
-	const float addWave2Animation_ = 1.0f / 15.0f;
+	//攻撃構える処理3のアニメーション加算地
+	const float addWave2Animation_ = 1.0f / 10.0f;
 
 	//==WAVE3==
 	const float addWave3Animation_ = 1.0f / 60.0f;
 
 	//==Revert==
 	const Vector2 revertScale = { wave1Scale.y,1.0f };
-	const float addRevertAnimation_ = 1.0f / 60.0f;
+	const float addRevertAnimation_ = 1.0f / 30.0f;
 
 #pragma endregion
 

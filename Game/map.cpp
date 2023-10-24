@@ -65,7 +65,7 @@ void Map::ValueSetting() {
 
 	std::string keyMapAcceNum = "mapMoveAcceNum : マップの加速する倍数";
 	globaV->AddItem(groupName_, keyMapAcceNum, mapAcceNum_);
-	mapAcceNum_ = globaV->GetFloatvalue(groupName_, keyVelocityMoveMap);
+	mapAcceNum_ = globaV->GetFloatvalue(groupName_, keyMapAcceNum);
 }
 
 
