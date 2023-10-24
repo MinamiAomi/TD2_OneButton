@@ -16,10 +16,10 @@ public:
 	bool GetisAlive() { return isAlive_; }
 
 private:
-	//スプライトのインスタンス
+	//モデルのインスタンス
 	std::unique_ptr<ToonModelInstance> model_;
 	//テクスチャの位置
-	Transform TexPos_;
+	Transform world_;
 
 	int AnimeFrame_ = 0;
 
