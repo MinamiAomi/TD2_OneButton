@@ -321,6 +321,9 @@
     <ClInclude Include="SpeedEffect.h">
       <Filter>Game\SpeedEffect</Filter>
     </ClInclude>
+    <ClInclude Include="TitlePlayer.h">
+      <Filter>Game\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">

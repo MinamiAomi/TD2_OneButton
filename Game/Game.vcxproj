@@ -104,6 +104,7 @@
     <ClInclude Include="Spike.h" />
     <ClInclude Include="StageSerect.h" />
     <ClInclude Include="TitleLogo.h" />
+    <ClInclude Include="TitlePlayer.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="SpeedEffect.h" />
   </ItemGroup>

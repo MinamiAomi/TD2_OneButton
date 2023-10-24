@@ -6,6 +6,7 @@
 #include "Scene/SceneManager.h"
 #include "TitleScene.h"
 #include "ImGame.h"
+#include "Clear.h"
 #include "Graphics/ResourceManager.h"
 #include "Externals/nlohmann/json.hpp"
 #include "Graphics/Sprite.h"
