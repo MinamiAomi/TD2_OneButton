@@ -42,7 +42,12 @@ void Map::Initialize() {
 				bossW_.UpdateMatrix();
 			}
 		}
-	}	
+	}
+
+	//マップの一番上のポジション
+	mapEndTrans_.parent = &mapWorld_;
+	mapEndTrans_.translate = { 0.0f,0.0f,0.0f };
+	mapEndTrans_.UpdateMatrix();
 #pragma endregion
 
 	//パラメータのうけとり

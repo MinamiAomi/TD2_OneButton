@@ -11,7 +11,12 @@
 #include "Graphics/Sprite.h"
 #include "Graphics/ToonModel.h"
 
+#include"GlobalVariables.h"
+
 void OneButton::OnInitialize() {
+    GlobalVariables::GetInstance()->LoadFiles();
+
+
     SceneManager* sceneManager = SceneManager::GetInstance();
     //シーン設定
     sceneManager->ChangeScene<InGame>();

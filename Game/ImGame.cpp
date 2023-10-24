@@ -1,5 +1,6 @@
 #include "ImGame.h"
 
+#include"Engine/Scene/SceneManager.h"
 #include "Externals/ImGui/imgui.h"
 #include "Engine/Graphics/RenderManager.h"
 #include "Math/Transform.h"
@@ -8,8 +9,7 @@
 
 void InGame::OnInitialize() {
 
-	GlobalVariables::GetInstance()->LoadFiles();
-
+	
 	input_ = Input::GetInstance();
 
 	RenderManager::GetInstance()->SetCamera(camera_);

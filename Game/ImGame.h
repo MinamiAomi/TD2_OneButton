@@ -1,6 +1,6 @@
 #pragma once
 #include"Engine/Scene/BaseScene.h"
-#include"Engine/Scene/SceneManager.h"
+
 #include "Engine/Graphics/ToonModel.h"
 #include "Engine/Graphics/Sprite.h"
 #include "Math/Camera.h"
