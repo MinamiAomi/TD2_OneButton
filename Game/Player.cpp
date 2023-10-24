@@ -326,7 +326,8 @@ void Player::OnCollisionBoss() {
 
 void Player::BehaviorRootInitalize() {
 	behavior_ = Behavior::kRoot;
-	DropFlag = false;
+	DropFlag = false; 
+	DropCount = 0;
 }
 
 void Player::BehaviorRootUpdate() {
@@ -338,6 +339,13 @@ void Player::BehaviorRootUpdate() {
 	//スペースを押すとジャンプする
 	if (input_->IsKeyRelease(DIK_SPACE)) {
 		behaviorRequest_ = Behavior::kJump;
+	}
+	else if (input_->IsKeyPressed(DIK_SPACE) != 0) {
+		//長押ししているとプラスされる
+		DropCount++;
+		if (DropCount == kDropAnime_) {
+			behaviorRequest_ = Behavior::kDrop;
+		}
 	}
 }
 
