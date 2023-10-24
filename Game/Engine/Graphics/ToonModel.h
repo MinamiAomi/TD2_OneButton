@@ -76,7 +76,7 @@ private:
     float alpha_ = 1.0f;
     Vector3 outlineColor_;
     float outlineWidth_ = {0.02f};
-    bool useOutline_ = true;
+    bool useOutline_ = false;
     bool isLighting_ = true;
     bool isActive_ = true;
     Pass pass_ = Pass::Opaque;
