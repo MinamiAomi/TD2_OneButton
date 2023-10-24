@@ -452,7 +452,7 @@ void InGame::SceneChange() {
 	//1キーでクリア
 	if (input_->IsKeyTrigger(DIK_1)) {
 
-		const char DataName[] = "data";
+		//const char DataName[] = "data";
 
 
 		//インスタンス取得
