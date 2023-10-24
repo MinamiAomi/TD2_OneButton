@@ -98,7 +98,7 @@ private:
 	//ボスクラス
 	std::unique_ptr<Boss>boss_ = nullptr;
 
-	std::list<Heal*> heals_;
+	std::list<std::unique_ptr<Heal>> heals_;
 
 	//リミットクラス
 	std::unique_ptr<Limit>limit_ = nullptr;
