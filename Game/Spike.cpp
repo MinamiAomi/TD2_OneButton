@@ -402,9 +402,11 @@ void Spike::OnCollisionBossATK(Vector3 velo) {
 	noCollisionCount_ = 600;
 }
 void Spike::OnCollisionBossATKExplosion() {
-	state_ =kExplosion;
-	ckeckStateChange_ = true;
-
+	if (!IsCollisionBossSpikeATK_) {
+		IsCollisionBossSpikeATK_ = true;
+		state_ = kExplosion;
+		ckeckStateChange_ = true;
+	}
 }
 #pragma endregion
 

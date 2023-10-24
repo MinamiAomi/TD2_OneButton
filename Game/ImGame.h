@@ -34,6 +34,10 @@ public:
 	/// </summary>
 	void SceneChange();
 
+	/// <summary>
+	/// 残りのlimit計測
+	/// </summary>
+	void MapLimit();
 
 	/// <summary>
 	/// 死亡判定

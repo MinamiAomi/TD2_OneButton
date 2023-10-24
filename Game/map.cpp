@@ -100,6 +100,7 @@ void Map::Update() {
 	hitsWallX_.x = Wall_min_.worldMatrix.m[3][0];
 	hitsWallX_.y = Wall_max_.worldMatrix.m[3][0];
 
+	mapEndTrans_.UpdateMatrix();
 }
 
 

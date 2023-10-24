@@ -98,6 +98,10 @@ void InGame::OnUpdate() {
 
 	//当たり判定チェック
 	GetAllCollisions();
+
+	//残りの距離取得
+	MapLimit();
+
 	//死亡チェック
 	CheckDead();
 
@@ -450,6 +454,27 @@ void InGame::SceneChange() {
 		sceneManager->ChangeScene<Clear>();
 
 	}
+}
+
+void InGame::MapLimit() {
+	float limitY= map->GetEndTrans().worldMatrix.m[3][1];
+
+	float bossY = boss_->GetBossYLine();
+
+	//残り計算（42は棘の終点が画面上に来た時にぴったり0になる数値
+	float dis = limitY - bossY - 42;
+
+	//0以下は表示する必要なし
+	if (dis <= 0.0f) {
+		dis = 0;
+	}
+
+#ifdef _DEBUG
+	ImGui::Begin("limit");
+	ImGui::Text("limit : %4.1f", dis);
+	ImGui::End();
+#endif // _DEBUG
+
 }
 
 //終了処理
