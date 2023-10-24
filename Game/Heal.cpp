@@ -30,7 +30,7 @@ void Heal::Update(){
 	}
 #ifdef _DEBUG
 	ImGui::Begin("Heal");
-	ImGui::SliderFloat2("Pos", &TexPos_.translate.x,-50.0f,50.0f);
+	ImGui::SliderFloat2("Pos", &world_.translate.x,-50.0f,50.0f);
 	ImGui::End();
 #endif
 }
