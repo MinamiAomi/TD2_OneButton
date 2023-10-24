@@ -178,6 +178,7 @@ void InGame::GetAllCollisions() {
 #pragma region プレイヤーとボス
 	if (boss_->IsHitBoss(PLAYER, P_wide)) {
 		player_->OnCollisionBoss();
+		map->SetMapMoveAcceleration(mapAcceSecond_);
 	}
 #pragma endregion
 
@@ -223,6 +224,7 @@ void InGame::CollisionAboutSpike() {
 			if (spike->GetIsCollisonOnPlayer() && CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
 				spike->OnCollisionPlayer();
 				player_->OnCollision();
+				map->SetMapMoveAcceleration(mapAcceSecond_);
 			}
 			else {
 				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる

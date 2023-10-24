@@ -1,6 +1,7 @@
 #include"Limit.h"
 
 #include "Graphics/ResourceManager.h"
+#include"Externals/ImGui/imgui.h"
 
 void Limit::Initialize() {
 	
@@ -24,6 +25,13 @@ void Limit::Initialize() {
 }
 
 void Limit::Update(int limit) {
+
+#ifdef _DEBUG
+	ImGui::Begin("limit");
+	ImGui::DragFloat2("pos", &center_.x);
+	ImGui::End();
+#endif // _DEBUG
+
 
 	if (limit != 0) {
 

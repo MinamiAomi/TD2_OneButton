@@ -175,7 +175,7 @@ private:
 	bool isMoveAcceleration_ = false;
 
 	//マップの加算量
-	float mapAcceNum_ = 2.0f;
+	float mapAcceNum_ = 10.0f;
 
 	//移動する時間
 	float moveSeconds_;

@@ -24,7 +24,7 @@ private:
 	
 
 	//中心座標
-	const Vector2 center_= { 270.0f,500.0f};
+	Vector2 center_= { 270.0f,365.0f};
 	
 	//各桁の数字
 	int num_[3] = { 0,0,0 };
