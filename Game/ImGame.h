@@ -15,6 +15,7 @@
 #include"Limit.h"
 #include "SpeedEffect.h"
 #include "Heal.h"
+#include "LeserDust.h"
 
 class InGame : public BaseScene {
 public:
@@ -99,7 +100,11 @@ private:
 	//ボスクラス
 	std::unique_ptr<Boss>boss_ = nullptr;
 
+	//エフェクト
+	//ボスの回復
 	std::list<std::unique_ptr<Heal>> heals_;
+	//レーザーとボスが当たった時
+	std::list<std::unique_ptr<LeserDust>> leserDusts_;
 
 	//リミットクラス
 	std::unique_ptr<Limit>limit_ = nullptr;

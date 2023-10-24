@@ -1,16 +1,17 @@
-#include "Dust.h"
+#include "LeserDust.h"
 #include "Graphics/ResourceManager.h"
 
-Dust::Dust(){}
-Dust::~Dust(){}
+LeserDust::LeserDust(){}
+LeserDust::~LeserDust(){}
 
-void Dust::Initalize(const Vector2& position)
+void LeserDust::Initalize(const Vector2& position)
 {
 	world_.translate.x = position.x;
 	world_.translate.y = position.y;
 	world_.UpdateMatrix();
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
-	const char ModelName[] = "Heal";
+	const char ModelName[] = "Dust";
+	model_ = std::make_unique<ToonModelInstance>();
 	model_->SetModel(resourceManager->FindModel(ModelName));
 	model_->SetWorldMatrix(world_.worldMatrix);
 	model_->SetPass(ToonModelInstance::Pass::Translucent);
@@ -19,10 +20,12 @@ void Dust::Initalize(const Vector2& position)
 	AnimeFrame_ = 0;
 }
 
-void Dust::Update()
+void LeserDust::Update()
 {
-	AnimeFrame_ += 1;
-	if (AnimeFrame_ >= 60.0f) {
+	//AnimeFrame_ += 1;
+	world_.UpdateMatrix();
+	model_->SetWorldMatrix(world_.worldMatrix);
+	if (AnimeFrame_ >= 60.0f) { 
 		isAlive_ = false;
 	}
 #ifdef _DEBUG

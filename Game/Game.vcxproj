@@ -46,7 +46,8 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BossSpike.h" />
     <ClInclude Include="Clear.h" />
-    <ClInclude Include="Dust.h" />
+    <ClInclude Include="ClearLimit.h" />
+    <ClInclude Include="LeserDust.h" />
     <ClInclude Include="Engine\Application\Game.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
     <ClInclude Include="Engine\Engine.h" />
@@ -144,7 +145,8 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="BossSpike.cpp" />
     <ClCompile Include="Clear.cpp" />
-    <ClCompile Include="Dust.cpp" />
+    <ClCompile Include="ClearLimit.cpp" />
+    <ClCompile Include="LeserDust.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Graphics\Core\ColorBuffer.cpp" />

@@ -321,7 +321,7 @@
     <ClInclude Include="Engine\Graphics\TranslucentRenderer.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Dust.h">
+    <ClInclude Include="LeserDust.h">
       <Filter>Game\Effect\Dust</Filter>
     </ClInclude>
     <ClInclude Include="BossSpike.h">
@@ -338,6 +338,9 @@
     </ClInclude>
     <ClInclude Include="InGame2.h">
       <Filter>Game\Scene\InGame2</Filter>
+    </ClInclude>
+    <ClInclude Include="ClearLimit.h">
+      <Filter>Game\Limit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -525,7 +528,7 @@
     <ClCompile Include="Engine\Graphics\TranslucentRenderer.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Dust.cpp">
+    <ClCompile Include="LeserDust.cpp">
       <Filter>Game\Effect\Dust</Filter>
     </ClCompile>
     <ClCompile Include="BossSpike.cpp">
@@ -540,11 +543,10 @@
     <ClCompile Include="SpeedEffect.cpp">
       <Filter>Game\SpeedEffect</Filter>
     </ClCompile>
-    <ClCompile Include="TitlePlayer.cpp">
-      <Filter>Game\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="InGame2.cpp">
-      <Filter>Game\Scene\InGame2</Filter>
+    <ClCompile Include="InGame2.cpp" />
+    <ClCompile Include="TitlePlayer.cpp" />
+    <ClCompile Include="ClearLimit.cpp">
+      <Filter>Game\Limit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

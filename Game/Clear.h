@@ -6,6 +6,8 @@
 #include"Engine/Graphics/Sprite.h"
 #include"Engine/Math/Transform.h"
 
+#include"ClearLimit.h"
+
 #include<memory>
 
 
@@ -34,4 +36,7 @@ private:
 	int limitScore_ = 0;
 	//ボブかどうか（0=false,1=true)
 	bool isBob_ = 0;
+
+	//リミットクラス
+	std::unique_ptr<ClearLimit>clearLimit_ = nullptr;
 };

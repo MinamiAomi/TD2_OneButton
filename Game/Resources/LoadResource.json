@@ -13,13 +13,15 @@
         { "Name" : "Spike",       "Path" : "Resources/Model/spike/spike.obj" },    
         { "Name" : "Background",  "Path" : "Resources/Model/background/background.obj" },
         { "Name" : "Heal",        "Path" : "Resources/Model/Effects/Heal/Heal.obj" },
+        { "Name" : "Dust",        "Path" : "Resources/Model/Effects/Dust/Dust.obj" },
         { "Name" : "Pole",        "Path" : "Resources/Model/Pole/Pole.obj" } 
     ],
     "Images" : [
         { "Name" : "TitleLogo",   "Path" : "Resources/Image/titleLogo.png"},
         { "Name" : "limit", 	  "Path" : "Resources/Image/limit.png" },
 	    { "Name" : "uvChecker",   "Path" : "Resources/uvChecker.png" },
-	    { "Name" : "number",  	  "Path" : "Resources/Image/number.png", "Inter" : "Point", "Exten" : "Wrap"  }
+	    { "Name" : "number",  	  "Path" : "Resources/Image/number.png", "Inter" : "Point", "Exten" : "Wrap"  },
+        { "Name" : "resultImage1","Path" : "Resources/Image/resultImage1.png"}
 	
     ]
 }
