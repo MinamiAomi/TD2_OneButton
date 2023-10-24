@@ -16,7 +16,7 @@
     ],
     "Images" : [
         { "Name" : "TitleLogo", "Path" : "Resources/Image/titleLogo.png" },
-        { "Name" : "Heal",      "Path" : "Resources/Image/Heal.png" } ,
+       
 	{ "Name" : "uvChecker", "Path" : "Resources/uvChecker.png" },
 	{ "Name" : "number",  	"Path" : "Resources/Image/number.png" }
     ]
