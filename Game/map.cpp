@@ -42,7 +42,12 @@ void Map::Initialize() {
 				bossW_.UpdateMatrix();
 			}
 		}
-	}	
+	}
+
+	//マップの一番上のポジション
+	mapEndTrans_.parent = &mapWorld_;
+	mapEndTrans_.translate = { 0.0f,0.0f,0.0f };
+	mapEndTrans_.UpdateMatrix();
 #pragma endregion
 
 	//パラメータのうけとり
@@ -57,6 +62,10 @@ void Map::ValueSetting() {
 
 	globaV->AddItem(groupName_, keyVelocityMoveMap, moveMapNum_);
 	moveMapNum_ = globaV->GetFloatvalue(groupName_, keyVelocityMoveMap);
+
+	std::string keyMapAcceNum = "mapMoveAcceNum : マップの加速する倍数";
+	globaV->AddItem(groupName_, keyMapAcceNum, mapAcceNum_);
+	mapAcceNum_ = globaV->GetFloatvalue(groupName_, keyMapAcceNum);
 }
 
 
@@ -74,6 +83,10 @@ void Map::Update() {
 		//加速処理を行っているか否か
 		if (isMoveAcceleration_) {
 			//行っている場合
+			if (moveSeconds_-- <= 0.0f) {
+				isMoveAcceleration_ = false;
+			}
+
 
 			//マップ移動
 			mapWorld_.translate.y -= moveMapNum_ * mapAcceNum_;
@@ -95,6 +108,7 @@ void Map::Update() {
 	hitsWallX_.x = Wall_min_.worldMatrix.m[3][0];
 	hitsWallX_.y = Wall_max_.worldMatrix.m[3][0];
 
+	mapEndTrans_.UpdateMatrix();
 }
 
 
@@ -114,6 +128,23 @@ bool Map::IsHitWall(const Vector3& playerpos,const float& wide) {
 		return true;
 	}
 	
+
+	//外に出ていなければfalse
+	return false;
+}
+
+bool Map::IsHitWallSpike(const Vector3& playerpos, const float& wide) {
+
+	//壁の左に当たっている場合true
+	if (playerpos.x + wide < hitsWallX_.x) {
+		return true;
+	}
+
+	//壁の右に当たっている場合true
+	if (playerpos.x - wide > hitsWallX_.y) {
+		return true;
+	}
+
 
 	//外に出ていなければfalse
 	return false;

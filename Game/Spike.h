@@ -6,7 +6,7 @@
 
 class Spike {
 public:
-	
+
 
 	/// <summary>
 	/// 初期化
@@ -15,13 +15,13 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="State">状態</param>
 	/// <param name="velo">移動ベクトル</param>
-	void Initialize(int num,Transform world,const float*bossYLine, int State=kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
+	void Initialize(int num, Transform world, const float* bossYLine,int DMG=1, int State = kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
 
 
 	void Update();
 
-	
-	
+
+
 #pragma region ゲッター
 	//transform取得
 	Transform GetWorld() const { return world_; }
@@ -66,6 +66,22 @@ public:
 			return false;
 		}
 	}
+
+	bool IsStateFillUp() {
+		if (state_ == kFillUp) {
+			return true;
+		}
+		return false;
+	}
+
+	const bool IsDamageProcessing() {
+		if (isExplosion_ && !isApplicationDamage) {
+			return true;
+		}
+		return false;
+	}
+
+	const int GetDamege() { return damage_; }
 #pragma endregion
 
 #pragma region セッター
@@ -90,12 +106,23 @@ public:
 	//プレイヤーのため攻撃に当たった時
 	void OnCollisionPlayerStump();
 
+	//壁との当たり判定
 	void OnCollisionWall();
+
+	//ボスに攻撃を与えたときの処理
+	void OnCollisionExplotionBoss();
+
+
+	//ボスの攻撃に利用されたときのコリジョン
+	void OnCollisionBossATK(Vector3 velo);
+
+	//ボスの攻撃で爆破する
+	void OnCollisionBossATKExplosion();
 #pragma endregion
 
 
 	enum State {
-		
+
 		kStay,			//木についている
 		kFalling,		//落ちる		
 		kFillUp,		//埋まる
@@ -151,12 +178,12 @@ private://各状態の初期化と更新処理
 	void FlyAway_Update();
 #pragma endregion
 
-	
 
-	
-	
+
+
+
 private:
-	
+
 	//管理番号
 	int spikeNum_ = 0;
 
@@ -181,14 +208,14 @@ private:
 	const float gensoku_ = 1.0f / 1000.0f;
 
 	//棘にかかる重力
-	float gravity = -0.1f;
+	float gravity = -0.08f;
 
 
 	//爆破アニメーションのカウント
 	int animationCount_ = 0;
 
 	//アニメーションの終わりカウント
-	const int maxAnimationCount = 60;
+	const int maxAnimationCount = 30;
 
 
 
@@ -210,7 +237,7 @@ private:
 	//ボスに埋まり切るかのカウント
 	int fillUpCount_;
 	//埋まるまでのマックス
-	const int maxFillUpCount_ = 6000;
+	const int maxFillUpCount_ = 60*3;
 	//埋まり切ったかのフラグ
 	bool CompleteFillUp_ = false;
 
@@ -218,27 +245,38 @@ private:
 	const float* BossYLine_;
 #pragma endregion
 
-	
+
 #pragma region 吹き飛ぶ処理
 	//飛ぶ向きが左か否か
 	bool veloLeft_;
 
 	//爆風の時の初期速度
-	Vector3 exploVec_ = { 0.1f,0.0f,0.0f };
+	Vector3 exploVec_ = { 0.5f,0.0f,0.0f };
 
-	//吹っ飛ぶときの加算量
+	//吹っ飛ぶときの減算量
 	const float addVeloX_ = 1.0f / 60.0f;
-	
+
 	//飛ぶ時間
 	float flyAwayCount_ = 0;
 	//飛ぶ瞬間の最大カウント
 	const float maxFlyAwayCount_ = 30;
 
 #pragma endregion
+	//爆発しているか
+	bool isExplosion_ = false;
 
-	
-	
+	//ダメージ処理をしたか
+	bool isApplicationDamage = false;
+
+	//ダメージ量
+	int damage_ = 1;
+
+	//ボスの棘攻撃に当たったか
+	bool IsCollisionBossSpikeATK_ = false;
+
+	ToonModelInstance exploModel_;
+
+	Transform exploTrans_;
 
 
-	
 };

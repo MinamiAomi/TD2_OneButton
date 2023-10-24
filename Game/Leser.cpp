@@ -21,6 +21,8 @@ void Leser::Initialize(const Vector3& playerPos, const Vector3& bossPos)
 #pragma region ビーム関連
 	//モデルセット
 	leserModelInstance_.SetModel(resourceManager->FindModel(laserModelName));
+	leserModelInstance_.SetPass(ToonModelInstance::Pass::Translucent);
+	leserModelInstance_.SetAlpha(0.5f);
 	//中心座標取得
 	Vector3 velo = (playerPos - bossPos) / 2;
 	//中心点
@@ -76,7 +78,6 @@ void Leser::Update() {
 #pragma region 爆破関連
 		//更新処理
 		explosionpos_.scale = { explosionRadius_,explosionRadius_ ,explosionRadius_ };
-
 		explosionpos_.UpdateMatrix();
 		expModelInstance_.SetWorldMatrix(explosionpos_.worldMatrix);
 #pragma endregion

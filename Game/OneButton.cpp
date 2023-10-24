@@ -6,12 +6,18 @@
 #include "Scene/SceneManager.h"
 #include "TitleScene.h"
 #include "ImGame.h"
+#include "Clear.h"
 #include "Graphics/ResourceManager.h"
 #include "Externals/nlohmann/json.hpp"
 #include "Graphics/Sprite.h"
 #include "Graphics/ToonModel.h"
 
+#include"GlobalVariables.h"
+
 void OneButton::OnInitialize() {
+    GlobalVariables::GetInstance()->LoadFiles();
+
+
     SceneManager* sceneManager = SceneManager::GetInstance();
     //シーン設定
     sceneManager->ChangeScene<TitleScene>();

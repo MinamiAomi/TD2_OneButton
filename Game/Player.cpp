@@ -1,6 +1,9 @@
 #include "Player.h"
 
+#ifdef _DEBUG
 #include"Externals/ImGui/imgui.h"
+#endif // _DEBUG
+
 #include "Graphics/ResourceManager.h"
 #include"GlobalVariables.h"
 
@@ -152,12 +155,12 @@ void Player::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("player");
 	ImGui::DragFloat3("pos", &worldTransform_.translate.x, 0.01f);
-	worldTransform_.rotate = FixModelRotate("rotate", 0);
 	ImGui::DragFloat3("scale", &worldTransform_.scale.x, 0.01f);
-	ImGui::Checkbox("isMove", &isMove);
+	ImGui::Checkbox("isMove", &isMove_);
 	ImGui::DragInt("DropCount", &DropCount);
 	ImGui::End();
 #endif // _DEBUG
+	worldTransform_.rotate = FixModelRotate("rotate", 0);
 
 
 	//当たり判定するかの処理
@@ -191,7 +194,7 @@ void Player::Update() {
 	}
 
 	//更新処理
-	if (isMove) {
+	if (isMove_) {
 		switch (behavior_) {
 		case Behavior::kRoot:
 		default:
@@ -246,6 +249,8 @@ void Player::ModelsUpdate() {
 	ImGui::DragFloat3("RFoot pos", &worlds_[kRFoot].translate.x, 0.01f);
 
 	ImGui::Text("rotates");
+	ImGui::End();
+#endif // _DEBUG
 
 	worlds_[kHead].rotate = FixModelRotate("head rotate", 1);
 	worlds_[kBody].rotate = FixModelRotate("body rotate", 2);
@@ -253,10 +258,6 @@ void Player::ModelsUpdate() {
 	worlds_[kRArm].rotate = FixModelRotate("RArm rotate", 4);
 	worlds_[kLFoot].rotate = FixModelRotate("LFoot rotate", 5);
 	worlds_[kRFoot].rotate = FixModelRotate("RFoot rotate", 6);
-
-	ImGui::End();
-#endif // _DEBUG
-
 
 
 #pragma region モデル更新
@@ -268,7 +269,11 @@ void Player::ModelsUpdate() {
 }
 
 Quaternion Player::FixModelRotate(const char* label, const int& bodyPartNumber) {
+	label;
+#ifdef _DEBUG
 	ImGui::DragFloat3(label, &modelEuler[bodyPartNumber].x, 0.1f);
+#endif // _DEBUG
+	label;
 	modelEuler[bodyPartNumber].x = std::fmod(modelEuler[bodyPartNumber].x, 360.0f);
 	modelEuler[bodyPartNumber].y = std::fmod(modelEuler[bodyPartNumber].y, 360.0f);
 	modelEuler[bodyPartNumber].z = std::fmod(modelEuler[bodyPartNumber].z, 360.0f);
@@ -277,6 +282,9 @@ Quaternion Player::FixModelRotate(const char* label, const int& bodyPartNumber) 
 
 
 void Player::OnCollision() {
+
+	//処理状態遷移
+	behaviorRequest_ = Behavior::kHit;
 	if (DropFlag) {
 		return;
 	}
@@ -300,7 +308,17 @@ void Player::OnCollisionWall(Vector2 wallX) {
 }
 
 void Player::OnCollisionBoss() {
+
+	//長押し攻撃で当たった場合
+	if (behavior_ == Behavior::kDrop) {
+		isATKBoss_ = true;
+	}//その他の場合
+	else {
+		
+	}
+	//処理状態遷移
 	behaviorRequest_ = Behavior::kHit;
+	
 	//isMove = false;
 }
 
@@ -308,7 +326,8 @@ void Player::OnCollisionBoss() {
 
 void Player::BehaviorRootInitalize() {
 	behavior_ = Behavior::kRoot;
-	DropFlag = false;
+	DropFlag = false; 
+	DropCount = 0;
 }
 
 void Player::BehaviorRootUpdate() {
@@ -320,6 +339,13 @@ void Player::BehaviorRootUpdate() {
 	//スペースを押すとジャンプする
 	if (input_->IsKeyRelease(DIK_SPACE)) {
 		behaviorRequest_ = Behavior::kJump;
+	}
+	else if (input_->IsKeyPressed(DIK_SPACE) != 0) {
+		//長押ししているとプラスされる
+		DropCount++;
+		if (DropCount == kDropAnime_) {
+			behaviorRequest_ = Behavior::kDrop;
+		}
 	}
 }
 
@@ -381,7 +407,7 @@ void Player::BehaviorDropInitalize() {
 	//落下用にモデルを調整する
 	modelEuler[0] = { 90.0f, 180.0f, 0.0f };
 	worldTransform_.rotate = Quaternion::MakeFromEulerAngle(modelEuler[0] * Math::ToRadian);
-	modelEuler[1] = { -180.0f, modelEuler[1].y, 180.0f };
+	modelEuler[1] = { 90.0f, modelEuler[1].y, 180.0f };
 	worlds_[kHead].rotate = Quaternion::MakeFromEulerAngle(modelEuler[1] * Math::ToRadian);
 	worlds_[kLFoot].translate = { worlds_[kLFoot].translate.x, -0.75f, worlds_[kLFoot].translate.z };
 	worlds_[kRFoot].translate = { worlds_[kRFoot].translate.x, -0.75f, worlds_[kRFoot].translate.z };
@@ -420,19 +446,27 @@ void Player::BehaviorHitEnemyInitalize() {
 void Player::BehaviorHitEnemyUpdate() {
 	//t_に値を加算
 	t_ += 0.1f;
+
+	float remakeT = t_;
+	if (remakeT >= 1.0f) {
+		remakeT = 1.0f;
+	}
 	//Lerpで上まで動かす
-	worldTransform_.translate.y = Math::Lerp(t_, PposY, EposY);
+	worldTransform_.translate.y = Math::Lerp(remakeT, PposY, EposY);
 	//TODO : 上空で少し待機する処理を追加
-	if (t_ >= 1.0f) {
+	if (t_ >= 1.2f) {
 		// モデルを "落下用" → "基本用" へ移行する
 		modelEuler[0] = { 0.0f, 0.0f, 0.0f };
 		worldTransform_.rotate = Quaternion::MakeFromEulerAngle(modelEuler[0] * Math::ToRadian);
-		modelEuler[1] = { -90.0f, modelEuler[1].y, 0.0f };
+		modelEuler[1] = { 0.0f, modelEuler[1].y, 0.0f };
 		worlds_[kHead].rotate = Quaternion::MakeFromEulerAngle(modelEuler[1] * Math::ToRadian);
 		worlds_[kLFoot].translate = { worlds_[kLFoot].translate.x, -1.5f, worlds_[kLFoot].translate.z };
 		worlds_[kRFoot].translate = { worlds_[kRFoot].translate.x, -1.5f, worlds_[kRFoot].translate.z };
 
 		behaviorRequest_ = Behavior::kRoot;
+
+		//コリジョンするか
+		isCollisonActive = true;
 	}
 }
 

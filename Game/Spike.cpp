@@ -6,10 +6,10 @@
 #include "Graphics/ResourceManager.h"
 
 
-void Spike::Initialize(int num,Transform world,  const float* bossYLine, int State, Vector3 velo) {
+void Spike::Initialize(int num, Transform world, const float* bossYLine, int DMG, int State, Vector3 velo) {
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	const char spikeModelName[] = "Spike";
-	
+
 	//管理番号
 	spikeNum_ = num;
 	//座標
@@ -21,8 +21,17 @@ void Spike::Initialize(int num,Transform world,  const float* bossYLine, int Sta
 	//モデル
 	modelInstance_.SetModel(resourceManager->FindModel(spikeModelName));
 
+	//爆発モデル
+	const char explosionModelName[] = "Explosion";
+	exploModel_.SetModel(resourceManager->FindModel(explosionModelName));
+	exploModel_.SetIsActive(false);
+	exploTrans_.scale = { 0.0f,0.0f,0.0f };
+
 	//ボスのY座標取得
 	BossYLine_ = bossYLine;
+
+	damage_ = DMG;
+
 
 	//生成時すぐ当たらないよう処理
 	collisionOnForBoss_ = false;
@@ -38,7 +47,7 @@ void Spike::Initialize(int num,Transform world,  const float* bossYLine, int Sta
 	case kStay:
 		state_ = kStay;
 		break;
-	case kFalling:	
+	case kFalling:
 		state_ = kFalling;
 		break;
 	case kFillUp:
@@ -62,7 +71,7 @@ void Spike::Update() {
 	//状態ごとの更新
 	StateUpdate();
 
-	
+
 }
 
 void Spike::CheckAllStateInitialize() {
@@ -94,7 +103,7 @@ void Spike::CheckAllStateInitialize() {
 
 void Spike::StateUpdate() {
 	//コリジョン処理をするかのフラグ処理
-	if (noCollisionCount_>=0) {
+	if (noCollisionCount_ >= 0) {
 		if (noCollisionCount_-- <= 0) {
 			collisionOnForBoss_ = true;
 			collisionOnForPlayer_ = true;
@@ -136,6 +145,11 @@ void Spike::StateUpdate() {
 
 	world_.UpdateMatrix();
 	modelInstance_.SetWorldMatrix(world_.worldMatrix);
+
+	//更新
+	exploTrans_.UpdateMatrix();
+	exploModel_.SetWorldMatrix(exploTrans_.worldMatrix);
+
 }
 
 
@@ -148,7 +162,7 @@ void Spike::Stay_Initialize() {
 }
 
 void Spike::Falling_Initialize() {
-	velocity_ = { 0.0f,0.0f,0.0f };
+	
 }
 
 void Spike::FillUp_Initiaize() {
@@ -169,16 +183,31 @@ void Spike::FillUp_Initiaize() {
 	// 横の加速度を削除
 	velocity_.x = 0;
 
-	
 
 
-	
+
+
 }
 
 void Spike::Explosion_Initialize() {
+	collisionOnForBoss_ = false;
+	collisionOnForPlayer_ = false;
+	collisionOnForSpike_ = false;
+
+	noCollisionCount_ = 10000;
+	isExplosion_ = true;
+	isApplicationDamage = false;
+
+	exploModel_.SetIsActive(true);
+	modelInstance_.SetIsActive(false);
+
+	animationCount_ = 0;
+
+	exploTrans_.translate = GetmatWtranstate();
 }
 
 void Spike::FlyAway_Initialize() {
+
 }
 
 
@@ -225,9 +254,22 @@ void Spike::FillUp_Update() {
 }
 
 void Spike::Explosion_Update() {
+
 	animationCount_++;
+
+	//半径
+	float t = (float)animationCount_ / (float)maxAnimationCount;
+
+	if (t >= 1.0f) {
+		t = 1.0f;
+	}
+	
+	float wide= Math::Lerp(t, 0, wide_);
+	exploTrans_.scale = { wide,wide,wide };
+	
+	
 	//アニメーションカウントがmaxの値で死亡
-	if (maxAnimationCount >= animationCount_) {
+	if (maxAnimationCount*1.5f <= animationCount_) {
 		isDead_ = true;
 	}
 }
@@ -240,7 +282,7 @@ void Spike::FlyAway_Update() {
 		velocity_.x += addVeloX_;
 		if (velocity_.x >= 0.0f) {
 			state_ = kFillUp;
-			  
+
 			ckeckStateChange_ = true;
 		}
 	}
@@ -263,11 +305,14 @@ void Spike::FlyAway_Update() {
 
 #pragma region OnCollision
 
-void Spike::OnCollisionPlayer() { isDead_ = true; }
+void Spike::OnCollisionPlayer() {
+	state_ = kExplosion;
+	ckeckStateChange_ = true;
+}
 
 void Spike::OnCollisionBoss() {
 
-	
+
 
 	// 状態をゆっくり沈む状態へ
 	state_ = kFillUp;
@@ -290,6 +335,7 @@ void Spike::OnCollisionPlayerBeam() {
 void Spike::OnCollisionPlayerExplosion(Vector3 ExpPos) {
 	// 状態変化
 	state_ = kFlyAway;
+	ckeckStateChange_ = true;
 
 	//爆心地によるベクトルと情報の初期化
 	if (ExpPos.x < world_.translate.x) {
@@ -301,7 +347,8 @@ void Spike::OnCollisionPlayerExplosion(Vector3 ExpPos) {
 		velocity_.x *= -1;
 		veloLeft_ = true;
 	}
-
+	//座標をウエイに
+	world_.translate.y = *BossYLine_ + wide_;
 
 }
 
@@ -323,17 +370,43 @@ void Spike::OnCollisionSpike() {
 void Spike::OnCollisionPlayerStump() {
 	// 状態変化
 	state_ = kExplosion;
+	ckeckStateChange_ = true;
 
 	// 座標をmatにする
 	world_.translate = GetmatWtranstate();
 	// 親子関係の削除
 	world_.parent = nullptr;
+	//更新
+	world_.UpdateMatrix();
 }
 
 
 void Spike::OnCollisionWall() {
 	isDead_ = true;
 	state_ = kNone;
+}
+void Spike::OnCollisionExplotionBoss() {
+	//ダメージを与えたという処理を有効に
+	isApplicationDamage = true;
+}
+void Spike::OnCollisionBossATK(Vector3 velo) {
+	velocity_ = velo;
+	state_ = kFalling;
+
+	//コリジョン処理ほぼOFF
+	collisionOnForBoss_ = false;
+	//collisionOnForPlayer_ = false;
+	collisionOnForSpike_ = false;
+
+	//戻らないような秒数
+	noCollisionCount_ = 600;
+}
+void Spike::OnCollisionBossATKExplosion() {
+	if (!IsCollisionBossSpikeATK_) {
+		IsCollisionBossSpikeATK_ = true;
+		state_ = kExplosion;
+		ckeckStateChange_ = true;
+	}
 }
 #pragma endregion
 

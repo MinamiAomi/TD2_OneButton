@@ -85,6 +85,21 @@
     <Filter Include="Externals\nlohmann">
       <UniqueIdentifier>{eb5a56f9-4216-4d6b-b246-66377166131e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Background">
+      <UniqueIdentifier>{c0fa8784-d49e-49ab-a277-5cb107b6f270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effect\Dust">
+      <UniqueIdentifier>{374b0b99-b0f0-47d7-90a0-62db7cd5cea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BossSpike">
+      <UniqueIdentifier>{bb276877-993a-46f4-92cb-087967e9e49b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Limit">
+      <UniqueIdentifier>{ca9d149d-5221-4110-8a82-4cc47e6d2865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\SpeedEffect">
+      <UniqueIdentifier>{20a02fcb-69d6-4a32-b291-b23c6f0612d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -296,6 +311,27 @@
     </ClInclude>
     <ClInclude Include="..\Externals\nlohmann\json_fwd.hpp">
       <Filter>Externals\nlohmann</Filter>
+     </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>Game\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\TranslucentRenderer.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Dust.h">
+      <Filter>Game\Effect\Dust</Filter>
+    </ClInclude>
+    <ClInclude Include="BossSpike.h">
+      <Filter>Game\BossSpike</Filter>
+    </ClInclude>
+    <ClInclude Include="Limit.h">
+      <Filter>Game\Limit</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeedEffect.h">
+      <Filter>Game\SpeedEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="TitlePlayer.h">
+      <Filter>Game\Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -480,6 +516,24 @@
     <ClCompile Include="Heal.cpp">
       <Filter>Game\Effect\Heal</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Graphics\TranslucentRenderer.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust.cpp">
+      <Filter>Game\Effect\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="BossSpike.cpp">
+      <Filter>Game\BossSpike</Filter>
+    </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>Game\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="Limit.cpp">
+      <Filter>Game\Limit</Filter>
+    </ClCompile>
+    <ClCompile Include="SpeedEffect.cpp">
+      <Filter>Game\SpeedEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">
@@ -527,6 +581,12 @@
       <Filter>Engine\Graphics\Shader</Filter>
     </None>
     <None Include="Engine\Graphics\Shader\SpritePS.hlsl">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </None>
+    <None Include="Engine\Graphics\Shader\TranslucentVS.hlsl">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </None>
+    <None Include="Engine\Graphics\Shader\TranslucentPS.hlsl">
       <Filter>Engine\Graphics\Shader</Filter>
     </None>
   </ItemGroup>

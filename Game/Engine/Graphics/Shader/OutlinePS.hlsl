@@ -1,5 +1,7 @@
 struct Instance {
     float4x4 worldMatrix;
+    float3 color; // 使用しない
+    float alpha; // 使用しない
     float outlineWidth;
     float3 outlineColor;
 };

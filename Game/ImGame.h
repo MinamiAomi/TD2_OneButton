@@ -1,6 +1,6 @@
 #pragma once
 #include"Engine/Scene/BaseScene.h"
-#include"Engine/Scene/SceneManager.h"
+
 #include "Engine/Graphics/ToonModel.h"
 #include "Engine/Graphics/Sprite.h"
 #include "Math/Camera.h"
@@ -11,6 +11,10 @@
 #include"map.h"
 #include"Player.h"
 #include"Boss.h"
+#include "Background.h"
+#include"Limit.h"
+#include "SpeedEffect.h"
+#include "Heal.h"
 
 class InGame : public BaseScene {
 public:
@@ -31,6 +35,10 @@ public:
 	/// </summary>
 	void SceneChange();
 
+	/// <summary>
+	/// 残りのlimit計測
+	/// </summary>
+	void MapLimit();
 
 	/// <summary>
 	/// 死亡判定
@@ -40,7 +48,7 @@ public:
 	/// <summary>
 	/// 棘を増やす処理まとめ
 	/// </summary>
-	void AddSpike(const Transform& trans, const int state = 0, const Vector3 velo = { 0.0f,0.0f,0.0f });
+	void AddSpike(const Transform& trans, const int state = 0, const Vector3 velo = { 0.0f,0.0f,0.0f },int damage=1);
 
 private://メンバ関数
 
@@ -71,14 +79,14 @@ private:
 	//カメラ
 	Camera camera_;
 
-	std::shared_ptr<Texture>E_BossHeal;
-	Sprite sprite;
-	//Vector2 TexPos = {0,0};
-	Transform TexPos_;
+	
 
 	//マップクラス
 	std::unique_ptr<Map>map = nullptr;
-
+	// 背景
+	std::unique_ptr<Background> background_;
+	// スピードエフェクト
+	std::unique_ptr<SpeedEffect> speedEffect_;
 	//棘クラス
 	std::list<std::unique_ptr<Spike>> spikes;
 
@@ -90,4 +98,14 @@ private:
 
 	//ボスクラス
 	std::unique_ptr<Boss>boss_ = nullptr;
+
+	std::list<std::unique_ptr<Heal>> heals_;
+
+	//リミットクラス
+	std::unique_ptr<Limit>limit_ = nullptr;
+
+	//吹き飛ばすベクトル量
+	Vector3 Skipvelo = { 0.0f,2.0f,0.0 };
+
+	float mapAcceSecond_ = 2;
 };

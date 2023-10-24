@@ -1,5 +1,6 @@
 #include "ImGame.h"
 
+#include"Engine/Scene/SceneManager.h"
 #include "Externals/ImGui/imgui.h"
 #include "Engine/Graphics/RenderManager.h"
 #include "Math/Transform.h"
@@ -8,7 +9,6 @@
 
 void InGame::OnInitialize() {
 
-	GlobalVariables::GetInstance()->LoadFiles();
 	
 	input_ = Input::GetInstance();
 
@@ -21,22 +21,22 @@ void InGame::OnInitialize() {
 
 
 
-	E_BossHeal = std::make_shared<Texture>();
-	E_BossHeal->Load("Resources/Image/Heal.png");
-	sprite.SetTexture(E_BossHeal);
-	sprite.SetIsActive(true);
-	sprite.SetDrawOrder(0);
-	sprite.SetPosition(TexPos_.translate.GetXY());
-	sprite.SetRotate(0.0f);
-	sprite.SetScale({ 32.0f,32.0f });
-	sprite.SetTexcoordRect({ 0.0f,0.0f }, { 32,32 });
 
 
 
 
-//マップクラス初期化
+
+
+
+	//マップクラス初期化
 	map = std::make_unique<Map>();
 	map->Initialize();
+
+	background_ = std::make_unique<Background>();
+	background_->Initialize(&camera_);
+
+	speedEffect_ = std::make_unique<SpeedEffect>();
+	speedEffect_->Initialize(&camera_);
 
 	//ボスの初期化
 	boss_ = std::make_unique<Boss>();
@@ -52,7 +52,7 @@ void InGame::OnInitialize() {
 
 		AddSpike(spikeWorld[num]);
 
-		
+
 	}
 
 	//プレイヤーの初期化
@@ -60,7 +60,9 @@ void InGame::OnInitialize() {
 	player_->Initialize(map->GetPlayerPosition());
 	player_->SetBossY(&boss_->GetBossYLine());
 
-	
+
+	limit_ = std::make_unique<Limit>();
+	limit_->Initialize();
 }
 
 void InGame::OnUpdate() {
@@ -79,6 +81,18 @@ void InGame::OnUpdate() {
 		spike->Update();
 	}
 
+	//エフェクト更新
+	for (std::unique_ptr<Heal>& heal_ : heals_) {
+		heal_->Update();
+	}
+	//フラグが立っていたら削除
+	heals_.remove_if([](std::unique_ptr<Heal>& Heal_) {
+		if (Heal_->GetisAlive() == false) {
+			return true;
+		}
+		return false;
+		});
+
 	//プレイヤー更新
 	player_->Update();
 
@@ -86,41 +100,45 @@ void InGame::OnUpdate() {
 
 	//当たり判定チェック
 	GetAllCollisions();
+
+	//残りの距離取得
+	MapLimit();
+
 	//死亡チェック
 	CheckDead();
 
 
-#ifdef _DEBUG
 	static float fovY = 25.0f;
 	static float nearZ = 50.0f;
 	static float farZ = 200.0f;
-	static Vector3 position = { 0.0f, -42.0f, -100.0f };
+	static Vector3 position = { 0.0f, -44.0f, -100.0f };
 	static Vector3 rotate = {};
 
+#ifdef _DEBUG
 	//position = camera_.GetPosition();
-	ImGui::Begin("Texture");
-	ImGui::DragFloat2("Position", &TexPos_.translate.x, 0.1f);
-	sprite.SetPosition(TexPos_.translate.GetXY());
-	ImGui::End();
 	ImGui::Begin("Camera");
 	ImGui::DragFloat3("Position", &position.x, 0.1f);
 	ImGui::DragFloat3("Rotate", &rotate.x, 0.1f);
 	ImGui::DragFloat("FovY", &fovY, 0.1f, 0.0f, 180.0f);
 	ImGui::DragFloat("NearZ", &nearZ, 0.1f);
 	ImGui::DragFloat("FarZ", &farZ, 1.0f);
+	if (ImGui::Button("SpeedEffect")) {
+		speedEffect_->Spawn();
+	}
 	ImGui::End();
+#endif // _DEBUG
 
 	rotate.x = std::fmod(rotate.x, 360.0f);
 	rotate.y = std::fmod(rotate.y, 360.0f);
 	rotate.z = std::fmod(rotate.z, 360.0f);
-
 	camera_.SetPosition(position);
 	camera_.SetRotate(Quaternion::MakeFromEulerAngle(rotate * Math::ToRadian));
 	camera_.SetPerspective(fovY * Math::ToRadian, 540.0f / 720.0f, nearZ, farZ);
-#endif // _DEBUG
 
 	camera_.UpdateMatrices();
-
+	// 背景はカメラを使用しているためカメラの後に更新
+	background_->Update();
+	speedEffect_->Update();
 	//シーンチェンジ処理
 	SceneChange();
 }
@@ -149,6 +167,11 @@ void InGame::GetAllCollisions() {
 
 	CollisionAboutSpike();
 
+	//ボスに攻撃して埋まってるやつ全部爆破させたのでfalse
+	if (player_->GetIsATKBossFlag()) {
+		player_->SetATKBossFlag(false);
+	}
+
 	//プレイヤー座標と半径
 	Vector3 PLAYER = player_->GetmatWtranslate();
 	float P_wide = player_->GetWide();
@@ -161,6 +184,7 @@ void InGame::GetAllCollisions() {
 #pragma region プレイヤーとボス
 	if (boss_->IsHitBoss(PLAYER, P_wide)) {
 		player_->OnCollisionBoss();
+		map->SetMapMoveAcceleration(mapAcceSecond_);
 	}
 #pragma endregion
 
@@ -186,36 +210,56 @@ void InGame::CollisionAboutSpike() {
 	for (std::unique_ptr<Spike>& spike : spikes) {
 		//死んだ弾は処理しない
 		if (!spike->IsDead()) {
+
+#pragma region ボスの攻撃処理で使用されたとき
+			if (boss_->GetBossATKSpikeExplo()) {
+				//埋まっていく状態の敵をすべてコリジョンオフにして飛ばす
+				if (spike->IsStateFillUp()) {
+					spike->OnCollisionBossATK(Skipvelo);
+				}
+			}
+#pragma endregion
+
+
+
 			//座標と半径取得
 			Vector3 SPIKE = spike->GetmatWtranstate();
 			float S_wide = spike->GetWide();
 #pragma region プレイヤー
 			//当たった時の処理
-			if (CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
+			if (spike->GetIsCollisonOnPlayer() && CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
 				spike->OnCollisionPlayer();
 				player_->OnCollision();
+				map->SetMapMoveAcceleration(mapAcceSecond_);
+			}
+			else {
+				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる
+				if (player_->GetIsATKBossFlag() && spike->IsStateFillUp()) {
+					spike->OnCollisionPlayerStump();
+				}
 			}
 #pragma endregion
 
 
-#pragma region プレイヤービームと爆風
-			//	プレイヤー攻撃に当たる状態かチェック
-			
+#pragma region プレイヤービームと爆風			
 			for (Leser* leser : player_->Getlesers()) {
+				//	プレイヤー攻撃に当たる状態かチェック
 				if (spike->GetIsCollisonOnPlayer()) {
 #pragma region ビーム
-					if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
-						//レーザーのwide取得
-						float beamWide = leser->GetLeserWide();
 
-						//ビームの終点取得
-						Vector3 beamEnd = leser->GetExplosionPos();
-						//高さを合わせる
-						beamEnd.y = SPIKE.y;
+					//レーザーのwide取得
+					float beamWide = leser->GetLeserWide();
+
+					//ビームの終点取得
+					Vector3 beamEnd = leser->GetExplosionPos();
+					//高さを合わせる
+					beamEnd.y = SPIKE.y;
 
 
-						//ビームに当たっているとき
-						if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
+					//ビームに当たっているとき
+					if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
+						//同じレーザーが新しく生成した棘と当たらないようにする処理
+						if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
 
 							leser->OnCollision(spike->GetIdentificationNum());
 
@@ -234,6 +278,7 @@ void InGame::CollisionAboutSpike() {
 
 
 							AddSpike(Newworld, Spike::State::kFalling, newVelo);
+							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
 
@@ -242,6 +287,7 @@ void InGame::CollisionAboutSpike() {
 							newVelo.x *= -1;
 
 							AddSpike(Newworld, Spike::State::kFalling, newVelo);
+							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
 							//死亡判定出す
@@ -249,9 +295,8 @@ void InGame::CollisionAboutSpike() {
 							//死んだので処理を流す
 							break;
 						}
+	
 					}
-#pragma endregion			
-					
 					else {
 						//ビーム当たっていない
 						//爆風の範囲の場合
@@ -265,6 +310,9 @@ void InGame::CollisionAboutSpike() {
 						}
 #pragma endregion
 					}
+#pragma endregion			
+
+
 				}
 			}
 #pragma endregion
@@ -298,11 +346,15 @@ void InGame::CollisionAboutSpike() {
 								newSpike.translate = leng;							//位置設定
 								newSpike.scale = { newSize,newSize ,newSize };		//サイズ設定
 
+								//ダメージのついか
+								int DMG = spike->GetDamege() + spike2->GetDamege();
+
+
 								//新しいスパイクの生成
-								AddSpike(newSpike, Spike::State::kFalling);
+								AddSpike(newSpike, Spike::State::kFalling, { 0.0f,0.0f,0.0f }, DMG);
 
 
-								
+
 
 
 								//オンコリ処理
@@ -324,7 +376,7 @@ void InGame::CollisionAboutSpike() {
 
 #pragma region 壁
 			//壁に当たっていれば処理
-			if (map->IsHitWall(SPIKE, S_wide)) {
+			if (map->IsHitWallSpike(SPIKE, S_wide)) {
 				spike->OnCollisionWall();
 			}
 #pragma endregion
@@ -336,13 +388,31 @@ void InGame::CollisionAboutSpike() {
 					spike->OnCollisionBoss();
 				}
 			}
+
+			//爆破時の処理
+			if (spike->IsDamageProcessing()) {
+				if (boss_->IsHitBoss(SPIKE, S_wide)) {
+					spike->OnCollisionExplotionBoss();
+					boss_->OnCollisionExplosion(spike->GetDamege());
+				}
+			}
 #pragma endregion
 
+
+#pragma region ボスの攻撃で当たったかどうか
+			if (boss_->IsHitBossATK(SPIKE, S_wide)) {
+				spike->OnCollisionBossATKExplosion();
+			}
+#pragma endregion
 		}
 #pragma region ボス回復処理
 		//埋まり切りフラグがONの時回復
 		if (spike->GetCompleteFillUp()) {
-			boss_->OnCollisionHealing();
+			boss_->OnCollisionHealing(spike->GetDamege());
+			//ボスが回復するときのエフェクトを生成
+			Heal* heal_ = new Heal();
+			heal_->Initalize({ spike->GetWorld().translate.GetXY()});
+			heals_.emplace_back(heal_);
 		}
 #pragma endregion
 
@@ -364,11 +434,11 @@ void InGame::CheckDead() {
 		});
 }
 
-void InGame::AddSpike(const Transform& trans, const int state, const Vector3 velo) {
+void InGame::AddSpike(const Transform& trans, const int state, const Vector3 velo, int damage) {
 
 	//クラス作成
 	Spike* spike_ = new Spike();
-	spike_->Initialize(spikeNum_, trans, &boss_->GetBossYLine(),state,velo);
+	spike_->Initialize(spikeNum_, trans, &boss_->GetBossYLine(), damage, state, velo);
 	//プッシュ
 	spikes.emplace_back(spike_);
 
@@ -381,12 +451,39 @@ void InGame::AddSpike(const Transform& trans, const int state, const Vector3 vel
 void InGame::SceneChange() {
 	//1キーでクリア
 	if (input_->IsKeyTrigger(DIK_1)) {
+
+		//const char DataName[] = "data";
+
+
 		//インスタンス取得
 		SceneManager* sceneManager = SceneManager::GetInstance();
 		//シーン設定
 		sceneManager->ChangeScene<Clear>();
 
 	}
+}
+
+void InGame::MapLimit() {
+	float limitY= map->GetEndTrans().worldMatrix.m[3][1];
+
+	float bossY = boss_->GetBossYLine();
+
+	//残り計算（42は棘の終点が画面上に来た時にぴったり0になる数値
+	float dis = limitY - bossY - 41;
+
+	//0以下は表示する必要なし
+	if (dis <= 0.0f) {
+		dis = 0;
+	}
+
+	limit_->Update((int)dis);
+
+#ifdef _DEBUG
+	ImGui::Begin("limit");
+	ImGui::Text("limit : %4.1f", dis);
+	ImGui::End();
+#endif // _DEBUG
+
 }
 
 //終了処理

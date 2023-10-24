@@ -71,11 +71,17 @@ public:
 	
 	const std::list<Leser*>Getlesers() { return lesers_; }
 
-	
+	//ボスに攻撃処理をしたかどうか
+	const bool GetIsATKBossFlag() { return isATKBoss_; }
+
+	//プレイヤーの攻撃半径の取得
+	const float GetExplosionRadius() { return explosionRadius_; }
 #pragma endregion
 
 #pragma region セッター
 	void SetBossY(const float* bossY) { BossY_ = bossY; }
+
+	void SetATKBossFlag(bool flag) { isATKBoss_ = flag; }
 #pragma endregion
 
 	
@@ -143,7 +149,7 @@ private:
 	//プレイヤーの位置記録
 	float PposY;
 	//目標の位置
-	float EposY = -31.0f;
+	float EposY = -25.0f;
 
 	//TODO ちゃんといじろう
 	//プレイヤーのHP
@@ -185,7 +191,7 @@ private://スペチャ追加分
 	float wide_ = 1;
 	
 	//移動関数
-	bool isMove = false;
+	bool isMove_ = false;
 
 	//コリジョン処理するか否か
 	bool collision_on = true;
@@ -205,8 +211,8 @@ private://スペチャ追加分
 	//部位の総数+全体の回転ベクトル
 	Vector3 modelEuler[7] = {
 		{0.0f, 0.0f, 0.0f},
-		{ -90.0f,0.5f,0.0f },
-		{ -80.0f,0.0f,0.0f },
+		{ 0.0f,180.0f,0.0f },
+		{ -10.0f,180.0f,0.0f },
 		{ 0.0f,0.0f,0.0f },
 		{ 0.0f,0.0f,0.0f },
 		{ 0.0f,0.0f,0.0f },
@@ -242,4 +248,10 @@ private://スペチャ追加分
 
 	const char* groupName_ = "Player";
 
+	//ため攻撃をしてボスに当たったという状態か
+	bool isATKBoss_ = false;
+
+	float explosionRadius_ = 2.0f;
+
+	bool isCollisonActive = true;
 };

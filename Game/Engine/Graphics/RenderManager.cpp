@@ -33,6 +33,7 @@ void RenderManager::Initialize() {
     mainDepthBuffer_.Create(L"MainDepthBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_D32_FLOAT);
 
     toonRenderer_.Initialize(mainColorBuffer_, mainDepthBuffer_);
+    translucentRenderer_.Initialize(mainColorBuffer_, mainDepthBuffer_);
     spriteRenderer_.Initialize(swapChainBuffer);
     postEffect_.Initialize(swapChainBuffer);
 
@@ -67,6 +68,7 @@ void RenderManager::Render() {
 
     if (camera_) {
         toonRenderer_.Render(commandContext, *camera_);
+        translucentRenderer_.Render(commandContext, *camera_);
     }
 
     auto& swapChainBuffer = swapChain_.GetColorBuffer();
@@ -79,10 +81,13 @@ void RenderManager::Render() {
 
     spriteRenderer_.Render(commandContext, 0.0f, 0.0f, (float)swapChainBuffer.GetWidth(), (float)swapChainBuffer.GetHeight());
 
+#ifdef _DEBUG
     ImGui::Begin("Engine");
     auto& io = ImGui::GetIO();
     ImGui::Text("Framerate : %f", io.Framerate);
     ImGui::End();
+#endif // _DEBUG
+
 
     // ImGuiを描画
     auto imguiManager = ImGuiManager::GetInstance();
