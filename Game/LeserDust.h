@@ -17,9 +17,17 @@ public:
 
 private:
 	//モデルのインスタンス
-	std::unique_ptr<ToonModelInstance> model_;
+	const int kMaxmodel = 5;
+	std::unique_ptr<ToonModelInstance> model_[5];
 	//テクスチャの位置
-	Transform world_;
+	Transform model_world[5];
+	Vector2 model_move[5] = {
+		{-0.1f,0.0f},
+		{-0.1f,0.1f},
+		{0.0f,0.1f},
+		{0.1f,0.1f},
+		{0.1f,0.0f},
+	};
 
 	int AnimeFrame_ = 0;
 
