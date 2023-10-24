@@ -30,7 +30,7 @@ public:
 
 private:
     TextureResource resource_;
-    Interpolation interpolation_ = Interpolation::Point;
+    Interpolation interpolation_ = Interpolation::Linear;
     Extension extension_ = Extension::Wrap;
 };
 
