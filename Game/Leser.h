@@ -32,6 +32,12 @@ public:
 	void OnCollision(const int& num);
 
 	/// <summary>
+	/// ボスの攻撃
+	/// </summary>
+	void OnCollisionBoss();
+
+
+	/// <summary>
 	/// すでにその棘が当たっているか
 	/// </summary>
 	bool IsAlreadyHit(const int& num);
@@ -48,6 +54,8 @@ public:
 	const Vector3 GetExplosionPos() {
 		return explosionpos_.translate;
 	}
+
+	bool GetIsAlreadyATKBoss() { return isAlreadyATKBoss_; }
 #pragma endregion
 
 	
@@ -101,5 +109,5 @@ private:
 
 #pragma endregion
 
-	
+	bool isAlreadyATKBoss_ = false;
 };

@@ -97,6 +97,9 @@ private:
 	//プレイヤークラス
 	std::unique_ptr<Player>player_ = nullptr;
 
+	//プレイヤーの攻撃でのダメージ
+	int playerLeserDMG = 1;
+
 	//ボスクラス
 	std::unique_ptr<Boss>boss_ = nullptr;
 
@@ -115,5 +118,6 @@ private:
 	//まっぷを加速させる秒数
 	float mapAcceSecond_ = 2;
 
+	//残りｍ数
 	int limitScore_ = 0;
 };
