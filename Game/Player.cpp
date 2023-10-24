@@ -253,8 +253,6 @@ void Player::ModelsUpdate() {
 #endif // _DEBUG
 
 	ImGui::End();
-#endif // _DEBUG
-
 	worlds_[kHead].rotate = FixModelRotate("head rotate", 1);
 	worlds_[kBody].rotate = FixModelRotate("body rotate", 2);
 	worlds_[kLArm].rotate = FixModelRotate("LArm rotate", 3);
