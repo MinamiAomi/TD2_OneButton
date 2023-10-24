@@ -311,7 +311,7 @@
     </ClInclude>
     <ClInclude Include="..\Externals\nlohmann\json_fwd.hpp">
       <Filter>Externals\nlohmann</Filter>
-     </ClInclude>
+    </ClInclude>
     <ClInclude Include="Background.h">
       <Filter>Game\Background</Filter>
     </ClInclude>
@@ -332,6 +332,9 @@
     </ClInclude>
     <ClInclude Include="TitlePlayer.h">
       <Filter>Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="ClearLimit.h">
+      <Filter>Game\Limit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -533,6 +536,9 @@
     </ClCompile>
     <ClCompile Include="SpeedEffect.cpp">
       <Filter>Game\SpeedEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="ClearLimit.cpp">
+      <Filter>Game\Limit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

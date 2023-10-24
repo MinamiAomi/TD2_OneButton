@@ -43,6 +43,9 @@ void Clear::OnInitialize() {
 	isBob_ = globalV->GetIntvalue(dataName, IsBob);
 #pragma endregion
 
+    clearLimit_ = std::make_unique<ClearLimit>();
+    clearLimit_->Initialize();
+
 }
 
 void Clear::OnUpdate() {
@@ -53,6 +56,8 @@ void Clear::OnUpdate() {
     ImGui::End();
     clearTex_.SetPosition(clearTrans_.translate.GetXY());
 #endif // _DEBUG
+
+    clearLimit_->Update(limitScore_);
 
     //シーンチェンジ処理
     SceneChange();
