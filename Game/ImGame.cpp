@@ -341,8 +341,6 @@ void InGame::CollisionAboutSpike() {
 								//ダメージのついか
 								int DMG = spike->GetDamege() + spike2->GetDamege();
 
-								//ダメージの追加加算
-								DMG += 1;
 
 								//新しいスパイクの生成
 								AddSpike(newSpike, Spike::State::kFalling, { 0.0f,0.0f,0.0f }, DMG);
@@ -459,7 +457,7 @@ void InGame::MapLimit() {
 	float bossY = boss_->GetBossYLine();
 
 	//残り計算（42は棘の終点が画面上に来た時にぴったり0になる数値
-	float dis = limitY - bossY - 42;
+	float dis = limitY - bossY - 41;
 
 	//0以下は表示する必要なし
 	if (dis <= 0.0f) {

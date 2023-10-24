@@ -7,7 +7,7 @@ void Limit::Initialize() {
 	const char textureName[] = "number";
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 
-	Vector2 texScale = { texSize,texSize };
+	Vector2 texScale = { texScale_,texScale_ };
 
 	//画像の初期化
 	for (int i = 0; i < digitNum; i++) {
@@ -61,12 +61,12 @@ void Limit::Update(int limit) {
 							numSprite_[2].spirte->SetIsActive(true);
 
 							numSprite_[0].position = center_;
-							numSprite_[0].position.x += texSize;
+							numSprite_[0].position.x += texScale_ / 2.0f;
 
 							numSprite_[1].position = center_;
 							
 							numSprite_[0].position = center_;
-							numSprite_[0].position.x -= texSize;
+							numSprite_[0].position.x -= texScale_/2.0f;
 
 							break;
 						}
@@ -79,10 +79,10 @@ void Limit::Update(int limit) {
 
 					//座標処理
 					numSprite_[0].position = center_;
-					numSprite_[0].position.x += texSize/2.0f;
+					numSprite_[0].position.x += texScale_ /4.0f;
 
 					numSprite_[1].position = center_;
-					numSprite_[1].position.x -= texSize / 2.0f;
+					numSprite_[1].position.x -= texScale_ / 4.0f;
 
 					break;
 				}

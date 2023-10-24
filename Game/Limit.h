@@ -33,6 +33,6 @@ private:
 	//一つの文字のサイズ
 	const float texSize = 32.0f;
 
-
+	const float texScale_=192;
 
 };
