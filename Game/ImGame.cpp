@@ -42,8 +42,6 @@ void InGame::OnInitialize() {
 	boss_ = std::make_unique<Boss>();
 	boss_->Initalize(map->GetBossMatPos());
 
-	//ヒールエフェクト
-
 
 	//スパイクのTransformコピー
 	std::vector<Transform> spikeWorld = map->GetSpikeWorld();
@@ -63,6 +61,8 @@ void InGame::OnInitialize() {
 	player_->SetBossY(&boss_->GetBossYLine());
 
 
+	limit_ = std::make_unique<Limit>();
+	limit_->Initialize();
 }
 
 void InGame::OnUpdate() {
@@ -82,13 +82,12 @@ void InGame::OnUpdate() {
 	}
 
 	//エフェクト更新
-	for (Heal* heal_ : heals_) {
+	for (std::unique_ptr<Heal>& heal_ : heals_) {
 		heal_->Update();
 	}
 	//フラグが立っていたら削除
-	heals_.remove_if([](Heal* Heal_) {
+	heals_.remove_if([](std::unique_ptr<Heal>& Heal_) {
 		if (Heal_->GetisAlive() == false) {
-			delete Heal_;
 			return true;
 		}
 		return false;
@@ -101,6 +100,10 @@ void InGame::OnUpdate() {
 
 	//当たり判定チェック
 	GetAllCollisions();
+
+	//残りの距離取得
+	MapLimit();
+
 	//死亡チェック
 	CheckDead();
 
@@ -181,6 +184,7 @@ void InGame::GetAllCollisions() {
 #pragma region プレイヤーとボス
 	if (boss_->IsHitBoss(PLAYER, P_wide)) {
 		player_->OnCollisionBoss();
+		map->SetMapMoveAcceleration(mapAcceSecond_);
 	}
 #pragma endregion
 
@@ -226,9 +230,9 @@ void InGame::CollisionAboutSpike() {
 			if (spike->GetIsCollisonOnPlayer() && CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
 				spike->OnCollisionPlayer();
 				player_->OnCollision();
+				map->SetMapMoveAcceleration(mapAcceSecond_);
 			}
 			else {
-				
 				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる
 				if (player_->GetIsATKBossFlag() && spike->IsStateFillUp()) {
 					spike->OnCollisionPlayerStump();
@@ -237,8 +241,7 @@ void InGame::CollisionAboutSpike() {
 #pragma endregion
 
 
-#pragma region プレイヤービームと爆風
-			
+#pragma region プレイヤービームと爆風			
 			for (Leser* leser : player_->Getlesers()) {
 				//	プレイヤー攻撃に当たる状態かチェック
 				if (spike->GetIsCollisonOnPlayer()) {
@@ -346,8 +349,6 @@ void InGame::CollisionAboutSpike() {
 								//ダメージのついか
 								int DMG = spike->GetDamege() + spike2->GetDamege();
 
-								//ダメージの追加加算
-								DMG += 1;
 
 								//新しいスパイクの生成
 								AddSpike(newSpike, Spike::State::kFalling, { 0.0f,0.0f,0.0f }, DMG);
@@ -410,8 +411,8 @@ void InGame::CollisionAboutSpike() {
 			boss_->OnCollisionHealing(spike->GetDamege());
 			//ボスが回復するときのエフェクトを生成
 			Heal* heal_ = new Heal();
-			heal_->Initalize({ 0.0f,-49.0f });
-			heals_.push_back(heal_);
+			heal_->Initalize({ spike->GetWorld().translate.GetXY()});
+			heals_.emplace_back(heal_);
 		}
 #pragma endregion
 
@@ -456,6 +457,29 @@ void InGame::SceneChange() {
 		sceneManager->ChangeScene<Clear>();
 
 	}
+}
+
+void InGame::MapLimit() {
+	float limitY= map->GetEndTrans().worldMatrix.m[3][1];
+
+	float bossY = boss_->GetBossYLine();
+
+	//残り計算（42は棘の終点が画面上に来た時にぴったり0になる数値
+	float dis = limitY - bossY - 41;
+
+	//0以下は表示する必要なし
+	if (dis <= 0.0f) {
+		dis = 0;
+	}
+
+	limit_->Update((int)dis);
+
+#ifdef _DEBUG
+	ImGui::Begin("limit");
+	ImGui::Text("limit : %4.1f", dis);
+	ImGui::End();
+#endif // _DEBUG
+
 }
 
 //終了処理

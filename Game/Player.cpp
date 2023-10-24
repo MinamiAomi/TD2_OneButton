@@ -155,12 +155,12 @@ void Player::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("player");
 	ImGui::DragFloat3("pos", &worldTransform_.translate.x, 0.01f);
-	worldTransform_.rotate = FixModelRotate("rotate", 0);
 	ImGui::DragFloat3("scale", &worldTransform_.scale.x, 0.01f);
 	ImGui::Checkbox("isMove", &isMove_);
 	ImGui::DragInt("DropCount", &DropCount);
 	ImGui::End();
 #endif // _DEBUG
+	worldTransform_.rotate = FixModelRotate("rotate", 0);
 
 
 	//当たり判定するかの処理
@@ -249,7 +249,6 @@ void Player::ModelsUpdate() {
 	ImGui::DragFloat3("RFoot pos", &worlds_[kRFoot].translate.x, 0.01f);
 
 	ImGui::Text("rotates");
-
 	ImGui::End();
 #endif // _DEBUG
 
@@ -327,7 +326,8 @@ void Player::OnCollisionBoss() {
 
 void Player::BehaviorRootInitalize() {
 	behavior_ = Behavior::kRoot;
-	DropFlag = false;
+	DropFlag = false; 
+	DropCount = 0;
 }
 
 void Player::BehaviorRootUpdate() {
@@ -339,6 +339,13 @@ void Player::BehaviorRootUpdate() {
 	//スペースを押すとジャンプする
 	if (input_->IsKeyRelease(DIK_SPACE)) {
 		behaviorRequest_ = Behavior::kJump;
+	}
+	else if (input_->IsKeyPressed(DIK_SPACE) != 0) {
+		//長押ししているとプラスされる
+		DropCount++;
+		if (DropCount == kDropAnime_) {
+			behaviorRequest_ = Behavior::kDrop;
+		}
 	}
 }
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/Graphics/Sprite.h"
+#include "Graphics/ToonModel.h"
 #include "Engine/Math/Transform.h"
-
+#include "Externals/ImGui/imgui.h"
 class Heal {
 public:
 
@@ -16,10 +16,10 @@ public:
 	bool GetisAlive() { return isAlive_; }
 
 private:
-	//スプライトのインスタンス
-	Sprite sprite;
+	//モデルのインスタンス
+	std::unique_ptr<ToonModelInstance> model_;
 	//テクスチャの位置
-	Transform TexPos_;
+	Transform world_;
 
 	int AnimeFrame_ = 0;
 

@@ -62,6 +62,10 @@ void Map::ValueSetting() {
 
 	globaV->AddItem(groupName_, keyVelocityMoveMap, moveMapNum_);
 	moveMapNum_ = globaV->GetFloatvalue(groupName_, keyVelocityMoveMap);
+
+	std::string keyMapAcceNum = "mapMoveAcceNum : マップの加速する倍数";
+	globaV->AddItem(groupName_, keyMapAcceNum, mapAcceNum_);
+	mapAcceNum_ = globaV->GetFloatvalue(groupName_, keyMapAcceNum);
 }
 
 
@@ -79,6 +83,10 @@ void Map::Update() {
 		//加速処理を行っているか否か
 		if (isMoveAcceleration_) {
 			//行っている場合
+			if (moveSeconds_-- <= 0.0f) {
+				isMoveAcceleration_ = false;
+			}
+
 
 			//マップ移動
 			mapWorld_.translate.y -= moveMapNum_ * mapAcceNum_;
@@ -100,6 +108,7 @@ void Map::Update() {
 	hitsWallX_.x = Wall_min_.worldMatrix.m[3][0];
 	hitsWallX_.y = Wall_max_.worldMatrix.m[3][0];
 
+	mapEndTrans_.UpdateMatrix();
 }
 
 

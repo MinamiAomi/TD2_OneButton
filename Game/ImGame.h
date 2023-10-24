@@ -12,7 +12,7 @@
 #include"Player.h"
 #include"Boss.h"
 #include "Background.h"
-#include "SpeedEffect.h"
+#include"Limit.h"
 
 #include "Heal.h"
 
@@ -35,6 +35,10 @@ public:
 	/// </summary>
 	void SceneChange();
 
+	/// <summary>
+	/// 残りのlimit計測
+	/// </summary>
+	void MapLimit();
 
 	/// <summary>
 	/// 死亡判定
@@ -95,9 +99,13 @@ private:
 	//ボスクラス
 	std::unique_ptr<Boss>boss_ = nullptr;
 
-	std::list<Heal*> heals_;
+	std::list<std::unique_ptr<Heal>> heals_;
 
+	//リミットクラス
+	std::unique_ptr<Limit>limit_ = nullptr;
 
 	//吹き飛ばすベクトル量
 	Vector3 Skipvelo = { 0.0f,2.0f,0.0 };
+
+	float mapAcceSecond_ = 2;
 };
