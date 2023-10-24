@@ -155,12 +155,12 @@ void Player::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("player");
 	ImGui::DragFloat3("pos", &worldTransform_.translate.x, 0.01f);
-	worldTransform_.rotate = FixModelRotate("rotate", 0);
 	ImGui::DragFloat3("scale", &worldTransform_.scale.x, 0.01f);
 	ImGui::Checkbox("isMove", &isMove_);
 	ImGui::DragInt("DropCount", &DropCount);
 	ImGui::End();
 #endif // _DEBUG
+	worldTransform_.rotate = FixModelRotate("rotate", 0);
 
 
 	//当たり判定するかの処理
@@ -249,6 +249,8 @@ void Player::ModelsUpdate() {
 	ImGui::DragFloat3("RFoot pos", &worlds_[kRFoot].translate.x, 0.01f);
 
 	ImGui::Text("rotates");
+	ImGui::End();
+#endif // _DEBUG
 
 	worlds_[kHead].rotate = FixModelRotate("head rotate", 1);
 	worlds_[kBody].rotate = FixModelRotate("body rotate", 2);
@@ -257,8 +259,6 @@ void Player::ModelsUpdate() {
 	worlds_[kLFoot].rotate = FixModelRotate("LFoot rotate", 5);
 	worlds_[kRFoot].rotate = FixModelRotate("RFoot rotate", 6);
 
-	ImGui::End();
-#endif // _DEBUG
 
 
 
@@ -274,7 +274,7 @@ Quaternion Player::FixModelRotate(const char* label, const int& bodyPartNumber) 
 #ifdef _DEBUG
 	ImGui::DragFloat3(label, &modelEuler[bodyPartNumber].x, 0.1f);
 #endif // _DEBUG
-
+	label;
 	modelEuler[bodyPartNumber].x = std::fmod(modelEuler[bodyPartNumber].x, 360.0f);
 	modelEuler[bodyPartNumber].y = std::fmod(modelEuler[bodyPartNumber].y, 360.0f);
 	modelEuler[bodyPartNumber].z = std::fmod(modelEuler[bodyPartNumber].z, 360.0f);
