@@ -21,6 +21,8 @@ void Leser::Initialize(const Vector3& playerPos, const Vector3& bossPos)
 #pragma region ビーム関連
 	//モデルセット
 	leserModelInstance_.SetModel(resourceManager->FindModel(laserModelName));
+	leserModelInstance_.SetPass(ToonModelInstance::Pass::Translucent);
+	leserModelInstance_.SetAlpha(0.5f);
 	//中心座標取得
 	Vector3 velo = (playerPos - bossPos) / 2;
 	//中心点

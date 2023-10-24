@@ -35,6 +35,9 @@ void InGame::OnInitialize() {
 	background_ = std::make_unique<Background>();
 	background_->Initialize(&camera_);
 
+	speedEffect_ = std::make_unique<SpeedEffect>();
+	speedEffect_->Initialize(&camera_);
+
 	//ボスの初期化
 	boss_ = std::make_unique<Boss>();
 	boss_->Initalize(map->GetBossMatPos());
@@ -119,6 +122,9 @@ void InGame::OnUpdate() {
 	ImGui::DragFloat("FovY", &fovY, 0.1f, 0.0f, 180.0f);
 	ImGui::DragFloat("NearZ", &nearZ, 0.1f);
 	ImGui::DragFloat("FarZ", &farZ, 1.0f);
+	if (ImGui::Button("SpeedEffect")) {
+		speedEffect_->Spawn();
+	}
 	ImGui::End();
 #endif // _DEBUG
 
@@ -132,7 +138,7 @@ void InGame::OnUpdate() {
 	camera_.UpdateMatrices();
 	// 背景はカメラを使用しているためカメラの後に更新
 	background_->Update();
-
+	speedEffect_->Update();
 	//シーンチェンジ処理
 	SceneChange();
 }
