@@ -200,6 +200,7 @@
     <ClCompile Include="Spike.cpp" />
     <ClCompile Include="StageSerect.cpp" />
     <ClCompile Include="TitleLogo.cpp" />
+    <ClCompile Include="TitlePlayer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>

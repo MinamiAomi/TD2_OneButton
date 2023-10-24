@@ -540,6 +540,9 @@
     <ClCompile Include="SpeedEffect.cpp">
       <Filter>Game\SpeedEffect</Filter>
     </ClCompile>
+    <ClCompile Include="TitlePlayer.cpp">
+      <Filter>Game\Title</Filter>
+    </ClCompile>
     <ClCompile Include="InGame2.cpp">
       <Filter>Game\Scene\InGame2</Filter>
     </ClCompile>
