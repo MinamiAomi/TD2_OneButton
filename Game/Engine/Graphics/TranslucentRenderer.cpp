@@ -114,7 +114,7 @@ void TranslucentRenderer::InitializePipeline(DXGI_FORMAT rtvFormat, DXGI_FORMAT 
     pipelineStateDesc.VS = CD3DX12_SHADER_BYTECODE(vs->GetBufferPointer(), vs->GetBufferSize());
     pipelineStateDesc.PS = CD3DX12_SHADER_BYTECODE(ps->GetBufferPointer(), ps->GetBufferSize());
 
-    pipelineStateDesc.BlendState = Helper::BlendAlpha;
+    pipelineStateDesc.BlendState = Helper::BlendAdditive;
     pipelineStateDesc.DepthStencilState = Helper::DepthStateReadOnly;
     pipelineStateDesc.RasterizerState = Helper::RasterizerDefault;
     pipelineStateDesc.NumRenderTargets = 1;
