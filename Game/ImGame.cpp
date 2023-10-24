@@ -63,6 +63,10 @@ void InGame::OnInitialize() {
 
 	limit_ = std::make_unique<Limit>();
 	limit_->Initialize();
+
+	LeserDust* leserDust = new LeserDust();
+	leserDust->Initalize({ 0.0f,-49.0f });
+	LeserDusts_.emplace_back(leserDust);
 }
 
 void InGame::OnUpdate() {
