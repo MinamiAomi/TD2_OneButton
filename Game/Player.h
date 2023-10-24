@@ -191,7 +191,7 @@ private://スペチャ追加分
 	float wide_ = 1;
 	
 	//移動関数
-	bool isMove_ = false;
+	bool isMove_ = true;
 
 	//コリジョン処理するか否か
 	bool collision_on = true;

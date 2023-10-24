@@ -300,6 +300,9 @@
     <ClInclude Include="Background.h">
       <Filter>Game\Background</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Graphics\TranslucentRenderer.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="Dust.h">
       <Filter>Game\Effect\Dust</Filter>
     </ClInclude>
@@ -490,6 +493,11 @@
       <Filter>Game\Effect\Heal</Filter>
     </ClCompile>
     <ClCompile Include="Background.cpp" />
+      <Filter>Game\Background</Filter>
+     </ClCompile>
+    <ClCompile Include="Engine\Graphics\TranslucentRenderer.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="Dust.cpp">
       <Filter>Game\Effect\Dust</Filter>
     </ClCompile>
@@ -543,6 +551,12 @@
       <Filter>Engine\Graphics\Shader</Filter>
     </None>
     <None Include="Engine\Graphics\Shader\SpritePS.hlsl">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </None>
+    <None Include="Engine\Graphics\Shader\TranslucentVS.hlsl">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </None>
+    <None Include="Engine\Graphics\Shader\TranslucentPS.hlsl">
       <Filter>Engine\Graphics\Shader</Filter>
     </None>
   </ItemGroup>

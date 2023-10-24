@@ -7,6 +7,8 @@ ConstantBuffer<Scene> scene_ : register(b0);
 
 struct Instance {
     float4x4 worldMatrix;
+    float3 color;
+    float alpha;
     float outlineWidth;
     float3 outlineColor;
     uint isLighting;
@@ -83,7 +85,7 @@ PSOutput main(PSInput input)
     directionalLight_.color = float3(1.0f, 1.0f, 1.0f);
     
     // テクスチャの色
-    float3 textureColor = texture_.Sample(sampler_, input.texcoord).rgb;
+    float4 textureColor = texture_.Sample(sampler_, input.texcoord);
     //float3 textureColor = float3(0.6f, 0.6f, 0.6f);
     // 拡散反射
     float3 diffuse = material_.diffuse * ToonDiffuse(normal, directionalLight_.direction);
@@ -93,9 +95,12 @@ PSOutput main(PSInput input)
     float3 shadeColor = (diffuse + specular) * directionalLight_.color * directionalLight_.intensity;
     
     PSOutput output;
-    output.color.rgb = textureColor * lerp(float3(1.0f, 1.0f, 1.0f), shadeColor, instance_.isLighting);
-    output.color.a = 1.0f;
-    
+    output.color.rgb = textureColor.rgb * instance_.color * lerp(float3(1.0f, 1.0f, 1.0f), shadeColor, instance_.isLighting);
+    output.color.a = textureColor.a * instance_.alpha;
+    // 完全な透明はピクセルを捨てる
+    if (output.color.a <= 0.0f) {
+        discard;
+    }
     //output.color.rgb = specular;
     
     return output;

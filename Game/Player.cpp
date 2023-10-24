@@ -250,16 +250,15 @@ void Player::ModelsUpdate() {
 
 	ImGui::Text("rotates");
 
+	ImGui::End();
+#endif // _DEBUG
+
 	worlds_[kHead].rotate = FixModelRotate("head rotate", 1);
 	worlds_[kBody].rotate = FixModelRotate("body rotate", 2);
 	worlds_[kLArm].rotate = FixModelRotate("LArm rotate", 3);
 	worlds_[kRArm].rotate = FixModelRotate("RArm rotate", 4);
 	worlds_[kLFoot].rotate = FixModelRotate("LFoot rotate", 5);
 	worlds_[kRFoot].rotate = FixModelRotate("RFoot rotate", 6);
-
-	ImGui::End();
-#endif // _DEBUG
-
 
 
 #pragma region モデル更新
@@ -271,6 +270,7 @@ void Player::ModelsUpdate() {
 }
 
 Quaternion Player::FixModelRotate(const char* label, const int& bodyPartNumber) {
+	label;
 #ifdef _DEBUG
 	ImGui::DragFloat3(label, &modelEuler[bodyPartNumber].x, 0.1f);
 #endif // _DEBUG
