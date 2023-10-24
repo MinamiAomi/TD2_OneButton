@@ -319,6 +319,15 @@ void InGame::CollisionAboutSpike() {
 
 
 				}
+
+#pragma region ボスとレーザーのコリジョン
+				Vector3 ExpPos = leser->GetExplosionPos();
+				float ExpWide = leser->GetExplotionRadius();
+				if (boss_->IsHitBoss(ExpPos, ExpWide)) {
+					//中に処理
+				}
+#pragma endregion
+
 			}
 #pragma endregion
 
