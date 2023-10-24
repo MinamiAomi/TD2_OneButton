@@ -123,7 +123,6 @@ void InGame::OnUpdate() {
 	ImGui::End();
 #endif // _DEBUG
 
-#endif // _DEBUG
 	rotate.x = std::fmod(rotate.x, 360.0f);
 	rotate.y = std::fmod(rotate.y, 360.0f);
 	rotate.z = std::fmod(rotate.z, 360.0f);
