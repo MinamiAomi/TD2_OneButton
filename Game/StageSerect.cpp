@@ -1,6 +1,6 @@
 #include"StageSerect.h"
 #include"ImGame.h"
-
+#include"InGame2.h"
 void StageSerect::OnInitialize() {
 	//インスタンス取得
 	input_ = Input::GetInstance();
@@ -13,13 +13,13 @@ void StageSerect::OnUpdate() {
 	control_ = 0;
 
 	//左右入力
-	if (input_->IsKeyPressed(DIK_LEFT) || input_->IsKeyPressed(DIK_A)) {
+	if (input_->IsKeyTrigger(DIK_LEFT) || input_->IsKeyTrigger(DIK_A)) {
 		control_ += -1;
 	}
-	else if (input_->IsKeyPressed(DIK_RIGHT) || input_->IsKeyPressed(DIK_D)) {
+	else if (input_->IsKeyTrigger(DIK_RIGHT) || input_->IsKeyTrigger(DIK_D)) {
 		control_ += 1;
 	}
-
+	
 #pragma endregion
 
 	//選んでる状態ごとの更新
@@ -102,7 +102,7 @@ void StageSerect::ChangeScene() {
 
 		case StageSerect::kStage2:
 			//シーン設定
-			sceneManager->ChangeScene<InGame>();
+			sceneManager->ChangeScene<InGame2>();
 			break;
 
 		case StageSerect::kStage3:

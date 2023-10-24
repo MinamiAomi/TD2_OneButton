@@ -100,6 +100,9 @@
     <Filter Include="Game\SpeedEffect">
       <UniqueIdentifier>{20a02fcb-69d6-4a32-b291-b23c6f0612d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Scene\InGame2">
+      <UniqueIdentifier>{e4a9a6c3-5c02-4f35-b650-06403f3355d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -311,7 +314,7 @@
     </ClInclude>
     <ClInclude Include="..\Externals\nlohmann\json_fwd.hpp">
       <Filter>Externals\nlohmann</Filter>
-     </ClInclude>
+    </ClInclude>
     <ClInclude Include="Background.h">
       <Filter>Game\Background</Filter>
     </ClInclude>
@@ -332,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="TitlePlayer.h">
       <Filter>Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame2.h">
+      <Filter>Game\Scene\InGame2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -533,6 +539,9 @@
     </ClCompile>
     <ClCompile Include="SpeedEffect.cpp">
       <Filter>Game\SpeedEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame2.cpp">
+      <Filter>Game\Scene\InGame2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

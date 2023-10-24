@@ -98,6 +98,7 @@
     <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="Heal.h" />
     <ClInclude Include="ImGame.h" />
+    <ClInclude Include="InGame2.h" />
     <ClInclude Include="Leser.h" />
     <ClInclude Include="Limit.h" />
     <ClInclude Include="map.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="GlobalVariables.cpp" />
     <ClCompile Include="Heal.cpp" />
     <ClCompile Include="ImGame.cpp" />
+    <ClCompile Include="InGame2.cpp" />
     <ClCompile Include="Leser.cpp" />
     <ClCompile Include="Limit.cpp" />
     <ClCompile Include="main.cpp" />

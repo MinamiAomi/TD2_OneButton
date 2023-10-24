@@ -16,7 +16,7 @@ void Spike::Initialize(int num, Transform world, const float* bossYLine, int coa
 	world_ = world;
 	wide_ = world_.scale.x;
 	world_.UpdateMatrix();
-
+	
 
 	//モデル
 	modelInstance_.SetModel(resourceManager->FindModel(spikeModelName));
