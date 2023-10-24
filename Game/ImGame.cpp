@@ -9,7 +9,7 @@
 
 void InGame::OnInitialize() {
 
-	
+
 	input_ = Input::GetInstance();
 
 	RenderManager::GetInstance()->SetCamera(camera_);
@@ -264,7 +264,7 @@ void InGame::CollisionAboutSpike() {
 							leser->OnCollision(spike->GetIdentificationNum());
 
 							//一個目作成
-							float newWide = S_wide * 0.8f;
+							float newWide = S_wide / 2.0f;
 
 							//新しいTransform作成
 							Transform Newworld;
@@ -277,7 +277,8 @@ void InGame::CollisionAboutSpike() {
 							Vector3 newVelo = { 0.5f,0.5f,0 };
 
 
-							AddSpike(Newworld, Spike::State::kFalling, newVelo);
+
+							AddSpike(Newworld, Spike::State::kFalling, newVelo,spike->GetCoalescenceCount());
 							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
@@ -295,7 +296,7 @@ void InGame::CollisionAboutSpike() {
 							//死んだので処理を流す
 							break;
 						}
-	
+
 					}
 					else {
 						//ビーム当たっていない
@@ -318,12 +319,12 @@ void InGame::CollisionAboutSpike() {
 #pragma endregion
 
 #pragma region 棘同士			
-			//棘同士の当たり判定処理をするか&棘が木にくっついたままか
-			if (spike->GetIsCollisonOnSpike() && !spike->IsStateStay()) {
+			//棘同士の当たり判定処理をするか&棘が木にくっついたままか&&合体数が3回以下か
+			if (spike->GetIsCollisonOnSpike() && !spike->IsStateStay() && spike->GetCoalescenceCount() < 3) {
 
 				for (std::unique_ptr<Spike>& spike2 : spikes) {
 					//棘が木にくっついていないことをチェック
-					if (!spike2->IsStateStay()) {
+					if (!spike2->IsStateStay() && spike2->GetCoalescenceCount() < 3) {
 						//同じ棘でないことを確認&&死んだ奴は処理しない
 						if (spike->GetIdentificationNum() != spike2->GetIdentificationNum() && !spike2->IsDead()) {
 							//棘座標取得
@@ -339,15 +340,15 @@ void InGame::CollisionAboutSpike() {
 								leng = SPIKE2 + leng;
 
 								//新しい円の半径設定
-								float newSize = (S_wide + S2_wide) * 0.6f;
+								float newSize = (S_wide + S2_wide);
 
 								//新しいTransform作成
 								Transform newSpike;
 								newSpike.translate = leng;							//位置設定
 								newSpike.scale = { newSize,newSize ,newSize };		//サイズ設定
 
-								//ダメージのついか
-								int DMG = spike->GetDamege() + spike2->GetDamege();
+								//合体数計算(DMGと動議
+								int DMG = spike->GetCoalescenceCount() + spike2->GetCoalescenceCount();
 
 
 								//新しいスパイクの生成
@@ -411,7 +412,7 @@ void InGame::CollisionAboutSpike() {
 			boss_->OnCollisionHealing(spike->GetDamege());
 			//ボスが回復するときのエフェクトを生成
 			Heal* heal_ = new Heal();
-			heal_->Initalize({ spike->GetWorld().translate.GetXY()});
+			heal_->Initalize({ spike->GetWorld().translate.GetXY() });
 			heals_.emplace_back(heal_);
 		}
 #pragma endregion
@@ -468,7 +469,7 @@ void InGame::SceneChange() {
 		globalV->AddItem(dataName, IsBob, 1);
 #pragma endregion
 
-		
+
 
 		//インスタンス取得
 		SceneManager* sceneManager = SceneManager::GetInstance();
@@ -479,7 +480,7 @@ void InGame::SceneChange() {
 }
 
 void InGame::MapLimit() {
-	float limitY= map->GetEndTrans().worldMatrix.m[3][1];
+	float limitY = map->GetEndTrans().worldMatrix.m[3][1];
 
 	float bossY = boss_->GetBossYLine();
 

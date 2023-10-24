@@ -6,7 +6,7 @@
 #include "Graphics/ResourceManager.h"
 
 
-void Spike::Initialize(int num, Transform world, const float* bossYLine, int DMG, int State, Vector3 velo) {
+void Spike::Initialize(int num, Transform world, const float* bossYLine, int coalescenceCount, int State, Vector3 velo) {
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	const char spikeModelName[] = "Spike";
 
@@ -30,8 +30,11 @@ void Spike::Initialize(int num, Transform world, const float* bossYLine, int DMG
 	//ボスのY座標取得
 	BossYLine_ = bossYLine;
 
-	damage_ = DMG;
+	//ダメージは合体数と同期
+	damage_ = coalescenceCount;
 
+	//合体数入力
+	coalescenceCount_ = coalescenceCount;
 
 	//生成時すぐ当たらないよう処理
 	collisionOnForBoss_ = false;
