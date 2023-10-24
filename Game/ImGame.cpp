@@ -60,6 +60,8 @@ void InGame::OnInitialize() {
 	player_->SetBossY(&boss_->GetBossYLine());
 
 
+	limit_ = std::make_unique<Limit>();
+	limit_->Initialize();
 }
 
 void InGame::OnUpdate() {
@@ -466,6 +468,8 @@ void InGame::MapLimit() {
 	if (dis <= 0.0f) {
 		dis = 0;
 	}
+
+	limit_->Update((int)dis);
 
 #ifdef _DEBUG
 	ImGui::Begin("limit");

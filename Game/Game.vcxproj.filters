@@ -91,6 +91,9 @@
     <Filter Include="Game\BossSpike">
       <UniqueIdentifier>{bb276877-993a-46f4-92cb-087967e9e49b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Limit">
+      <UniqueIdentifier>{ca9d149d-5221-4110-8a82-4cc47e6d2865}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -309,6 +312,9 @@
     <ClInclude Include="BossSpike.h">
       <Filter>Game\BossSpike</Filter>
     </ClInclude>
+    <ClInclude Include="Limit.h">
+      <Filter>Game\Limit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -503,6 +509,9 @@
     </ClCompile>
     <ClCompile Include="Background.cpp">
       <Filter>Game\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="Limit.cpp">
+      <Filter>Game\Limit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

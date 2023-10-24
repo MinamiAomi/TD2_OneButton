@@ -12,6 +12,7 @@
 #include"Player.h"
 #include"Boss.h"
 #include "Background.h"
+#include"Limit.h"
 
 #include "Heal.h"
 
@@ -99,6 +100,8 @@ private:
 
 	std::list<Heal*> heals_;
 
+	//リミットクラス
+	std::unique_ptr<Limit>limit_ = nullptr;
 
 	//吹き飛ばすベクトル量
 	Vector3 Skipvelo = { 0.0f,2.0f,0.0 };
