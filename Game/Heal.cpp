@@ -14,7 +14,7 @@ void Heal::Initalize(const Vector2& position)
 	const char ModelName[] = "Heal";
 	model_->SetModel(resourceManager->FindModel(ModelName));
 	model_->SetWorldMatrix(TexPos_.worldMatrix);
-	model_->SetPass();
+	model_->SetPass(Pass::Translucent);
 	model_->SetUseOutline(false);
 	model_->SetIsLighting(false);
 	AnimeFrame_ = 0;
