@@ -16,10 +16,10 @@
         { "Name" : "Pole",        "Path" : "Resources/Model/Pole/Pole.obj" } 
     ],
     "Images" : [
-        { "Name" : "TitleLogo",   "Path" : "Resources/Image/titleLogo.png" },
+        { "Name" : "TitleLogo",   "Path" : "Resources/Image/titleLogo.png"},
         { "Name" : "limit", 	  "Path" : "Resources/Image/limit.png" },
 	    { "Name" : "uvChecker",   "Path" : "Resources/uvChecker.png" },
-	    { "Name" : "number",  	  "Path" : "Resources/Image/number.png" },
-        { "Name" : "resultImage1","Path" : "Resources/Image/resultImage1.png"}
+	    { "Name" : "number",  	  "Path" : "Resources/Image/number.png", "Inter" : "Point", "Exten" : "Wrap"  }
+	
     ]
 }

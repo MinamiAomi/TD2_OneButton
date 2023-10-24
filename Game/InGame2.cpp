@@ -1,4 +1,4 @@
-#include "ImGame.h"
+#include"InGame2.h"
 
 #include"Engine/Scene/SceneManager.h"
 #include "Externals/ImGui/imgui.h"
@@ -7,7 +7,7 @@
 #include"GlobalVariables.h"
 #include "Clear.h"
 
-void InGame::OnInitialize() {
+void InGame2::OnInitialize() {
 
 
 	input_ = Input::GetInstance();
@@ -65,7 +65,7 @@ void InGame::OnInitialize() {
 	limit_->Initialize();
 }
 
-void InGame::OnUpdate() {
+void InGame2::OnUpdate() {
 	GlobalVariables::GetInstance()->Update();
 
 
@@ -144,7 +144,7 @@ void InGame::OnUpdate() {
 }
 
 
-bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
+bool InGame2::CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 
 	Vector3 p = p1 - p2;
 
@@ -162,7 +162,7 @@ bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 
 
 
-void InGame::GetAllCollisions() {
+void InGame2::GetAllCollisions() {
 
 
 	CollisionAboutSpike();
@@ -202,7 +202,7 @@ void InGame::GetAllCollisions() {
 
 
 
-void InGame::CollisionAboutSpike() {
+void InGame2::CollisionAboutSpike() {
 #pragma region 棘に関する当たり判定
 	//スパイクのWorld
 
@@ -282,7 +282,7 @@ void InGame::CollisionAboutSpike() {
 
 
 
-							AddSpike(Newworld, Spike::State::kFalling, newVelo,spike->GetCoalescenceCount());
+							AddSpike(Newworld, Spike::State::kFalling, newVelo, spike->GetCoalescenceCount());
 							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
@@ -430,7 +430,7 @@ void InGame::CollisionAboutSpike() {
 
 
 //死亡チェック
-void InGame::CheckDead() {
+void InGame2::CheckDead() {
 	spikes.remove_if([](std::unique_ptr<Spike>& spike) {
 		if (spike->IsDead()) {
 			return true;
@@ -439,7 +439,7 @@ void InGame::CheckDead() {
 		});
 }
 
-void InGame::AddSpike(const Transform& trans, const int state, const Vector3 velo, int damage) {
+void InGame2::AddSpike(const Transform& trans, const int state, const Vector3 velo, int damage) {
 
 	//クラス作成
 	Spike* spike_ = new Spike();
@@ -453,7 +453,7 @@ void InGame::AddSpike(const Transform& trans, const int state, const Vector3 vel
 }
 
 
-void InGame::SceneChange() {
+void InGame2::SceneChange() {
 	//1キーでクリア
 	if (input_->IsKeyTrigger(DIK_1)) {
 
@@ -470,7 +470,7 @@ void InGame::SceneChange() {
 		globalV->AddItem(dataName, keyLimit, limitScore_);
 		//ボブかどうか
 		std::string IsBob = "IsBob";
-		globalV->AddItem(dataName, IsBob, 1);
+		globalV->AddItem(dataName, IsBob, 0);
 #pragma endregion
 
 
@@ -483,7 +483,7 @@ void InGame::SceneChange() {
 	}
 }
 
-void InGame::MapLimit() {
+void InGame2::MapLimit() {
 	float limitY = map->GetEndTrans().worldMatrix.m[3][1];
 
 	float bossY = boss_->GetBossYLine();
@@ -507,7 +507,7 @@ void InGame::MapLimit() {
 }
 
 //終了処理
-void InGame::OnFinalize() {
+void InGame2::OnFinalize() {
 
 }
 

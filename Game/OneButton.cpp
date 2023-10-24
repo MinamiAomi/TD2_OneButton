@@ -52,6 +52,26 @@ void OneButton::LoadResource() {
         std::string path = image.at("Path");
         auto texture = std::make_shared<Texture>();
         texture->Load(path);
+        // サンプラー設定
+        if (image.find("Inter") != image.end()) {
+            std::string inter = image.at("Inter");
+            if (inter == "Linear") {
+                texture->SetInterpolation(Texture::Interpolation::Linear);
+            }
+            else if (inter == "Point") {
+                texture->SetInterpolation(Texture::Interpolation::Point);
+            }
+        }
+        // サンプラー設定
+        if (image.find("Exten") != image.end()) {
+            std::string exten = image.at("Exten");
+            if (exten == "Wrap") {
+                texture->SetExtension(Texture::Extension::Wrap);
+            }
+            else if (exten == "Clamp") {
+                texture->SetExtension(Texture::Extension::Clamp);
+            }
+        }
         resourceManager->AddTexture(name, texture);
     }
 }
