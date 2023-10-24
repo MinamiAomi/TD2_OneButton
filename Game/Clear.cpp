@@ -9,7 +9,7 @@ void Clear::OnInitialize() {
 
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	//仮画像
-	const char textureName[] = "TemporaryImage";
+	const char textureName[] = "uvChecker";
 
 	clearTrans_.translate = { 270.0f,500.0f,0.0f };
 

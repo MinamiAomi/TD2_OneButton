@@ -274,7 +274,7 @@ Quaternion Player::FixModelRotate(const char* label, const int& bodyPartNumber) 
 #ifdef _DEBUG
 	ImGui::DragFloat3(label, &modelEuler[bodyPartNumber].x, 0.1f);
 #endif // _DEBUG
-
+	label;
 	modelEuler[bodyPartNumber].x = std::fmod(modelEuler[bodyPartNumber].x, 360.0f);
 	modelEuler[bodyPartNumber].y = std::fmod(modelEuler[bodyPartNumber].y, 360.0f);
 	modelEuler[bodyPartNumber].z = std::fmod(modelEuler[bodyPartNumber].z, 360.0f);
