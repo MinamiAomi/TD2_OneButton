@@ -321,7 +321,7 @@
     <ClInclude Include="Engine\Graphics\TranslucentRenderer.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Dust.h">
+    <ClInclude Include="LeserDust.h">
       <Filter>Game\Effect\Dust</Filter>
     </ClInclude>
     <ClInclude Include="BossSpike.h">
@@ -525,7 +525,7 @@
     <ClCompile Include="Engine\Graphics\TranslucentRenderer.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Dust.cpp">
+    <ClCompile Include="LeserDust.cpp">
       <Filter>Game\Effect\Dust</Filter>
     </ClCompile>
     <ClCompile Include="BossSpike.cpp">
