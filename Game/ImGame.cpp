@@ -60,13 +60,14 @@ void InGame::OnInitialize() {
 	player_->Initialize(map->GetPlayerPosition());
 	player_->SetBossY(&boss_->GetBossYLine());
 
+	LeserDust* leserDust = new LeserDust();
+	leserDust->Initalize({ 0.0f,-49.0f });
+	leserDusts_.emplace_back(leserDust);
 
 	limit_ = std::make_unique<Limit>();
 	limit_->Initialize();
 
-	LeserDust* leserDust = new LeserDust();
-	leserDust->Initalize({ 0.0f,-49.0f });
-	LeserDusts_.emplace_back(leserDust);
+	
 }
 
 void InGame::OnUpdate() {
@@ -88,6 +89,10 @@ void InGame::OnUpdate() {
 	//エフェクト更新
 	for (std::unique_ptr<Heal>& heal_ : heals_) {
 		heal_->Update();
+	}
+
+	for (std::unique_ptr<LeserDust>& leserDust_ : leserDusts_) {
+		leserDust_->Update();
 	}
 	//フラグが立っていたら削除
 	heals_.remove_if([](std::unique_ptr<Heal>& Heal_) {

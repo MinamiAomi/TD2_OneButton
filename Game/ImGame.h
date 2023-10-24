@@ -104,7 +104,7 @@ private:
 	//ボスの回復
 	std::list<std::unique_ptr<Heal>> heals_;
 	//レーザーとボスが当たった時
-	std::list<std::unique_ptr<LeserDust>> LeserDusts_;
+	std::list<std::unique_ptr<LeserDust>> leserDusts_;
 
 	//リミットクラス
 	std::unique_ptr<Limit>limit_ = nullptr;
