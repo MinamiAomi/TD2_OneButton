@@ -1,5 +1,6 @@
 #include "Graphics/ResourceManager.h"
 #include"Externals/ImGui/imgui.h"
+#include"GlobalVariables.h"
 #include"Clear.h"
 #include"TitleScene.h"
 #include"ImGame.h"
@@ -21,6 +22,26 @@ void Clear::OnInitialize() {
     clearTex_.SetTexcoordRect({ 0.0f,0.0f }, { 540.0f, 720.0f });
     clearTex_.SetScale(texScale);
     clearTex_.SetIsActive(true);
+
+#pragma region スコア取得
+
+	//
+	const char dataName[] = "data";
+
+	//インスタンス取得
+	GlobalVariables* globalV = GlobalVariables::GetInstance();
+	//グループの追加
+	GlobalVariables::GetInstance()->CreateGroup(dataName);
+
+	//limit
+	std::string keyLimit = "Limit";
+	//ボブかどうか
+	std::string IsBob = "IsBob";
+	
+	//
+	limitScore_ = globalV->GetIntvalue(dataName, keyLimit);
+	isBob_ = globalV->GetIntvalue(dataName, IsBob);
+#pragma endregion
 
 }
 

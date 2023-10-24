@@ -452,8 +452,23 @@ void InGame::SceneChange() {
 	//1キーでクリア
 	if (input_->IsKeyTrigger(DIK_1)) {
 
-		//const char DataName[] = "data";
+#pragma region データ転送
+		const char dataName[] = "data";
+		//インスタンス取得
+		GlobalVariables* globalV = GlobalVariables::GetInstance();
+		//グループの追加
+		GlobalVariables::GetInstance()->CreateGroup(dataName);
 
+		//limit
+		std::string keyLimit = "Limit";
+		//値の登録
+		globalV->AddItem(dataName, keyLimit, limitScore_);
+		//ボブかどうか
+		std::string IsBob = "IsBob";
+		globalV->AddItem(dataName, IsBob, 1);
+#pragma endregion
+
+		
 
 		//インスタンス取得
 		SceneManager* sceneManager = SceneManager::GetInstance();
@@ -469,18 +484,18 @@ void InGame::MapLimit() {
 	float bossY = boss_->GetBossYLine();
 
 	//残り計算（42は棘の終点が画面上に来た時にぴったり0になる数値
-	float dis = limitY - bossY - 41;
+	limitScore_ = (int)limitY - (int)bossY - 41;
 
 	//0以下は表示する必要なし
-	if (dis <= 0.0f) {
-		dis = 0;
+	if (limitScore_ <= 0.0f) {
+		limitScore_ = 0;
 	}
 
-	limit_->Update((int)dis);
+	limit_->Update(limitScore_);
 
 #ifdef _DEBUG
 	ImGui::Begin("limit");
-	ImGui::Text("limit : %4.1f", dis);
+	ImGui::Text("limit : %4.1f", limitScore_);
 	ImGui::End();
 #endif // _DEBUG
 

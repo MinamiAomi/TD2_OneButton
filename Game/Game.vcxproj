@@ -40,6 +40,8 @@
     <ClInclude Include="..\Externals\ImGui\imstb_truetype.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Externals\nlohmann\json.hpp" />
+    <ClInclude Include="..\Externals\nlohmann\json_fwd.hpp" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BossSpike.h" />
@@ -104,6 +106,7 @@
     <ClInclude Include="Spike.h" />
     <ClInclude Include="StageSerect.h" />
     <ClInclude Include="TitleLogo.h" />
+    <ClInclude Include="TitlePlayer.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="SpeedEffect.h" />
   </ItemGroup>

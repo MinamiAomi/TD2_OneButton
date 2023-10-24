@@ -107,5 +107,8 @@ private:
 	//吹き飛ばすベクトル量
 	Vector3 Skipvelo = { 0.0f,2.0f,0.0 };
 
+	//まっぷを加速させる秒数
 	float mapAcceSecond_ = 2;
+
+	int limitScore_ = 0;
 };
