@@ -20,7 +20,7 @@ void OneButton::OnInitialize() {
 
     SceneManager* sceneManager = SceneManager::GetInstance();
     //シーン設定
-    sceneManager->ChangeScene<InGame>();
+    sceneManager->ChangeScene<Clear>();
 
     LoadResource();
 }

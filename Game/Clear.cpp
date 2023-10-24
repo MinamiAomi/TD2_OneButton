@@ -9,16 +9,16 @@ void Clear::OnInitialize() {
 
     ResourceManager* resourceManager = ResourceManager::GetInstance();
     //仮画像
-    const char textureName[] = "uvChecker";
+    const char textureName[] = "resultImage1";
 
-    clearTrans_.translate = { 270.0f,500.0f,0.0f };
+    clearTrans_.translate = { 270.0f,360.0f,0.0f };
 
-    Vector2 texScale = { 64.0f,64.0f };
+    Vector2 texScale = { 540.0f,720.0f };
 
     clearTex_.SetTexture(resourceManager->FindTexture(textureName));
     clearTex_.SetPosition(clearTrans_.translate.GetXY());
     clearTex_.SetAnchor({ 0.5f,0.5f });
-    clearTex_.SetTexcoordRect({ 0.0f,0.0f }, { 64.0f, 64.0f });
+    clearTex_.SetTexcoordRect({ 0.0f,0.0f }, { 540.0f, 720.0f });
     clearTex_.SetScale(texScale);
     clearTex_.SetIsActive(true);
 
