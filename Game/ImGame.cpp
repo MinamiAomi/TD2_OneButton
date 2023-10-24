@@ -39,10 +39,6 @@ void InGame::OnInitialize() {
 	boss_ = std::make_unique<Boss>();
 	boss_->Initalize(map->GetBossMatPos());
 
-	//TODO : ヒールエフェクト　後で消す
-	Heal* heal_ = new Heal();
-	heal_->Initalize({ 0.0f,-49.0f });
-	heals_.emplace_back(heal_);
 
 	//スパイクのTransformコピー
 	std::vector<Transform> spikeWorld = map->GetSpikeWorld();
