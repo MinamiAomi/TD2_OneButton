@@ -16,8 +16,9 @@
     ],
     "Images" : [
         { "Name" : "TitleLogo", "Path" : "Resources/Image/titleLogo.png" },
-       
+        { "Name" : "limit", 	"Path" : "Resources/Image/limit.png" },
 	{ "Name" : "uvChecker", "Path" : "Resources/uvChecker.png" },
 	{ "Name" : "number",  	"Path" : "Resources/Image/number.png" }
+	
     ]
 }

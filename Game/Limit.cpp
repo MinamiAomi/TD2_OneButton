@@ -21,6 +21,14 @@ void Limit::Initialize() {
 
 	}
 
+	const char meterName[] = "limit";
+
+	meterSprite_.spirte = std::make_unique<Sprite>();
+	meterSprite_.spirte->SetTexture(resourceManager->FindTexture(meterName));
+	meterSprite_.spirte->SetAnchor({ 0.5f,0.5f });
+	meterSprite_.spirte->SetScale(mScale_);
+	meterSprite_.spirte->SetTexcoordRect({ 0.0f,0.0f }, { 150.0f,200.0f });
+	meterSprite_.spirte->SetIsActive(true);
 
 }
 
@@ -29,7 +37,11 @@ void Limit::Update(int limit) {
 #ifdef _DEBUG
 	ImGui::Begin("limit");
 	ImGui::DragFloat2("pos", &center_.x);
+	ImGui::DragFloat2("mpos", &mPos_.x);
+	ImGui::DragFloat2("mScale", &mScale_.x);
 	ImGui::End();
+
+	meterSprite_.spirte->SetScale(mScale_);
 #endif // _DEBUG
 
 
@@ -127,6 +139,9 @@ void Limit::Update(int limit) {
 		numSprite_[i].spirte->SetTexcoordRect({ texSize * num_[i],0.0f }, { texSize,texSize });
 	}
 	
-
-
+	//座標設定
+	meterSprite_.position = numSprite_[0].position;
+	meterSprite_.position.x = numSprite_[0].position.x + texScale_ / 2.0f;
+	meterSprite_.position += mPos_;
+	meterSprite_.spirte->SetPosition(meterSprite_.position);
 }

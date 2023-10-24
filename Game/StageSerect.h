@@ -10,7 +10,6 @@ public:
 	void OnUpdate() override;
 	void OnFinalize() override;
 
-
 private://メンバ関数
 	//ステージ１を選んでいるときの処理
 	void State1Update();

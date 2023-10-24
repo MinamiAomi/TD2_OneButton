@@ -22,6 +22,7 @@ private:
 	//三桁分作成
 	Sprites numSprite_[digitNum];
 	
+	Sprites meterSprite_;
 
 	//中心座標
 	Vector2 center_= { 270.0f,365.0f};
@@ -35,4 +36,7 @@ private:
 
 	const float texScale_=192;
 
+
+	Vector2 mPos_ = { -9.0f,-36.0f };
+	Vector2 mScale_ = { 80.0f,80.0f };
 };
