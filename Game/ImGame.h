@@ -12,6 +12,7 @@
 #include"Player.h"
 #include"Boss.h"
 #include "Background.h"
+#include "SpeedEffect.h"
 
 #include "Heal.h"
 
@@ -80,7 +81,8 @@ private:
 	std::unique_ptr<Map>map = nullptr;
 	// 背景
 	std::unique_ptr<Background> background_;
-
+	// スピードエフェクト
+	std::unique_ptr<SpeedEffect> speedEffect_;
 	//棘クラス
 	std::list<std::unique_ptr<Spike>> spikes;
 

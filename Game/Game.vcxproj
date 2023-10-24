@@ -104,6 +104,7 @@
     <ClInclude Include="StageSerect.h" />
     <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="SpeedEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -188,6 +189,7 @@
     <ClCompile Include="map.cpp" />
     <ClCompile Include="OneButton.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SpeedEffect.cpp" />
     <ClCompile Include="Spike.cpp" />
     <ClCompile Include="StageSerect.cpp" />
     <ClCompile Include="TitleLogo.cpp" />
