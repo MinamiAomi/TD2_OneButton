@@ -97,16 +97,17 @@ int GetRandomNum(int wideOrmax, bool isWide) {
 
 bool Boss::IsHitBossATK(const Vector3& pos, const float& wide) {
 
-	if (atkType_ == kSpikeExpATK && atkWave_ == kWave2) {
+	if (atkType_ == kSpikeExpATK && (atkWave_ == kWave2|| atkWave_ == kWave3)) {
 
 		//ボスの攻撃のY座標取得
-		float ATKposY = world_.translate.y + bossSpike_->GetATKScaleNum();
+		float ATKposY = -44.0f;
+		//float ATKposY = world_.translate.y + height_ * bossSpike_->GetATKScaleNum();
 
 		//判定対象のｙ座標
 		float Epos = pos.y - wide;
 
 		//もし範囲より小さい場合
-		if (ATKposY <= Epos) {
+		if (ATKposY >= Epos) {
 			return true;
 		}
 	}

@@ -76,7 +76,6 @@ void Leser::Update() {
 #pragma region 爆破関連
 		//更新処理
 		explosionpos_.scale = { explosionRadius_,explosionRadius_ ,explosionRadius_ };
-
 		explosionpos_.UpdateMatrix();
 		expModelInstance_.SetWorldMatrix(explosionpos_.worldMatrix);
 #pragma endregion

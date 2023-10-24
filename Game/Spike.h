@@ -208,7 +208,7 @@ private:
 	const float gensoku_ = 1.0f / 1000.0f;
 
 	//棘にかかる重力
-	float gravity = -0.1f;
+	float gravity = -0.08f;
 
 
 	//爆破アニメーションのカウント
@@ -271,8 +271,12 @@ private:
 	//ダメージ量
 	int damage_ = 1;
 
+	//ボスの棘攻撃に当たったか
+	bool IsCollisionBossSpikeATK_ = false;
 
 	ToonModelInstance exploModel_;
 
 	Transform exploTrans_;
+
+
 };

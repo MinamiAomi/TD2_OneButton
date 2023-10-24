@@ -1,5 +1,6 @@
 #include "ImGame.h"
 
+#include"Engine/Scene/SceneManager.h"
 #include "Externals/ImGui/imgui.h"
 #include "Engine/Graphics/RenderManager.h"
 #include "Math/Transform.h"
@@ -8,8 +9,7 @@
 
 void InGame::OnInitialize() {
 
-	GlobalVariables::GetInstance()->LoadFiles();
-
+	
 	input_ = Input::GetInstance();
 
 	RenderManager::GetInstance()->SetCamera(camera_);
@@ -98,6 +98,10 @@ void InGame::OnUpdate() {
 
 	//当たり判定チェック
 	GetAllCollisions();
+
+	//残りの距離取得
+	MapLimit();
+
 	//死亡チェック
 	CheckDead();
 
@@ -117,12 +121,12 @@ void InGame::OnUpdate() {
 	ImGui::DragFloat("NearZ", &nearZ, 0.1f);
 	ImGui::DragFloat("FarZ", &farZ, 1.0f);
 	ImGui::End();
+#endif // _DEBUG
 
 #endif // _DEBUG
 	rotate.x = std::fmod(rotate.x, 360.0f);
 	rotate.y = std::fmod(rotate.y, 360.0f);
 	rotate.z = std::fmod(rotate.z, 360.0f);
-
 	camera_.SetPosition(position);
 	camera_.SetRotate(Quaternion::MakeFromEulerAngle(rotate * Math::ToRadian));
 	camera_.SetPerspective(fovY * Math::ToRadian, 540.0f / 720.0f, nearZ, farZ);
@@ -223,7 +227,6 @@ void InGame::CollisionAboutSpike() {
 				player_->OnCollision();
 			}
 			else {
-				
 				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる
 				if (player_->GetIsATKBossFlag() && spike->IsStateFillUp()) {
 					spike->OnCollisionPlayerStump();
@@ -232,8 +235,7 @@ void InGame::CollisionAboutSpike() {
 #pragma endregion
 
 
-#pragma region プレイヤービームと爆風
-			
+#pragma region プレイヤービームと爆風			
 			for (Leser* leser : player_->Getlesers()) {
 				//	プレイヤー攻撃に当たる状態かチェック
 				if (spike->GetIsCollisonOnPlayer()) {
@@ -451,6 +453,27 @@ void InGame::SceneChange() {
 		sceneManager->ChangeScene<Clear>();
 
 	}
+}
+
+void InGame::MapLimit() {
+	float limitY= map->GetEndTrans().worldMatrix.m[3][1];
+
+	float bossY = boss_->GetBossYLine();
+
+	//残り計算（42は棘の終点が画面上に来た時にぴったり0になる数値
+	float dis = limitY - bossY - 42;
+
+	//0以下は表示する必要なし
+	if (dis <= 0.0f) {
+		dis = 0;
+	}
+
+#ifdef _DEBUG
+	ImGui::Begin("limit");
+	ImGui::Text("limit : %4.1f", dis);
+	ImGui::End();
+#endif // _DEBUG
+
 }
 
 //終了処理

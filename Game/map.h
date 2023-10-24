@@ -80,6 +80,7 @@ public:
 	//壁の左右のx座標取得(x=min,y=max)
 	Vector2 GetHitWallX() { return hitsWallX_; }
 
+	const Transform& GetEndTrans() { return mapEndTrans_; }
 #pragma endregion
 
 
@@ -185,6 +186,5 @@ private:
 
 	std::string groupName_ = "Map";
 
-	//マップ配置データ
-	std::vector<std::vector<int>> mapData_;
+	Transform mapEndTrans_;
 };
