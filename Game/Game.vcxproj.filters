@@ -339,6 +339,9 @@
     <ClInclude Include="InGame2.h">
       <Filter>Game\Scene\InGame2</Filter>
     </ClInclude>
+    <ClInclude Include="ClearLimit.h">
+      <Filter>Game\Limit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -539,6 +542,11 @@
     </ClCompile>
     <ClCompile Include="SpeedEffect.cpp">
       <Filter>Game\SpeedEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame2.cpp" />
+    <ClCompile Include="TitlePlayer.cpp" />
+    <ClCompile Include="ClearLimit.cpp">
+      <Filter>Game\Limit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

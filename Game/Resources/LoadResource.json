@@ -19,7 +19,8 @@
         { "Name" : "TitleLogo",   "Path" : "Resources/Image/titleLogo.png"},
         { "Name" : "limit", 	  "Path" : "Resources/Image/limit.png" },
 	    { "Name" : "uvChecker",   "Path" : "Resources/uvChecker.png" },
-	    { "Name" : "number",  	  "Path" : "Resources/Image/number.png", "Inter" : "Point", "Exten" : "Wrap"  }
+	    { "Name" : "number",  	  "Path" : "Resources/Image/number.png", "Inter" : "Point", "Exten" : "Wrap"  },
+        { "Name" : "resultImage1","Path" : "Resources/Image/resultImage1.png"}
 	
     ]
 }
