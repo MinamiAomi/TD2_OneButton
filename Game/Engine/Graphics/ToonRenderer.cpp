@@ -54,7 +54,7 @@ void ToonRenderer::Render(CommandContext& commandContext, const Camera& camera) 
     for (auto& instance : instanceList) {
         if (instance->IsActive() && instance->model_) {
             // ライティングする
-            if (instance->isLighting_ && instance->pass_ == ToonModelInstance::Pass::Opaque) {
+            if (instance->pass_ == ToonModelInstance::Pass::Opaque) {
 
                 InstanceConstant data;
                 data.worldMatrix = instance->worldMatrix_;

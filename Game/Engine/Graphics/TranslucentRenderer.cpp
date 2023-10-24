@@ -42,7 +42,7 @@ void TranslucentRenderer::Render(CommandContext& commandContext, const Camera& c
     for (auto& instance : instanceList) {
         if (instance->IsActive() && instance->model_) {
             // ライティングしない
-            if (!instance->isLighting_ || instance->pass_ == ToonModelInstance::Pass::Translucent) {
+            if (instance->pass_ == ToonModelInstance::Pass::Translucent) {
 
                 InstanceConstant data;
                 data.worldMatrix = instance->worldMatrix_;
@@ -114,8 +114,8 @@ void TranslucentRenderer::InitializePipeline(DXGI_FORMAT rtvFormat, DXGI_FORMAT 
     pipelineStateDesc.VS = CD3DX12_SHADER_BYTECODE(vs->GetBufferPointer(), vs->GetBufferSize());
     pipelineStateDesc.PS = CD3DX12_SHADER_BYTECODE(ps->GetBufferPointer(), ps->GetBufferSize());
 
-    pipelineStateDesc.BlendState = Helper::BlendDisable;
-    pipelineStateDesc.DepthStencilState = Helper::DepthStateReadWrite;
+    pipelineStateDesc.BlendState = Helper::BlendAlpha;
+    pipelineStateDesc.DepthStencilState = Helper::DepthStateReadOnly;
     pipelineStateDesc.RasterizerState = Helper::RasterizerDefault;
     pipelineStateDesc.NumRenderTargets = 1;
     pipelineStateDesc.RTVFormats[0] = rtvFormat;
