@@ -226,7 +226,6 @@ void InGame::CollisionAboutSpike() {
 				player_->OnCollision();
 			}
 			else {
-				
 				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる
 				if (player_->GetIsATKBossFlag() && spike->IsStateFillUp()) {
 					spike->OnCollisionPlayerStump();
@@ -235,8 +234,7 @@ void InGame::CollisionAboutSpike() {
 #pragma endregion
 
 
-#pragma region プレイヤービームと爆風
-			
+#pragma region プレイヤービームと爆風			
 			for (Leser* leser : player_->Getlesers()) {
 				//	プレイヤー攻撃に当たる状態かチェック
 				if (spike->GetIsCollisonOnPlayer()) {

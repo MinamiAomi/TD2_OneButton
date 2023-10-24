@@ -208,7 +208,7 @@ private:
 	const float gensoku_ = 1.0f / 1000.0f;
 
 	//棘にかかる重力
-	float gravity = -0.05f;
+	float gravity = -0.08f;
 
 
 	//爆破アニメーションのカウント

@@ -395,7 +395,7 @@ void Spike::OnCollisionBossATK(Vector3 velo) {
 
 	//コリジョン処理ほぼOFF
 	collisionOnForBoss_ = false;
-	collisionOnForPlayer_ = false;
+	//collisionOnForPlayer_ = false;
 	collisionOnForSpike_ = false;
 
 	//戻らないような秒数
