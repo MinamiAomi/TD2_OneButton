@@ -445,6 +445,10 @@ void InGame::AddSpike(const Transform& trans, const int state, const Vector3 vel
 void InGame::SceneChange() {
 	//1キーでクリア
 	if (input_->IsKeyTrigger(DIK_1)) {
+
+		const char DataName[] = "data";
+
+
 		//インスタンス取得
 		SceneManager* sceneManager = SceneManager::GetInstance();
 		//シーン設定
