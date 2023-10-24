@@ -42,7 +42,7 @@ void InGame::OnInitialize() {
 	//TODO : ヒールエフェクト　後で消す
 	Heal* heal_ = new Heal();
 	heal_->Initalize({ 0.0f,-49.0f });
-	heals_.push_back(heal_);
+	heals_.emplace_back(heal_);
 
 	//スパイクのTransformコピー
 	std::vector<Transform> spikeWorld = map->GetSpikeWorld();
@@ -81,13 +81,12 @@ void InGame::OnUpdate() {
 	}
 
 	//エフェクト更新
-	for (Heal* heal_ : heals_) {
+	for (std::unique_ptr<Heal>& heal_ : heals_) {
 		heal_->Update();
 	}
 	//フラグが立っていたら削除
-	heals_.remove_if([](Heal* Heal_) {
+	heals_.remove_if([](std::unique_ptr<Heal>& Heal_) {
 		if (Heal_->GetisAlive() == false) {
-			delete Heal_;
 			return true;
 		}
 		return false;
@@ -409,7 +408,7 @@ void InGame::CollisionAboutSpike() {
 			//ボスが回復するときのエフェクトを生成
 			Heal* heal_ = new Heal();
 			heal_->Initalize({ 0.0f,-49.0f });
-			heals_.push_back(heal_);
+			heals_.emplace_back(heal_);
 		}
 #pragma endregion
 

@@ -97,7 +97,7 @@ private:
 	//ボスクラス
 	std::unique_ptr<Boss>boss_ = nullptr;
 
-	std::list<Heal*> heals_;
+	std::list<std::unique_ptr<Heal>> heals_;
 
 
 	//吹き飛ばすベクトル量
