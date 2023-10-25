@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Graphics/ToonModel.h"
 #include "Engine/Math/Transform.h"
+#include "Graphics/Sprite.h"
+
 #include<string>
 
 #include"BossSpike.h"
@@ -179,4 +181,18 @@ private:
 	std::unique_ptr<DangerZone>dBossATKSpikeZone_;
 	Vector3 dspikeZonePos = { 0.0f,-55.0f,-5.0f };
 	Vector3 dspikeZoneScale = { 18.0f,10.0f,1.0f };
+
+
+#pragma region HPバー
+	std::unique_ptr<Sprite> HPBar_;
+	Transform HPBarTrans_;
+	std::unique_ptr<Sprite> HPBarFrame_;
+	Transform HPBarFrameTrans_;
+
+	const Vector2 rects_ = {540,40};
+#pragma endregion
+	Vector3 HPPos = { 270,20,0 };
+
+	Vector2 scale = rects_;
+
 };
