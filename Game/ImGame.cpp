@@ -56,6 +56,13 @@ void InGame::OnInitialize() {
 	limit_ = std::make_unique<Limit>();
 	limit_->Initialize();
 
+	resourceManager = ResourceManager::GetInstance();
+	glayTex_.SetTexture(resourceManager->FindTexture("whiteBackGround"));
+	glayTex_.SetAnchor({ 0.5f,0.5f });
+	glayTex_.SetTexcoordRect({ 0.0f,0.0f }, { 540.0f, 720.0f });
+	glayTex_.SetScale({ 540.0f, 720.0f });
+	glayTex_.SetPosition({ 270.0f, 360.0f });
+	glayTex_.SetDrawOrder(uint8_t(1));
 }
 
 
@@ -65,12 +72,23 @@ void InGame::OnUpdate() {
 
 #endif // _DEBUG
 
+	auto easeOutCirc = [](float t) { return std::sqrtf(1 - std::powf(t - 1, 2)); };
+	// フェードアウト
+	if (glayFadeEasingT_ < 1.0f) {
+		glayFadeEasingT_ += 0.02f;
+	}
+	else if (glayFadeEasingT_ > 1.0f) {
+		glayFadeEasingT_ = 1.0f;
+	}
+	float tmpColor = 80.0f / 255.0f;
+	glayTex_.SetColor({ tmpColor, tmpColor, tmpColor, Math::Lerp(easeOutCirc(glayFadeEasingT_), 1.0f, 0.0f) });
+
 	//最初の落下攻撃をするととおる
 	if (player_->GetIsFirstAttack() == true) {
-	//マップ更新
-	map->Update();
-	//ボス更新
-	boss_->Update();
+		//マップ更新
+		map->Update();
+		//ボス更新
+		boss_->Update();
 	}
 
 	//棘更新
