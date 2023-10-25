@@ -44,6 +44,7 @@
     <ClInclude Include="..\Externals\nlohmann\json_fwd.hpp" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="bossSecond.h" />
     <ClInclude Include="BossSpike.h" />
     <ClInclude Include="Clear.h" />
     <ClInclude Include="ClearLimit.h" />
@@ -146,6 +147,7 @@
     </ClCompile>
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="bossSecond.cpp" />
     <ClCompile Include="BossSpike.cpp" />
     <ClCompile Include="Clear.cpp" />
     <ClCompile Include="ClearLimit.cpp" />
