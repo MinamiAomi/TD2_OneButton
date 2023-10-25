@@ -12,7 +12,9 @@
         { "Name" : "Boss2",              "Path" : "Resources/Model/boss/boss2.obj" },
         { "Name" : "BossSpike",         "Path" : "Resources/Model/bossSpike/bossSpike.obj" },
         { "Name" : "Spike",             "Path" : "Resources/Model/spike/spike.obj" },    
-        { "Name" : "Background",        "Path" : "Resources/Model/background/background.obj" },
+        { "Name" : "BackTree1",        "Path" : "Resources/Model/background/backTree1.obj" },
+        { "Name" : "BackTree2",        "Path" : "Resources/Model/background/backTree2.obj" },
+        { "Name" : "BaseBackGround",        "Path" : "Resources/Model/background/baseBackGround.obj" },
         { "Name" : "Heal",              "Path" : "Resources/Model/Effects/Heal/Heal.obj" },
         { "Name" : "Dust",        "Path" : "Resources/Model/Effects/Dust/Dust.obj" },
         { "Name" : "Pole",        "Path" : "Resources/Model/Pole/Pole.obj" } ,
@@ -45,7 +47,8 @@
         { "Name" : "whiteBackGround",   "Path" : "Resources/Image/whiteBackGround.png","Inter" : "Point", "Exten" : "Wrap" },
         { "Name" : "selectBob",         "Path" : "Resources/Image/selectBob.png",      "Inter" : "Point", "Exten" : "Wrap" },
         { "Name" : "selectMichael",     "Path" : "Resources/Image/selectMichael.png",  "Inter" : "Point", "Exten" : "Wrap" },
-        { "Name" : "selectMax",         "Path" : "Resources/Image/selectMax.png",      "Inter" : "Point", "Exten" : "Wrap" }
+        { "Name" : "selectMax",         "Path" : "Resources/Image/selectMax.png",      "Inter" : "Point", "Exten" : "Wrap" },
+        { "Name" : "Explosion",         "Path" : "Resources/Image/explosion.png" }
     ],
     "Sounds" : [
         { "Name" : "TitleBGM",          "Path" : "Resources/Sound/title.wav" },

@@ -48,6 +48,8 @@ void Map::Initialize() {
 	mapEndTrans_.parent = &mapWorld_;
 	mapEndTrans_.translate = { 0.0f,0.0f,0.0f };
 	mapEndTrans_.UpdateMatrix();
+
+	prevY_ = mapWorld_.translate.y;
 #pragma endregion
 
 	//パラメータのうけとり
@@ -77,6 +79,8 @@ void Map::Update() {
 	ImGui::Checkbox("move", &mapMove_);
 	ImGui::End();
 #endif // _DEBUG
+
+	prevY_ = mapWorld_.translate.y;
 
 	//マップが動くとき
 	if (mapMove_) {
