@@ -3,7 +3,7 @@
 #include"Externals/ImGui/imgui.h"
 #include"Math/MathUtils.h"
 
-void DangerZone::Initialize(Vector3 pos,Vector3 scale) {
+void DangerZone::Initialize() {
 
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 
@@ -13,14 +13,13 @@ void DangerZone::Initialize(Vector3 pos,Vector3 scale) {
 	model.SetPass(ToonModelInstance::Pass::Translucent);
 	model.SetIsActive(false);
 
-	world.translate = pos;
-	world.scale = scale;
+	
 
 	Vector3 R = { 0.0f,180.0f,0.0f };
 	world.rotate = Quaternion::MakeFromEulerAngle(R * Math::ToRadian);
 }
 
-void DangerZone::SetCount(int second,int loopNum) {
+void DangerZone::SetCount(int second,int loopNum, Vector3 pos, Vector3 scale) {
 	//秒数ｘフレーム
 	int count = second * 60;
 
@@ -33,6 +32,9 @@ void DangerZone::SetCount(int second,int loopNum) {
 	isActive_ = true;
 
 	t_ = 0;
+
+	world.translate = pos;
+	world.scale = scale;
 }
 
 void DangerZone::Update() {

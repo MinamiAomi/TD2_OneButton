@@ -13,6 +13,7 @@ public:
 	
 	void Update();
 
+	bool Collision(const Vector3& pos, const float wide);
 #pragma region ゲッター
 	
 #pragma endregion
@@ -29,4 +30,6 @@ private:
 	bool isActive_=false;
 
 	int deadCount_;
+
+	Vector2 size_ = { 10.0f,2.2f };
 };
