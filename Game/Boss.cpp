@@ -113,7 +113,7 @@ void Boss::Update() {
 	float hiritu = ((float)HP_ / (float)maxHP_);
 	Vector2 newscale = { rects_.x *hiritu , rects_.y };
 	//Vector2 newscale = scale;
-
+	
 	HPBar_->SetScale(newscale);
 
 	HPBarFrameTrans_.UpdateMatrix();
