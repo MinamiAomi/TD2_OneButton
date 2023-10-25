@@ -1,7 +1,7 @@
 #include "Externals/ImGui/imgui.h"
 #include "GlobalVariables.h"
 #include "Clear.h"
-#include "TitleScene.h"
+#include "StageSerect.h"
 #include "ImGame.h"
 
 void Clear::OnInitialize() {
@@ -13,11 +13,9 @@ void Clear::OnInitialize() {
     // 背景
     SpriteInitialize(backGroundTex_, "clearBackGround", { 540.0f, 720.0f });
     backGroundTex_.SetPosition({ center.x, center.y });
-    backGroundTex_.SetIsActive(true);
     // YouWin
     SpriteInitialize(youWinTex_, "youWin", { 400.0f, 64.0f });
     youWinTex_.SetPosition({ center.x, center.y });
-    youWinTex_.SetIsActive(true);
     // GoodBye
     SpriteInitialize(goodByeTex_, "goodBye", { 300.0f, 48.0f });
     goodByeTex_.SetIsActive(false);
@@ -27,12 +25,25 @@ void Clear::OnInitialize() {
     bobTex_.SetIsActive(false);
     SpriteInitialize(bobBodyTex_, "bobBody", { 700.0f, 300.0f });
     bobBodyTex_.SetIsActive(false);
-    //// Michael
-    //SpriteInitialize(michaelTex_, "michael", { 540.0f, 720.0f });
-    //michaelTex_.SetIsActive(false);
-    //// 仮の下端絵
-    //SpriteInitialize(tmpBottomTex_, "tmpBottom", { 540.0f, 720.0f });
-    //tmpBottomTex_.SetIsActive(false);
+    // Michael
+    SpriteInitialize(michaelTex_, "michael", { 400.0f, 80.0f });
+    michaelTex_.SetPosition({ 400.0f, 600.0f });
+    michaelTex_.SetIsActive(false);
+    SpriteInitialize(michaelBodyTex_, "michaelBody", { 700.0f, 300.0f });
+    michaelBodyTex_.SetIsActive(false);
+    // 背景
+    SpriteInitialize(blackBackGroundTex_, "whiteBackGround", { 540.0f, 720.0f });
+    blackBackGroundTex_.SetPosition({ center.x, center.y });
+    blackBackGroundTex_.SetScale({ 0.0f, 720.0f });
+    blackBackGroundTex_.SetColor({ 0.0f, 0.0f, 0.0f, 1.0f });
+    blackBackGroundTex_.SetDrawOrder(uint8_t(1));
+    SpriteInitialize(glayBackGroundTex_, "whiteBackGround", { 540.0f, 720.0f });
+    glayBackGroundTex_.SetPosition({ center.x, center.y });
+    glayBackGroundTex_.SetScale({ 0.0f, 720.0f });
+    float colorTmp = 80.0f / 255.0f;
+    glayBackGroundTex_.SetColor({ colorTmp, colorTmp, colorTmp, 1.0f });
+    glayBackGroundTex_.SetDrawOrder(uint8_t(2));
+
 
 #pragma endregion
 
@@ -61,13 +72,6 @@ void Clear::OnInitialize() {
 
 void Clear::OnUpdate() {
 
-#ifdef _DEBUG
-    ImGui::Begin("titletex");
-    //ImGui::DragFloat3("pos", &backGroundTransform_.translate.x);
-    ImGui::End();
-    //backGroundTex_.SetPosition(backGroundTransform_.translate.GetXY());
-#endif // _DEBUG
-
     frame_++;
 
     if (frame_ > 180) {
@@ -91,11 +95,23 @@ void Clear::SpriteInitialize(Sprite& sprite, const char textureName[], Vector2 s
 
 void Clear::SceneChange() {
     // SPACEキーでゲームシーン
-    if (input_->IsKeyTrigger(DIK_SPACE)) {
-        // インスタンス取得
-        SceneManager* sceneManager = SceneManager::GetInstance();
-        // シーン設定
-        sceneManager->ChangeScene<TitleScene>();
+    if (frame_ > 420 && input_->IsKeyTrigger(DIK_SPACE)) {
+        isPushSpace_ = true;
+    }
+    if (isPushSpace_) {
+        auto easeOutCirc = [](float t) { return std::sqrtf(1 - std::powf(t - 1, 2)); };
+        EasingClamp(blackScaleEasingT_, 0.02f);
+        blackBackGroundTex_.SetScale({ Math::Lerp(easeOutCirc(blackScaleEasingT_), 0.0f, 540.0f), 720.0f });
+        if (blackScaleEasingT_ > 0.5f) {
+            EasingClamp(glayScaleEasingT_, 0.02f);
+            glayBackGroundTex_.SetScale({ Math::Lerp(easeOutCirc(glayScaleEasingT_), 0.0f, 540.0f), 720.0f });
+            if (glayScaleEasingT_ == 1.0f) {
+                // インスタンス取得
+                SceneManager* sceneManager = SceneManager::GetInstance();
+                // シーン設定
+                sceneManager->ChangeScene<StageSerect>();
+            }
+        }
     }
 }
 
@@ -142,12 +158,13 @@ void Clear::SpriteAnimation() {
         }
         // Michael
         else {
-
+            michaelTex_.SetScale(Vector2::Lerp(1.0f - easeInSine(nameScaleEasingT_), { 250.0f, 50.0f }, { 312.5f, 62.5f }));
+            michaelTex_.SetIsActive(true);
+            michaelBodyTex_.SetColor({ 1.0f, 1.0f, 1.0f, Math::Lerp(easeOutCirc(bossBodyFadeInEasingT_), 0.0f, 1.0f) });
+            michaelBodyTex_.SetPosition({ 270.0f, 40.0f + 8.0f * std::sinf(bossBodySinMoveT_) });
+            michaelBodyTex_.SetIsActive(true);
         }
     }
-    // スコアバーの線
-    // スコアバーの円
-    // 仮の下端絵
 }
 
 void Clear::EasingClamp(float& t, float increaseValue) {

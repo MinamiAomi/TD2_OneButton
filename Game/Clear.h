@@ -72,8 +72,13 @@ private:
     float bossBodySinMoveT_ = 0.0f;
     // Michael
     Sprite michaelTex_;
-    // 仮の下端絵
-    Sprite tmpBottomTex_;
+    Sprite michaelBodyTex_;
+    // シーン遷移
+    bool isPushSpace_ = false;
+    Sprite blackBackGroundTex_;
+    float blackScaleEasingT_;
+    Sprite glayBackGroundTex_;
+    float glayScaleEasingT_;
 
 #pragma endregion
 
