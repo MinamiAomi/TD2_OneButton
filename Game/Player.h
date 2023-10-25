@@ -7,6 +7,7 @@
 #include "Engine/Graphics/ToonModel.h"
 #include "Engine/Math/Transform.h"
 #include "Engine/Input/Input.h"
+#include "Graphics/Sprite.h"
 //
 #include "Leser.h"
 
@@ -248,6 +249,8 @@ private://スペチャ追加分
 
 	//移動反転処理
 	void MoveReverse();
+
+	Sprite longPressTex_;
 
 #pragma endregion
 
