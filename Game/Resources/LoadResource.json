@@ -54,7 +54,8 @@
         { "Name" : "maxPoster",         "Path" : "Resources/Image/maxPoster.png",       "Inter" : "Point", "Exten" : "Wrap" },
         { "Name" : "pushSpaceToStart",  "Path" : "Resources/Image/pushSpaceToStart.png","Inter" : "Point", "Exten" : "Wrap" },
         { "Name" : "toBeContinued",     "Path" : "Resources/Image/toBeContinued.png",   "Inter" : "Point", "Exten" : "Wrap" },
-        { "Name" : "Explosion",         "Path" : "Resources/Image/explosion.png" }
+        { "Name" : "Explosion",         "Path" : "Resources/Image/explosion.png" },
+        { "Name" : "PushSpace",         "Path" : "Resources/Image/pushSpace.png",       "Inter" : "Point", "Exten" : "Wrap" }
     ],
     "Sounds" : [
         { "Name" : "TitleBGM",          "Path" : "Resources/Sound/title.wav" },

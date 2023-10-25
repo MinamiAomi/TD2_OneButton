@@ -6,6 +6,8 @@
 #include "Externals/ImGui/imgui.h"
 #include"StageSerect.h"
 
+#include "Graphics/ResourceManager.h"
+
 void TitleScene::OnInitialize() {
 
     RenderManager::GetInstance()->SetCamera(camera_);
@@ -26,12 +28,19 @@ void TitleScene::OnInitialize() {
 	background_->Initialize(&camera_);
 	background_->Scroll(1.0f);
 
+	pushSpace_ = std::make_unique<Sprite>();
+	pushSpace_->SetTexture(ResourceManager::GetInstance()->FindTexture("PushSpace"));
+	pushSpace_->SetTexcoordRect({}, { 200.0f, 40.0f });
+	pushSpace_->SetScale({ 200.0f, 40.0f });
+	pushSpace_->SetPosition({ 540.0f * 0.5f, 200.0f });
+	pushSpace_->SetDrawOrder(0);
+
 	laser_ = nullptr;
 }
 
 void TitleScene::OnUpdate() {
 
-	if (input_->IsKeyTrigger(DIK_SPACE)) {
+	if (!laser_ && input_->IsKeyTrigger(DIK_SPACE)) {
 		laser_ = std::make_unique<TitleLaser>();
 		laser_->Initialize();
 	}

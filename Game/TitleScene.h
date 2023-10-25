@@ -32,4 +32,5 @@ private:
     std::unique_ptr<TitlePlayer> player_;
     std::unique_ptr<TitleLaser> laser_;
     std::unique_ptr<Background> background_;
+    std::unique_ptr<Sprite> pushSpace_;
 };
