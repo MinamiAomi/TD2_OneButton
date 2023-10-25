@@ -391,10 +391,12 @@ void Player::BehaviorJumpInitalize() {
 }
 
 void Player::BehaviorJumpUpdate() {
-	//ジャンプの値をプラス
-	worldTransform_.translate.y += Jumpforce_;
-	//左右移動
-	worldTransform_.translate.x += moveXaxisSpeed_;
+	if (IsFirstAttack) {
+		//ジャンプの値をプラス
+		worldTransform_.translate.y += Jumpforce_;
+		//左右移動
+		worldTransform_.translate.x += moveXaxisSpeed_;
+	}
 	//ジャンプの値から毎フレームずつ重力を引いていく
 	if (Jumpforce_ > -kXaxisSpeed_) {
 		Jumpforce_ -= gravity_;
