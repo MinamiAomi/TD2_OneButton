@@ -158,6 +158,8 @@ void Player::Update() {
 	ImGui::DragFloat3("scale", &worldTransform_.scale.x, 0.01f);
 	ImGui::Checkbox("isMove", &isMove_);
 	ImGui::DragInt("DropCount", &DropCount);
+
+	ImGui::Text("%4.1f,%4.1f", worldTransform_.worldMatrix.m[3][0], worldTransform_.worldMatrix.m[3][1]);
 	ImGui::End();
 #endif // _DEBUG
 	worldTransform_.rotate = FixModelRotate("rotate", 0);

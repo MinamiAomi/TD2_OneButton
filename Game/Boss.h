@@ -100,7 +100,7 @@ private:
 	float bossYLine_;
 
 	//中心点からの高さ
-	float height_;
+	float height_=2.7f;
 
 	
 	//HP最大値

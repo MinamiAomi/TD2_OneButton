@@ -31,6 +31,10 @@ void BossSecond::Initalize(const Vector3& position) {
 
 	WaitATKCount_ = 0;
 
+	shotSpike_ = std::make_unique<ShotSpike>();
+	shotSpike_->Initialize();
+
+
 	dBossATKSpikeZone_ = std::make_unique<DangerZone>();
 	dBossATKSpikeZone_->Initialize(dspikeZonePos, dspikeZoneScale);
 }

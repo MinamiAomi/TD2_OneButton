@@ -5,6 +5,7 @@
 
 #include"BossSpike.h"
 #include"dangerZone.h"
+#include"shotSpike.h"
 
 class BossSecond {
 public:
@@ -116,6 +117,7 @@ private:
 	enum ATKType {
 		kNone,//何もしない
 		kSpikeExpATK, //攻撃
+		kSpikeShot,//針飛ばし
 	};
 
 	//攻撃状態
@@ -176,6 +178,18 @@ private:
 	const float addRevertAnimation_ = 1.0f / 30.0f;
 
 #pragma endregion
+
+#pragma region ボスの張り飛ばし攻撃
+	std::unique_ptr<ShotSpike>shotSpike_;
+
+	//発射位置
+	Vector3 Spos1;
+	Vector3 Spos2;
+	Vector3 Spos3;
+
+
+#pragma endregion
+
 
 	std::unique_ptr<DangerZone>dBossATKSpikeZone_;
 	Vector3 dspikeZonePos = { 0.0f,-55.0f,-5.0f };

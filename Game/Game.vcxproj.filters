@@ -112,6 +112,9 @@
     <Filter Include="Game\BossSecond">
       <UniqueIdentifier>{723a572a-53b7-4595-8c3f-d3b0d46f9d87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\ShotSpike">
+      <UniqueIdentifier>{84c3014d-566e-4c0a-bb7c-c147dc47cdbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -363,6 +366,9 @@
     <ClInclude Include="bossSecond.h">
       <Filter>Game\BossSecond</Filter>
     </ClInclude>
+    <ClInclude Include="shotSpike.h">
+      <Filter>Game\ShotSpike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -580,6 +586,9 @@
     </ClCompile>
     <ClCompile Include="bossSecond.cpp">
       <Filter>Game\BossSecond</Filter>
+    </ClCompile>
+    <ClCompile Include="shotSpike.cpp">
+      <Filter>Game\ShotSpike</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
