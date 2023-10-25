@@ -43,7 +43,7 @@ void InGame::OnInitialize() {
 	//棘の初期設定
 	for (int num = 0; num < AllSpikeNum; num++) {
 
-		AddSpike(spikeWorld[num]);
+		AddSpike(spikeWorld[num],0,{0,0,0},100);
 
 
 	}
