@@ -211,11 +211,8 @@ void InGame::CollisionAboutSpike() {
 				//埋まっていく状態の敵をすべてコリジョンオフにして飛ばす
 				if (spike->IsStateFillUp()) {
 					spike->OnCollisionBossATK(Skipvelo);
-
-					SpikeDust* spikeDust = new SpikeDust();
-					spikeDust->Initalize(spike->GetWorld().translate.GetXY());
-					spikeDusts_.emplace_back(spikeDust);
 				}
+
 			}
 #pragma endregion
 
@@ -230,19 +227,15 @@ void InGame::CollisionAboutSpike() {
 				spike->OnCollisionPlayer();
 				player_->OnCollision();
 				map->SetMapMoveAcceleration(mapAcceSecond_);
-				//とげの塵
-				SpikeDust* spikeDust = new SpikeDust();
-				spikeDust->Initalize(spike->GetWorld().translate.GetXY());
-				spikeDusts_.emplace_back(spikeDust);
+				//とげの塵をだす
+				MakeSpikeDust(SPIKE);
 			}
 			else {
 				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる
 				if (player_->GetIsATKBossFlag() && spike->IsStateFillUp()) {
 					spike->OnCollisionPlayerStump();
-					//とげの塵
-					SpikeDust* spikeDust = new SpikeDust();
-					spikeDust->Initalize(spike->GetWorld().translate.GetXY());
-					spikeDusts_.emplace_back(spikeDust);
+					//とげの塵をだす
+					MakeSpikeDust(SPIKE);
 				}
 			}
 #pragma endregion
@@ -269,10 +262,8 @@ void InGame::CollisionAboutSpike() {
 						LeserDust* leserDust = new LeserDust();
 						leserDust->Initalize(leser->GetExplosionPos().GetXY());
 						leserDusts_.emplace_back(leserDust);
-						//とげの塵
-						SpikeDust* spikeDust = new SpikeDust();
-						spikeDust->Initalize(spike->GetWorld().translate.GetXY());
-						spikeDusts_.emplace_back(spikeDust);
+						//とげの塵をだす
+						MakeSpikeDust(SPIKE);
 
 						//同じレーザーが新しく生成した棘と当たらないようにする処理
 						if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
@@ -324,9 +315,8 @@ void InGame::CollisionAboutSpike() {
 						//爆風に当たった時
 						if (CheckHitSphere(SPIKE, S_wide, ExpPos, ExpWide)) {
 							spike->OnCollisionPlayerExplosion(ExpPos);
-							SpikeDust* spikeDust = new SpikeDust();
-							spikeDust->Initalize(spike->GetWorld().translate.GetXY());
-							spikeDusts_.emplace_back(spikeDust);
+							//とげの塵をだす
+							MakeSpikeDust(SPIKE);
 						}
 #pragma endregion
 					}
@@ -435,9 +425,7 @@ void InGame::CollisionAboutSpike() {
 					spike->OnCollisionExplotionBoss();
 					boss_->OnCollisionExplosion(spike->GetDamege());
 					//とげの塵
-					SpikeDust* spikeDust = new SpikeDust();
-					spikeDust->Initalize(spike->GetWorld().translate.GetXY());
-					spikeDusts_.emplace_back(spikeDust);
+					MakeSpikeDust(SPIKE);
 				}
 			}
 #pragma endregion
@@ -465,6 +453,13 @@ void InGame::CollisionAboutSpike() {
 #pragma endregion
 
 
+}
+
+void InGame::MakeSpikeDust(Vector3 position)
+{
+	SpikeDust* spikeDust = new SpikeDust();
+	spikeDust->Initalize({ position.x,position.y });
+	spikeDusts_.emplace_back(spikeDust);
 }
 
 

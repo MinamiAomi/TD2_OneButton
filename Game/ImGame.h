@@ -112,6 +112,7 @@ private:
 	std::list<std::unique_ptr<LeserDust>> leserDusts_;
 	//とげが壊れるとき
 	std::list<std::unique_ptr<SpikeDust>> spikeDusts_;
+	void MakeSpikeDust(Vector3 position);
 
 	//リミットクラス
 	std::unique_ptr<Limit>limit_ = nullptr;
