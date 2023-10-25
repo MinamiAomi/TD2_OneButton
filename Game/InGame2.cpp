@@ -137,6 +137,7 @@ void InGame2::OnUpdate() {
 
 	camera_.UpdateMatrices();
 	// 背景はカメラを使用しているためカメラの後に更新
+	background_->Scroll(map->GetMapMovement() / 50.0f);
 	background_->Update();
 	speedEffect_->Update();
 	//シーンチェンジ処理
