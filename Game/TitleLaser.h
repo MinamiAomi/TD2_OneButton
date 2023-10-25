@@ -5,6 +5,7 @@
 
 #include "Math/Transform.h"
 #include "Graphics/ToonModel.h"
+#include "Graphics/Sprite.h"
 
 class TitleLaser {
 public:
@@ -14,10 +15,12 @@ public:
 
 private:
     // アニメーションの長さ
-    static constexpr uint32_t kAnimationDuration = 20;
+    static constexpr uint32_t kAnimationDuration = 30;
     
     Transform transform_;
     ToonModelInstance model_;
+    Sprite explosionSprite_;
+
     float animationParameter_;
     float startWidth_;
     float endWidth_;

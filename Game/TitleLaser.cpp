@@ -16,6 +16,12 @@ void TitleLaser::Initialize() {
     model_.SetPass(ToonModelInstance::Pass::Translucent);
     model_.SetAlpha(0.5f);
 
+    explosionSprite_.SetTexture(resourceManager->FindTexture("Explosion"));
+    explosionSprite_.SetDrawOrder(0);
+    explosionSprite_.SetPosition({540.0f * 0.5f, 200.0f});
+    explosionSprite_.SetTexcoordRect({}, { 512.0f, 512.0f });
+    explosionSprite_.SetScale({ 0.0f,0.0f });
+
     animationParameter_ = 0.0f;
 }
 
@@ -25,6 +31,8 @@ void TitleLaser::Update() {
     transform_.rotate = Quaternion::MakeForYAxis(1.0f * Math::ToRadian) * transform_.rotate;
     transform_.scale.x = transform_.scale.z = Math::Lerp(animationParameter_, startWidth_, endWidth_);
 
+    explosionSprite_.SetScale(Vector2(Math::Lerp(animationParameter_, 0.0f, 1500.0f)));
+    
 #ifdef _DEBUG
     ImGui::Begin("Title");
     if (ImGui::TreeNodeEx("Laser", ImGuiTreeNodeFlags_DefaultOpen)) {
