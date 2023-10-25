@@ -1,25 +1,34 @@
 {
     "Models" : [
-        { "Name" : "PlayerHead",  "Path" : "Resources/Model/player/head.obj" },
-        { "Name" : "PlayerBody",  "Path" : "Resources/Model/player/body.obj" },
-        { "Name" : "PlayerLArm",  "Path" : "Resources/Model/player/LArm.obj" },
-        { "Name" : "PlayerRArm",  "Path" : "Resources/Model/player/RArm.obj" },
-        { "Name" : "PlayerLFoot", "Path" : "Resources/Model/player/LFoot.obj" },
-        { "Name" : "PlayerRFoot", "Path" : "Resources/Model/player/RFoot.obj" },
-        { "Name" : "Laser",       "Path" : "Resources/Model/laser/laser.obj" },
-        { "Name" : "Explosion",   "Path" : "Resources/Model/explosion/explosion.obj" },
-        { "Name" : "Boss",        "Path" : "Resources/Model/boss/boss.obj" },
-        { "Name" : "BossSpike",   "Path" : "Resources/Model/bossSpike/bossSpike.obj" },
-        { "Name" : "Spike",       "Path" : "Resources/Model/spike/spike.obj" },    
-        { "Name" : "Background",  "Path" : "Resources/Model/background/background.obj" },
-        { "Name" : "Heal",        "Path" : "Resources/Model/Effects/Heal/Heal.obj" },
-        { "Name" : "Pole",        "Path" : "Resources/Model/Pole/Pole.obj" } 
+        { "Name" : "PlayerHead",        "Path" : "Resources/Model/player/head.obj" },
+        { "Name" : "PlayerBody",        "Path" : "Resources/Model/player/body.obj" },
+        { "Name" : "PlayerLArm",        "Path" : "Resources/Model/player/LArm.obj" },
+        { "Name" : "PlayerRArm",        "Path" : "Resources/Model/player/RArm.obj" },
+        { "Name" : "PlayerLFoot",       "Path" : "Resources/Model/player/LFoot.obj" },
+        { "Name" : "PlayerRFoot",       "Path" : "Resources/Model/player/RFoot.obj" },
+        { "Name" : "Laser",             "Path" : "Resources/Model/laser/laser.obj" },
+        { "Name" : "Explosion",         "Path" : "Resources/Model/explosion/explosion.obj" },
+        { "Name" : "Boss",              "Path" : "Resources/Model/boss/boss.obj" },
+        { "Name" : "BossSpike",         "Path" : "Resources/Model/bossSpike/bossSpike.obj" },
+        { "Name" : "Spike",             "Path" : "Resources/Model/spike/spike.obj" },    
+        { "Name" : "Background",        "Path" : "Resources/Model/background/background.obj" },
+        { "Name" : "Heal",              "Path" : "Resources/Model/Effects/Heal/Heal.obj" },
+        { "Name" : "Pole",              "Path" : "Resources/Model/Pole/Pole.obj" } 
     ],
     "Images" : [
-        { "Name" : "TitleLogo",   "Path" : "Resources/Image/titleLogo.png"},
-        { "Name" : "limit", 	  "Path" : "Resources/Image/limit.png" },
-	    { "Name" : "uvChecker",   "Path" : "Resources/uvChecker.png" },
-	    { "Name" : "number",  	  "Path" : "Resources/Image/number.png", "Inter" : "Point", "Exten" : "Wrap"  }
-	
+        { "Name" : "TitleLogo",         "Path" : "Resources/Image/titleLogo.png"},
+        { "Name" : "limit", 	        "Path" : "Resources/Image/limit.png" },
+	    { "Name" : "uvChecker",         "Path" : "Resources/uvChecker.png" },
+	    { "Name" : "number",  	        "Path" : "Resources/Image/number.png", "Inter" : "Point", "Exten" : "Wrap"  },
+        { "Name" : "BackTree1",         "Path" : "Resources/Image/BackGround/backTree1.png" },
+        { "Name" : "BackTree2",         "Path" : "Resources/Image/BackGround/backTree2.png" },
+        { "Name" : "BaseBackGround",    "Path" : "Resources/Image/BackGround/baseBackGround.png" }
+    ],
+    "Sounds" : [
+        { "Name" : "TitleBGM",          "Path" : "Resources/Sound/title.wav" },
+        { "Name" : "InGameBGM",         "Path" : "Resources/Sound/ingame.wav" },
+        { "Name" : "ResultBGM",         "Path" : "Resources/Sound/result.wav" },
+        { "Name" : "Laser",             "Path" : "Resources/Sound/laser.wav" },
+        { "Name" : "Explosion",         "Path" : "Resources/Sound/explosion.wav" }
     ]
 }

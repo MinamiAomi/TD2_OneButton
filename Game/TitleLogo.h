@@ -14,8 +14,8 @@ private:
     struct Letter {
         std::unique_ptr<Sprite> spirte;
         Vector2 position;
-        uint32_t animationOffset;
-        uint32_t animationLength;
+        uint32_t animationOffset{};
+        uint32_t animationLength{};
     };
 
     static const char* letterTable[kNumLetters];
@@ -23,6 +23,6 @@ private:
 
     Letter letters_[kNumLetters];
     Vector2 center_;
-    uint32_t animationCycle_;
-    uint32_t animationParameter_;
+    uint32_t animationCycle_{};
+    uint32_t animationParameter_{};
 };

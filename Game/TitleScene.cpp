@@ -10,17 +10,24 @@
 void TitleScene::OnInitialize() {
 
     RenderManager::GetInstance()->SetCamera(camera_);
+	camera_.SetPosition({ 0.0f, 0.0f, -100.0f });
+	camera_.SetRotate({});
+	camera_.SetPerspective(25.0f * Math::ToRadian, 540.0f / 720.0f, 50.0f, 200.0f);
+	camera_.UpdateMatrices();
 
 	input_ = Input::GetInstance();
 
-    titleLogo_ = std::make_unique<TitleLogo>();
-    titleLogo_->Initialize();
+    logo_ = std::make_unique<TitleLogo>();
+    logo_->Initialize();
 
+	player_ = std::make_unique<TitlePlayer>();
+	player_->Initialize();
 }
 
 void TitleScene::OnUpdate() {
 
-    titleLogo_->Update();
+    logo_->Update();
+	player_->Update();
 
     camera_.UpdateMatrices();
 
