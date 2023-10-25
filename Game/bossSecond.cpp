@@ -122,6 +122,10 @@ bool BossSecond::IsHitBossATK(const Vector3& pos, const float& wide) {
 
 }
 
+bool BossSecond::IsHitShotSpike(const Vector3& pos, const float wide) {
+	return shotSpike_->Collision(pos, wide);
+}
+
 void BossSecond::BossATK() {
 
 
@@ -137,7 +141,7 @@ void BossSecond::BossATK() {
 			//ランダムな数字を取得
 			int randomNum = GetRandomNum(2, false);
 			atkType_ = (ATKType)randomNum;
-			atkType_ = kSpikeShot;
+			//atkType_ = kSpikeShot;
 		}
 		break;
 	case BossSecond::kSpikeExpATK:
@@ -354,8 +358,8 @@ void BossSecond::ShotSpikeATK() {
 			bossSpike_->SetStart();
 		}
 		else {
-			//Vector3 newpos = Spos[GetRandomNum(3, false)];
-			Vector3 newpos = Spos[0];
+			Vector3 newpos = Spos[GetRandomNum(3, false)];
+			//Vector3 newpos = Spos[1];
 			newpos.y = world_.translate.y;
 
 			shotSpike_->Shot(newpos);

@@ -43,6 +43,8 @@ public:
 	/// <param name="wide"></param>
 	bool IsHitBossATK(const Vector3& pos, const float& wide);
 
+	//飛ばしたとげ都のコリジョン
+	bool IsHitShotSpike(const Vector3& pos, const float wide);
 
 	/// <summary>
 	/// ボスの攻撃関連
@@ -187,8 +189,8 @@ private:
 	//発射位置
 	Vector3 Spos[3] = {
 		{-15.0f + 5,0,0,},
-		{-15.0f + (5 * 2),0,0,},
-		{-15.0f + (5 * 4),0,0,}
+		{-15.0f + (5 * 3),0,0,},
+		{-15.0f + (5 * 6),0,0,}
 	};
 
 

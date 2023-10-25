@@ -9,7 +9,7 @@ void ShotSpike::Initialize() {
 	model_.SetModel(resourceManager->FindModel(modelName));
 
 	world_.scale.x = 1.0f / 3.0f;
-	world_.translate.z -= 1;
+	world_.translate.z -= 2;
 	isActive_ = false;
 
 }
@@ -30,4 +30,17 @@ void ShotSpike::Update() {
 		world_.UpdateMatrix();
 		model_.SetWorldMatrix(world_.worldMatrix);
 	}
+}
+
+bool ShotSpike::Collision(const Vector3& pos, const float wide) {
+	
+	if (pos.x + wide >= world_.translate.x - size_.x &&
+		pos.x - wide <= world_.translate.x + size_.x &&
+		pos.y - wide <= world_.translate.y + size_.y &&
+		pos.y + wide >= world_.translate.y - size_.y) {
+		return true;
+	}
+
+	return false;
+
 }
