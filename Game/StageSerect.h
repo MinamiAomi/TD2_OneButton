@@ -57,11 +57,20 @@ private://メンバ変数
 	// 中心座標
 	const Vector2 kCenter_ = { 270.0f, 360.0f };
 
+	bool isPushSpace_ = false;
+
 #pragma region スプライト
 
+	Sprite glayTex_;
+	float glayFadeOutEasingT_ = 0.0f;
 	Sprite bobTex_;
 	Sprite michaelTex_;
 	Sprite maxTex_;
+
+	Sprite bobPosterTex_;
+	Sprite michaelPosterTex_;
+	Sprite maxPosterTex_;
+	float posterScaleEasingT_ = 0.0f;
 
 #pragma endregion
 

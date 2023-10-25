@@ -46,7 +46,10 @@
         { "Name" : "whiteBackGround",   "Path" : "Resources/Image/whiteBackGround.png","Inter" : "Point", "Exten" : "Wrap" },
         { "Name" : "selectBob",         "Path" : "Resources/Image/selectBob.png",      "Inter" : "Point", "Exten" : "Wrap" },
         { "Name" : "selectMichael",     "Path" : "Resources/Image/selectMichael.png",  "Inter" : "Point", "Exten" : "Wrap" },
-        { "Name" : "selectMax",         "Path" : "Resources/Image/selectMax.png",      "Inter" : "Point", "Exten" : "Wrap" }
+        { "Name" : "selectMax",         "Path" : "Resources/Image/selectMax.png",      "Inter" : "Point", "Exten" : "Wrap" },
+        { "Name" : "bobPoster",         "Path" : "Resources/Image/bobPoster.png",      "Inter" : "Point", "Exten" : "Wrap" },
+        { "Name" : "michaelPoster",     "Path" : "Resources/Image/michaelPoster.png",  "Inter" : "Point", "Exten" : "Wrap" },
+        { "Name" : "maxPoster",         "Path" : "Resources/Image/maxPoster.png",      "Inter" : "Point", "Exten" : "Wrap" }
     ],
     "Sounds" : [
         { "Name" : "TitleBGM",          "Path" : "Resources/Sound/title.wav" },
