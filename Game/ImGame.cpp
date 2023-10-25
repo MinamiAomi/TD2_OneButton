@@ -178,7 +178,8 @@ void InGame::GetAllCollisions() {
 #pragma region プレイヤーとボス
 	if (boss_->IsHitBoss(PLAYER, P_wide)) {
 		player_->OnCollisionBoss();
-		if (player_->GetIsFirstAttack() == true) {
+		//ボスに攻撃していない＆＆最初の攻撃実行炭
+		if (!player_->GetIsATKBossFlag() && player_->GetIsFirstAttack() == true) {
 			map->SetMapMoveAcceleration(mapAcceSecond_);
 		}
 	}
