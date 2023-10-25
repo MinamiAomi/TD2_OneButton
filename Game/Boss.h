@@ -159,7 +159,7 @@ private:
 	const Vector2 setUpScale = { 1.0f,0.90f };
 
 	//攻撃構える処理１のアニメーション加算地
-	const float addSetUpAnimation_ = 1.0f / 60.0f;
+	const float addSetUpAnimation_ = 1.0f / 120.0f;
 
 	//==WAVE1==
 	const Vector2 wave1Scale = { setUpScale.y,2.0f };

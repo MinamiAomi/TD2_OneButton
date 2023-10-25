@@ -575,14 +575,17 @@ void InGame::SceneChange() {
         }
     }
 
+
     //エンドラインY座標取得
     float EposY = map->GetEndTrans().worldMatrix.m[3][1];
 
     Vector3 epos = player_->GetmatWtranslate();
     epos.y = EposY;
-
+    //一回でも当たったらゲームオーバー^^
     if (CheckHitSphere(player_->GetmatWtranslate(), player_->GetWide(), epos, 1)) {
-
+        isGameOver = true;
+    }
+    if(isGameOver){
         auto easeOutCirc = [](float t) { return std::sqrtf(1 - std::powf(t - 1, 2)); };
         if (isFadeInComplete_) {
             if (glayFadeEasingT_ < 1.0f) {

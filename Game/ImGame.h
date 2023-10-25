@@ -134,4 +134,7 @@ private:
 	bool isFadeInComplete_ = false;
 	
 	size_t bgmPlayHandle_;
+
+
+	bool isGameOver = false;
 };

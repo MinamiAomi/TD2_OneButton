@@ -227,7 +227,7 @@ void Boss::SpikeAttack() {
 			animetionT_ = 0;
 
 			//警告モーション追加
-			dBossATKSpikeZone_->SetCount(2, 2,dspikeZonePos,dspikeZoneScale);
+			dBossATKSpikeZone_->SetCount(3, 3,dspikeZonePos,dspikeZoneScale);
 		}//初期化後の処理
 		else {
 			float newScale = Math::Lerp(animetionT_, setUpScale.x, setUpScale.y);

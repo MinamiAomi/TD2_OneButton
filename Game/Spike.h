@@ -240,7 +240,7 @@ private:
 	//ボスに埋まり切るかのカウント
 	int fillUpCount_;
 	//埋まるまでのマックス
-	const int maxFillUpCount_ = 60;
+	const int maxFillUpCount_ = 180;
 	//埋まり切ったかのフラグ
 	bool CompleteFillUp_ = false;
 
