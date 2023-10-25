@@ -310,9 +310,9 @@ void InGame::CollisionAboutSpike() {
 							//最初に渡すベクトル値
 							Vector3 newVelo = { 0.5f,0.5f,0 };
 
+							
 
-
-							AddSpike(Newworld, Spike::State::kFalling, newVelo,spike->GetCoalescenceCount());
+							AddSpike(Newworld, Spike::State::kFalling, newVelo, spike->GetDMG(), spike->GetCoalescenceCount());
 							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
@@ -321,7 +321,7 @@ void InGame::CollisionAboutSpike() {
 							//x軸反転
 							newVelo.x *= -1;
 
-							AddSpike(Newworld, Spike::State::kFalling, newVelo, spike->GetDamege());
+							AddSpike(Newworld, Spike::State::kFalling, newVelo, spike->GetDMG(), spike->GetCoalescenceCount());
 							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
@@ -376,11 +376,11 @@ void InGame::CollisionAboutSpike() {
 
 #pragma region 棘同士			
 			//棘同士の当たり判定処理をするか&棘が木にくっついたままか&&合体数が3回以下か
-			if (spike->GetIsCollisonOnSpike() && !spike->IsStateStay() && spike->GetCoalescenceCount() < 3) {
+			if (spike->GetIsCollisonOnSpike() && !spike->IsStateStay() && spike->GetCoalescenceCount() !=1) {
 
 				for (std::unique_ptr<Spike>& spike2 : spikes) {
 					//棘が木にくっついていないことをチェック
-					if (!spike2->IsStateStay() && spike2->GetCoalescenceCount() < 3) {
+					if (!spike2->IsStateStay() && spike2->GetCoalescenceCount() !=1) {
 						//同じ棘でないことを確認&&死んだ奴は処理しない
 						if (spike->GetIdentificationNum() != spike2->GetIdentificationNum() && !spike2->IsDead()) {
 							//棘座標取得
@@ -404,11 +404,20 @@ void InGame::CollisionAboutSpike() {
 								newSpike.scale = { newSize,newSize ,newSize };		//サイズ設定
 
 								//合体数計算(DMGと動議
-								int DMG = spike->GetCoalescenceCount() + spike2->GetCoalescenceCount();
+								int DMG = spike->GetDMG() + spike2->GetDMG();
+
+								//合体値設定
+								int cur;
+								if (spike->GetCoalescenceCount() <= spike2->GetCoalescenceCount()) {
+									cur = spike->GetCoalescenceCount() - 1;
+								}
+								else {
+									cur = spike2->GetCoalescenceCount() - 1;
+								}
 
 
 								//新しいスパイクの生成
-								AddSpike(newSpike, Spike::State::kFalling, { 0.0f,0.0f,0.0f }, DMG);
+								AddSpike(newSpike, Spike::State::kFalling, { 0.0f,0.0f,0.0f }, DMG,cur);
 
 
 
@@ -450,7 +459,7 @@ void InGame::CollisionAboutSpike() {
 			if (spike->IsDamageProcessing()) {
 				if (boss_->IsHitBoss(SPIKE, S_wide)) {
 					spike->OnCollisionExplotionBoss();
-					boss_->OnCollisionExplosion(spike->GetDamege());
+					boss_->OnCollisionExplosion(spike->GetDMG());
 					//とげの塵
 					MakeSpikeDust(SPIKE);
 				}
@@ -467,7 +476,7 @@ void InGame::CollisionAboutSpike() {
 #pragma region ボス回復処理
 		//埋まり切りフラグがONの時回復
 		if (spike->GetCompleteFillUp()) {
-			boss_->OnCollisionHealing(spike->GetDamege());
+			boss_->OnCollisionHealing(spike->GetDMG());
 			//ボスが回復するときのエフェクトを生成
 			Heal* heal_ = new Heal();
 			heal_->Initalize({ spike->GetWorld().translate.GetXY() });
@@ -500,11 +509,11 @@ void InGame::CheckDead() {
 		});
 }
 
-void InGame::AddSpike(const Transform& trans, const int state, const Vector3 velo, int damage) {
+void InGame::AddSpike(const Transform& trans, const int state, const Vector3 velo, int damage,int cur) {
 
 	//クラス作成
 	Spike* spike_ = new Spike();
-	spike_->Initialize(spikeNum_, trans, &boss_->GetBossYLine(), damage, state, velo);
+	spike_->Initialize(spikeNum_, trans, &boss_->GetBossYLine(), damage,cur, state, velo);
 	//プッシュ
 	spikes.emplace_back(spike_);
 

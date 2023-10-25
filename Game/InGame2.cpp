@@ -458,7 +458,7 @@ void InGame2::CollisionAboutSpike() {
 			if (spike->IsDamageProcessing()) {
 				if (boss_->IsHitBoss(SPIKE, S_wide)) {
 					spike->OnCollisionExplotionBoss();
-					boss_->OnCollisionExplosion(spike->GetDamege());
+					boss_->OnCollisionExplosion(spike->GetDMG());
 					//とげの塵
 					MakeSpikeDust(SPIKE);
 				}
@@ -475,7 +475,7 @@ void InGame2::CollisionAboutSpike() {
 #pragma region ボス回復処理
 		//埋まり切りフラグがONの時回復
 		if (spike->GetCompleteFillUp()) {
-			boss_->OnCollisionHealing(spike->GetDamege());
+			boss_->OnCollisionHealing(spike->GetDMG());
 			//ボスが回復するときのエフェクトを生成
 			Heal* heal_ = new Heal();
 			heal_->Initalize({ spike->GetWorld().translate.GetXY() });
@@ -507,11 +507,11 @@ void InGame2::CheckDead() {
 		});
 }
 
-void InGame2::AddSpike(const Transform& trans, const int state, const Vector3 velo, int damage) {
+void InGame2::AddSpike(const Transform& trans, const int state, const Vector3 velo, int damage,int cur) {
 
 	//クラス作成
 	Spike* spike_ = new Spike();
-	spike_->Initialize(spikeNum_, trans, &boss_->GetBossYLine(), damage, state, velo);
+	spike_->Initialize(spikeNum_, trans, &boss_->GetBossYLine(), damage,cur, state, velo);
 	//プッシュ
 	spikes.emplace_back(spike_);
 
