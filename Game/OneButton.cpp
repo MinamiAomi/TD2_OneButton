@@ -5,6 +5,7 @@
 
 #include "Scene/SceneManager.h"
 #include "TitleScene.h"
+#include "StageSerect.h"
 #include "ImGame.h"
 #include"InGame2.h"
 #include "Clear.h"

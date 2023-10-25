@@ -1,9 +1,22 @@
-#include"StageSerect.h"
-#include"ImGame.h"
-#include"InGame2.h"
+#include "GlobalVariables.h"
+#include "StageSerect.h"
+#include "ImGame.h"
+#include "InGame2.h"
+
 void StageSerect::OnInitialize() {
-	//インスタンス取得
 	input_ = Input::GetInstance();
+	resourceManager = ResourceManager::GetInstance();
+
+#pragma region スプライト初期化
+
+	SpriteInitialize(bobTex_, "selectBob", { 540.0f, 720.0f });
+	bobTex_.SetPosition({ kCenter_.x, kCenter_.y });
+	SpriteInitialize(michaelTex_, "selectMichael", { 540.0f, 720.0f });
+	michaelTex_.SetPosition({ kCenter_.x, kCenter_.y });
+	SpriteInitialize(maxTex_, "selectMax", { 540.0f, 720.0f });
+	maxTex_.SetPosition({ kCenter_.x, kCenter_.y });
+
+#pragma endregion
 }
 
 void StageSerect::OnUpdate() {
@@ -41,13 +54,9 @@ void StageSerect::OnUpdate() {
 }
 
 void StageSerect::OnFinalize() {
-
-
-
 }
 
 void StageSerect::State1Update() {
-
 
 	//他ステ選択
 	//右
@@ -58,8 +67,6 @@ void StageSerect::State1Update() {
 	else if (state_ == -1) {
 		
 	}
-
-
 }
 
 void StageSerect::State2Update() {
@@ -88,7 +95,7 @@ void StageSerect::State3Update() {
 }
 
 void StageSerect::ChangeScene() {
-	//１キーでゲーム
+	//スペースキーでゲーム
 	if (input_->IsKeyTrigger(DIK_SPACE)) {
 		//インスタンス取得
 		SceneManager* sceneManager = SceneManager::GetInstance();
@@ -114,5 +121,21 @@ void StageSerect::ChangeScene() {
 			break;
 		}
 
+	}
+}
+
+void StageSerect::SpriteInitialize(Sprite& sprite, const char textureName[], Vector2 size) {
+	sprite.SetTexture(resourceManager->FindTexture(textureName));
+	sprite.SetAnchor({ 0.5f,0.5f });
+	sprite.SetTexcoordRect({ 0.0f,0.0f }, size);
+	sprite.SetScale(size);
+}
+
+void StageSerect::EasingClamp(float& t, float increaseValue) {
+	if (t < 1.0f) {
+		t += increaseValue;
+	}
+	if (t > 1.0f) {
+		t = 1.0f;
 	}
 }
