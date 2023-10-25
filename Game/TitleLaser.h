@@ -18,6 +18,9 @@ private:
     
     Transform transform_;
     ToonModelInstance model_;
+    Transform explosionTransform_;
+    ToonModelInstance explosionModel_;
+
     float animationParameter_;
     float startWidth_;
     float endWidth_;

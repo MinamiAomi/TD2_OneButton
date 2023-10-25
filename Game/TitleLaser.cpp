@@ -16,6 +16,14 @@ void TitleLaser::Initialize() {
     model_.SetPass(ToonModelInstance::Pass::Translucent);
     model_.SetAlpha(0.5f);
 
+    explosionTransform_.translate = transform_.translate - Vector3{ 0.0f, 10.0f, 0.0f };
+    explosionTransform_.scale = Vector3::zero;
+
+    explosionModel_.SetModel(resourceManager->FindModel("Explosion"));
+    explosionModel_.SetPass(ToonModelInstance::Pass::Opaque);
+    explosionModel_.SetAlpha(1.0f);
+    explosionModel_.SetIsLighting(false);
+
     animationParameter_ = 0.0f;
 }
 
@@ -24,6 +32,9 @@ void TitleLaser::Update() {
     animationParameter_ += 1.0f / kAnimationDuration;
     transform_.rotate = Quaternion::MakeForYAxis(1.0f * Math::ToRadian) * transform_.rotate;
     transform_.scale.x = transform_.scale.z = Math::Lerp(animationParameter_, startWidth_, endWidth_);
+
+    
+    explosionTransform_.scale = Vector3{ Math::Lerp(animationParameter_, 0.0f, 50.0f) };
 
 #ifdef _DEBUG
     ImGui::Begin("Title");
@@ -38,5 +49,7 @@ void TitleLaser::Update() {
 
 
     transform_.UpdateMatrix();
+    explosionTransform_.UpdateMatrix();
     model_.SetWorldMatrix(transform_.worldMatrix);
+    explosionModel_.SetWorldMatrix(explosionTransform_.worldMatrix);
 }
