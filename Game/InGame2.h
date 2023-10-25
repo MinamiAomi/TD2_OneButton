@@ -1,8 +1,6 @@
 #pragma once
 #include"Engine/Scene/BaseScene.h"
 
-#include"Engine/Scene/BaseScene.h"
-
 #include "Engine/Graphics/ToonModel.h"
 #include "Engine/Graphics/Sprite.h"
 #include "Math/Camera.h"
@@ -12,13 +10,15 @@
 #include"Spike.h"
 #include"map.h"
 #include"Player.h"
-#include"bossSecond.h"
+#include"Boss.h"
 #include "Background.h"
 #include"Limit.h"
 #include "SpeedEffect.h"
 #include "Heal.h"
 #include "LeserDust.h"
+#include "SpikeDust.h"
 
+#include "Graphics/ResourceManager.h"
 
 class InGame2 : public BaseScene {
 public:
@@ -60,8 +60,8 @@ private://メンバ関数
 	void CollisionAboutSpike();
 
 private:
-
 	bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2);
+
 
 #pragma region 各種モデル
 
@@ -106,13 +106,16 @@ private:
 	int playerLeserDMG = 1;
 
 	//ボスクラス
-	std::unique_ptr<BossSecond>boss_ = nullptr;
+	std::unique_ptr<Boss>boss_ = nullptr;
 
 	//エフェクト
 	//ボスの回復
 	std::list<std::unique_ptr<Heal>> heals_;
 	//レーザーとボスが当たった時
 	std::list<std::unique_ptr<LeserDust>> leserDusts_;
+	//とげが壊れるとき
+	std::list<std::unique_ptr<SpikeDust>> spikeDusts_;
+	void MakeSpikeDust(Vector3 position);
 
 	//リミットクラス
 	std::unique_ptr<Limit>limit_ = nullptr;
@@ -126,6 +129,10 @@ private:
 	//残りｍ数
 	int limitScore_ = 0;
 
+	// フェードイン・アウト
+	ResourceManager* resourceManager;
+	Sprite glayTex_;
+	float glayFadeEasingT_ = 0.0f;
 
 
 
