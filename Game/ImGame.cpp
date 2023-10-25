@@ -56,9 +56,6 @@ void InGame::OnInitialize() {
 	limit_ = std::make_unique<Limit>();
 	limit_->Initialize();
 
-	
-
-	
 }
 
 
@@ -86,9 +83,13 @@ void InGame::OnUpdate() {
 	for (std::unique_ptr<Heal>& heal_ : heals_) {
 		heal_->Update();
 	}
-
+	//レーザーの粒子
 	for (std::unique_ptr<LeserDust>& leserDust_ : leserDusts_) {
 		leserDust_->Update();
+	}
+	//とげの塵
+	for (std::unique_ptr<SpikeDust>& spikeDust_ : spikeDusts_) {
+		spikeDust_->Update();
 	}
 	//フラグが立っていたら削除
 	heals_.remove_if([](std::unique_ptr<Heal>& Heal_) {
@@ -100,6 +101,12 @@ void InGame::OnUpdate() {
 
 	leserDusts_.remove_if([](std::unique_ptr<LeserDust>& leserDust_) {
 		if (leserDust_->GetisAlive() == false) {
+			return true;
+		}
+		return false;
+		});
+	spikeDusts_.remove_if([](std::unique_ptr<SpikeDust>& spikeDust_) {
+		if (spikeDust_->GetisAlive() == false) {
 			return true;
 		}
 		return false;
@@ -204,6 +211,10 @@ void InGame::CollisionAboutSpike() {
 				//埋まっていく状態の敵をすべてコリジョンオフにして飛ばす
 				if (spike->IsStateFillUp()) {
 					spike->OnCollisionBossATK(Skipvelo);
+
+					SpikeDust* spikeDust = new SpikeDust();
+					spikeDust->Initalize(spike->GetWorld().translate.GetXY());
+					spikeDusts_.emplace_back(spikeDust);
 				}
 			}
 #pragma endregion
@@ -219,11 +230,19 @@ void InGame::CollisionAboutSpike() {
 				spike->OnCollisionPlayer();
 				player_->OnCollision();
 				map->SetMapMoveAcceleration(mapAcceSecond_);
+				//とげの塵
+				SpikeDust* spikeDust = new SpikeDust();
+				spikeDust->Initalize(spike->GetWorld().translate.GetXY());
+				spikeDusts_.emplace_back(spikeDust);
 			}
 			else {
 				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる
 				if (player_->GetIsATKBossFlag() && spike->IsStateFillUp()) {
 					spike->OnCollisionPlayerStump();
+					//とげの塵
+					SpikeDust* spikeDust = new SpikeDust();
+					spikeDust->Initalize(spike->GetWorld().translate.GetXY());
+					spikeDusts_.emplace_back(spikeDust);
 				}
 			}
 #pragma endregion
@@ -250,6 +269,10 @@ void InGame::CollisionAboutSpike() {
 						LeserDust* leserDust = new LeserDust();
 						leserDust->Initalize(leser->GetExplosionPos().GetXY());
 						leserDusts_.emplace_back(leserDust);
+						//とげの塵
+						SpikeDust* spikeDust = new SpikeDust();
+						spikeDust->Initalize(spike->GetWorld().translate.GetXY());
+						spikeDusts_.emplace_back(spikeDust);
 
 						//同じレーザーが新しく生成した棘と当たらないようにする処理
 						if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
@@ -301,6 +324,9 @@ void InGame::CollisionAboutSpike() {
 						//爆風に当たった時
 						if (CheckHitSphere(SPIKE, S_wide, ExpPos, ExpWide)) {
 							spike->OnCollisionPlayerExplosion(ExpPos);
+							SpikeDust* spikeDust = new SpikeDust();
+							spikeDust->Initalize(spike->GetWorld().translate.GetXY());
+							spikeDusts_.emplace_back(spikeDust);
 						}
 #pragma endregion
 					}
@@ -408,6 +434,10 @@ void InGame::CollisionAboutSpike() {
 				if (boss_->IsHitBoss(SPIKE, S_wide)) {
 					spike->OnCollisionExplotionBoss();
 					boss_->OnCollisionExplosion(spike->GetDamege());
+					//とげの塵
+					SpikeDust* spikeDust = new SpikeDust();
+					spikeDust->Initalize(spike->GetWorld().translate.GetXY());
+					spikeDusts_.emplace_back(spikeDust);
 				}
 			}
 #pragma endregion
