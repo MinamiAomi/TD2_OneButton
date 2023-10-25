@@ -78,4 +78,5 @@ private://メンバ変数
 
 #pragma endregion
 
+	size_t bgmPlayHandle_;
 };
