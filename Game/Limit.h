@@ -39,4 +39,6 @@ private:
 
 	Vector2 mPos_ = { -9.0f,-36.0f };
 	Vector2 mScale_ = { 80.0f,80.0f };
+
+	
 };

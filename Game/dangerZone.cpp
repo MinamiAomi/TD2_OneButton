@@ -38,11 +38,14 @@ void DangerZone::SetCount(int second,int loopNum) {
 void DangerZone::Update() {
 
 #ifdef _DEBUG
+	
 	ImGui::Begin("DZone");
 	ImGui::DragFloat3("pos", &world.translate.x, 0.01f);
 	ImGui::DragFloat3("scale", &world.scale.x, 0.01f);
 	ImGui::DragFloat("alpha", &Alpha, 0.01f);
+	
 	ImGui::End();
+	
 #endif // _DEBUG
 	if (isActive_) {
 

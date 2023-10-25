@@ -1,6 +1,8 @@
 #pragma once
 #include"Engine/Scene/BaseScene.h"
 
+#include"Engine/Scene/BaseScene.h"
+
 #include "Engine/Graphics/ToonModel.h"
 #include "Engine/Graphics/Sprite.h"
 #include "Math/Camera.h"
@@ -10,14 +12,15 @@
 #include"Spike.h"
 #include"map.h"
 #include"Player.h"
-#include"Boss.h"
+#include"bossSecond.h"
 #include "Background.h"
 #include"Limit.h"
 #include "SpeedEffect.h"
 #include "Heal.h"
+#include "LeserDust.h"
 
 
-class InGame2:public BaseScene {
+class InGame2 : public BaseScene {
 public:
 
 	void OnInitialize() override;
@@ -59,6 +62,7 @@ private://メンバ関数
 private:
 
 	bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2);
+
 #pragma region 各種モデル
 
 
@@ -98,10 +102,17 @@ private:
 	//プレイヤークラス
 	std::unique_ptr<Player>player_ = nullptr;
 
-	//ボスクラス
-	std::unique_ptr<Boss>boss_ = nullptr;
+	//プレイヤーの攻撃でのダメージ
+	int playerLeserDMG = 1;
 
+	//ボスクラス
+	std::unique_ptr<BossSecond>boss_ = nullptr;
+
+	//エフェクト
+	//ボスの回復
 	std::list<std::unique_ptr<Heal>> heals_;
+	//レーザーとボスが当たった時
+	std::list<std::unique_ptr<LeserDust>> leserDusts_;
 
 	//リミットクラス
 	std::unique_ptr<Limit>limit_ = nullptr;
@@ -112,7 +123,10 @@ private:
 	//まっぷを加速させる秒数
 	float mapAcceSecond_ = 2;
 
+	//残りｍ数
 	int limitScore_ = 0;
+
+
 
 
 };

@@ -40,9 +40,9 @@ void Limit::Update(int limit) {
     ImGui::Begin("limit");
     ImGui::DragFloat2("pos", &center_.x);
     ImGui::DragFloat2("mpos", &mPos_.x);
-    ImGui::DragFloat2("mScale", &mScale_.x);
+    ImGui::DragFloat2("mScale", &mScale_.x); 
     ImGui::End();
-
+   
     meterSprite_.spirte->SetScale(mScale_);
 #endif // _DEBUG
 
