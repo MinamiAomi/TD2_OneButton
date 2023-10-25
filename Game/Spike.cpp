@@ -180,7 +180,7 @@ void Spike::FillUp_Initiaize() {
 	world_.translate.y = *BossYLine_ + wide_;
 
 	//ベクトル計算
- 	float vY = (wide_ * wide_) / maxFillUpCount_*coalescenceCount_;
+ 	float vY = (wide_*2.0f ) / maxFillUpCount_*coalescenceCount_;
 
 	velocity_ = { 0,-vY,0 };
 
