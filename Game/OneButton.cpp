@@ -5,6 +5,7 @@
 
 #include "Scene/SceneManager.h"
 #include "TitleScene.h"
+#include "StageSerect.h"
 #include "ImGame.h"
 #include "Clear.h"
 #include "GameOver.h"
@@ -21,7 +22,7 @@ void OneButton::OnInitialize() {
 
     SceneManager* sceneManager = SceneManager::GetInstance();
     //シーン設定
-    sceneManager->ChangeScene<InGame>();
+    sceneManager->ChangeScene<StageSerect>();
 
     LoadResource();
 }
