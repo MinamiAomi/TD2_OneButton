@@ -17,7 +17,7 @@ void Map::Initialize(bool isBob) {
 #pragma endregion	
 #pragma region それ以外マップオブジェクト
 	if (isBob) {
-		mapWorld_.translate = { -14.5f, (float(mapTileNumY_) - 32.0f) * 2.125f, 0.0f };
+		mapWorld_.translate = { -14.5f, (float(mapTileNumY_) - 32.0f) * 2.075f, 0.0f };
 		mapWorld_.UpdateMatrix();
 
 		//マップタイルによる座標設定
@@ -46,7 +46,7 @@ void Map::Initialize(bool isBob) {
 		}
 	}
 	else {
-		mapWorld_.translate = { -14.5f, (float(mapTileNumY2_) - 32.0f) * 2.125f, 0.0f };
+		mapWorld_.translate = { -14.5f, (float(mapTileNumY2_) - 32.0f) * 2.075f, 0.0f };
 		mapWorld_.UpdateMatrix();
 
 		//マップタイルによる座標設定

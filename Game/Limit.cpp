@@ -19,6 +19,7 @@ void Limit::Initialize() {
         numSprite_[i].spirte->SetAnchor({ 0.5f,0.5f });
         numSprite_[i].spirte->SetScale(texScale);
         numSprite_[i].spirte->SetIsActive(true);
+        numSprite_[i].spirte->SetColor({ 1.0f,1.0f,1.0f, 0.3f });
 
     }
 
@@ -31,6 +32,7 @@ void Limit::Initialize() {
     meterSprite_.spirte->SetScale(mScale_);
     meterSprite_.spirte->SetTexcoordRect({ 0.0f,0.0f }, { 150.0f,200.0f });
     meterSprite_.spirte->SetIsActive(true);
+    meterSprite_.spirte->SetColor({ 1.0f,1.0f,1.0f, 0.3f });
 
 }
 
