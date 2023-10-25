@@ -45,7 +45,7 @@ private:
     Input* input_;
 
     // 経過時間
-    uint32_t frame_;
+    uint32_t frame_ = 0;
 
 #pragma region スプライト
 
