@@ -74,6 +74,9 @@ public:
 		}
 		return false;
 	}
+
+
+	int GetHP() { return HP_; }
 #pragma endregion
 
 #pragma region オンコリ
@@ -195,5 +198,5 @@ private:
 	Vector2 scale = rects_;
 #pragma endregion
 	
-
+	
 };

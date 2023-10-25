@@ -249,17 +249,7 @@ void InGame2::CollisionAboutSpike() {
 			Vector3 SPIKE = spike->GetmatWtranstate();
 			float S_wide = spike->GetWide();
 
-#pragma region 棘飛ばしコリジョン
-			if (boss_->IsHitShotSpike(SPIKE, S_wide)) {
-				spike->OnCollisionBossATKExplosion();
 
-			}
-#pragma endregion
-#pragma region 棘飛ばしぷれいや
-			if (boss_->IsHitShotSpike(PLAYER, P_wide)) {
-				player_->OnCollision();
-			}
-#pragma endregion
 
 
 #pragma region プレイヤー

@@ -6,7 +6,7 @@
 #include "Math/Transform.h"
 #include"GlobalVariables.h"
 #include "Clear.h"
-
+#include"GameOver.h"
 void InGame::OnInitialize() {
 
 
@@ -515,8 +515,8 @@ void InGame::AddSpike(const Transform& trans, const int state, const Vector3 vel
 
 
 void InGame::SceneChange() {
-	//1キーでクリア
-	if (input_->IsKeyTrigger(DIK_1)) {
+	//ボスHP0でクリア
+	if (boss_->GetHP()<=0) {
 
 #pragma region データ転送
 		const char dataName[] = "data";
@@ -533,13 +533,39 @@ void InGame::SceneChange() {
 		std::string IsBob = "IsBob";
 		globalV->AddItem(dataName, IsBob, 1);
 #pragma endregion
-
-
-
 		//インスタンス取得
 		SceneManager* sceneManager = SceneManager::GetInstance();
 		//シーン設定
 		sceneManager->ChangeScene<Clear>();
+
+	}
+
+	//エンドラインY座標取得
+	float EposY = map->GetEndTrans().worldMatrix.m[3][1];
+
+	Vector3 epos = player_->GetmatWtranslate();
+	epos.y = EposY;
+
+	if (CheckHitSphere(player_->GetmatWtranslate(), player_->GetWide(), epos, 1)) {
+#pragma region データ転送
+		const char dataName[] = "data";
+		//インスタンス取得
+		GlobalVariables* globalV = GlobalVariables::GetInstance();
+		//グループの追加
+		GlobalVariables::GetInstance()->CreateGroup(dataName);
+
+		//limit
+		std::string keyLimit = "Limit";
+		//値の登録
+		globalV->AddItem(dataName, keyLimit, limitScore_);
+		//ボブかどうか
+		std::string IsBob = "IsBob";
+		globalV->AddItem(dataName, IsBob, 1);
+#pragma endregion
+		//インスタンス取得
+		SceneManager* sceneManager = SceneManager::GetInstance();
+		//シーン設定
+		sceneManager->ChangeScene<GameOver>();
 
 	}
 }

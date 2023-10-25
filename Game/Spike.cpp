@@ -179,6 +179,8 @@ void Spike::FillUp_Initiaize() {
 
 	world_.translate.y = *BossYLine_ + wide_;
 
+	//ベクトル計算
+	
 
 	//埋まるまでのカウント初期化
 	fillUpCount_ = 0;

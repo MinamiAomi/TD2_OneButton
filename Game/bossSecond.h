@@ -77,6 +77,8 @@ public:
 		}
 		return false;
 	}
+
+	int GetHP() { return HP_; }
 #pragma endregion
 
 #pragma region オンコリ
