@@ -9,22 +9,25 @@
 #include"Engine/Input/Input.h"
 
 #include "TitleLogo.h"
+#include "TitlePlayer.h"
+#include "TitleLaser.h"
 
 class TitleScene : public BaseScene {
 public:
-	void OnInitialize() override;
-	void OnUpdate() override;
-	void OnFinalize() override;
+    void OnInitialize() override;
+    void OnUpdate() override;
+    void OnFinalize() override;
 
-	/// <summary>
-	/// シーン転換処理
-	/// </summary>
-	void ChangeScene();
+    /// <summary>
+    /// シーン転換処理
+    /// </summary>
+    void ChangeScene();
 private:
-	Camera camera_;
+    Camera camera_;
 
-	Input* input_;
+    Input* input_;
 
-	std::unique_ptr<TitleLogo> titleLogo_;
-
+    std::unique_ptr<TitleLogo> logo_;
+    std::unique_ptr<TitlePlayer> player_;
+    std::unique_ptr<TitleLaser> laser_;
 };

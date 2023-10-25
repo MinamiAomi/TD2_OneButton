@@ -4,23 +4,39 @@
 #include "Engine/Graphics/RenderManager.h"
 #include "Engine/Scene/SceneManager.h"
 #include "Externals/ImGui/imgui.h"
-
 #include"StageSerect.h"
 
 void TitleScene::OnInitialize() {
 
     RenderManager::GetInstance()->SetCamera(camera_);
+	camera_.SetPosition({ 0.0f, 0.0f, -100.0f });
+	camera_.SetRotate({});
+	camera_.SetPerspective(25.0f * Math::ToRadian, 540.0f / 720.0f, 50.0f, 200.0f);
+	camera_.UpdateMatrices();
 
 	input_ = Input::GetInstance();
 
-    titleLogo_ = std::make_unique<TitleLogo>();
-    titleLogo_->Initialize();
+    logo_ = std::make_unique<TitleLogo>();
+    logo_->Initialize();
 
+	player_ = std::make_unique<TitlePlayer>();
+	player_->Initialize();
+
+	laser_ = nullptr;
 }
 
 void TitleScene::OnUpdate() {
 
-    titleLogo_->Update();
+	if (input_->IsKeyTrigger(DIK_SPACE)) {
+		laser_ = std::make_unique<TitleLaser>();
+		laser_->Initialize();
+	}
+
+    logo_->Update();
+	player_->Update();
+	if (laser_) {
+		laser_->Update();
+	}
 
     camera_.UpdateMatrices();
 
@@ -32,11 +48,12 @@ void TitleScene::OnFinalize() {
 }
 
 void TitleScene::ChangeScene() {
-	//SPACEキーでゲームシーン
-	if (input_->IsKeyTrigger(DIK_SPACE)) {
-		//インスタンス取得
-		SceneManager* sceneManager = SceneManager::GetInstance();
-		//シーン設定
-		sceneManager->ChangeScene<StageSerect>();
+	if (laser_) {
+		if (laser_->EndAnimation()) {
+			//インスタンス取得
+			SceneManager* sceneManager = SceneManager::GetInstance();
+			//シーン設定
+			sceneManager->ChangeScene<StageSerect>();
+		}
 	}
 }

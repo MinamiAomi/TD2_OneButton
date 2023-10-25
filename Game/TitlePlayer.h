@@ -14,8 +14,8 @@ public:
 private:
     struct Part {
         enum Type {
-            kHead,
             kBody,
+            kHead,
             kLArm,
             kRArm,
             kLFoot,
@@ -23,7 +23,7 @@ private:
 
             kNumParts
         };
-        static const char* kModelNames[];
+        static const char* const kModelNames[];
 
         Transform transform;
         ToonModelInstance model;
