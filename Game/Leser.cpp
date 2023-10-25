@@ -1,6 +1,7 @@
 #include "Leser.h"
 
 #include "Graphics/ResourceManager.h"
+#include "Audio/Audio.h"
 
 Leser::Leser() {}
 Leser::~Leser() {}
@@ -52,7 +53,9 @@ void Leser::Initialize(const Vector3& playerPos, const Vector3& bossPos)
 #pragma endregion
 
 
-
+	Audio* audio = Audio::GetInstance();
+	size_t p = audio->SoundPlayWave(resourceManager->FindSound("Laser"));
+	audio->SetValume(p, 0.2f);
 
 	//描画＆処理フラグＯＮ
 	IsAlive_ = true;

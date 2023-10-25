@@ -14,6 +14,7 @@
 #include "Externals/nlohmann/json.hpp"
 #include "Graphics/Sprite.h"
 #include "Graphics/ToonModel.h"
+#include "Audio/Audio.h"
 
 #include"GlobalVariables.h"
 
@@ -23,7 +24,7 @@ void OneButton::OnInitialize() {
 
     SceneManager* sceneManager = SceneManager::GetInstance();
     //シーン設定
-    sceneManager->ChangeScene<TitleScene>();
+    sceneManager->ChangeScene<Clear>();
 
     LoadResource();
 }
@@ -77,4 +78,14 @@ void OneButton::LoadResource() {
         }
         resourceManager->AddTexture(name, texture);
     }
+
+    Audio* audio = Audio::GetInstance();
+    nlohmann::json& sounds = json.at("Sounds");
+    for (auto& sound : sounds) {
+        std::string name = sound.at("Name");
+        std::string path = sound.at("Path");
+        size_t handle = audio->SoundLoadWave(path.c_str());
+        resourceManager->AddSound(name, handle);
+    }
+
 }

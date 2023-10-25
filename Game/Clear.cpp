@@ -3,6 +3,7 @@
 #include "Clear.h"
 #include "StageSerect.h"
 #include "ImGame.h"
+#include "Audio/Audio.h"
 
 void Clear::OnInitialize() {
     input_ = Input::GetInstance();
@@ -68,6 +69,10 @@ void Clear::OnInitialize() {
     clearLimit_ = std::make_unique<ClearLimit>();
     clearLimit_->Initialize(limitScore_, isBob_);
 
+
+    Audio* audio = Audio::GetInstance();
+    bgmPlayHandle_ = audio->SoundPlayLoopStart(resourceManager->FindSound("ResultBGM"));
+    audio->SetValume(bgmPlayHandle_, 0.2f);
 }
 
 void Clear::OnUpdate() {
@@ -84,6 +89,7 @@ void Clear::OnUpdate() {
 }
 
 void Clear::OnFinalize() {
+    Audio::GetInstance()->SoundPlayLoopEnd(bgmPlayHandle_);
 }
 
 void Clear::SpriteInitialize(Sprite& sprite, const char textureName[], Vector2 size) {

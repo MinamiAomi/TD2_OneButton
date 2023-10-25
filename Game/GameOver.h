@@ -44,4 +44,6 @@ private:
     bool isCompleteYouLoseFadeIn_ = false;
 
 #pragma endregion
+
+    size_t bgmPlayHandle_;
 };

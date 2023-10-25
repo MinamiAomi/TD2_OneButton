@@ -2,6 +2,7 @@
 
 #include "Graphics/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
+#include "Audio/Audio.h"
 
 void TitleLaser::Initialize() {
     ResourceManager* resourceManager = ResourceManager::GetInstance();
@@ -23,6 +24,10 @@ void TitleLaser::Initialize() {
     explosionSprite_.SetScale({ 0.0f,0.0f });
 
     animationParameter_ = 0.0f;
+
+    Audio* audio = Audio::GetInstance();
+    size_t p = audio->SoundPlayWave(resourceManager->FindSound("Laser"));
+    audio->SetValume(p, 0.2f);
 }
 
 void TitleLaser::Update() {

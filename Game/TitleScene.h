@@ -33,4 +33,6 @@ private:
     std::unique_ptr<TitleLaser> laser_;
     std::unique_ptr<Background> background_;
     std::unique_ptr<Sprite> pushSpace_;
+    float pushSpaceAnimation_;
+    size_t bgmPlayHandle_;
 };

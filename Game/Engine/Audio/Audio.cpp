@@ -195,6 +195,10 @@ size_t Audio::SoundLoadWave(const char* filename) {
         // 再読み込み
         file.read((char*)&data, sizeof(data));
     }
+    if (strncmp(data.id, "FLLR", 4) == 0) {
+        file.seekg(data.size, std::ios_base::cur);
+        file.read((char*)&data, sizeof(data));
+    }
     if (strncmp(data.id, "data", 4) != 0) {
         assert(0);
     }

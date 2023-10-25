@@ -6,6 +6,7 @@
 #include "Math/Transform.h"
 #include"GlobalVariables.h"
 #include "Clear.h"
+#include "Audio/Audio.h"
 
 void InGame::OnInitialize() {
 
@@ -63,6 +64,10 @@ void InGame::OnInitialize() {
 	glayTex_.SetScale({ 540.0f, 720.0f });
 	glayTex_.SetPosition({ 270.0f, 360.0f });
 	glayTex_.SetDrawOrder(uint8_t(1));
+
+	Audio* audio = Audio::GetInstance();
+	bgmPlayHandle_ = audio->SoundPlayLoopStart(resourceManager->FindSound("InGameBGM"));
+	audio->SetValume(bgmPlayHandle_, 0.15f);
 }
 
 
@@ -145,7 +150,7 @@ void InGame::OnUpdate() {
 
 
 	// 背景はカメラを使用しているためカメラの後に更新
-	background_->Scroll(map->GetMapMovement());
+	background_->Scroll(map->GetMapMovement() * 0.05f);
 	background_->Update();
 	speedEffect_->Update();
 	//シーンチェンジ処理
@@ -569,7 +574,7 @@ void InGame::MapLimit() {
 
 //終了処理
 void InGame::OnFinalize() {
-
+	Audio::GetInstance()->SoundPlayLoopEnd(bgmPlayHandle_);
 }
 
 

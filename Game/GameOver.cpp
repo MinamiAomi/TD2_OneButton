@@ -2,6 +2,7 @@
 #include "GameOver.h"
 #include "StageSerect.h"
 #include "ImGame.h"
+#include "Audio/Audio.h"
 
 void GameOver::OnInitialize() {
     input_ = Input::GetInstance();
@@ -18,6 +19,10 @@ void GameOver::OnInitialize() {
 
 
 #pragma endregion
+
+    Audio* audio = Audio::GetInstance();
+    bgmPlayHandle_ = audio->SoundPlayLoopStart(resourceManager->FindSound("ResultBGM"));
+    audio->SetValume(bgmPlayHandle_, 0.2f);
 }
 
 void GameOver::OnUpdate() {
@@ -50,6 +55,7 @@ void GameOver::OnUpdate() {
 }
 
 void GameOver::OnFinalize() {
+    Audio::GetInstance()->SoundPlayLoopEnd(bgmPlayHandle_);
 }
 
 void GameOver::SpriteInitialize(Sprite& sprite, const char textureName[], Vector2 size) {
