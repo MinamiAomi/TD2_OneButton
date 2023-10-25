@@ -15,7 +15,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="State">状態</param>
 	/// <param name="velo">移動ベクトル</param>
-	void Initialize(int num, Transform world, const float* bossYLine,int DMG=1, int State = kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
+	void Initialize(int num, Transform world, const float* bossYLine,int coalescenceCount = 1, int State = kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
 
 
 	void Update();
@@ -82,6 +82,9 @@ public:
 	}
 
 	const int GetDamege() { return damage_; }
+
+	//合体数取得
+	int GetCoalescenceCount() { return coalescenceCount_; }
 #pragma endregion
 
 #pragma region セッター
@@ -208,7 +211,7 @@ private:
 	const float gensoku_ = 1.0f / 1000.0f;
 
 	//棘にかかる重力
-	float gravity = -0.08f;
+	float gravity = -0.07f;
 
 
 	//爆破アニメーションのカウント
@@ -274,9 +277,11 @@ private:
 	//ボスの棘攻撃に当たったか
 	bool IsCollisionBossSpikeATK_ = false;
 
+	//爆発モデル
 	ToonModelInstance exploModel_;
-
+	//爆発座標
 	Transform exploTrans_;
 
-
+	//合体数
+	int coalescenceCount_ = 1;
 };

@@ -1,4 +1,4 @@
-#include "ImGame.h"
+#include"InGame2.h"
 
 #include"Engine/Scene/SceneManager.h"
 #include "Externals/ImGui/imgui.h"
@@ -7,7 +7,7 @@
 #include"GlobalVariables.h"
 #include "Clear.h"
 
-void InGame::OnInitialize() {
+void InGame2::OnInitialize() {
 
 
 	input_ = Input::GetInstance();
@@ -15,11 +15,18 @@ void InGame::OnInitialize() {
 	RenderManager::GetInstance()->SetCamera(camera_);
 
 
-	//カメラ初期化
-	camera_.SetPosition({ 0.0f, -44.0f, -100.0f });
-	camera_.SetRotate({});
-	camera_.SetPerspective(25.0f * Math::ToRadian, 540.0f / 720.0f, 50.0f, 200.0f);
-	camera_.UpdateMatrices();
+	//カメラ座標初期化
+	Vector3 camerapos = { 0.0f,0.0f,-40.0f };
+	camera_.SetPosition(camerapos);
+
+
+
+
+
+
+
+
+
 
 	//マップクラス初期化
 	map = std::make_unique<Map>();
@@ -53,13 +60,12 @@ void InGame::OnInitialize() {
 	player_->Initialize(map->GetPlayerPosition());
 	player_->SetBossY(&boss_->GetBossYLine());
 
+
 	limit_ = std::make_unique<Limit>();
 	limit_->Initialize();
-
-	
 }
 
-void InGame::OnUpdate() {
+void InGame2::OnUpdate() {
 	GlobalVariables::GetInstance()->Update();
 
 
@@ -79,20 +85,9 @@ void InGame::OnUpdate() {
 	for (std::unique_ptr<Heal>& heal_ : heals_) {
 		heal_->Update();
 	}
-
-	for (std::unique_ptr<LeserDust>& leserDust_ : leserDusts_) {
-		leserDust_->Update();
-	}
 	//フラグが立っていたら削除
 	heals_.remove_if([](std::unique_ptr<Heal>& Heal_) {
 		if (Heal_->GetisAlive() == false) {
-			return true;
-		}
-		return false;
-		});
-
-	leserDusts_.remove_if([](std::unique_ptr<LeserDust>& leserDust_) {
-		if (leserDust_->GetisAlive() == false) {
 			return true;
 		}
 		return false;
@@ -113,6 +108,34 @@ void InGame::OnUpdate() {
 	CheckDead();
 
 
+	static float fovY = 25.0f;
+	static float nearZ = 50.0f;
+	static float farZ = 200.0f;
+	static Vector3 position = { 0.0f, -44.0f, -100.0f };
+	static Vector3 rotate = {};
+
+#ifdef _DEBUG
+	//position = camera_.GetPosition();
+	ImGui::Begin("Camera");
+	ImGui::DragFloat3("Position", &position.x, 0.1f);
+	ImGui::DragFloat3("Rotate", &rotate.x, 0.1f);
+	ImGui::DragFloat("FovY", &fovY, 0.1f, 0.0f, 180.0f);
+	ImGui::DragFloat("NearZ", &nearZ, 0.1f);
+	ImGui::DragFloat("FarZ", &farZ, 1.0f);
+	if (ImGui::Button("SpeedEffect")) {
+		speedEffect_->Spawn();
+	}
+	ImGui::End();
+#endif // _DEBUG
+
+	rotate.x = std::fmod(rotate.x, 360.0f);
+	rotate.y = std::fmod(rotate.y, 360.0f);
+	rotate.z = std::fmod(rotate.z, 360.0f);
+	camera_.SetPosition(position);
+	camera_.SetRotate(Quaternion::MakeFromEulerAngle(rotate * Math::ToRadian));
+	camera_.SetPerspective(fovY * Math::ToRadian, 540.0f / 720.0f, nearZ, farZ);
+
+	camera_.UpdateMatrices();
 	// 背景はカメラを使用しているためカメラの後に更新
 	background_->Update();
 	speedEffect_->Update();
@@ -121,7 +144,7 @@ void InGame::OnUpdate() {
 }
 
 
-bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
+bool InGame2::CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 
 	Vector3 p = p1 - p2;
 
@@ -139,7 +162,7 @@ bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2) {
 
 
 
-void InGame::GetAllCollisions() {
+void InGame2::GetAllCollisions() {
 
 
 	CollisionAboutSpike();
@@ -179,7 +202,7 @@ void InGame::GetAllCollisions() {
 
 
 
-void InGame::CollisionAboutSpike() {
+void InGame2::CollisionAboutSpike() {
 #pragma region 棘に関する当たり判定
 	//スパイクのWorld
 
@@ -239,11 +262,6 @@ void InGame::CollisionAboutSpike() {
 
 					//ビームに当たっているとき
 					if (PLAYER.y > beamEnd.y && CheckHitSphere(SPIKE, S_wide, beamEnd, beamWide)) {
-						//レーザーの粒子
-						LeserDust* leserDust = new LeserDust();
-						leserDust->Initalize(leser->GetExplosionPos().GetXY());
-						leserDusts_.emplace_back(leserDust);
-
 						//同じレーザーが新しく生成した棘と当たらないようにする処理
 						if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
 
@@ -264,7 +282,7 @@ void InGame::CollisionAboutSpike() {
 
 
 
-							AddSpike(Newworld, Spike::State::kFalling, newVelo,spike->GetCoalescenceCount());
+							AddSpike(Newworld, Spike::State::kFalling, newVelo, spike->GetCoalescenceCount());
 							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
@@ -301,26 +319,6 @@ void InGame::CollisionAboutSpike() {
 
 
 				}
-
-#pragma region ボスとレーザーのコリジョン
-				if (!leser->GetIsAlreadyATKBoss()) {
-					Vector3 ExpPos = leser->GetExplosionPos();
-					float ExpWide = leser->GetExplotionRadius();
-					if (boss_->IsHitBoss(ExpPos, ExpWide)) {
-
-						//レーザーの粒子を出す
-						LeserDust* leserDust = new LeserDust();
-						leserDust->Initalize(leser->GetExplosionPos().GetXY());
-						leserDusts_.emplace_back(leserDust);
-
-						//中に処理
-						leser->OnCollisionBoss();
-
-						boss_->OnCollisionExplosion(playerLeserDMG);
-					}
-				}
-#pragma endregion
-
 			}
 #pragma endregion
 
@@ -432,7 +430,7 @@ void InGame::CollisionAboutSpike() {
 
 
 //死亡チェック
-void InGame::CheckDead() {
+void InGame2::CheckDead() {
 	spikes.remove_if([](std::unique_ptr<Spike>& spike) {
 		if (spike->IsDead()) {
 			return true;
@@ -441,7 +439,7 @@ void InGame::CheckDead() {
 		});
 }
 
-void InGame::AddSpike(const Transform& trans, const int state, const Vector3 velo, int damage) {
+void InGame2::AddSpike(const Transform& trans, const int state, const Vector3 velo, int damage) {
 
 	//クラス作成
 	Spike* spike_ = new Spike();
@@ -455,7 +453,7 @@ void InGame::AddSpike(const Transform& trans, const int state, const Vector3 vel
 }
 
 
-void InGame::SceneChange() {
+void InGame2::SceneChange() {
 	//1キーでクリア
 	if (input_->IsKeyTrigger(DIK_1)) {
 
@@ -472,7 +470,7 @@ void InGame::SceneChange() {
 		globalV->AddItem(dataName, keyLimit, limitScore_);
 		//ボブかどうか
 		std::string IsBob = "IsBob";
-		globalV->AddItem(dataName, IsBob, 1);
+		globalV->AddItem(dataName, IsBob, 0);
 #pragma endregion
 
 
@@ -485,7 +483,7 @@ void InGame::SceneChange() {
 	}
 }
 
-void InGame::MapLimit() {
+void InGame2::MapLimit() {
 	float limitY = map->GetEndTrans().worldMatrix.m[3][1];
 
 	float bossY = boss_->GetBossYLine();
@@ -509,7 +507,7 @@ void InGame::MapLimit() {
 }
 
 //終了処理
-void InGame::OnFinalize() {
+void InGame2::OnFinalize() {
 
 }
 

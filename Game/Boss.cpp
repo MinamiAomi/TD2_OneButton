@@ -57,6 +57,7 @@ void Boss::Update()
 	ImGui::End();
 #endif // _DEBUG
 
+
 	//攻撃に関する処理
 	BossATK();
 

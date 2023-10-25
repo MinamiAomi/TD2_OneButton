@@ -15,9 +15,9 @@
 #include"Limit.h"
 #include "SpeedEffect.h"
 #include "Heal.h"
-#include "LeserDust.h"
 
-class InGame : public BaseScene {
+
+class InGame2:public BaseScene {
 public:
 
 	void OnInitialize() override;
@@ -49,7 +49,7 @@ public:
 	/// <summary>
 	/// 棘を増やす処理まとめ
 	/// </summary>
-	void AddSpike(const Transform& trans, const int state = 0, const Vector3 velo = { 0.0f,0.0f,0.0f },int damage=1);
+	void AddSpike(const Transform& trans, const int state = 0, const Vector3 velo = { 0.0f,0.0f,0.0f }, int damage = 1);
 
 private://メンバ関数
 
@@ -58,6 +58,7 @@ private://メンバ関数
 
 private:
 
+	bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2);
 #pragma region 各種モデル
 
 
@@ -80,7 +81,7 @@ private:
 	//カメラ
 	Camera camera_;
 
-	
+
 
 	//マップクラス
 	std::unique_ptr<Map>map = nullptr;
@@ -97,17 +98,10 @@ private:
 	//プレイヤークラス
 	std::unique_ptr<Player>player_ = nullptr;
 
-	//プレイヤーの攻撃でのダメージ
-	int playerLeserDMG = 1;
-
 	//ボスクラス
 	std::unique_ptr<Boss>boss_ = nullptr;
 
-	//エフェクト
-	//ボスの回復
 	std::list<std::unique_ptr<Heal>> heals_;
-	//レーザーとボスが当たった時
-	std::list<std::unique_ptr<LeserDust>> leserDusts_;
 
 	//リミットクラス
 	std::unique_ptr<Limit>limit_ = nullptr;
@@ -118,6 +112,7 @@ private:
 	//まっぷを加速させる秒数
 	float mapAcceSecond_ = 2;
 
-	//残りｍ数
 	int limitScore_ = 0;
+
+
 };

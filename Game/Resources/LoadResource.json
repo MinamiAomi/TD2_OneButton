@@ -13,6 +13,7 @@
         { "Name" : "Spike",             "Path" : "Resources/Model/spike/spike.obj" },    
         { "Name" : "Background",        "Path" : "Resources/Model/background/background.obj" },
         { "Name" : "Heal",              "Path" : "Resources/Model/Effects/Heal/Heal.obj" },
+        { "Name" : "Dust",        "Path" : "Resources/Model/Effects/Dust/Dust.obj" },
         { "Name" : "Pole",              "Path" : "Resources/Model/Pole/Pole.obj" } 
     ],
     "Images" : [
@@ -22,7 +23,9 @@
 	    { "Name" : "number",  	        "Path" : "Resources/Image/number.png", "Inter" : "Point", "Exten" : "Wrap"  },
         { "Name" : "BackTree1",         "Path" : "Resources/Image/BackGround/backTree1.png" },
         { "Name" : "BackTree2",         "Path" : "Resources/Image/BackGround/backTree2.png" },
-        { "Name" : "BaseBackGround",    "Path" : "Resources/Image/BackGround/baseBackGround.png" }
+        { "Name" : "BaseBackGround",    "Path" : "Resources/Image/BackGround/baseBackGround.png" },
+      { "Name" : "clearBackGround","Path" : "Resources/Image/clearBackGround.png" },
+        { "Name" : "youWin",      "Path" : "Resources/Image/youWin.png", "Inter" : "Point", "Exten" : "Wrap" }
     ],
     "Sounds" : [
         { "Name" : "TitleBGM",          "Path" : "Resources/Sound/title.wav" },

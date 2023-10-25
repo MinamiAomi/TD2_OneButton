@@ -103,6 +103,10 @@ void Leser::OnCollision(const int& num) {
 	alreadyHitBallNumber_.emplace_back(num);
 }
 
+void Leser::OnCollisionBoss() {
+	isAlreadyATKBoss_ = true;
+}
+
 bool Leser::IsAlreadyHit(const int& num) {
 	for (int alreadyHitNum : alreadyHitBallNumber_) {
 		if (alreadyHitNum == num) {

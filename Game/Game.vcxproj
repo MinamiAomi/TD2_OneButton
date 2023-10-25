@@ -46,7 +46,8 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BossSpike.h" />
     <ClInclude Include="Clear.h" />
-    <ClInclude Include="Dust.h" />
+    <ClInclude Include="ClearLimit.h" />
+    <ClInclude Include="LeserDust.h" />
     <ClInclude Include="Engine\Application\Game.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
     <ClInclude Include="Engine\Engine.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="Heal.h" />
     <ClInclude Include="ImGame.h" />
+    <ClInclude Include="InGame2.h" />
     <ClInclude Include="Leser.h" />
     <ClInclude Include="Limit.h" />
     <ClInclude Include="map.h" />
@@ -144,7 +146,8 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="BossSpike.cpp" />
     <ClCompile Include="Clear.cpp" />
-    <ClCompile Include="Dust.cpp" />
+    <ClCompile Include="ClearLimit.cpp" />
+    <ClCompile Include="LeserDust.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Graphics\Core\ColorBuffer.cpp" />
@@ -189,6 +192,7 @@
     <ClCompile Include="GlobalVariables.cpp" />
     <ClCompile Include="Heal.cpp" />
     <ClCompile Include="ImGame.cpp" />
+    <ClCompile Include="InGame2.cpp" />
     <ClCompile Include="Leser.cpp" />
     <ClCompile Include="Limit.cpp" />
     <ClCompile Include="main.cpp" />
