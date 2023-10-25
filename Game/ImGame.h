@@ -120,4 +120,7 @@ private:
 
 	//残りｍ数
 	int limitScore_ = 0;
+
+
+	
 };
