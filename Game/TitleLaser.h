@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 
 #include "Math/Transform.h"
 #include "Graphics/ToonModel.h"
@@ -9,11 +10,15 @@ class TitleLaser {
 public:
     void Initialize();
     void Update();
-    bool EndAnimation() { return animationParameter_ >= animationLength_; }
+    bool EndAnimation() { return animationParameter_ >= 1.0f; }
 
 private:
+    // アニメーションの長さ
+    static constexpr uint32_t kAnimationDuration = 20;
+    
     Transform transform_;
     ToonModelInstance model_;
-    uint32_t animationParameter_{};
-    uint32_t animationLength_ = 120;
+    float animationParameter_;
+    float startWidth_;
+    float endWidth_;
 };
