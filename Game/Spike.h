@@ -272,7 +272,7 @@ private:
 	bool isApplicationDamage = false;
 
 	//ダメージ量
-	int damage_ = 100;
+	int damage_ = 300;
 
 	//ボスの棘攻撃に当たったか
 	bool IsCollisionBossSpikeATK_ = false;

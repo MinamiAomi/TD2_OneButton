@@ -16,7 +16,7 @@ void Leser::Initialize(const Vector3& playerPos, const Vector3& bossPos)
 {
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	const char laserModelName[] = "Laser";
-	const char explosionModelName[] = "Explosion";
+	//const char explosionModelName[] = "Explosion";
 
 #pragma region ビーム関連
 	//モデルセット
@@ -41,8 +41,8 @@ void Leser::Initialize(const Vector3& playerPos, const Vector3& bossPos)
 
 #pragma region 爆発関連
 	//モデルセット
-	expModelInstance_.SetModel(resourceManager->FindModel(explosionModelName));
-	expModelInstance_.SetIsLighting(false);
+	//expModelInstance_.SetModel(resourceManager->FindModel(explosionModelName));
+	//expModelInstance_.SetIsLighting(false);
 
 	//爆発の情報取得と設定
 	explosionpos_.translate = bossPos;
@@ -81,7 +81,7 @@ void Leser::Update() {
 		//更新処理
 		explosionpos_.scale = { explosionRadius_,explosionRadius_ ,explosionRadius_ };
 		explosionpos_.UpdateMatrix();
-		expModelInstance_.SetWorldMatrix(explosionpos_.worldMatrix);
+		//expModelInstance_.SetWorldMatrix(explosionpos_.worldMatrix);
 #pragma endregion
 
 		//T加算

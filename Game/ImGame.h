@@ -131,7 +131,7 @@ private:
 	ResourceManager* resourceManager;
 	Sprite glayTex_;
 	float glayFadeEasingT_ = 0.0f;
-
+	bool isFadeInComplete_ = false;
 	
 
 };
