@@ -133,5 +133,5 @@ private:
 	float glayFadeEasingT_ = 0.0f;
 	bool isFadeInComplete_ = false;
 	
-
+	size_t bgmPlayHandle_;
 };

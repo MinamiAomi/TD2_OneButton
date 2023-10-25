@@ -42,7 +42,7 @@ void Background::Update() {
     }
     {
         float offset = std::fmod(scroll_, 2.0f);
-        Vector3 translate = { Math::Lerp(0.5f, quad[2].x, quad[0].x), Math::Lerp(-0.5f + offset, quad[0].y, quad[1].y), quad[0].z };
+        Vector3 translate = { 0.0f, Math::Lerp(-0.5f + offset, quad[0].y, quad[1].y), quad[0].z };
         Quaternion rotate = Quaternion::MakeForYAxis(Math::Pi);
         Vector3 scale = { quad[2].x - quad[0].x, quad[0].y - quad[1].y, 1.0f };
 
@@ -51,14 +51,14 @@ void Background::Update() {
 
     {
         float offset = std::fmod(scroll_ + 1.0f, 2.0f);
-        Vector3 translate = { Math::Lerp(0.5f, quad[2].x, quad[0].x), Math::Lerp(-0.5f + offset, quad[0].y, quad[1].y), quad[0].z };
+        Vector3 translate = { 0.0f, Math::Lerp(-0.5f + offset, quad[0].y, quad[1].y), quad[0].z };
         Vector3 scale = { quad[2].x - quad[0].x, quad[0].y - quad[1].y, 1.0f };
 
         Quaternion rotate = Quaternion::MakeForYAxis(Math::Pi);
         tree2_->SetWorldMatrix(Matrix4x4::MakeAffineTransform(scale, rotate, translate));
     }
     {
-        Vector3 translate = { Math::Lerp(0.5f, quad[2].x, quad[0].x), Math::Lerp(0.5f, quad[0].y, quad[1].y), quad[0].z };
+        Vector3 translate = { 0.0f, Math::Lerp(0.5f, quad[0].y, quad[1].y), quad[0].z };
         Quaternion rotate = Quaternion::MakeForYAxis(Math::Pi)/*Quaternion::identity*/;
         Vector3 scale = { quad[2].x - quad[0].x, quad[0].y - quad[1].y, 1.0f };
         base_->SetWorldMatrix(Matrix4x4::MakeAffineTransform(scale, rotate, translate));

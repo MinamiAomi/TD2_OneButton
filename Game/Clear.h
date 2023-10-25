@@ -90,4 +90,6 @@ private:
 
     // リミットクラス
     std::unique_ptr<ClearLimit>clearLimit_ = nullptr;
+
+    size_t bgmPlayHandle_;
 };
