@@ -18,6 +18,7 @@
 #include "LeserDust.h"
 #include "SpikeDust.h"
 
+#include "Graphics/ResourceManager.h"
 
 class InGame : public BaseScene {
 public:
@@ -126,6 +127,10 @@ private:
 	//残りｍ数
 	int limitScore_ = 0;
 
+	// フェードイン・アウト
+	ResourceManager* resourceManager;
+	Sprite glayTex_;
+	float glayFadeEasingT_ = 0.0f;
 
 	
 
