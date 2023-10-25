@@ -34,7 +34,11 @@ void StageSerect::OnInitialize() {
 	michaelPosterTex_.SetIsActive(false);
 	maxPosterTex_.SetIsActive(false);
 
-
+	SpriteInitialize(pushSpaceToStartTex_, "pushSpaceToStart", { 460.0f, 50.0f });
+	pushSpaceToStartTex_.SetPosition({ kCenter_.x, 100.0f });
+	SpriteInitialize(toBeContinuedTex_, "toBeContinued", { 460, 50.0f });
+	toBeContinuedTex_.SetPosition({ kCenter_.x, 100.0f });
+	toBeContinuedTex_.SetIsActive(false);
 #pragma endregion
 }
 
@@ -55,8 +59,16 @@ void StageSerect::OnUpdate() {
 		glayTex_.SetColor({ tmpColor, tmpColor, tmpColor, Math::Lerp(easeOutCirc(glayFadeOutEasingT_), 0.0f, 1.0f) });
 	}
 
+
 	EasingClamp(posterScaleEasingT_, 0.07f);
 	float scaleMag = 1.2f;
+
+	pushSpaceToStartTex_.SetScale(Vector2::Lerp(easeOutCirc(pushSpaceScaleEasingT_), { 460.0f * 1.2f, 50.0f * 1.2f }, { 460.0f, 50.0f }));
+	EasingClamp(pushSpaceScaleEasingT_, 0.04f);
+	if (pushSpaceScaleEasingT_ == 1.0f) {
+		pushSpaceScaleEasingT_ = 0.0f;
+	}
+
 	// 選んでる状態ごとの更新
 	switch (state_) {
 	case StageSerect::kStage1:
@@ -79,6 +91,9 @@ void StageSerect::OnUpdate() {
 
 		maxTex_.SetIsActive(false);
 		maxPosterTex_.SetIsActive(false);
+
+		pushSpaceToStartTex_.SetIsActive(true);
+		toBeContinuedTex_.SetIsActive(false);
 		break;
 	case StageSerect::kStage3:
 		State3Update();
@@ -88,6 +103,9 @@ void StageSerect::OnUpdate() {
 		maxTex_.SetIsActive(true);
 		maxPosterTex_.SetIsActive(true);
 		maxPosterTex_.SetScale(Vector2::Lerp(easeOutCirc(posterScaleEasingT_), { 474.0f * scaleMag, 303.0f * scaleMag }, { 474.0f, 303.0f }));
+
+		pushSpaceToStartTex_.SetIsActive(false);
+		toBeContinuedTex_.SetIsActive(true);
 		break;
 	}
 

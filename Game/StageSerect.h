@@ -72,6 +72,10 @@ private://メンバ変数
 	Sprite maxPosterTex_;
 	float posterScaleEasingT_ = 0.0f;
 
+	Sprite pushSpaceToStartTex_;
+	float pushSpaceScaleEasingT_ = 0.0f;
+	Sprite toBeContinuedTex_;
+
 #pragma endregion
 
 };
