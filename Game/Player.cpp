@@ -53,7 +53,12 @@ void Player::Initialize(const Vector3& position) {
 
 	ValueSetting();
 
-
+	longPressTex_.SetTexture(resourceManager->FindTexture("longPress"));
+	longPressTex_.SetAnchor({ 0.5f,0.5f });
+	longPressTex_.SetScale({ 400.0f,64.0f });
+	longPressTex_.SetTexcoordRect({ 0.0f,0.0f }, { 400.0f,64.0f });
+	longPressTex_.SetColor({ 0.0f,0.0f,0.0f,1.0f });
+	longPressTex_.SetPosition({ 270.0f, 500.0f });
 
 }
 
@@ -442,6 +447,7 @@ void Player::Attack() {
 	//落ちているときにフラグが立つ
 	DropFlag = true;
 	if (IsFirstAttack == false) {
+		longPressTex_.SetIsActive(false);
 		IsFirstAttack = true;
 	}
 	/*if (ボスに当たったら) {

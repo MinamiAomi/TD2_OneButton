@@ -1,6 +1,6 @@
 {
     "Map": {
-        "mapMoveAcceNum : マップの加速する倍数": 10.0,
-        "veloMoveMapNum : マップの１フレームに動く量": 0.01
+        "mapMoveAcceNum : マップの加速する倍数": 5.0,
+        "veloMoveMapNum : マップの１フレームに動く量": 0.02
     }
 }
