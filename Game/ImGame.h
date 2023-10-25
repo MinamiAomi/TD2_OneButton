@@ -16,7 +16,9 @@
 #include "SpeedEffect.h"
 #include "Heal.h"
 #include "LeserDust.h"
+#include "SpikeDust.h"
 
+#include "Graphics/ResourceManager.h"
 
 class InGame : public BaseScene {
 public:
@@ -109,6 +111,9 @@ private:
 	std::list<std::unique_ptr<Heal>> heals_;
 	//レーザーとボスが当たった時
 	std::list<std::unique_ptr<LeserDust>> leserDusts_;
+	//とげが壊れるとき
+	std::list<std::unique_ptr<SpikeDust>> spikeDusts_;
+	void MakeSpikeDust(Vector3 position);
 
 	//リミットクラス
 	std::unique_ptr<Limit>limit_ = nullptr;
@@ -122,6 +127,10 @@ private:
 	//残りｍ数
 	int limitScore_ = 0;
 
+	// フェードイン・アウト
+	ResourceManager* resourceManager;
+	Sprite glayTex_;
+	float glayFadeEasingT_ = 0.0f;
 
 	
 

@@ -54,17 +54,27 @@ private://メンバ変数
 	//どのステージを選んでいるかの状態
 	State state_ = kStage1;
 
-	//同時押しの対策
-	int control_ = 0;
-
 	// 中心座標
 	const Vector2 kCenter_ = { 270.0f, 360.0f };
 
+	bool isPushSpace_ = false;
+
 #pragma region スプライト
 
+	Sprite glayTex_;
+	float glayFadeOutEasingT_ = 0.0f;
 	Sprite bobTex_;
 	Sprite michaelTex_;
 	Sprite maxTex_;
+
+	Sprite bobPosterTex_;
+	Sprite michaelPosterTex_;
+	Sprite maxPosterTex_;
+	float posterScaleEasingT_ = 0.0f;
+
+	Sprite pushSpaceToStartTex_;
+	float pushSpaceScaleEasingT_ = 0.0f;
+	Sprite toBeContinuedTex_;
 
 #pragma endregion
 

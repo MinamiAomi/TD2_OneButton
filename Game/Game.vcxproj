@@ -107,6 +107,7 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="OneButton.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="shotSpike.h" />
     <ClInclude Include="Spike.h" />
     <ClInclude Include="SpikeDust.h" />
     <ClInclude Include="StageSerect.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="map.cpp" />
     <ClCompile Include="OneButton.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="shotSpike.cpp" />
     <ClCompile Include="SpeedEffect.cpp" />
     <ClCompile Include="Spike.cpp" />
     <ClCompile Include="SpikeDust.cpp" />

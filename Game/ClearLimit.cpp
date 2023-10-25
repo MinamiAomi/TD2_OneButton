@@ -107,23 +107,17 @@ void ClearLimit::ScoreAnimation(uint32_t frame) {
     thirtyLimitMeterTex_.SetColor({ 1.0f,1.0f,1.0f,easeOutCirc(limitEasingt_) });
 
     // mの取得処理
-    if (isBob_) {
-
-        if (frame > 380 && limit_ >= 30) {
-            mTex_[2].SetIsActive(true);
-            ScaleFadeOut(scaleEasingT_[2], mScaleTex_[2]);
-        }
-        if (frame > 340 && limit_ >= 10) {
-            mTex_[1].SetIsActive(true);
-            ScaleFadeOut(scaleEasingT_[1], mScaleTex_[1]);
-        }
-        if (frame > 300) {
-            mTex_[0].SetIsActive(true);
-            ScaleFadeOut(scaleEasingT_[0], mScaleTex_[0]);
-        }
+    if (frame > 380 && limit_ >= 30) {
+        mTex_[2].SetIsActive(true);
+        ScaleFadeOut(scaleEasingT_[2], mScaleTex_[2]);
     }
-    else {
-
+    if (frame > 340 && limit_ >= 10) {
+        mTex_[1].SetIsActive(true);
+        ScaleFadeOut(scaleEasingT_[1], mScaleTex_[1]);
+    }
+    if (frame > 300) {
+        mTex_[0].SetIsActive(true);
+        ScaleFadeOut(scaleEasingT_[0], mScaleTex_[0]);
     }
 }
 

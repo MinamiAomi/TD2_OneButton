@@ -56,9 +56,13 @@ void InGame::OnInitialize() {
 	limit_ = std::make_unique<Limit>();
 	limit_->Initialize();
 
-	
-
-	
+	resourceManager = ResourceManager::GetInstance();
+	glayTex_.SetTexture(resourceManager->FindTexture("whiteBackGround"));
+	glayTex_.SetAnchor({ 0.5f,0.5f });
+	glayTex_.SetTexcoordRect({ 0.0f,0.0f }, { 540.0f, 720.0f });
+	glayTex_.SetScale({ 540.0f, 720.0f });
+	glayTex_.SetPosition({ 270.0f, 360.0f });
+	glayTex_.SetDrawOrder(uint8_t(1));
 }
 
 
@@ -68,14 +72,24 @@ void InGame::OnUpdate() {
 
 #endif // _DEBUG
 
-	
-	
-	//マップ更新
-	map->Update();
+	auto easeOutCirc = [](float t) { return std::sqrtf(1 - std::powf(t - 1, 2)); };
+	// フェードアウト
+	if (glayFadeEasingT_ < 1.0f) {
+		glayFadeEasingT_ += 0.02f;
+	}
+	else if (glayFadeEasingT_ > 1.0f) {
+		glayFadeEasingT_ = 1.0f;
+	}
+	float tmpColor = 80.0f / 255.0f;
+	glayTex_.SetColor({ tmpColor, tmpColor, tmpColor, Math::Lerp(easeOutCirc(glayFadeEasingT_), 1.0f, 0.0f) });
 
-	//ボス更新
-	boss_->Update();
-
+	//最初の落下攻撃をするととおる
+	if (player_->GetIsFirstAttack() == true) {
+		//マップ更新
+		map->Update();
+		//ボス更新
+		boss_->Update();
+	}
 
 	//棘更新
 	for (std::unique_ptr<Spike>& spike : spikes) {
@@ -86,9 +100,13 @@ void InGame::OnUpdate() {
 	for (std::unique_ptr<Heal>& heal_ : heals_) {
 		heal_->Update();
 	}
-
+	//レーザーの粒子
 	for (std::unique_ptr<LeserDust>& leserDust_ : leserDusts_) {
 		leserDust_->Update();
+	}
+	//とげの塵
+	for (std::unique_ptr<SpikeDust>& spikeDust_ : spikeDusts_) {
+		spikeDust_->Update();
 	}
 	//フラグが立っていたら削除
 	heals_.remove_if([](std::unique_ptr<Heal>& Heal_) {
@@ -100,6 +118,12 @@ void InGame::OnUpdate() {
 
 	leserDusts_.remove_if([](std::unique_ptr<LeserDust>& leserDust_) {
 		if (leserDust_->GetisAlive() == false) {
+			return true;
+		}
+		return false;
+		});
+	spikeDusts_.remove_if([](std::unique_ptr<SpikeDust>& spikeDust_) {
+		if (spikeDust_->GetisAlive() == false) {
 			return true;
 		}
 		return false;
@@ -169,11 +193,16 @@ void InGame::GetAllCollisions() {
 #pragma region プレイヤーとボス
 	if (boss_->IsHitBoss(PLAYER, P_wide)) {
 		player_->OnCollisionBoss();
-		map->SetMapMoveAcceleration(mapAcceSecond_);
+		//ボスに攻撃していない＆＆最初の攻撃実行炭
+		if (!player_->GetIsATKBossFlag() && player_->GetIsFirstAttack() == true) {
+			map->SetMapMoveAcceleration(mapAcceSecond_);
+		}
 	}
 	if (boss_->IsHitBossATK(PLAYER, P_wide)) {
 		player_->OnCollisionBoss();
-		map->SetMapMoveAcceleration(mapAcceSecond_);
+		if (player_->GetIsFirstAttack() == true) {
+			map->SetMapMoveAcceleration(mapAcceSecond_);
+		}
 	}
 #pragma endregion
 
@@ -206,6 +235,7 @@ void InGame::CollisionAboutSpike() {
 				if (spike->IsStateFillUp()) {
 					spike->OnCollisionBossATK(Skipvelo);
 				}
+
 			}
 #pragma endregion
 
@@ -219,12 +249,20 @@ void InGame::CollisionAboutSpike() {
 			if (spike->GetIsCollisonOnPlayer() && CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
 				spike->OnCollisionPlayer();
 				player_->OnCollision();
-				map->SetMapMoveAcceleration(mapAcceSecond_);
+				//最初の落下攻撃をしていたら、マップの加速を許可
+				if (player_->GetIsFirstAttack() == true) {
+					map->SetMapMoveAcceleration(mapAcceSecond_);
+				}
+				
+				//とげの塵をだす
+				MakeSpikeDust(SPIKE);
 			}
 			else {
 				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる
 				if (player_->GetIsATKBossFlag() && spike->IsStateFillUp()) {
 					spike->OnCollisionPlayerStump();
+					//とげの塵をだす
+					MakeSpikeDust(SPIKE);
 				}
 			}
 #pragma endregion
@@ -251,6 +289,8 @@ void InGame::CollisionAboutSpike() {
 						LeserDust* leserDust = new LeserDust();
 						leserDust->Initalize(leser->GetExplosionPos().GetXY());
 						leserDusts_.emplace_back(leserDust);
+						//とげの塵をだす
+						MakeSpikeDust(SPIKE);
 
 						//同じレーザーが新しく生成した棘と当たらないようにする処理
 						if (!leser->IsAlreadyHit(spike->GetIdentificationNum())) {
@@ -302,6 +342,8 @@ void InGame::CollisionAboutSpike() {
 						//爆風に当たった時
 						if (CheckHitSphere(SPIKE, S_wide, ExpPos, ExpWide)) {
 							spike->OnCollisionPlayerExplosion(ExpPos);
+							//とげの塵をだす
+							MakeSpikeDust(SPIKE);
 						}
 #pragma endregion
 					}
@@ -409,6 +451,8 @@ void InGame::CollisionAboutSpike() {
 				if (boss_->IsHitBoss(SPIKE, S_wide)) {
 					spike->OnCollisionExplotionBoss();
 					boss_->OnCollisionExplosion(spike->GetDamege());
+					//とげの塵
+					MakeSpikeDust(SPIKE);
 				}
 			}
 #pragma endregion
@@ -436,6 +480,13 @@ void InGame::CollisionAboutSpike() {
 #pragma endregion
 
 
+}
+
+void InGame::MakeSpikeDust(Vector3 position)
+{
+	SpikeDust* spikeDust = new SpikeDust();
+	spikeDust->Initalize({ position.x,position.y });
+	spikeDusts_.emplace_back(spikeDust);
 }
 
 

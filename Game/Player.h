@@ -76,6 +76,11 @@ public:
 
 	//プレイヤーの攻撃半径の取得
 	const float GetExplosionRadius() { return explosionRadius_; }
+
+	//最初の攻撃をしているかどうか
+	bool GetIsFirstAttack() {
+		return IsFirstAttack;
+	}
 #pragma endregion
 
 #pragma region セッター
@@ -151,11 +156,11 @@ private:
 	//目標の位置
 	float EposY = -25.0f;
 
-	//TODO ちゃんといじろう
+
 	//プレイヤーのHP
 	int HP_ = 10;
 
-
+	bool IsFirstAttack = false;
 
 
 private://スペチャ追加分

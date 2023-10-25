@@ -43,7 +43,7 @@ void Player::Initialize(const Vector3& position) {
 
 	//プレイヤーのモデル
 	worldTransform_.translate = position;
-
+	worldTransform_.UpdateMatrix();
 
 	//親設定
 	for (int i = 0; i < PartsNum; i++) {
@@ -158,6 +158,8 @@ void Player::Update() {
 	ImGui::DragFloat3("scale", &worldTransform_.scale.x, 0.01f);
 	ImGui::Checkbox("isMove", &isMove_);
 	ImGui::DragInt("DropCount", &DropCount);
+
+	ImGui::Text("%4.1f,%4.1f", worldTransform_.worldMatrix.m[3][0], worldTransform_.worldMatrix.m[3][1]);
 	ImGui::End();
 #endif // _DEBUG
 	worldTransform_.rotate = FixModelRotate("rotate", 0);
@@ -211,18 +213,20 @@ void Player::Update() {
 			break;
 		}
 	}
-	//TODO
+
+	//プレイヤーの上昇上限
+	if (worldTransform_.worldMatrix.GetTranslate().y > -25.0f) {
+		worldTransform_.translate.y = -25.0f;
+	}
+
 	for (Leser* leser : lesers_) {
 		leser->Update();
 	}
-
-
 
 	//プレイヤー中心行列更新
 	worldTransform_.UpdateMatrix();
 
 	ModelsUpdate();
-
 
 	lesers_.remove_if([](Leser* leser) {
 		//レーザーが死んだら処理
@@ -350,6 +354,9 @@ void Player::BehaviorRootUpdate() {
 }
 
 void Player::BehaviorJumpInitalize() {
+	if (IsFirstAttack == false) {
+		return;
+	}
 	//状態を更新
 	behavior_ = Behavior::kJump;
 	//ジャンプ量を設定
@@ -432,6 +439,9 @@ void Player::Attack() {
 	worldTransform_.translate.y -= 2.0f;
 	//落ちているときにフラグが立つ
 	DropFlag = true;
+	if (IsFirstAttack == false) {
+		IsFirstAttack = true;
+	}
 	/*if (ボスに当たったら) {
 		behaviorRequest_ = Behavior::kHit;
 	}*/
@@ -453,7 +463,7 @@ void Player::BehaviorHitEnemyUpdate() {
 	}
 	//Lerpで上まで動かす
 	worldTransform_.translate.y = Math::Lerp(remakeT, PposY, EposY);
-	//TODO : 上空で少し待機する処理を追加
+
 	if (t_ >= 1.2f) {
 		// モデルを "落下用" → "基本用" へ移行する
 		modelEuler[0] = { 0.0f, 0.0f, 0.0f };
