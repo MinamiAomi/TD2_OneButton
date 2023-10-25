@@ -354,7 +354,8 @@ void BossSecond::ShotSpikeATK() {
 			bossSpike_->SetStart();
 		}
 		else {
-			Vector3 newpos = Spos[GetRandomNum(3, false)];
+			//Vector3 newpos = Spos[GetRandomNum(3, false)];
+			Vector3 newpos = Spos[0];
 			newpos.y = world_.translate.y;
 
 			shotSpike_->Shot(newpos);
