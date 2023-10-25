@@ -11,42 +11,36 @@ void StageSerect::OnInitialize() {
 
 	SpriteInitialize(bobTex_, "selectBob", { 540.0f, 720.0f });
 	bobTex_.SetPosition({ kCenter_.x, kCenter_.y });
+	bobTex_.SetIsActive(false);
 	SpriteInitialize(michaelTex_, "selectMichael", { 540.0f, 720.0f });
 	michaelTex_.SetPosition({ kCenter_.x, kCenter_.y });
+	michaelTex_.SetIsActive(false);
 	SpriteInitialize(maxTex_, "selectMax", { 540.0f, 720.0f });
 	maxTex_.SetPosition({ kCenter_.x, kCenter_.y });
+	maxTex_.SetIsActive(false);
 
 #pragma endregion
 }
 
 void StageSerect::OnUpdate() {
 
-#pragma region 左右入力受け取り
-	//左右同時押し対策
-	control_ = 0;
-
-	//左右入力
-	if (input_->IsKeyTrigger(DIK_LEFT) || input_->IsKeyTrigger(DIK_A)) {
-		control_ += -1;
-	}
-	else if (input_->IsKeyTrigger(DIK_RIGHT) || input_->IsKeyTrigger(DIK_D)) {
-		control_ += 1;
-	}
-	
-#pragma endregion
-
 	//選んでる状態ごとの更新
 	switch (state_) {
 	case StageSerect::kStage1:
 		State1Update();
+		michaelTex_.SetIsActive(false);
+		bobTex_.SetIsActive(true);
 		break;
 	case StageSerect::kStage2:
 		State2Update();
+		bobTex_.SetIsActive(false);
+		michaelTex_.SetIsActive(true);
+		maxTex_.SetIsActive(false);
 		break;
 	case StageSerect::kStage3:
 		State3Update();
-		break;
-	default:
+		michaelTex_.SetIsActive(false);
+		maxTex_.SetIsActive(true);
 		break;
 	}
 
@@ -57,39 +51,26 @@ void StageSerect::OnFinalize() {
 }
 
 void StageSerect::State1Update() {
-
-	//他ステ選択
 	//右
-	if (control_ == 1) {
+	if (input_->IsKeyTrigger(DIK_RIGHT) || input_->IsKeyTrigger(DIK_D)) {
 		state_ = kStage2;
-	}
-	//左
-	else if (state_ == -1) {
-		
 	}
 }
 
 void StageSerect::State2Update() {
-
-	//他ステ選択
 	//右
-	if (control_ == 1) {
+	if (input_->IsKeyTrigger(DIK_RIGHT) || input_->IsKeyTrigger(DIK_D)) {
 		state_ = kStage3;
 	}
 	//左
-	else if (state_ == -1) {
+	else if (input_->IsKeyTrigger(DIK_LEFT) || input_->IsKeyTrigger(DIK_A)) {
 		state_ = kStage1;
 	}
 }
 
 void StageSerect::State3Update() {
-	//他ステ選択
-	//右
-	if (control_ == 1) {
-		
-	}
 	//左
-	else if (state_ == -1) {
+	if (input_->IsKeyTrigger(DIK_LEFT) || input_->IsKeyTrigger(DIK_A)) {
 		state_ = kStage2;
 	}
 }
@@ -110,14 +91,6 @@ void StageSerect::ChangeScene() {
 		case StageSerect::kStage2:
 			//シーン設定
 			sceneManager->ChangeScene<InGame2>();
-			break;
-
-		case StageSerect::kStage3:
-			//シーン設定
-			sceneManager->ChangeScene<InGame>();
-			break;
-
-		default:
 			break;
 		}
 

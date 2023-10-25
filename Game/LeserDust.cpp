@@ -8,7 +8,7 @@ void LeserDust::Initalize(const Vector2& position)
 {
 	
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
-	const char ModelName[] = "Dust";
+	const char ModelName[] = "LeserDust";
 	//5個のモデルを同じように初期化
 	for (int model_i = 0; model_i < kMaxmodel;model_i++) {
 		model_world[model_i].translate.x = position.x;
@@ -38,7 +38,7 @@ void LeserDust::Update()
 	//アニメフレームを加算
 	AnimeFrame_ += 1;
 	//アニメフレームが規定値を超えたらフラグをオフにする
-	if (AnimeFrame_ >= 45.0f) {
+	if (AnimeFrame_ >= 30.0f) {
 		isAlive_ = false;
 	}
 }
