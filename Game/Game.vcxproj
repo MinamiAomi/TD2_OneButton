@@ -107,6 +107,7 @@
     <ClInclude Include="OneButton.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Spike.h" />
+    <ClInclude Include="SpikeDust.h" />
     <ClInclude Include="StageSerect.h" />
     <ClInclude Include="TitleLaser.h" />
     <ClInclude Include="TitleLogo.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SpeedEffect.cpp" />
     <ClCompile Include="Spike.cpp" />
+    <ClCompile Include="SpikeDust.cpp" />
     <ClCompile Include="StageSerect.cpp" />
     <ClCompile Include="TitleLaser.cpp" />
     <ClCompile Include="TitleLogo.cpp" />

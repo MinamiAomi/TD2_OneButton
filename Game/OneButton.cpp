@@ -7,6 +7,7 @@
 #include "TitleScene.h"
 #include "ImGame.h"
 #include "Clear.h"
+#include "GameOver.h"
 #include "Graphics/ResourceManager.h"
 #include "Externals/nlohmann/json.hpp"
 #include "Graphics/Sprite.h"
