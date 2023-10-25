@@ -23,7 +23,7 @@ void InGame2::OnInitialize() {
 
 	//マップクラス初期化
 	map = std::make_unique<Map>();
-	map->Initialize();
+	map->Initialize(false);
 
 	background_ = std::make_unique<Background>();
 	background_->Initialize(&camera_);

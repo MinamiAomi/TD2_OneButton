@@ -335,10 +335,12 @@ void Player::BehaviorRootInitalize() {
 }
 
 void Player::BehaviorRootUpdate() {
-	//毎フレームずつ下に引っ張られる
-	worldTransform_.translate.y -= gravity_;
-	//左右移動
-	worldTransform_.translate.x += moveXaxisSpeed_;
+	if (IsFirstAttack) {
+		//毎フレームずつ下に引っ張られる
+		worldTransform_.translate.y -= gravity_;
+		//左右移動
+		worldTransform_.translate.x += moveXaxisSpeed_;
+	}
 
 	//スペースを押すとジャンプする
 	if (input_->IsKeyRelease(DIK_SPACE)) {
