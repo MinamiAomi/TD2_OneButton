@@ -103,6 +103,9 @@
     <Filter Include="Game\Scene\InGame2">
       <UniqueIdentifier>{e4a9a6c3-5c02-4f35-b650-06403f3355d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\dangerZone">
+      <UniqueIdentifier>{773cdd24-2af1-4635-9adc-50ca6cebfb24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
@@ -345,6 +348,9 @@
     <ClInclude Include="ClearLimit.h">
       <Filter>Game\Limit</Filter>
     </ClInclude>
+    <ClInclude Include="dangerZone.h">
+      <Filter>Game\dangerZone</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
@@ -546,17 +552,14 @@
     <ClCompile Include="SpeedEffect.cpp">
       <Filter>Game\SpeedEffect</Filter>
     </ClCompile>
+    <ClCompile Include="InGame2.cpp" />
+    <ClCompile Include="TitlePlayer.cpp" />
     <ClCompile Include="ClearLimit.cpp">
       <Filter>Game\Limit</Filter>
     </ClCompile>
-    <ClCompile Include="TitlePlayer.cpp">
-      <Filter>Game\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleLaser.cpp">
-      <Filter>Game\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="InGame2.cpp">
-      <Filter>Game\Scene\InGame2</Filter>
+    <ClCompile Include="TitleLaser.cpp" />
+    <ClCompile Include="dangerZone.cpp">
+      <Filter>Game\dangerZone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
