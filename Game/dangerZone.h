@@ -34,4 +34,7 @@ private:
 
 	bool isAdd_ = true;
 	void LoopAnimation();
+
+	
+
 };

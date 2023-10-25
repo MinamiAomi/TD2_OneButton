@@ -10,6 +10,7 @@ void BossSpike::Initialize(Transform world) {
 
 
 	world_ = world;
+	world_.translate.z += 1.0f;
 	world_.scale.y = 0;
 }
 
