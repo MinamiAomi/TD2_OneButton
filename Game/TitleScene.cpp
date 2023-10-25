@@ -22,6 +22,10 @@ void TitleScene::OnInitialize() {
 	player_ = std::make_unique<TitlePlayer>();
 	player_->Initialize();
 
+	background_ = std::make_unique<Background>();
+	background_->Initialize(&camera_);
+	background_->Scroll(1.0f);
+
 	laser_ = nullptr;
 }
 
@@ -39,6 +43,7 @@ void TitleScene::OnUpdate() {
 	}
 
     camera_.UpdateMatrices();
+	background_->Update();
 
 	ChangeScene();
 }

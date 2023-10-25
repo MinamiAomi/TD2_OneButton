@@ -11,6 +11,7 @@
 #include "TitleLogo.h"
 #include "TitlePlayer.h"
 #include "TitleLaser.h"
+#include "Background.h"
 
 class TitleScene : public BaseScene {
 public:
@@ -30,4 +31,5 @@ private:
     std::unique_ptr<TitleLogo> logo_;
     std::unique_ptr<TitlePlayer> player_;
     std::unique_ptr<TitleLaser> laser_;
+    std::unique_ptr<Background> background_;
 };

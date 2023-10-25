@@ -570,11 +570,9 @@
     <ClCompile Include="SpeedEffect.cpp">
       <Filter>Game\SpeedEffect</Filter>
     </ClCompile>
-    <ClCompile Include="TitlePlayer.cpp" />
     <ClCompile Include="ClearLimit.cpp">
       <Filter>Game\Limit</Filter>
     </ClCompile>
-    <ClCompile Include="TitleLaser.cpp" />
     <ClCompile Include="dangerZone.cpp">
       <Filter>Game\dangerZone</Filter>
     </ClCompile>
@@ -587,6 +585,12 @@
     <ClCompile Include="bossSecond.cpp">
       <Filter>Game\BossSecond</Filter>
     </ClCompile>
+    <ClCompile Include="TitleLaser.cpp">
+      <Filter>Game\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitlePlayer.cpp">
+      <Filter>Game\Title</Filter>
+     </ClCompile>
     <ClCompile Include="shotSpike.cpp">
       <Filter>Game\ShotSpike</Filter>
     </ClCompile>

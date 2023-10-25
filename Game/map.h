@@ -28,7 +28,8 @@ public:
 	/// 値設定
 	/// </summary>
 	void ValueSetting();
-
+	
+	float GetMapMovement() const { return prevY_ - mapWorld_.translate.y; }
 
 	/// <summary>
 	/// 壁に当たっているかの確認
@@ -233,4 +234,7 @@ private:
 	std::string groupName_ = "Map";
 
 	Transform mapEndTrans_;
+
+	// 前回のTranslateY
+	float prevY_;
 };

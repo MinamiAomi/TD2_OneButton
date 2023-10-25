@@ -11,7 +11,12 @@ public:
     void Initialize(const Camera* camera);
     void Update();
 
+    void Scroll(float deltaScroll);
+
 private:
-    std::unique_ptr<ToonModelInstance> model_;
+    std::unique_ptr<ToonModelInstance> base_;
+    std::unique_ptr<ToonModelInstance> tree1_;
+    std::unique_ptr<ToonModelInstance> tree2_;
+    float scroll_;
     const Camera* camera_;
 };
