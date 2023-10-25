@@ -156,7 +156,7 @@ private:
 	//目標の位置
 	float EposY = -25.0f;
 
-	//TODO ちゃんといじろう
+
 	//プレイヤーのHP
 	int HP_ = 10;
 

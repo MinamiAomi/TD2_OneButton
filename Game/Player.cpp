@@ -43,7 +43,7 @@ void Player::Initialize(const Vector3& position) {
 
 	//プレイヤーのモデル
 	worldTransform_.translate = position;
-
+	worldTransform_.UpdateMatrix();
 
 	//親設定
 	for (int i = 0; i < PartsNum; i++) {
@@ -213,18 +213,20 @@ void Player::Update() {
 			break;
 		}
 	}
-	//TODO
+
+	//プレイヤーの上昇上限
+	if (worldTransform_.worldMatrix.GetTranslate().y > -25.0f) {
+		worldTransform_.translate.y = -25.0f;
+	}
+
 	for (Leser* leser : lesers_) {
 		leser->Update();
 	}
-
-
 
 	//プレイヤー中心行列更新
 	worldTransform_.UpdateMatrix();
 
 	ModelsUpdate();
-
 
 	lesers_.remove_if([](Leser* leser) {
 		//レーザーが死んだら処理
@@ -461,7 +463,7 @@ void Player::BehaviorHitEnemyUpdate() {
 	}
 	//Lerpで上まで動かす
 	worldTransform_.translate.y = Math::Lerp(remakeT, PposY, EposY);
-	//TODO : 上空で少し待機する処理を追加
+
 	if (t_ >= 1.2f) {
 		// モデルを "落下用" → "基本用" へ移行する
 		modelEuler[0] = { 0.0f, 0.0f, 0.0f };

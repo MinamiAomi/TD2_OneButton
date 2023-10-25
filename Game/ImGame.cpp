@@ -72,10 +72,6 @@ void InGame::OnUpdate() {
 	//ボス更新
 	boss_->Update();
 	}
-	
-
-	
-
 
 	//棘更新
 	for (std::unique_ptr<Spike>& spike : spikes) {
