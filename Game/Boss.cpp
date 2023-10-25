@@ -31,6 +31,9 @@ void Boss::Initalize(const Vector3& position)
 
 
 	WaitATKCount_ = 0;
+
+	dBossATKSpikeZone_ = std::make_unique<DangerZone>();
+	dBossATKSpikeZone_->Initialize(dspikeZonePos, dspikeZoneScale);
 }
 
 void Boss::ValueSetting() {
@@ -57,6 +60,7 @@ void Boss::Update()
 	ImGui::End();
 #endif // _DEBUG
 
+	dBossATKSpikeZone_->Update();
 
 	//攻撃に関する処理
 	BossATK();
@@ -168,6 +172,9 @@ void Boss::SpikeAttack() {
 		if (!waveInitialize_) {
 			waveInitialize_ = true;
 			animetionT_=0;
+
+			//警告モーション追加
+			dBossATKSpikeZone_->SetCount(2,2);
 		}//初期化後の処理
 		else {
 			float newScale = Math::Lerp(animetionT_, setUpScale.x, setUpScale.y);

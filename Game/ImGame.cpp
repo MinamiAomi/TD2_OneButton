@@ -57,12 +57,19 @@ void InGame::OnInitialize() {
 	limit_->Initialize();
 
 	
+
+	
 }
 
+
 void InGame::OnUpdate() {
+#ifdef _DEBUG
 	GlobalVariables::GetInstance()->Update();
 
+#endif // _DEBUG
 
+	
+	
 	//マップ更新
 	map->Update();
 
