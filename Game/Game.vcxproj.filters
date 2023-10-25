@@ -88,9 +88,6 @@
     <Filter Include="Game\Background">
       <UniqueIdentifier>{c0fa8784-d49e-49ab-a277-5cb107b6f270}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Effect\Dust">
-      <UniqueIdentifier>{374b0b99-b0f0-47d7-90a0-62db7cd5cea0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BossSpike">
       <UniqueIdentifier>{bb276877-993a-46f4-92cb-087967e9e49b}</UniqueIdentifier>
     </Filter>
@@ -102,6 +99,12 @@
     </Filter>
     <Filter Include="Game\Scene\InGame2">
       <UniqueIdentifier>{e4a9a6c3-5c02-4f35-b650-06403f3355d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effect\LeserDust">
+      <UniqueIdentifier>{374b0b99-b0f0-47d7-90a0-62db7cd5cea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effect\SpikeDust">
+      <UniqueIdentifier>{b73f2b88-f31a-4aa6-8640-3dba5cca79d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -322,7 +325,7 @@
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="LeserDust.h">
-      <Filter>Game\Effect\Dust</Filter>
+      <Filter>Game\Effect\LeserDust</Filter>
     </ClInclude>
     <ClInclude Include="BossSpike.h">
       <Filter>Game\BossSpike</Filter>
@@ -344,6 +347,9 @@
     </ClInclude>
     <ClInclude Include="ClearLimit.h">
       <Filter>Game\Limit</Filter>
+    </ClInclude>
+    <ClInclude Include="SpikeDust.h">
+      <Filter>Game\Effect\SpikeDust</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -532,7 +538,7 @@
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="LeserDust.cpp">
-      <Filter>Game\Effect\Dust</Filter>
+      <Filter>Game\Effect\LeserDust</Filter>
     </ClCompile>
     <ClCompile Include="BossSpike.cpp">
       <Filter>Game\BossSpike</Filter>
@@ -557,6 +563,9 @@
     </ClCompile>
     <ClCompile Include="InGame2.cpp">
       <Filter>Game\Scene\InGame2</Filter>
+    </ClCompile>
+    <ClCompile Include="SpikeDust.cpp">
+      <Filter>Game\Effect\SpikeDust</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
