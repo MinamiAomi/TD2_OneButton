@@ -34,9 +34,10 @@ void BossSecond::Initalize(const Vector3& position) {
 	shotSpike_ = std::make_unique<ShotSpike>();
 	shotSpike_->Initialize();
 
+	
 
 	dBossATKSpikeZone_ = std::make_unique<DangerZone>();
-	dBossATKSpikeZone_->Initialize(dspikeZonePos, dspikeZoneScale);
+	dBossATKSpikeZone_->Initialize();
 }
 
 void BossSecond::ValueSetting() {
@@ -139,7 +140,7 @@ void BossSecond::BossATK() {
 			WaitATKCount_ = 0;
 
 			//ランダムな数字を取得
-			int randomNum = GetRandomNum(2, false);
+			int randomNum = GetRandomNum(3, false);
 			atkType_ = (ATKType)randomNum;
 			//atkType_ = kSpikeShot;
 		}
@@ -182,7 +183,7 @@ void BossSecond::SpikeAttack() {
 			animetionT_ = 0;
 
 			//警告モーション追加
-			dBossATKSpikeZone_->SetCount(2, 2);
+			dBossATKSpikeZone_->SetCount(2, 3, dspikeZonePos, dspikeZoneScale);
 		}//初期化後の処理
 		else {
 			float newScale = Math::Lerp(animetionT_, setUpScale.x, setUpScale.y);
@@ -307,6 +308,11 @@ void BossSecond::ShotSpikeATK() {
 		if (!waveInitialize_) {
 			waveInitialize_ = true;
 			animetionT_ = 0;
+
+			randomNum_ = GetRandomNum(3, false);
+
+			dBossATKSpikeZone_->SetCount(2, 3, dZoneP[randomNum_], dzoneScale);
+
 		}
 		else {
 			float newScale = Math::Lerp(animetionT_, wave1Scale.x, wave1Scale.y);
@@ -358,7 +364,7 @@ void BossSecond::ShotSpikeATK() {
 			bossSpike_->SetStart();
 		}
 		else {
-			Vector3 newpos = Spos[GetRandomNum(3, false)];
+			Vector3 newpos = Spos[randomNum_];
 			//Vector3 newpos = Spos[1];
 			newpos.y = world_.translate.y;
 

@@ -32,7 +32,7 @@ void Boss::Initalize(const Vector3& position) {
 	WaitATKCount_ = 0;
 
 	dBossATKSpikeZone_ = std::make_unique<DangerZone>();
-	dBossATKSpikeZone_->Initialize(dspikeZonePos, dspikeZoneScale);
+	dBossATKSpikeZone_->Initialize();
 
 	//更新
 	world_.UpdateMatrix();
@@ -226,7 +226,7 @@ void Boss::SpikeAttack() {
 			animetionT_ = 0;
 
 			//警告モーション追加
-			dBossATKSpikeZone_->SetCount(2, 2);
+			dBossATKSpikeZone_->SetCount(2, 2,dspikeZonePos,dspikeZoneScale);
 		}//初期化後の処理
 		else {
 			float newScale = Math::Lerp(animetionT_, setUpScale.x, setUpScale.y);
