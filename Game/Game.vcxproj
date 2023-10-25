@@ -105,6 +105,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Spike.h" />
     <ClInclude Include="StageSerect.h" />
+    <ClInclude Include="TitleLaser.h" />
     <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="TitlePlayer.h" />
     <ClInclude Include="TitleScene.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="SpeedEffect.cpp" />
     <ClCompile Include="Spike.cpp" />
     <ClCompile Include="StageSerect.cpp" />
+    <ClCompile Include="TitleLaser.cpp" />
     <ClCompile Include="TitleLogo.cpp" />
     <ClCompile Include="TitlePlayer.cpp" />
     <ClCompile Include="TitleScene.cpp" />

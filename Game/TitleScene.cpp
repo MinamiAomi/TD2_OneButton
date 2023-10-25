@@ -4,7 +4,6 @@
 #include "Engine/Graphics/RenderManager.h"
 #include "Engine/Scene/SceneManager.h"
 #include "Externals/ImGui/imgui.h"
-
 #include"StageSerect.h"
 
 void TitleScene::OnInitialize() {
@@ -22,12 +21,22 @@ void TitleScene::OnInitialize() {
 
 	player_ = std::make_unique<TitlePlayer>();
 	player_->Initialize();
+
+	laser_ = nullptr;
 }
 
 void TitleScene::OnUpdate() {
 
+	if (input_->IsKeyTrigger(DIK_SPACE)) {
+		laser_ = std::make_unique<TitleLaser>();
+		laser_->Initialize();
+	}
+
     logo_->Update();
 	player_->Update();
+	if (laser_) {
+		laser_->Update();
+	}
 
     camera_.UpdateMatrices();
 
@@ -39,11 +48,12 @@ void TitleScene::OnFinalize() {
 }
 
 void TitleScene::ChangeScene() {
-	//SPACEキーでゲームシーン
-	if (input_->IsKeyTrigger(DIK_SPACE)) {
-		//インスタンス取得
-		SceneManager* sceneManager = SceneManager::GetInstance();
-		//シーン設定
-		sceneManager->ChangeScene<StageSerect>();
+	if (laser_) {
+		if (laser_->EndAnimation()) {
+			//インスタンス取得
+			SceneManager* sceneManager = SceneManager::GetInstance();
+			//シーン設定
+			sceneManager->ChangeScene<StageSerect>();
+		}
 	}
 }

@@ -14,7 +14,7 @@ const char* const TitlePlayer::Part::kModelNames[] = {
 void TitlePlayer::Initialize() {
     baseTransform_.translate = Vector3::zero;
     baseTransform_.rotate = Quaternion::MakeForYAxis(Math::Pi);
-    baseTransform_.scale = Vector3::one * 2.0f;
+    baseTransform_.scale = Vector3::one;
 
     baseTransform_.UpdateMatrix();
     InitializeParts();
@@ -22,8 +22,7 @@ void TitlePlayer::Initialize() {
 
 void TitlePlayer::Update() {
 
-    baseTransform_.UpdateMatrix();
-    UpdateParts();
+
 }
 
 void TitlePlayer::InitializeParts() {
