@@ -83,7 +83,7 @@ private:
 	ToonModelInstance leserModelInstance_;
 
 	//レーザーの最大半径
-	const float leserWide_ = 0.5f;
+	const float leserWide_ = 1.5f;
 
 	//レーザーの終わりの半径
 	const float endLeserWide_ = 0.0f;

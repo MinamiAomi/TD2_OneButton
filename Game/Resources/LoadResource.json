@@ -13,8 +13,9 @@
         { "Name" : "Spike",             "Path" : "Resources/Model/spike/spike.obj" },    
         { "Name" : "Background",        "Path" : "Resources/Model/background/background.obj" },
         { "Name" : "Heal",              "Path" : "Resources/Model/Effects/Heal/Heal.obj" },
-        { "Name" : "Dust",              "Path" : "Resources/Model/Effects/Dust/Dust.obj" },
-        { "Name" : "Pole",              "Path" : "Resources/Model/Pole/Pole.obj" } 
+        { "Name" : "Dust",        "Path" : "Resources/Model/Effects/Dust/Dust.obj" },
+        { "Name" : "Pole",        "Path" : "Resources/Model/Pole/Pole.obj" } ,
+        { "Name" : "danger",        "Path" : "Resources/Model/danger/danger.obj" } 
     ],
     "Images" : [
         { "Name" : "TitleLogo",         "Path" : "Resources/Image/titleLogo.png"},

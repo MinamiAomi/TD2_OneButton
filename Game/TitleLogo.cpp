@@ -89,11 +89,14 @@ void TitleLogo::Update() {
     }
 
 #ifdef _DEBUG
-    ImGui::Begin("TitleLogo");
-    int p = int(animationParameter_);
-    ImGui::DragInt("AnimationParameter", &p, 1, 0, animationCycle_);
-    animationParameter_ = uint32_t(p);
-    ImGui::Checkbox("IsAnimation", &isAnimation);
+    ImGui::Begin("Title");
+    if (ImGui::TreeNode("Logo")) {
+        int p = int(animationParameter_);
+        ImGui::DragInt("AnimationParameter", &p, 1, 0, animationCycle_);
+        animationParameter_ = uint32_t(p);
+        ImGui::Checkbox("IsAnimation", &isAnimation);
+        ImGui::TreePop();
+    }
     ImGui::End();
 
 #endif // _DEBUG

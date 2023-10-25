@@ -24,18 +24,18 @@ void Leser::Initialize(const Vector3& playerPos, const Vector3& bossPos)
 	leserModelInstance_.SetPass(ToonModelInstance::Pass::Translucent);
 	leserModelInstance_.SetAlpha(0.5f);
 	//中心座標取得
-	Vector3 velo = (playerPos - bossPos) / 2;
+	Vector3 velo = bossPos - playerPos + Vector3::down * 3.0f;
 	//中心点
-	Vector3 pos = bossPos + velo;
+	//Vector3 pos = bossPos + velo;
 
 	//ｙScale取得
-	float yScale = sqrtf(velo.x * velo.x + velo.y * velo.y);
+	float yScale = Vector3::Project(velo, Vector3::down).Length();
 
 	//変化するwide初期化
 	variableWide_ = leserWide_;
 
 	//Transform再設定
-	leserTransform_.translate = pos;
+	leserTransform_.translate = playerPos + Vector3::up * 3.0f;
 	leserTransform_.scale = { leserWide_,yScale,leserWide_ };
 #pragma endregion
 
@@ -63,7 +63,8 @@ void Leser::Update() {
 	if (IsAlive_) {
 		
 #pragma region ビーム関連
-		leserTransform_.rotate.y += 1.0f / 30.0f;
+		//leserTransform_.rotate.y += 1.0f / 30.0f;
+		leserTransform_.rotate = Quaternion::MakeForYAxis(1.0f * Math::ToRadian) * leserTransform_.rotate;
 
 		//処理
 		leserTransform_.scale.x = variableWide_;
