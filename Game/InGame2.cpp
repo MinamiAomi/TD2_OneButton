@@ -32,7 +32,7 @@ void InGame2::OnInitialize() {
 	speedEffect_->Initialize(&camera_);
 
 	//ボスの初期化
-	boss_ = std::make_unique<Boss>();
+	boss_ = std::make_unique<BossSecond>();
 	boss_->Initalize(map->GetBossMatPos());
 
 

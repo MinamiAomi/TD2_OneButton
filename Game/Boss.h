@@ -190,9 +190,10 @@ private:
 	Transform HPBarFrameTrans_;
 
 	const Vector2 rects_ = {540,40};
-#pragma endregion
 	Vector3 HPPos = { 270,20,0 };
 
 	Vector2 scale = rects_;
+#pragma endregion
+	
 
 };

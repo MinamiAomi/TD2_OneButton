@@ -16,9 +16,7 @@ void BossSecond::Initalize(const Vector3& position) {
 
 	//ボスのｙのスケール設定
 
-	//ボスのYラインの設定
-	bossYLine_ = world_.worldMatrix.m[3][1] + height_;
-
+	
 	//モデルセット
 	modelInstance_.SetModel(resourceManager->FindModel(bossModelName));
 
@@ -38,6 +36,42 @@ void BossSecond::Initalize(const Vector3& position) {
 
 	dBossATKSpikeZone_ = std::make_unique<DangerZone>();
 	dBossATKSpikeZone_->Initialize();
+
+
+	//更新
+	world_.UpdateMatrix();
+	modelInstance_.SetWorldMatrix(world_.worldMatrix);
+
+	//ボスのYラインの設定
+	bossYLine_ = world_.worldMatrix.m[3][1] + height_;
+
+#pragma region HPバー
+
+	HPBar_ = std::make_unique<Sprite>();
+	HPBarFrame_ = std::make_unique<Sprite>();
+
+	const char barname[] = "hpBar";
+	auto tex = resourceManager->FindTexture(barname);
+	HPBar_->SetTexture(tex);
+	HPBar_->SetAnchor({ 0.0f,0.5f });
+
+	const char barframename[] = "hpBarFrame";
+	HPBarFrame_->SetTexture(resourceManager->FindTexture(barframename));
+	HPBarFrame_->SetAnchor({ 0.5f,0.5f });
+
+
+	HPBarTrans_.parent = &HPBarFrameTrans_;
+	//仮
+	HPBarFrameTrans_.translate = HPPos;
+
+	HPBar_->SetTexcoordRect({ 0.0f,0.0f }, rects_);
+	HPBarFrame_->SetTexcoordRect({ 0.0f,0.0f }, rects_);
+
+	HPBar_->SetScale(rects_);
+	HPBarFrame_->SetScale(rects_);
+
+	HPBar_->SetDrawOrder(1);
+#pragma endregion
 }
 
 void BossSecond::ValueSetting() {
@@ -74,6 +108,22 @@ void BossSecond::Update() {
 	//ボスのYラインの処理
 	bossYLine_ = world_.worldMatrix.m[3][1] + height_;
 
+
+#pragma region HPバー
+	float hiritu = ((float)HP_ / (float)maxHP_);
+	Vector2 newscale = { rects_.x * hiritu , rects_.y };
+	//Vector2 newscale = scale;
+
+	HPBar_->SetScale(newscale);
+
+	HPBarFrameTrans_.UpdateMatrix();
+	HPBarTrans_.UpdateMatrix();
+
+	HPBarFrame_->SetPosition(HPBarFrameTrans_.translate.GetXY());
+	HPBar_->SetPosition({ HPBarTrans_.worldMatrix.m[3][0] - rects_.x / 2.0f,HPBarTrans_.worldMatrix.m[3][1] });
+
+
+#pragma endregion
 }
 
 bool BossSecond::IsHitBoss(const Vector3& pos, const float& wide) {

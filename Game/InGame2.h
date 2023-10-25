@@ -10,7 +10,7 @@
 #include"Spike.h"
 #include"map.h"
 #include"Player.h"
-#include"Boss.h"
+#include"BossSecond.h"
 #include "Background.h"
 #include"Limit.h"
 #include "SpeedEffect.h"
@@ -106,7 +106,7 @@ private:
 	int playerLeserDMG = 1;
 
 	//ボスクラス
-	std::unique_ptr<Boss>boss_ = nullptr;
+	std::unique_ptr<BossSecond>boss_ = nullptr;
 
 	//エフェクト
 	//ボスの回復
