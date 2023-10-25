@@ -98,7 +98,7 @@ private:
 	//爆発中心点
 	Transform explosionpos_;
 	//モデル
-	ToonModelInstance expModelInstance_;
+	//ToonModelInstance expModelInstance_;
 	//爆発最大半径
 	const float maxExplosionRadius_ = 5.0f;
 	//最小爆発半径
