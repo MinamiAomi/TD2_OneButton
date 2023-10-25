@@ -54,9 +54,6 @@ private://メンバ変数
 	//どのステージを選んでいるかの状態
 	State state_ = kStage1;
 
-	//同時押しの対策
-	int control_ = 0;
-
 	// 中心座標
 	const Vector2 kCenter_ = { 270.0f, 360.0f };
 
