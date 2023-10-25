@@ -53,20 +53,20 @@ void Map::Initialize(bool isBob) {
 		for (int tileY = 0; tileY < mapTileNumY2_; tileY++) {
 			for (int tileX = 0; tileX < mapTileNumX2_; tileX++) {
 				//棘
-				if (mapTile_[tileY][tileX] == Spike) {
+				if (mapTile2_[tileY][tileX] == Spike) {
 					Transform world;
 					world.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
 					world.parent = &mapWorld_;
 					world_.push_back(world);
 				}
 				//プレイヤー取得
-				if (mapTile_[tileY][tileX] == Player) {
+				if (mapTile2_[tileY][tileX] == Player) {
 					playerW_.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
 					playerW_.parent = &mapWorld_;
 					playerW_.UpdateMatrix();
 				}
 				//ボス
-				if (mapTile_[tileY][tileX] == Boss) {
+				if (mapTile2_[tileY][tileX] == Boss) {
 					bossW_.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
 					bossW_.parent = &mapWorld_;
 					bossW_.UpdateMatrix();
