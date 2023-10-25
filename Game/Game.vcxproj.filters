@@ -336,6 +336,9 @@
     <ClInclude Include="TitlePlayer.h">
       <Filter>Game\Title</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLaser.h">
+      <Filter>Game\Title</Filter>
+    </ClInclude>
     <ClInclude Include="InGame2.h">
       <Filter>Game\Scene\InGame2</Filter>
     </ClInclude>
@@ -548,6 +551,7 @@
     <ClCompile Include="ClearLimit.cpp">
       <Filter>Game\Limit</Filter>
     </ClCompile>
+    <ClCompile Include="TitleLaser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt">

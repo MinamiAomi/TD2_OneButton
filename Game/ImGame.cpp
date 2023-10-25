@@ -15,18 +15,11 @@ void InGame::OnInitialize() {
 	RenderManager::GetInstance()->SetCamera(camera_);
 
 
-	//カメラ座標初期化
-	Vector3 camerapos = { 0.0f,0.0f,-40.0f };
-	camera_.SetPosition(camerapos);
-
-
-
-
-
-
-
-
-
+	//カメラ初期化
+	camera_.SetPosition({ 0.0f, -44.0f, -100.0f });
+	camera_.SetRotate({});
+	camera_.SetPerspective(25.0f * Math::ToRadian, 540.0f / 720.0f, 50.0f, 200.0f);
+	camera_.UpdateMatrices();
 
 	//マップクラス初期化
 	map = std::make_unique<Map>();
@@ -120,34 +113,6 @@ void InGame::OnUpdate() {
 	CheckDead();
 
 
-	static float fovY = 25.0f;
-	static float nearZ = 50.0f;
-	static float farZ = 200.0f;
-	static Vector3 position = { 0.0f, -44.0f, -100.0f };
-	static Vector3 rotate = {};
-
-#ifdef _DEBUG
-	//position = camera_.GetPosition();
-	ImGui::Begin("Camera");
-	ImGui::DragFloat3("Position", &position.x, 0.1f);
-	ImGui::DragFloat3("Rotate", &rotate.x, 0.1f);
-	ImGui::DragFloat("FovY", &fovY, 0.1f, 0.0f, 180.0f);
-	ImGui::DragFloat("NearZ", &nearZ, 0.1f);
-	ImGui::DragFloat("FarZ", &farZ, 1.0f);
-	if (ImGui::Button("SpeedEffect")) {
-		speedEffect_->Spawn();
-	}
-	ImGui::End();
-#endif // _DEBUG
-
-	rotate.x = std::fmod(rotate.x, 360.0f);
-	rotate.y = std::fmod(rotate.y, 360.0f);
-	rotate.z = std::fmod(rotate.z, 360.0f);
-	camera_.SetPosition(position);
-	camera_.SetRotate(Quaternion::MakeFromEulerAngle(rotate * Math::ToRadian));
-	camera_.SetPerspective(fovY * Math::ToRadian, 540.0f / 720.0f, nearZ, farZ);
-
-	camera_.UpdateMatrices();
 	// 背景はカメラを使用しているためカメラの後に更新
 	background_->Update();
 	speedEffect_->Update();
