@@ -6,9 +6,9 @@ class DangerZone {
 public:
 
 	//初期化処理
-	void Initialize(Vector3 pos,Vector3 scale);
+	void Initialize();
 
-	void SetCount(int second, int loopNum);
+	void SetCount(int second, int loopNum, Vector3 pos, Vector3 scale);
 
 	void Update();
 private:

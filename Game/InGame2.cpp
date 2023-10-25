@@ -14,23 +14,16 @@ void InGame2::OnInitialize() {
 
 	RenderManager::GetInstance()->SetCamera(camera_);
 
-
 	//カメラ座標初期化
-	Vector3 camerapos = { 0.0f,0.0f,-40.0f };
-	camera_.SetPosition(camerapos);
-
-
-
-
-
-
-
-
-
+	//カメラ初期化
+	camera_.SetPosition({ 0.0f, -44.0f, -100.0f });
+	camera_.SetRotate({});
+	camera_.SetPerspective(25.0f * Math::ToRadian, 540.0f / 720.0f, 50.0f, 200.0f);
+	camera_.UpdateMatrices();
 
 	//マップクラス初期化
 	map = std::make_unique<Map>();
-	map->Initialize();
+	map->Initialize(false);
 
 	background_ = std::make_unique<Background>();
 	background_->Initialize(&camera_);
@@ -69,12 +62,13 @@ void InGame2::OnUpdate() {
 	GlobalVariables::GetInstance()->Update();
 
 
-	//マップ更新
-	map->Update();
-
-	//ボス更新
-	boss_->Update();
-
+	//最初の落下攻撃をするととおる
+	if (player_->GetIsFirstAttack() == true) {
+		//マップ更新
+		map->Update();
+		//ボス更新
+		boss_->Update();
+	}
 
 	//棘更新
 	for (std::unique_ptr<Spike>& spike : spikes) {
@@ -185,11 +179,16 @@ void InGame2::GetAllCollisions() {
 #pragma region プレイヤーとボス
 	if (boss_->IsHitBoss(PLAYER, P_wide)) {
 		player_->OnCollisionBoss();
-		map->SetMapMoveAcceleration(mapAcceSecond_);
+		//ボスに攻撃していない＆＆最初の攻撃実行炭
+		if (!player_->GetIsATKBossFlag() && player_->GetIsFirstAttack() == true) {
+			map->SetMapMoveAcceleration(mapAcceSecond_);
+		}
 	}
 	if (boss_->IsHitBossATK(PLAYER, P_wide)) {
 		player_->OnCollisionBoss();
-		map->SetMapMoveAcceleration(mapAcceSecond_);
+		if (player_->GetIsFirstAttack() == true) {
+			map->SetMapMoveAcceleration(mapAcceSecond_);
+		}
 	}
 #pragma endregion
 
@@ -235,7 +234,10 @@ void InGame2::CollisionAboutSpike() {
 			if (spike->GetIsCollisonOnPlayer() && CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
 				spike->OnCollisionPlayer();
 				player_->OnCollision();
-				map->SetMapMoveAcceleration(mapAcceSecond_);
+				//最初の落下攻撃をしていたら、マップの加速を許可
+				if (player_->GetIsFirstAttack() == true) {
+					map->SetMapMoveAcceleration(mapAcceSecond_);
+				}
 			}
 			else {
 				//プレイヤーが攻撃したフラグON＆＆爆破半径内にある＆棘の状態が埋まる

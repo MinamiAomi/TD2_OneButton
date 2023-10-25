@@ -4,7 +4,7 @@
 #include<Externals/ImGui/imgui.h>
 #include"GlobalVariables.h"
 
-void Map::Initialize() { 
+void Map::Initialize(bool isBob) { 
 #pragma region 壁関連
 	//壁のX値設定
 	//最小値	
@@ -16,30 +16,61 @@ void Map::Initialize() {
 	Wall_max_.parent = &mapWorld_;
 #pragma endregion	
 #pragma region それ以外マップオブジェクト
-	mapWorld_.translate = { -14.5f, 0.0f, 0.0f };
-	mapWorld_.UpdateMatrix();
+	if (isBob) {
+		mapWorld_.translate = { -14.5f, (float(mapTileNumY_) - 32.0f) * 2.125f, 0.0f };
+		mapWorld_.UpdateMatrix();
 
-	//マップタイルによる座標設定
-	for (int tileY = 0; tileY < mapTileNumY_; tileY++) {
-		for (int tileX = 0; tileX < mapTileNumX_; tileX++) {
-			//棘
-			if (mapTile_[tileY][tileX] == Spike) {
-				Transform world;
-				world.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
-				world.parent = &mapWorld_;
-				world_.push_back(world);
+		//マップタイルによる座標設定
+		for (int tileY = 0; tileY < mapTileNumY_; tileY++) {
+			for (int tileX = 0; tileX < mapTileNumX_; tileX++) {
+				//棘
+				if (mapTile_[tileY][tileX] == Spike) {
+					Transform world;
+					world.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
+					world.parent = &mapWorld_;
+					world_.push_back(world);
+				}
+				//プレイヤー取得
+				if (mapTile_[tileY][tileX] == Player) {
+					playerW_.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
+					playerW_.parent = &mapWorld_;
+					playerW_.UpdateMatrix();
+				}
+				//ボス
+				if (mapTile_[tileY][tileX] == Boss) {
+					bossW_.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
+					bossW_.parent = &mapWorld_;
+					bossW_.UpdateMatrix();
+				}
 			}
-			//プレイヤー取得
-			if (mapTile_[tileY][tileX] == Player) {
-				playerW_.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
-				playerW_.parent = &mapWorld_;
-				playerW_.UpdateMatrix();
-			}
-			//ボス
-			if (mapTile_[tileY][tileX] == Boss) {
-				bossW_.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
-				bossW_.parent = &mapWorld_;
-				bossW_.UpdateMatrix();
+		}
+	}
+	else {
+		mapWorld_.translate = { -14.5f, (float(mapTileNumY2_) - 32.0f) * 2.125f, 0.0f };
+		mapWorld_.UpdateMatrix();
+
+		//マップタイルによる座標設定
+		for (int tileY = 0; tileY < mapTileNumY2_; tileY++) {
+			for (int tileX = 0; tileX < mapTileNumX2_; tileX++) {
+				//棘
+				if (mapTile2_[tileY][tileX] == Spike) {
+					Transform world;
+					world.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
+					world.parent = &mapWorld_;
+					world_.push_back(world);
+				}
+				//プレイヤー取得
+				if (mapTile2_[tileY][tileX] == Player) {
+					playerW_.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
+					playerW_.parent = &mapWorld_;
+					playerW_.UpdateMatrix();
+				}
+				//ボス
+				if (mapTile2_[tileY][tileX] == Boss) {
+					bossW_.translate = { tileWide_ * tileX, -tileWide_ * tileY, 0 };
+					bossW_.parent = &mapWorld_;
+					bossW_.UpdateMatrix();
+				}
 			}
 		}
 	}
