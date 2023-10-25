@@ -361,7 +361,7 @@ void BossSecond::ShotSpikeATK() {
 
 			randomNum_ = GetRandomNum(3, false);
 
-			dBossATKSpikeZone_->SetCount(2, 3, dZoneP[randomNum_], dzoneScale);
+			dBossATKSpikeZone_->SetCount(1, 2, dZoneP[randomNum_], dzoneScale);
 
 		}
 		else {

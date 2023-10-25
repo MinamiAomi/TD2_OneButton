@@ -34,10 +34,10 @@ void ShotSpike::Update() {
 
 bool ShotSpike::Collision(const Vector3& pos, const float wide) {
 	
-	if (pos.x + wide >= world_.translate.x - size_.x &&
-		pos.x - wide <= world_.translate.x + size_.x &&
+	if (pos.x + wide >= world_.translate.x - size_.x/2 &&
+		pos.x - wide <= world_.translate.x + size_.x/2 &&
 		pos.y - wide <= world_.translate.y + size_.y &&
-		pos.y + wide >= world_.translate.y - size_.y) {
+		pos.y + wide >= world_.translate.y - size_.y&&isActive_) {
 		return true;
 	}
 

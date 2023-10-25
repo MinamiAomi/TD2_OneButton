@@ -229,6 +229,10 @@ void InGame2::CollisionAboutSpike() {
 		//死んだ弾は処理しない
 		if (!spike->IsDead()) {
 
+
+
+
+
 #pragma region ボスの攻撃処理で使用されたとき
 			if (boss_->GetBossATKSpikeExplo()) {
 				//埋まっていく状態の敵をすべてコリジョンオフにして飛ばす
@@ -244,6 +248,20 @@ void InGame2::CollisionAboutSpike() {
 			//座標と半径取得
 			Vector3 SPIKE = spike->GetmatWtranstate();
 			float S_wide = spike->GetWide();
+
+#pragma region 棘飛ばしコリジョン
+			if (boss_->IsHitShotSpike(SPIKE, S_wide)) {
+				spike->OnCollisionBossATKExplosion();
+
+			}
+#pragma endregion
+#pragma region 棘飛ばしぷれいや
+			if (boss_->IsHitShotSpike(PLAYER, P_wide)) {
+				player_->OnCollision();
+			}
+#pragma endregion
+
+
 #pragma region プレイヤー
 			//当たった時の処理
 			if (spike->GetIsCollisonOnPlayer() && CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
