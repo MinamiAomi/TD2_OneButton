@@ -65,13 +65,16 @@ void InGame::OnUpdate() {
 
 #endif // _DEBUG
 
-	
-	
+	//最初の落下攻撃をするととおる
+	if (player_->GetIsFirstAttack() == true) {
 	//マップ更新
 	map->Update();
-
 	//ボス更新
 	boss_->Update();
+	}
+	
+
+	
 
 
 	//棘更新
@@ -175,11 +178,15 @@ void InGame::GetAllCollisions() {
 #pragma region プレイヤーとボス
 	if (boss_->IsHitBoss(PLAYER, P_wide)) {
 		player_->OnCollisionBoss();
-		map->SetMapMoveAcceleration(mapAcceSecond_);
+		if (player_->GetIsFirstAttack() == true) {
+			map->SetMapMoveAcceleration(mapAcceSecond_);
+		}
 	}
 	if (boss_->IsHitBossATK(PLAYER, P_wide)) {
 		player_->OnCollisionBoss();
-		map->SetMapMoveAcceleration(mapAcceSecond_);
+		if (player_->GetIsFirstAttack() == true) {
+			map->SetMapMoveAcceleration(mapAcceSecond_);
+		}
 	}
 #pragma endregion
 
@@ -226,7 +233,11 @@ void InGame::CollisionAboutSpike() {
 			if (spike->GetIsCollisonOnPlayer() && CheckHitSphere(SPIKE, S_wide, PLAYER, P_wide)) {
 				spike->OnCollisionPlayer();
 				player_->OnCollision();
-				map->SetMapMoveAcceleration(mapAcceSecond_);
+				//最初の落下攻撃をしていたら、マップの加速を許可
+				if (player_->GetIsFirstAttack() == true) {
+					map->SetMapMoveAcceleration(mapAcceSecond_);
+				}
+				
 				//とげの塵をだす
 				MakeSpikeDust(SPIKE);
 			}

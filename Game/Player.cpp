@@ -350,6 +350,9 @@ void Player::BehaviorRootUpdate() {
 }
 
 void Player::BehaviorJumpInitalize() {
+	if (IsFirstAttack == false) {
+		return;
+	}
 	//状態を更新
 	behavior_ = Behavior::kJump;
 	//ジャンプ量を設定
@@ -432,6 +435,9 @@ void Player::Attack() {
 	worldTransform_.translate.y -= 2.0f;
 	//落ちているときにフラグが立つ
 	DropFlag = true;
+	if (IsFirstAttack == false) {
+		IsFirstAttack = true;
+	}
 	/*if (ボスに当たったら) {
 		behaviorRequest_ = Behavior::kHit;
 	}*/

@@ -43,7 +43,14 @@ void Map::Initialize() {
 			}
 		}
 	}
+	//更新
+	mapWorld_.UpdateMatrix();
+	Wall_min_.UpdateMatrix();
+	Wall_max_.UpdateMatrix();
 
+	//壁の再計算
+	hitsWallX_.x = Wall_min_.worldMatrix.m[3][0];
+	hitsWallX_.y = Wall_max_.worldMatrix.m[3][0];
 	//マップの一番上のポジション
 	mapEndTrans_.parent = &mapWorld_;
 	mapEndTrans_.translate = { 0.0f,0.0f,0.0f };

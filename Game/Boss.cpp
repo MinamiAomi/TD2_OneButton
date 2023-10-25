@@ -34,6 +34,11 @@ void Boss::Initalize(const Vector3& position) {
 	dBossATKSpikeZone_ = std::make_unique<DangerZone>();
 	dBossATKSpikeZone_->Initialize(dspikeZonePos, dspikeZoneScale);
 
+	//更新
+	world_.UpdateMatrix();
+	modelInstance_.SetWorldMatrix(world_.worldMatrix);
+	//ボスのYラインの処理
+	bossYLine_ = world_.worldMatrix.m[3][1] + height_;
 
 #pragma region HPバー
 
