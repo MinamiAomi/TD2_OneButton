@@ -34,18 +34,23 @@ void Boss::Initalize(const Vector3& position) {
 	dBossATKSpikeZone_ = std::make_unique<DangerZone>();
 	dBossATKSpikeZone_->Initialize(dspikeZonePos, dspikeZoneScale);
 
+	//更新
+	world_.UpdateMatrix();
+	modelInstance_.SetWorldMatrix(world_.worldMatrix);
+	//ボスのYラインの処理
+	bossYLine_ = world_.worldMatrix.m[3][1] + height_;
 
 #pragma region HPバー
 
 	HPBar_ = std::make_unique<Sprite>();
 	HPBarFrame_ = std::make_unique<Sprite>();
 
-	const char barname[] = "HPBar";
+	const char barname[] = "hpBar";
 	auto tex = resourceManager->FindTexture(barname);
 	HPBar_->SetTexture(tex);
 	HPBar_->SetAnchor({ 0.0f,0.5f });
 
-	const char barframename[] = "HPBarFrame";
+	const char barframename[] = "hpBarFrame";
 	HPBarFrame_->SetTexture(resourceManager->FindTexture(barframename));
 	HPBarFrame_->SetAnchor({ 0.5f,0.5f });
 
