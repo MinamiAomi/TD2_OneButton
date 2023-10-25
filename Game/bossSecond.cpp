@@ -1,14 +1,13 @@
-#include"Boss.h"
+#include"bossSecond.h"
 
 #include "Graphics/ResourceManager.h"
 #include"Externals/ImGui/imgui.h"
 
 #include"GlobalVariables.h"
 
-void Boss::Initalize(const Vector3& position)
-{
+void BossSecond::Initalize(const Vector3& position) {
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
-	const char bossModelName[] = "Boss";
+	const char bossModelName[] = "Boss2";
 
 	//座標設定
 	world_.translate = position;
@@ -16,7 +15,7 @@ void Boss::Initalize(const Vector3& position)
 	world_.UpdateMatrix();
 
 	//ボスのｙのスケール設定
-	
+
 	//ボスのYラインの設定
 	bossYLine_ = world_.worldMatrix.m[3][1] + height_;
 
@@ -36,7 +35,7 @@ void Boss::Initalize(const Vector3& position)
 	dBossATKSpikeZone_->Initialize(dspikeZonePos, dspikeZoneScale);
 }
 
-void Boss::ValueSetting() {
+void BossSecond::ValueSetting() {
 	GlobalVariables* globaV = GlobalVariables::GetInstance();
 	GlobalVariables::GetInstance()->CreateGroup(groupName_);
 
@@ -50,8 +49,7 @@ void Boss::ValueSetting() {
 	height_ = globaV->GetFloatvalue(groupName_, keyHeight);
 }
 
-void Boss::Update()
-{
+void BossSecond::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("Boss");
 	ImGui::DragFloat3("pos", &world_.translate.x, 0.01f);
@@ -73,21 +71,20 @@ void Boss::Update()
 
 }
 
-bool Boss::IsHitBoss(const Vector3& pos, const float& wide)
-{
-	
+bool BossSecond::IsHitBoss(const Vector3& pos, const float& wide) {
+
 	float posminY = pos.y - wide;
 
 	if (bossYLine_ > posminY) {
 		return true;
 	}
 
-	
+
 	return false;
 }
 
 
-int GetRandomNum(int wideOrmax, bool isWide) {
+int BossSecond::GetRandomNum(int wideOrmax, bool isWide) {
 	unsigned int curtime = (unsigned int)time(nullptr);
 	srand(curtime);
 	int num;
@@ -100,9 +97,9 @@ int GetRandomNum(int wideOrmax, bool isWide) {
 	return num;
 }
 
-bool Boss::IsHitBossATK(const Vector3& pos, const float& wide) {
+bool BossSecond::IsHitBossATK(const Vector3& pos, const float& wide) {
 
-	if (atkType_ == kSpikeExpATK && (atkWave_ == kWave2|| atkWave_ == kWave3)) {
+	if (atkType_ == kSpikeExpATK && (atkWave_ == kWave2 || atkWave_ == kWave3)) {
 
 		//ボスの攻撃のY座標取得
 		float ATKposY = -44.0f;
@@ -121,15 +118,15 @@ bool Boss::IsHitBossATK(const Vector3& pos, const float& wide) {
 
 }
 
-void Boss::BossATK() {
+void BossSecond::BossATK() {
 
-	
-		
-	
+
+
+
 
 	//攻撃状態による更新変更
 	switch (atkType_) {
-	case Boss::kNone:
+	case BossSecond::kNone:
 		//カウントが数え終わったら
 		if (WaitATKCount_++ >= maxWaitATKCount) {
 			WaitATKCount_ = 0;
@@ -140,7 +137,7 @@ void Boss::BossATK() {
 			atkType_ = kSpikeExpATK;
 		}
 		break;
-	case Boss::kSpikeExpATK:
+	case BossSecond::kSpikeExpATK:
 		SpikeAttack();
 		break;
 	default:
@@ -149,7 +146,7 @@ void Boss::BossATK() {
 
 }
 
-void Boss::OnCollisionExplosion(int dmg) {
+void BossSecond::OnCollisionExplosion(int dmg) {
 	HP_ -= dmg;
 
 	if (HP_ <= 0) {
@@ -157,8 +154,7 @@ void Boss::OnCollisionExplosion(int dmg) {
 	}
 }
 
-void Boss::OnCollisionHealing(int dmg)
-{
+void BossSecond::OnCollisionHealing(int dmg) {
 	HP_ += dmg;
 
 	if (HP_ >= maxHP_) {
@@ -166,15 +162,15 @@ void Boss::OnCollisionHealing(int dmg)
 	}
 }
 
-void Boss::SpikeAttack() {
+void BossSecond::SpikeAttack() {
 	switch (atkWave_) {
-	case Boss::kSetup:
+	case BossSecond::kSetup:
 		if (!waveInitialize_) {
 			waveInitialize_ = true;
-			animetionT_=0;
+			animetionT_ = 0;
 
 			//警告モーション追加
-			dBossATKSpikeZone_->SetCount(2,2);
+			dBossATKSpikeZone_->SetCount(2, 2);
 		}//初期化後の処理
 		else {
 			float newScale = Math::Lerp(animetionT_, setUpScale.x, setUpScale.y);
@@ -195,9 +191,9 @@ void Boss::SpikeAttack() {
 			}
 		}
 
-		
+
 		break;
-	case Boss::kWave1:
+	case BossSecond::kWave1:
 
 		if (!waveInitialize_) {
 			waveInitialize_ = true;
@@ -205,7 +201,7 @@ void Boss::SpikeAttack() {
 		}
 		else {
 			float newScale = Math::Lerp(animetionT_, wave1Scale.x, wave1Scale.y);
-			world_.scale.y= newScale;
+			world_.scale.y = newScale;
 
 			animetionT_ += addWave1Animation_;
 
@@ -222,14 +218,14 @@ void Boss::SpikeAttack() {
 		}
 
 		break;
-	case Boss::kWave2:
+	case BossSecond::kWave2:
 		if (!waveInitialize_) {
 			waveInitialize_ = true;
 			animetionT_ = 0;
 			bossSpike_->SetStart();
 		}
 		else {
-			
+
 			bossSpike_->UpdateExtendSpike(animetionT_);
 
 			animetionT_ += addWave2Animation_;
@@ -242,14 +238,14 @@ void Boss::SpikeAttack() {
 		}
 
 		break;
-	case Boss::kWave3:
+	case BossSecond::kWave3:
 		if (!waveInitialize_) {
 			waveInitialize_ = true;
 			animetionT_ = 0;
 		}
 		else {
 
-			
+
 			animetionT_ += addWave3Animation_;
 
 			//次のシーンに行く処理
@@ -259,7 +255,7 @@ void Boss::SpikeAttack() {
 			}
 		}
 		break;
-	case Boss::Revert:
+	case BossSecond::Revert:
 		if (!waveInitialize_) {
 			waveInitialize_ = true;
 			animetionT_ = 0;

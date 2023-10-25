@@ -1,7 +1,11 @@
 #pragma once
-#include"Engine/Scene/BaseScene.h"
-#include"Engine/Scene/SceneManager.h"
-#include"Engine/Input/Input.h"
+
+#include "Engine/Scene/BaseScene.h"
+#include "Engine/Scene/SceneManager.h"
+#include "Engine/Input/Input.h"
+#include "Engine/Graphics/Sprite.h"
+
+#include "Graphics/ResourceManager.h"
 
 class StageSerect : public BaseScene {
 
@@ -24,10 +28,21 @@ private://メンバ関数
 	/// シーンチェンジ
 	/// </summary>
 	void ChangeScene();
+
+	/// <summary>
+	/// スプライトの基本初期処理
+	/// </summary>
+	void SpriteInitialize(Sprite& sprite, const char textureName[], Vector2 size);
+
+	/// <summary>
+	/// イージングで使用するtの処理
+	/// </summary>
+	void EasingClamp(float& t, float increaseValue);
+
 private://メンバ変数
 
-	//キー入力
 	Input* input_;
+	ResourceManager* resourceManager;
 
 	//ステージ選択
 	enum State {
@@ -41,5 +56,16 @@ private://メンバ変数
 
 	//同時押しの対策
 	int control_ = 0;
+
+	// 中心座標
+	const Vector2 kCenter_ = { 270.0f, 360.0f };
+
+#pragma region スプライト
+
+	Sprite bobTex_;
+	Sprite michaelTex_;
+	Sprite maxTex_;
+
+#pragma endregion
 
 };

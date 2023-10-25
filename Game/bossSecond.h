@@ -6,7 +6,7 @@
 #include"BossSpike.h"
 #include"dangerZone.h"
 
-class Boss {
+class BossSecond {
 public:
 
 	/// <summary>
@@ -85,9 +85,10 @@ public:
 
 private:
 
+	int GetRandomNum(int wideOrmax, bool isWide);
 	//棘攻撃処理
 	void SpikeAttack();
-	
+
 private:
 	//座標
 	Transform world_;
@@ -100,13 +101,13 @@ private:
 	//中心点からの高さ
 	float height_;
 
-	
+
 	//HP最大値
 	int maxHP_ = 100;
 	//ヒットポイント
 	int HP_ = maxHP_;
 
-	std::string groupName_ = "Boss";
+	std::string groupName_ = "Boss2";
 
 	bool isDead_ = false;
 
@@ -140,7 +141,7 @@ private:
 	//与える待ち時間の
 	const int maxWaitATKCount = 60 * 10;
 
-	bool IsCount_=true;
+	bool IsCount_ = true;
 
 	//モーションに使うT
 	float animetionT_ = 0;
@@ -179,4 +180,6 @@ private:
 	std::unique_ptr<DangerZone>dBossATKSpikeZone_;
 	Vector3 dspikeZonePos = { 0.0f,-55.0f,-5.0f };
 	Vector3 dspikeZoneScale = { 18.0f,10.0f,1.0f };
+
+
 };

@@ -9,6 +9,7 @@
         { "Name" : "Laser",             "Path" : "Resources/Model/laser/laser.obj" },
         { "Name" : "Explosion",         "Path" : "Resources/Model/explosion/explosion.obj" },
         { "Name" : "Boss",              "Path" : "Resources/Model/boss/boss.obj" },
+        { "Name" : "Boss2",              "Path" : "Resources/Model/boss/boss2.obj" },
         { "Name" : "BossSpike",         "Path" : "Resources/Model/bossSpike/bossSpike.obj" },
         { "Name" : "Spike",             "Path" : "Resources/Model/spike/spike.obj" },    
         { "Name" : "Background",        "Path" : "Resources/Model/background/background.obj" },
@@ -24,6 +25,8 @@
 	    { "Name" : "number",  	        "Path" : "Resources/Image/number.png", "Inter" : "Point", "Exten" : "Wrap" },
         { "Name" : "BackTree1",         "Path" : "Resources/Image/BackGround/backTree1.png" },
         { "Name" : "BackTree2",         "Path" : "Resources/Image/BackGround/backTree2.png" },
+        { "Name" : "hpBarFrame",        "Path" : "Resources/Image/hpBarFrame.png",     "Inter" : "Point", "Exten" : "Wrap" },
+        { "Name" : "hpBar",             "Path" : "Resources/Image/hpBar.png",          "Inter" : "Point", "Exten" : "Wrap" },
         { "Name" : "BaseBackGround",    "Path" : "Resources/Image/BackGround/baseBackGround.png" },
         { "Name" : "clearBackGround",   "Path" : "Resources/Image/clearBackGround.png" },
         { "Name" : "youWin",            "Path" : "Resources/Image/youWin.png",         "Inter" : "Point", "Exten" : "Wrap" },
@@ -39,7 +42,10 @@
         { "Name" : "clear",             "Path" : "Resources/Image/clear.png",          "Inter" : "Point", "Exten" : "Wrap" },
         { "Name" : "10LimitMeter",      "Path" : "Resources/Image/10LimitMeter.png",   "Inter" : "Point", "Exten" : "Wrap" },
         { "Name" : "30LimitMeter",      "Path" : "Resources/Image/30LimitMeter.png",   "Inter" : "Point", "Exten" : "Wrap" },
-        { "Name" : "whiteBackGround",   "Path" : "Resources/Image/whiteBackGround.png","Inter" : "Point", "Exten" : "Wrap" }
+        { "Name" : "whiteBackGround",   "Path" : "Resources/Image/whiteBackGround.png","Inter" : "Point", "Exten" : "Wrap" },
+        { "Name" : "selectBob",         "Path" : "Resources/Image/selectBob.png",      "Inter" : "Point", "Exten" : "Wrap" },
+        { "Name" : "selectMichael",     "Path" : "Resources/Image/selectMichael.png",  "Inter" : "Point", "Exten" : "Wrap" },
+        { "Name" : "selectMax",         "Path" : "Resources/Image/selectMax.png",      "Inter" : "Point", "Exten" : "Wrap" }
     ],
     "Sounds" : [
         { "Name" : "TitleBGM",          "Path" : "Resources/Sound/title.wav" },
