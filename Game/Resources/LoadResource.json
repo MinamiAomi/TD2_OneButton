@@ -63,6 +63,7 @@
         { "Name" : "InGameBGM",         "Path" : "Resources/Sound/ingame.wav" },
         { "Name" : "ResultBGM",         "Path" : "Resources/Sound/result.wav" },
         { "Name" : "Laser",             "Path" : "Resources/Sound/laser.wav" },
-        { "Name" : "Explosion",         "Path" : "Resources/Sound/explosion.wav" }
+        { "Name" : "Explosion",         "Path" : "Resources/Sound/explosion.wav" },
+        { "Name" : "SelectBGM",         "Path" : "Resources/Sound/select.wav" }
     ]
 }

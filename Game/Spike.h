@@ -15,7 +15,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="State">状態</param>
 	/// <param name="velo">移動ベクトル</param>
-	void Initialize(int num, Transform world, const float* bossYLine,int coalescenceCount = 1, int State = kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
+	void Initialize(int num, Transform world, const float* bossYLine, int DMG = 1,int coalescenceCount = 3, int State = kStay, Vector3 velo = { 0.0f,-1.0f,0.0f });
 
 
 	void Update();
@@ -81,10 +81,10 @@ public:
 		return false;
 	}
 
-	const int GetDamege() { return damage_; }
-
+	
 	//合体数取得
 	int GetCoalescenceCount() { return coalescenceCount_; }
+	int GetDMG() { return damage_; }
 #pragma endregion
 
 #pragma region セッター
@@ -240,7 +240,7 @@ private:
 	//ボスに埋まり切るかのカウント
 	int fillUpCount_;
 	//埋まるまでのマックス
-	const int maxFillUpCount_ = 60*3;
+	const int maxFillUpCount_ = 60;
 	//埋まり切ったかのフラグ
 	bool CompleteFillUp_ = false;
 
@@ -272,7 +272,7 @@ private:
 	bool isApplicationDamage = false;
 
 	//ダメージ量
-	int damage_ = 100;
+	int damage_ = 300;
 
 	//ボスの棘攻撃に当たったか
 	bool IsCollisionBossSpikeATK_ = false;
@@ -283,5 +283,5 @@ private:
 	Transform exploTrans_;
 
 	//合体数
-	int coalescenceCount_ = 1;
+	int coalescenceCount_ = 3;
 };

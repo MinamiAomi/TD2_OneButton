@@ -6,7 +6,7 @@
 #include "Graphics/ResourceManager.h"
 
 
-void Spike::Initialize(int num, Transform world, const float* bossYLine, int coalescenceCount, int State, Vector3 velo) {
+void Spike::Initialize(int num, Transform world, const float* bossYLine, int DMG , int coalescenceCount, int State, Vector3 velo) {
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	const char spikeModelName[] = "Spike";
 
@@ -30,8 +30,8 @@ void Spike::Initialize(int num, Transform world, const float* bossYLine, int coa
 	//ボスのY座標取得
 	BossYLine_ = bossYLine;
 
-	//ダメージは合体数と同期
-	damage_ = coalescenceCount;
+	//ダメージ
+	damage_ = DMG;
 
 	//合体数入力
 	coalescenceCount_ = coalescenceCount;
@@ -179,6 +179,10 @@ void Spike::FillUp_Initiaize() {
 
 	world_.translate.y = *BossYLine_ + wide_;
 
+	//ベクトル計算
+ 	float vY = (wide_ * wide_) / maxFillUpCount_*coalescenceCount_;
+
+	velocity_ = { 0,-vY,0 };
 
 	//埋まるまでのカウント初期化
 	fillUpCount_ = 0;
@@ -242,10 +246,9 @@ void Spike::FillUp_Update() {
 	collisionOnForBoss_ = false;
 
 	//座標計算
-	world_.translate = world_.translate + (gensoku_ * velocity_);
+	world_.translate +=   velocity_;
 
-	//埋まり切ったら処理
-	if (fillUpCount_++ >= maxFillUpCount_) {
+	if (world_.translate.y + wide_ <= (*BossYLine_)) {
 		//死亡フラグON
 		isDead_ = true;
 		//埋まり切りフラグON
@@ -254,6 +257,12 @@ void Spike::FillUp_Update() {
 		collisionOnForBoss_ = false;
 		noCollisionCount_ = 60;
 	}
+	/*
+	//埋まり切ったら処理
+	if (fillUpCount_++ >= maxFillUpCount_) {
+		
+	}
+	*/
 }
 
 void Spike::Explosion_Update() {

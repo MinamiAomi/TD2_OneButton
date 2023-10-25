@@ -85,6 +85,7 @@ void BossSecond::ValueSetting() {
 	globaV->AddItem(groupName_, keyHeight, height_);
 
 	maxHP_ = globaV->GetIntvalue(groupName_, keyHP);
+	HP_ = maxHP_;
 	height_ = globaV->GetFloatvalue(groupName_, keyHeight);
 }
 
