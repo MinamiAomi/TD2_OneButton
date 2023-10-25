@@ -590,7 +590,7 @@
     </ClCompile>
     <ClCompile Include="TitlePlayer.cpp">
       <Filter>Game\Title</Filter>
-     </ClCompile>
+    </ClCompile>
     <ClCompile Include="shotSpike.cpp">
       <Filter>Game\ShotSpike</Filter>
     </ClCompile>

@@ -17,7 +17,7 @@ void TitleLaser::Initialize() {
     model_.SetAlpha(0.5f);
 
     explosionSprite_.SetTexture(resourceManager->FindTexture("Explosion"));
-    explosionSprite_.SetDrawOrder(0);
+    explosionSprite_.SetDrawOrder(1);
     explosionSprite_.SetPosition({540.0f * 0.5f, 200.0f});
     explosionSprite_.SetTexcoordRect({}, { 512.0f, 512.0f });
     explosionSprite_.SetScale({ 0.0f,0.0f });

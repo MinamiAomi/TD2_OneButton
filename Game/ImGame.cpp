@@ -145,7 +145,7 @@ void InGame::OnUpdate() {
 
 
 	// 背景はカメラを使用しているためカメラの後に更新
-	background_->Scroll(map->GetMapMovement() / 50.0f);
+	background_->Scroll(map->GetMapMovement());
 	background_->Update();
 	speedEffect_->Update();
 	//シーンチェンジ処理
@@ -298,7 +298,7 @@ void InGame::CollisionAboutSpike() {
 							leser->OnCollision(spike->GetIdentificationNum());
 
 							//一個目作成
-							float newWide = S_wide / 2.0f;
+							float newWide = S_wide;
 
 							//新しいTransform作成
 							Transform Newworld;
