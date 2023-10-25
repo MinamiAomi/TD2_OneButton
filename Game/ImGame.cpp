@@ -321,7 +321,7 @@ void InGame::CollisionAboutSpike() {
 							//x軸反転
 							newVelo.x *= -1;
 
-							AddSpike(Newworld, Spike::State::kFalling, newVelo);
+							AddSpike(Newworld, Spike::State::kFalling, newVelo, spike->GetDamege());
 							//生成した棘の番号登録
 							leser->OnCollision(spikeNum_);
 
