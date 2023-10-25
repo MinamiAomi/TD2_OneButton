@@ -90,6 +90,8 @@ private:
 	//棘攻撃処理
 	void SpikeAttack();
 
+	//張り飛ばし
+	void ShotSpikeATK();
 private:
 	//座標
 	Transform world_;
@@ -183,9 +185,12 @@ private:
 	std::unique_ptr<ShotSpike>shotSpike_;
 
 	//発射位置
-	Vector3 Spos1;
-	Vector3 Spos2;
-	Vector3 Spos3;
+	Vector3 Spos[3] = {
+		{-15.5f+15/3,0,0,},
+		{-15.5f + (15 / 3)*2,0,0,},
+		{-15.5f + (15 / 3) * 4,0,0,}
+	};
+	
 
 
 #pragma endregion

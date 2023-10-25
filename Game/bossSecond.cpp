@@ -125,8 +125,7 @@ bool BossSecond::IsHitBossATK(const Vector3& pos, const float& wide) {
 void BossSecond::BossATK() {
 
 
-
-
+	
 
 	//攻撃状態による更新変更
 	switch (atkType_) {
@@ -138,15 +137,20 @@ void BossSecond::BossATK() {
 			//ランダムな数字を取得
 			int randomNum = GetRandomNum(2, false);
 			atkType_ = (ATKType)randomNum;
-			atkType_ = kSpikeExpATK;
+			atkType_ = kSpikeShot;
 		}
 		break;
 	case BossSecond::kSpikeExpATK:
 		SpikeAttack();
 		break;
+
+	case BossSecond::kSpikeShot:
+		ShotSpikeATK();
+		break;
 	default:
 		break;
 	}
+	shotSpike_->Update();
 
 }
 
@@ -291,4 +295,111 @@ void BossSecond::SpikeAttack() {
 		break;
 	}
 
+}
+
+void BossSecond::ShotSpikeATK() {
+	switch (atkWave_) {
+	case BossSecond::kSetup:
+		if (!waveInitialize_) {
+			waveInitialize_ = true;
+			animetionT_ = 0;
+		}
+		else {
+			float newScale = Math::Lerp(animetionT_, wave1Scale.x, wave1Scale.y);
+			world_.scale.y = newScale;
+
+			animetionT_ += addWave1Animation_;
+
+			//次のシーンに行く処理
+			if (animetionT_ >= 1.0f) {
+				animetionT_ = 1.0f;
+				newScale = Math::Lerp(animetionT_, wave1Scale.x, wave1Scale.y);
+				world_.scale.y = newScale;
+
+
+				waveInitialize_ = false;
+				atkWave_ = kWave2;
+			}
+
+		}
+		break;
+	case BossSecond::kWave1:
+		if (!waveInitialize_) {
+			waveInitialize_ = true;
+			animetionT_ = 0;
+		}
+		else {
+			float newScale = Math::Lerp(animetionT_, wave1Scale.x, wave1Scale.y);
+			world_.scale.y = newScale;
+
+			animetionT_ += addWave1Animation_;
+
+			//次のシーンに行く処理
+			if (animetionT_ >= 1.0f) {
+				animetionT_ = 1.0f;
+				newScale = Math::Lerp(animetionT_, wave1Scale.x, wave1Scale.y);
+				world_.scale.y = newScale;
+
+
+				waveInitialize_ = false;
+				atkWave_ = kWave2;
+			}
+		}
+
+		break;
+	case BossSecond::kWave2:
+		if (!waveInitialize_) {
+			waveInitialize_ = true;
+			animetionT_ = 0;
+			bossSpike_->SetStart();
+		}
+		else {
+			Vector3 newpos = Spos[GetRandomNum(3, false)];
+			newpos.y = world_.translate.y;
+
+			shotSpike_->Shot(newpos);
+
+			animetionT_ += addWave2Animation_;
+
+			//次のシーンに行く処理
+			if (animetionT_ >= 1.0f) {
+				waveInitialize_ = false;
+				atkWave_ = Revert;
+			}
+		}
+
+		break;
+	case BossSecond::kWave3:
+		break;
+	case BossSecond::Revert:
+		if (!waveInitialize_) {
+			waveInitialize_ = true;
+			animetionT_ = 0;
+		}
+		else {
+			
+			float newScale = Math::Lerp(animetionT_, revertScale.x, revertScale.y);
+			world_.scale.y = newScale;
+
+
+
+			animetionT_ += addWave3Animation_;
+
+			//次のシーンに行く処理
+			if (animetionT_ >= 1.0f) {
+				animetionT_ = 1.0f;
+				newScale = Math::Lerp(animetionT_, revertScale.x, revertScale.y);
+				world_.scale.y = newScale;
+
+
+				//いろいろ状態初期化して何もない処理の法に移動
+				waveInitialize_ = false;
+				atkWave_ = kSetup;
+				atkType_ = kNone;
+			}
+		}
+		break;
+	default:
+		break;
+	}
 }
