@@ -60,8 +60,8 @@ private://メンバ関数
 	void CollisionAboutSpike();
 
 private:
-	bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2);
 
+	bool CheckHitSphere(Vector3 p1, float w1, Vector3 p2, float w2);
 
 #pragma region 各種モデル
 
@@ -133,7 +133,10 @@ private:
 	ResourceManager* resourceManager;
 	Sprite glayTex_;
 	float glayFadeEasingT_ = 0.0f;
-
+	bool isFadeInComplete_ = false;
 
 	size_t bgmPlayHandle_;
+
+
+	bool isGameOver = false;
 };
