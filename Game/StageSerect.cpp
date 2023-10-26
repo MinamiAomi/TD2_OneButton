@@ -3,6 +3,7 @@
 #include "StageSerect.h"
 #include "ImGame.h"
 #include "InGame2.h"
+#include "Audio/Audio.h"
 
 void StageSerect::OnInitialize() {
 	input_ = Input::GetInstance();
@@ -40,6 +41,10 @@ void StageSerect::OnInitialize() {
 	toBeContinuedTex_.SetPosition({ kCenter_.x, 100.0f });
 	toBeContinuedTex_.SetIsActive(false);
 #pragma endregion
+
+	Audio* audio = Audio::GetInstance();
+	bgmPlayHandle_ = audio->SoundPlayLoopStart(resourceManager->FindSound("SelectBGM"));
+	audio->SetValume(bgmPlayHandle_, 0.15f);
 }
 
 void StageSerect::OnUpdate() {
@@ -113,6 +118,7 @@ void StageSerect::OnUpdate() {
 }
 
 void StageSerect::OnFinalize() {
+	Audio::GetInstance()->SoundPlayLoopEnd(bgmPlayHandle_);
 }
 
 void StageSerect::State1Update() {
