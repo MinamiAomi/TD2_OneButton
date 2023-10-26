@@ -54,7 +54,7 @@ void TitleLogo::Initialize() {
 
 void TitleLogo::Update() {
 
-    static bool isAnimation = false;
+    static bool isAnimation = true;
 
 
     if (isAnimation) {
