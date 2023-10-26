@@ -318,8 +318,11 @@ void Spike::FlyAway_Update() {
 #pragma region OnCollision
 
 void Spike::OnCollisionPlayer() {
-	state_ = kExplosion;
-	ckeckStateChange_ = true;
+	state_ = kNone;
+	isDead_ = true;
+	collisionOnForBoss_ = false;
+	collisionOnForPlayer_ = false;
+	collisionOnForSpike_ = false;
 }
 
 void Spike::OnCollisionBoss() {
